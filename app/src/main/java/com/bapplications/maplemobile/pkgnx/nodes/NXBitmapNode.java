@@ -24,6 +24,7 @@
 package com.bapplications.maplemobile.pkgnx.nodes;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.bapplications.maplemobile.pkgnx.NXFile;
 import com.bapplications.maplemobile.pkgnx.NXNode;
@@ -40,7 +41,7 @@ import com.bapplications.maplemobile.pkgnx.util.SeekableLittleEndianAccessor;
  */
 public class NXBitmapNode extends NXNode {
 	private final long bitmapIndex;
-	private final int width, height;
+	private int width, height;
 
 	/**
 	 * Creates a new {@code NXBitmapNode}.
@@ -88,5 +89,6 @@ public class NXBitmapNode extends NXNode {
 					((NXBitmapNode) obj).height == height &&
 					((NXBitmapNode) obj).width == width);
 	}
+
 
 }

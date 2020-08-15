@@ -30,12 +30,13 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation fileTree(dir: 'libs', include: ['*.aar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'org.lz4:lz4-java:1.7.1'
     implementation 'commons-io:commons-io:2.6'
     implementation 'org.jooq:joou-java-6:0.9.4'
-    implementation 'org.lz4:lz4-java:1.7.1'
     implementation 'org.slf4j:slf4j-api:1.7.25'
     implementation 'io.netty:netty-all:4.0.4.Final'
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 //    implementation 'io.netty:netty-all:4.1.52.Final'
 }

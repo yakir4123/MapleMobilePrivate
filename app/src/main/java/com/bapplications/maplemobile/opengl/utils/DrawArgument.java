@@ -49,30 +49,31 @@ public class DrawArgument {
 
     public Rectangle get_rectangle(Point origin, Point dimensions)
     {
-        int w = stretch.x;
-
-        if (w == 0)
-            w = dimensions.x;
-
-        int h = stretch.y;
-
-        if (h == 0)
-            h = dimensions.y;
-
-        Point rlt = pos.minus(center).minus(origin);
-        int rl = rlt.x;
-        int rr = rlt.x + w;
-        int rt = rlt.y;
-        int rb = rlt.y + h;
-        int cx = center.x;
-        int cy = center.y;
-
-        return new Rectangle(
-                (int)(cx + (xscale * rl)),
-                (int)(cx + (xscale * rr)),
-                (int)(cy + (yscale * rt)),
-                (int)(cy + (yscale * rb))
-        );
+        return null;
+//        int w = stretch.x;
+//
+//        if (w == 0)
+//            w = dimensions.x;
+//
+//        int h = stretch.y;
+//
+//        if (h == 0)
+//            h = dimensions.y;
+//
+//        Point rlt = pos.minus(center).minus(origin);
+//        int rl = rlt.x;
+//        int rr = rlt.x + w;
+//        int rt = rlt.y;
+//        int rb = rlt.y + h;
+//        int cx = center.x;
+//        int cy = center.y;
+//
+//        return new Rectangle(
+//                (int)(cx + (xscale * rl)),
+//                (int)(cx + (xscale * rr)),
+//                (int)(cy + (yscale * rt)),
+//                (int)(cy + (yscale * rb))
+//        );
     }
 
     public Color getColor() {

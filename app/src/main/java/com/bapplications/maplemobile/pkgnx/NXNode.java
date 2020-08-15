@@ -23,6 +23,8 @@
  */
 package com.bapplications.maplemobile.pkgnx;
 
+import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -107,6 +109,12 @@ public abstract class NXNode implements Iterable<NXNode> {
 			return null;
 		return (T) searchChild(name);
 	}
+
+	public boolean isChildExist(String name){
+		return getChild(name) != null;
+	}
+
+
 
 	/**
 	 * Determines whether or not this node has a child by the specified {@code name}.

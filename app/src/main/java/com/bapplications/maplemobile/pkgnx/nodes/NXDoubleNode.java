@@ -56,6 +56,7 @@ public class NXDoubleNode extends NXNode {
 		return value;
 	}
 
+
 	/**
 	 * Gets the value of this node as a {@code double}.
 	 *

@@ -17,4 +17,15 @@ public class StaticUtils {
             strid.insert(0, '0');
         return strid.toString();
     }
+
+    public static int orDefault(String number, int def) {
+        try
+        {
+            return Integer.parseInt(number);
+        }
+        catch (NumberFormatException ex)
+        {
+            return def;
+        }
+    }
 }

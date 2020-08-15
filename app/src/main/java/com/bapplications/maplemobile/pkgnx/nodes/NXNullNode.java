@@ -53,4 +53,5 @@ public class NXNullNode extends NXNode {
 	public Object get() {
 		return null;
 	}
+
 }

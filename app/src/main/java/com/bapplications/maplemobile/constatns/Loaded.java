@@ -14,6 +14,8 @@ public class Loaded {
 
     public static int SCREEN_WIDTH = -1;
     public static int SCREEN_HEIGHT = -1;
+    public static float SCREEN_RATIO = -1;
+
 
     public static void loadFile(String key, String path) throws IOException {
         files.put(key, new LazyNXFile(path));
