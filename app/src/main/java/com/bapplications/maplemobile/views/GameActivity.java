@@ -1,20 +1,21 @@
-package com.bapplications.maplemobile.activities;
+package com.bapplications.maplemobile.views;
 
-import android.app.ActivityManager;
-import android.content.Context;
-import android.content.pm.ConfigurationInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.bapplications.maplemobile.R;
 import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.databinding.ActivityGameBinding;
+import com.bapplications.maplemobile.game.GameEngine;
+import com.bapplications.maplemobile.opengl.GameGLSurfaceView;
 
 import java.io.IOException;
 
@@ -23,13 +24,16 @@ import androidx.appcompat.app.AppCompatActivity;
 public class GameActivity extends AppCompatActivity {
 
     private static final String TAG = "GameActivity";
-    private ActivityGameBinding binding;
     private RelativeLayout _root;
+
+    private GameGLSurfaceView gameGLSurfaceView;
+    private GameEngine engine;
 
     @Override
     protected void onCreate (Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         Configuration.WZ_DIRECTORY = getExternalFilesDir(null).getAbsolutePath();
         try {
@@ -38,31 +42,32 @@ public class GameActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         Log.d(TAG, "Loading files complete");
-        binding = ActivityGameBinding.inflate(getLayoutInflater());
+
+
+        ActivityGameBinding binding = ActivityGameBinding.inflate(getLayoutInflater());
 
         _root = binding.getRoot();
-
-        ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
-
-        Toast.makeText(this, "EGL V = " + configurationInfo.getGlEsVersion(), Toast.LENGTH_LONG).show();
-
         ViewTreeObserver vto = _root.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                    _root.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                } else {
-                    _root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                }
-
-                Loaded.SCREEN_WIDTH  = _root.getMeasuredWidth();
-                Loaded.SCREEN_HEIGHT = _root.getMeasuredHeight();
-
+                _root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
         setContentView(_root);
+
+        gameGLSurfaceView = findViewById(R.id.game_view);
+        binding.setMap.setOnClickListener(view -> {
+            ChangeMapPopup popUpClass = new ChangeMapPopup();
+            popUpClass.showPopupWindow(view);
+            popUpClass.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    gameGLSurfaceView.queueEvent(() -> gameGLSurfaceView.getGameEngine().changeMap(popUpClass.getMapId()));
+                    popUpClass.dismiss();
+                }
+            });
+        });
     }
 ;
     @Override
@@ -72,8 +77,6 @@ public class GameActivity extends AppCompatActivity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         toggleFullscreen(true);
-
-
     }
 
     @Override
@@ -88,6 +91,8 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onDestroy ()
     {
+
+        gameGLSurfaceView.exitGame();
         super.onDestroy();
     }
 
@@ -113,5 +118,10 @@ public class GameActivity extends AppCompatActivity {
                         .setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
             }
         }
+    }
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        toggleFullscreen(true);
     }
 }

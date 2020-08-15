@@ -3,6 +3,7 @@ package com.bapplications.maplemobile.game;
 
 import com.bapplications.maplemobile.StaticUtils;
 import com.bapplications.maplemobile.constatns.Loaded;
+import com.bapplications.maplemobile.game.textures.Texture;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 
@@ -12,6 +13,7 @@ public class Stage {
     private State state;
     private Camera camera;
     private MapTilesObjs tilesobjs;
+    private MapInfo mapInfo;
     private int mapid;
 
     enum State
@@ -38,10 +40,10 @@ public class Stage {
         {
             case INACTIVE:
                 load_map(mapid);
-//                respawn(portalid);
+                respawn(portalid);
                 break;
             case TRANSITION:
-//                respawn(portalid);
+                respawn(portalid);
                 break;
         }
 
@@ -58,7 +60,23 @@ public class Stage {
 
         NXNode src = mapid == -1 ? null : Loaded.getFile("Map").getRoot().getChild("Map").getChild("Map" + prefix).getChild(strid + ".img");
 
-        tilesobjs = new MapTilesObjs(src);
+        // in case of no map exist with this mapid
+        // todo:: fix what happend if src == null
+        if (src != null) {
+            tilesobjs = new MapTilesObjs(src);
+            mapInfo = new MapInfo(src);
+        }
+    }
+
+
+    public void respawn(int portalid)
+    {
+//        Music(mapinfo.get_bgm()).play();
+
+//        Point<int16_t> spawnpoint = portals.get_portal_by_id(portalid);
+//        Point<int16_t> startpos = physics.get_y_below(spawnpoint);
+//        player.respawn(startpos, mapinfo.is_underwater());
+        camera.set_view(mapInfo.getWalls(), mapInfo.getBorders());
     }
 
     public void draw(float alpha)
@@ -67,9 +85,6 @@ public class Stage {
             return;
 
         Point viewpos = camera.position(alpha);
-        Point viewrpos = camera.realposition(alpha);
-        double viewx = viewrpos.x;
-        double viewy = viewrpos.y;
 
 //        backgrounds.drawbackgrounds(viewx, viewy, alpha);
 //
@@ -88,5 +103,22 @@ public class Stage {
 //        portals.draw(viewpos, alpha);
 //        backgrounds.drawforegrounds(viewx, viewy, alpha);
 //        effect.draw();
+    }
+
+
+    public void clear()
+    {
+        state = State.INACTIVE;
+        Texture.clear();
+//        chars.clear();
+//        npcs.clear();
+//        mobs.clear();
+//        drops.clear();
+//        reactors.clear();
+    }
+
+
+    public Camera getCamera() {
+        return camera;
     }
 }

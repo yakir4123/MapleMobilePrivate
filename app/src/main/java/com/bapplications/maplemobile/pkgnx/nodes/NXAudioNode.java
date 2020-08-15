@@ -84,4 +84,5 @@ public class NXAudioNode extends NXNode {
 					((NXAudioNode) obj).mp3Index == mp3Index &&
 					((NXAudioNode) obj).length == length);
 	}
+
 }

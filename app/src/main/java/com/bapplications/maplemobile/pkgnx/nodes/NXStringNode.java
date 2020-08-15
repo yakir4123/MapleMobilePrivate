@@ -81,4 +81,5 @@ public class NXStringNode extends NXNode {
 					((NXNode) obj).getFirstChildIndex() == getFirstChildIndex() &&
 					((NXStringNode) obj).stringIndex == stringIndex);
 	}
+
 }

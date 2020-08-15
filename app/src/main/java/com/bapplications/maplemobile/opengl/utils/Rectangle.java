@@ -5,54 +5,61 @@ import android.util.Range;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXPointNode;
 
-public class Rectangle{
+public class Rectangle {
 
     private Point left_top;
     private Point right_bottom;
+
     public Rectangle(NXPointNode sourceLeftTop, NXPointNode sourceRightBottom) {
         left_top = new Point(sourceLeftTop.getPoint());
         right_bottom = new Point(sourceRightBottom.getPoint());
     }
+
     public Rectangle(NXNode source){
-        left_top = new Point(((NXPointNode)source.getChild("lt")).getPoint());
-        right_bottom = new Point(((NXPointNode)source.getChild("rb")).getPoint());
+        try {
+            left_top = new Point(((NXPointNode) source.getChild("lt")).getPoint());
+            right_bottom = new Point(((NXPointNode) source.getChild("rb")).getPoint());
+        } catch ( NullPointerException e){
+            left_top = new Point(0, 0);
+            right_bottom = new Point(0, 0);
+        }
     }
 
     public Rectangle(Point leftTop, Point rightBottom) {
         left_top = new Point(leftTop);
         right_bottom = new Point(rightBottom);
     }
-    public Rectangle(int left, int right, int top, int bottom){
+    public Rectangle(float left, float right, float top, float bottom){
         left_top = new Point(left, top);
         right_bottom = new Point(right, bottom);
     }
     public Rectangle() {}
 
-    public int width()
+    public float width()
     {
         return Math.abs(left() - right());
     }
 
-    public int height() 
+    public float height()
     {
         return Math.abs(top() - bottom());
     }
 
-    public int left() {
+    public float left() {
         return left_top.x;
     }
 
-    public int top() 
+    public float top()
     {
         return left_top.y;
     }
 
-    public int right() 
+    public float right()
     {
         return right_bottom.x;
     }
 
-    public int bottom()
+    public float bottom()
     {
         return right_bottom.y;
     }
@@ -67,8 +74,8 @@ public class Rectangle{
     public boolean overlaps(Rectangle ar)
     {
         try {
-            get_horizontal().intersect(new Range<Integer>(ar.left(), ar.right()));
-            get_vertical().intersect(new Range<Integer>(ar.top(), ar.bottom()));
+            get_horizontal().intersect(new Range<Float>(ar.left(), ar.right()));
+            get_vertical().intersect(new Range<Float>(ar.top(), ar.bottom()));
             return true;
         } catch (IllegalArgumentException e){
             return false;
@@ -96,14 +103,14 @@ public class Rectangle{
         return right_bottom;
     }
 
-    public Range<Integer> get_horizontal()
+    public Range<Float> get_horizontal()
     {
-        return new Range<Integer>( left(), right() );
+        return new Range<Float>( left(), right() );
     }
 
-    public Range<Integer> get_vertical()
+    public Range<Float> get_vertical()
     {
-        return new Range<Integer>(top(), bottom());
+        return new Range<Float>(top(), bottom());
     }
 
     public void shift(Point v)

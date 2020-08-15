@@ -1,6 +1,8 @@
 package com.bapplications.maplemobile.game;
 
 
+import com.bapplications.maplemobile.game.textures.Obj;
+import com.bapplications.maplemobile.game.textures.Tile;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 
@@ -10,34 +12,54 @@ import java.util.List;
 import java.util.Map;
 
 public class TilesObjs {
-    private Map<Byte, List<Tile>> tiles;
+    private Map<Float, List<Tile>> tiles;
+    private Map<Float, List<Obj>> objs;
+
     public TilesObjs(NXNode src) {
 
-//        for (auto objnode : src["obj"])
-//        {
-//            Obj obj{ objnode };
-//            int8_t z = obj.getz();
-//            objs.emplace(z, std::move(obj));
-//        }
-
         String tileset;
+
+        tiles = new HashMap<>();
+        objs = new HashMap<>();
+
         try {
             tileset = src.getChild("info").getChild("tS").get() + ".img";
         } catch (NullPointerException e){
           return;
         }
-        tiles = new HashMap<>();
+
+        for (NXNode objnode : src.getChild("obj"))
+        {
+            Obj obj = new Obj(objnode);
+            float z = obj.getZ();
+            putObj(z, obj);
+        }
+
         for (NXNode tilenode : src.getChild("tile"))
         {
             Tile tile = new Tile(tilenode, tileset);
-            byte z = tile.getz();
+            float z = tile.getz();
             putTile(z, tile);
         }
 
-
+//        String[] arr = new String[]{"0", "8"};
+//        for(String a : arr) {
+//            NXNode tilenode = src.getChild("tile").getChild(a);
+//            Tile tile = new Tile(tilenode, tileset);
+//            float z = tile.getz();
+//            putTile(z, tile);
+//        }
     }
 
-    private void putTile(byte z, Tile tile) {
+
+    private void putObj(float z, Obj obj) {
+        if (!objs.containsKey(z)){
+            objs.put(z, new ArrayList<>());
+        }
+        objs.get(z).add(obj);
+    }
+
+    private void putTile(float z, Tile tile) {
         if (!tiles.containsKey(z)){
             tiles.put(z, new ArrayList<>());
         }
@@ -45,14 +67,21 @@ public class TilesObjs {
     }
 
     public void draw(Point viewpos, float alpha) {
-//        for (auto& iter : objs)
-//            iter.second.draw(viewpos, alpha);
+        if(objs == null){
+            return;
+        }
+        for (List<Obj> lobjs : objs.values()){
+            for(Obj obj : lobjs){
+                obj.draw(viewpos, 1f);
+            }
+        }
+
 
         if(tiles == null){
             return;
         }
-        for (List<Tile> ztiles : tiles.values()){
-            for(Tile tile : ztiles){
+        for (List<Tile> ltiles : tiles.values()){
+            for(Tile tile : ltiles){
                 tile.draw(viewpos);
             }
         }

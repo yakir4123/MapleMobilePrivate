@@ -59,6 +59,7 @@ public class NXPointNode extends NXNode {
 		return point;
 	}
 
+
 	/**
 	 * Gets the value of this node as a {@code Point}.
 	 *
