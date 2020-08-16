@@ -22,6 +22,10 @@ public class GameEngine {
     }
 
 
+
+    public void update(int deltatime) {
+        stage.update(deltatime);
+    }
     public void drawFrame ()
     {
         stage.draw(1f);
@@ -59,4 +63,5 @@ public class GameEngine {
         stage.clear();
         stage.load(mapId,  0);
     }
+
 }

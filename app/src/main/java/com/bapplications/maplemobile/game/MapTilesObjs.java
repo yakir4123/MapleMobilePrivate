@@ -12,14 +12,15 @@ public class MapTilesObjs {
     public MapTilesObjs(NXNode src) {
         layers = new EnumMap<>(Layer.Id.class);
         for (Layer.Id id : Layer.Id.values())
-            layers.put(id, new TilesObjs(src.getChild(""+id.ordinal())));
+            layers.put(id, new TilesObjs(src.getChild("" + id.ordinal())));
     }
 
     public void draw(Layer.Id layer, Point viewpos, float alpha) {
-        try {
-            layers.get(layer).draw(viewpos, alpha);
-        } catch (NullPointerException e){
-            return;
-        }
+        layers.get(layer).draw(viewpos, alpha);
+    }
+
+    public void update(int deltatime) {
+        for (Layer.Id id : Layer.Id.values())
+            layers.get(id).update(deltatime);
     }
 }

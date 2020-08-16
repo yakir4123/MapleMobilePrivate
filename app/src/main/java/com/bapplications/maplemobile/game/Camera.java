@@ -14,14 +14,10 @@ public class Camera {
     // View limits.
     Range<Short> hbounds;
     Range<Short> vbounds;
-    private int VWIDTH;
-    private int VHEIGHT;
 
     public Camera()
     {
         pos = new Point();
-        VWIDTH = Loaded.SCREEN_WIDTH;
-        VHEIGHT = Loaded.SCREEN_HEIGHT;
     }
 
     void set_view(Range<Short> mapwalls, Range<Short> mapborders)
@@ -41,5 +37,10 @@ public class Camera {
     public void offsetPosition(float dx, float dy) {
         pos.x += dx;
         pos.y += dy;
+    }
+
+    public void setPosition(int x, int y) {
+        pos.x = x;
+        pos.y = y;
     }
 }

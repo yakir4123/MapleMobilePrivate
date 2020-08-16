@@ -34,6 +34,7 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
 
     private long fpsTime = System.nanoTime();
     private int frames;
+    private long before;
 
     public static GameGLRenderer createInstance(){
         instance = new GameGLRenderer();
@@ -95,13 +96,16 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         // Draw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
+        long now = System.nanoTime();
+        _engine.update((int) (now - before)/1000000);
         _engine.drawFrame();
+        before = now;
 
-        if (System.nanoTime() - fpsTime >= 1000000000)
+        if (now - fpsTime >= 1000000000)
         {
             Log.d(TAG,String.format("fps: %d", frames));
-            frames = 0;
-            fpsTime = System.nanoTime();
+            frames = 1;
+            fpsTime = now;
         }
         else
         {

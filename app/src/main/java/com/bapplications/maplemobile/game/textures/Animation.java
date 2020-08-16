@@ -1,5 +1,7 @@
 package com.bapplications.maplemobile.game.textures;
 
+import android.util.Log;
+
 import com.bapplications.maplemobile.StaticUtils;
 import com.bapplications.maplemobile.opengl.utils.Linear;
 import com.bapplications.maplemobile.opengl.utils.Nominal;
@@ -104,5 +106,91 @@ public class Animation {
 
     public float getZ() {
         return frames.get(0).getZ();
+    }
+
+
+    public boolean update(int deltatime)
+    {
+		Frame framedata = getFrame();
+
+        opacity.plus(framedata.opcstep(deltatime));
+
+        if (opacity.last() < 0.0f)
+            opacity.set(0.0f);
+        else if (opacity.last() > 255.0f)
+            opacity.set(255.0f);
+
+        xyscale.plus(framedata.scalestep(deltatime));
+
+        if (xyscale.last() < 0.0f)
+            opacity.set(0.0f);
+
+        if (deltatime >= delay)
+        {
+            short lastframe = (short)(frames.size() - 1);
+            short nextframe;
+            boolean ended;
+
+            if (zigzag && lastframe > 0)
+            {
+                if (framestep == 1 && frame.equals(lastframe))
+                {
+                    framestep = -framestep;
+                    ended = false;
+                }
+                else if (framestep == -1 && frame.equals(0))
+                {
+                    framestep = -framestep;
+                    ended = true;
+                }
+                else
+                {
+                    ended = false;
+                }
+
+                nextframe = (short) frame.plus(framestep);
+            }
+            else
+            {
+                if (frame.equals(lastframe))
+                {
+                    nextframe = 0;
+                    ended = true;
+                }
+                else
+                {
+                    nextframe = (short) frame.plus(1);
+                    ended = false;
+                }
+            }
+
+            int delta = deltatime - delay;
+            float threshold = (float)(delta) / deltatime;
+            frame.next(nextframe, threshold);
+
+            delay = frames.get(nextframe).getDelay();
+
+            if (delay >= delta)
+                delay -= delta;
+
+            opacity.set(frames.get(nextframe).startOpacity());
+            xyscale.set(frames.get(nextframe).startScale());
+
+            return ended;
+        }
+        else
+        {
+            frame.normalize();
+
+            delay -= deltatime;
+
+            return false;
+        }
+    }
+
+
+	Frame getFrame()
+    {
+        return frames.get(frame.get());
     }
 }

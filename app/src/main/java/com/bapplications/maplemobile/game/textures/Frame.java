@@ -2,6 +2,7 @@ package com.bapplications.maplemobile.game.textures;
 
 import android.util.Pair;
 
+import com.bapplications.maplemobile.opengl.utils.Linear;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.opengl.utils.Rectangle;
 import com.bapplications.maplemobile.pkgnx.NXNode;
@@ -24,7 +25,7 @@ public class Frame {
             head = new Point();
         }
         try {
-            delay = ((Long)(src.getChild("delay").get())).byteValue();
+            delay = ((Long)(src.getChild("delay").get())).shortValue();
         } catch (NullPointerException e){
             delay = 0;
         }
@@ -116,4 +117,13 @@ public class Frame {
     public float getZ() {
         return texture.getz();
     }
+
+    public float opcstep(int timestep) {
+        return timestep * (float)(opacities.second - opacities.first) / delay;
+    }
+
+    public float scalestep(int timestep) {
+        return timestep * (float)(scales.second - scales.first) / delay;
+    }
+
 }

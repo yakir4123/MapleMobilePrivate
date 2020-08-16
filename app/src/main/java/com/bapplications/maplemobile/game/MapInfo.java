@@ -6,6 +6,7 @@ import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
 
 public class MapInfo {
+    private final String bgm;
     private Range<Short> mapWalls;
     private Range<Short> mapBorders;
 
@@ -35,9 +36,9 @@ public class MapInfo {
 //            mapborders = borders;
 //        }
 //
-//        String bgmpath = (String) info.getChild("bgm").get();
-//        int split = bgmpath.charAt('/');
-//        bgm = bgmpath.substring(0, split) + ".img/" + bgmpath.substring(split + 1);
+        String bgmpath = (String) info.getChild("bgm").get();
+        int split = bgmpath.indexOf('/');
+        bgm = bgmpath.substring(0, split) + ".img/" + bgmpath.substring(split + 1);
 //
 //        cloud = info["cloud"].get_bool();
 //        fieldlimit = info["fieldLimit"];
@@ -59,5 +60,9 @@ public class MapInfo {
     }
     public Range<Short> getBorders() {
         return mapBorders;
+    }
+
+    public String getBgm() {
+        return bgm;
     }
 }

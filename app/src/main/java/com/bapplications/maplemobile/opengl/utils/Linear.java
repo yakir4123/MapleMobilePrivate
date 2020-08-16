@@ -25,4 +25,14 @@ public class Linear {
     {
         return StaticUtils.lerp(before, now, alpha);
     }
+
+    public Linear plus(float value){
+        before = now;
+        now += value;
+        return this;
+    }
+
+    public float last() {
+        return before;
+    }
 }
