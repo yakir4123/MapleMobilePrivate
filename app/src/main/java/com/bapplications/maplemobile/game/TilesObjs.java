@@ -25,7 +25,6 @@ public class TilesObjs {
         tiles = new TreeMap<>();
         objs = new TreeMap<>();
 
-
         // order matter
         for(int i = 0; i < src.getChild("obj").getChildCount() ;i++)
         {
@@ -40,14 +39,12 @@ public class TilesObjs {
           return;
         }
 
-
         for (NXNode tilenode : src.getChild("tile"))
         {
             Tile tile = new Tile(tilenode, tileset);
             float z = tile.getz();
             putTile(z, tile);
         }
-
 
     }
 
@@ -84,6 +81,14 @@ public class TilesObjs {
         for (List<Tile> ltiles : tiles.values()){
             for(Tile tile : ltiles){
                 tile.draw(viewpos);
+            }
+        }
+    }
+
+    public void update(int deltatime) {
+        for (List<Obj> lobjs : objs.values()){
+            for(Obj obj : lobjs){
+                obj.update(deltatime);
             }
         }
     }

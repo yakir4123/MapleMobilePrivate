@@ -10,11 +10,13 @@ import com.bapplications.maplemobile.pkgnx.NXNode;
 public class Stage {
 
 
+    private int mapid;
     private State state;
     private Camera camera;
-    private MapTilesObjs tilesobjs;
     private MapInfo mapInfo;
-    private int mapid;
+    private MapTilesObjs tilesobjs;
+    private MapBackgrounds backgrounds;
+
 
     enum State
     {
@@ -65,18 +67,41 @@ public class Stage {
         if (src != null) {
             tilesobjs = new MapTilesObjs(src);
             mapInfo = new MapInfo(src);
+            backgrounds = new MapBackgrounds(src.getChild("back"));
         }
     }
 
 
     public void respawn(int portalid)
     {
-//        Music(mapinfo.get_bgm()).play();
+        Music.play(mapInfo.getBgm());
 
 //        Point<int16_t> spawnpoint = portals.get_portal_by_id(portalid);
 //        Point<int16_t> startpos = physics.get_y_below(spawnpoint);
 //        player.respawn(startpos, mapinfo.is_underwater());
-        camera.set_view(mapInfo.getWalls(), mapInfo.getBorders());
+//        camera.set_view(mapInfo.getWalls(), mapInfo.getBorders());
+        camera.setPosition(0,0);
+    }
+
+    public void update(int deltatime) {
+        if (state != State.ACTIVE)
+            return;
+
+//        combat.update();
+//        backgrounds.update();
+//        effect.update();
+        tilesobjs.update(deltatime);
+
+//        reactors.update(physics);
+//        npcs.update(physics);
+//        mobs.update(physics);
+//        chars.update(physics);
+//        drops.update(physics);
+//        player.update(physics);
+
+//        portals.update(player.get_position());
+//        camera.update(player.get_position());
+
     }
 
     public void draw(float alpha)

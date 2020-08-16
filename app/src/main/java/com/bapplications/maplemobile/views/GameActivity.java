@@ -36,8 +36,10 @@ public class GameActivity extends AppCompatActivity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         Configuration.WZ_DIRECTORY = getExternalFilesDir(null).getAbsolutePath();
+        Configuration.CACHE_DIRECTORY = getCacheDir().getAbsolutePath();
         try {
             Loaded.loadFile("Map", Configuration.WZ_DIRECTORY + "/Map.nx");
+            Loaded.loadFile("Sound", Configuration.WZ_DIRECTORY + "/Sound.nx");
         } catch (IOException e) {
             e.printStackTrace();
         }
