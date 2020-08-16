@@ -1,6 +1,7 @@
 package com.bapplications.maplemobile.game;
 
 
+
 import android.util.Log;
 
 import com.bapplications.maplemobile.game.textures.Obj;
@@ -9,9 +10,9 @@ import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class TilesObjs {
     private Map<Float, List<Tile>> tiles;
@@ -21,8 +22,17 @@ public class TilesObjs {
 
         String tileset;
 
-        tiles = new HashMap<>();
-        objs = new HashMap<>();
+        tiles = new TreeMap<>();
+        objs = new TreeMap<>();
+
+
+        // order matter
+        for(int i = 0; i < src.getChild("obj").getChildCount() ;i++)
+        {
+            Obj obj = new Obj(src.getChild("obj").getChild("" + i));
+            float z = obj.getZ();
+            putObj(z, obj);
+        }
 
         try {
             tileset = src.getChild("info").getChild("tS").get() + ".img";
@@ -30,12 +40,6 @@ public class TilesObjs {
           return;
         }
 
-        for (NXNode objnode : src.getChild("obj"))
-        {
-            Obj obj = new Obj(objnode);
-            float z = obj.getZ();
-            putObj(z, obj);
-        }
 
         for (NXNode tilenode : src.getChild("tile"))
         {
@@ -44,42 +48,23 @@ public class TilesObjs {
             putTile(z, tile);
         }
 
-//        String[] arr = new String[]{"1" , "0"};
-//        for(String a : arr) {
-//            NXNode tilenode = src.getChild("tile").getChild(a);
-//            Tile tile = new Tile(tilenode, tileset);
-//            float z = tile.getz();
-//            putTile(z, tile);
-//        }
 
-
-//        NXNode tilenode = src.getChild("tile").getChild("1");
-//        Tile tile = new Tile(tilenode, tileset);
-////        tile.setPos(new Point(-30, 0));
-//        float z = tile.getz();
-//        putTile(z, tile);
-//
-//
-//        tilenode = src.getChild("tile").getChild("8");
-//        tile = new Tile(tilenode, tileset);
-////        tile.setPos(new Point(15, 0));
-//        z = tile.getz();
-//        putTile(z, tile);
     }
 
 
-    private void putObj(float z, Obj obj) {
-        if (!objs.containsKey(z)){
-            objs.put(z, new ArrayList<>());
+    private <K, V> void putOnSortedMap(Map<K, List<V>> orderedMap, K z, V value){
+        if (!orderedMap.containsKey(z)){
+            orderedMap.put(z, new ArrayList<>());
         }
-        objs.get(z).add(obj);
+        orderedMap.get(z).add(value);
+    }
+
+    private void putObj(float z, Obj obj) {
+        putOnSortedMap(objs, z, obj);
     }
 
     private void putTile(float z, Tile tile) {
-        if (!tiles.containsKey(z)){
-            tiles.put(z, new ArrayList<>());
-        }
-        tiles.get(z).add(tile);
+        putOnSortedMap(tiles, z, tile);
     }
 
     public void draw(Point viewpos, float alpha) {
@@ -88,7 +73,7 @@ public class TilesObjs {
         }
         for (List<Obj> lobjs : objs.values()){
             for(Obj obj : lobjs){
-                obj.draw(viewpos, 1f);
+                obj.draw(viewpos, alpha);
             }
         }
 
@@ -101,6 +86,5 @@ public class TilesObjs {
                 tile.draw(viewpos);
             }
         }
-        Log.d("draw", "==========================");
     }
 }

@@ -16,6 +16,10 @@ public class MapTilesObjs {
     }
 
     public void draw(Layer.Id layer, Point viewpos, float alpha) {
-        layers.get(layer).draw(viewpos, alpha);
+        try {
+            layers.get(layer).draw(viewpos, alpha);
+        } catch (NullPointerException e){
+            return;
+        }
     }
 }
