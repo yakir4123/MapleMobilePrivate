@@ -47,6 +47,7 @@ public class GameActivity extends AppCompatActivity {
         ActivityGameBinding binding = ActivityGameBinding.inflate(getLayoutInflater());
 
         _root = binding.getRoot();
+        _root.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
         ViewTreeObserver vto = _root.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override

@@ -1,6 +1,8 @@
 package com.bapplications.maplemobile.game;
 
 
+import android.util.Log;
+
 import com.bapplications.maplemobile.game.textures.Obj;
 import com.bapplications.maplemobile.game.textures.Tile;
 import com.bapplications.maplemobile.opengl.utils.Point;
@@ -42,13 +44,27 @@ public class TilesObjs {
             putTile(z, tile);
         }
 
-//        String[] arr = new String[]{"0", "8"};
+//        String[] arr = new String[]{"1" , "0"};
 //        for(String a : arr) {
 //            NXNode tilenode = src.getChild("tile").getChild(a);
 //            Tile tile = new Tile(tilenode, tileset);
 //            float z = tile.getz();
 //            putTile(z, tile);
 //        }
+
+
+//        NXNode tilenode = src.getChild("tile").getChild("1");
+//        Tile tile = new Tile(tilenode, tileset);
+////        tile.setPos(new Point(-30, 0));
+//        float z = tile.getz();
+//        putTile(z, tile);
+//
+//
+//        tilenode = src.getChild("tile").getChild("8");
+//        tile = new Tile(tilenode, tileset);
+////        tile.setPos(new Point(15, 0));
+//        z = tile.getz();
+//        putTile(z, tile);
     }
 
 
@@ -85,5 +101,6 @@ public class TilesObjs {
                 tile.draw(viewpos);
             }
         }
+        Log.d("draw", "==========================");
     }
 }

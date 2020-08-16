@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.opengl.Matrix;
+import android.util.Log;
 
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.opengl.GLState;
@@ -39,8 +40,8 @@ public class Texture {
         pos = new Point();
         bitmapNode = (NXBitmapNode) src;
         Bitmap bmap = bitmapNode.get();
-        origin = ((NXPointNode) src.getChild("origin")).getPoint();
-        origin.y *= Loaded.SCREEN_RATIO;
+        this.origin = new Point(src.getChild("origin").get());
+        origin.x *= -1;
         dimensions = new Point(bmap.getWidth(), bmap.getHeight());
         _textureDataHandle = loadGLTexture(((NXBitmapNode) src).get());
         bmap.recycle();
@@ -81,10 +82,23 @@ public class Texture {
         bitmapToTextureMap.clear();
     }
 
-    public void draw (Point viewPos){
-//        float[] curPos = viewPos.plus(pos).plus(origin.scalarMul(Loaded.SCREEN_RATIO)).toGLRatio();
-        float[] curPos = viewPos.plus(pos).plus(origin).toGLRatio();
-        float[] scratchMatrix = new float[16];;
+    public void draw (Point viewPos) {
+        Point curPoint;
+        //  correct pos
+        curPoint = viewPos.plus(pos).plus(dimensions.mul(new Point(0.5f, -0.5f))).plus(origin);
+
+        //        if (pos.x == 52) {
+//            curPoint = pos.plus(dimensions.mul(new Point(-0.5f, -0.5f))).plus(origin);
+//        }else
+//            curPoint = pos.plus(dimensions.mul(new Point(0.5f, -0.5f))).plus(origin);
+
+//        curPoint = pos.plus(dimensions.scalarMul(-0.5f)).plus(origin);
+//        curPoint = pos;
+        float[] curPos = curPoint.toGLRatio();
+        Log.d("draw", "pos: " + pos + " origin: " + origin + " dimensions " + dimensions);
+        Log.d("draw"," \t curPoint: " + curPoint);
+        Log.d("draw"," \t x = " + (curPos[0] * Loaded.SCREEN_WIDTH) + " y = " + (curPos[1] * Loaded.SCREEN_HEIGHT));
+        float[] scratchMatrix = new float[16];
         System.arraycopy(GLState._MVPMatrix, 0, scratchMatrix, 0, 16);
 
         // Add program to OpenGL environment
@@ -110,8 +124,8 @@ public class Texture {
         // rotate the sprite
         Matrix.rotateM(scratchMatrix, 0, _rotationZ, 0, 0, 1.0f);
         // scale the sprite
-//        Matrix.scaleM(scratchMatrix, 0, dimensions.x, dimensions.y , 1);
-        Matrix.scaleM(scratchMatrix, 0, 1, 1 , 1);
+        Matrix.scaleM(scratchMatrix, 0, dimensions.x, dimensions.y , 1);
+//        Matrix.scaleM(scratchMatrix, 0, 1, 1 , 1);
 
         // Apply the projection and view transformation
         GLES20.glUniformMatrix4fv(GLState.mvpMatrixHandle, 1, false, scratchMatrix, 0);
@@ -154,6 +168,14 @@ public class Texture {
 
     public void setZ(float z) {
         this.z = (z + 10f) / 20;
+    }
+
+    public Point getPos() {
+        return pos;
+    }
+
+    public void setPos(Point pos) {
+        this.pos = pos;
     }
 }
 
