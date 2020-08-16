@@ -19,6 +19,7 @@ public class GLState {
     public static final String POSITION_PARAM = "vPosition";
     public static final String TEXTURE_COORDINATE_PARAM = "aTextureCoordinate";
 
+    private static final float SCALE = 1;
     public static int _programHandle;
     public static int positionHandle = -1;
     public static int mvpMatrixHandle = -1;
@@ -73,13 +74,6 @@ public class GLState {
 
     public static void initGL() {
         // initialize vertex byte buffer for shape coordinates
-        ByteBuffer bb;
-        // initialize texture byte buffer for texture coordinates
-        bb = ByteBuffer.allocateDirect(TEXTURE_COORDINATES.length * 4);
-        bb.order(ByteOrder.nativeOrder());
-        _textureBuffer = bb.asFloatBuffer();
-        _textureBuffer.put(TEXTURE_COORDINATES);
-        _textureBuffer.position(0);
 
         // initialize byte buffer for the draw list
         ByteBuffer dlb = ByteBuffer.allocateDirect(DRAW_ORDER.length * 2);
@@ -118,15 +112,23 @@ public class GLState {
 
     public static void setSpriteSquareRes() {
         for(int i = 0 ; i < SQUARE_COORDINATES.length ; i += 3){
-            SQUARE_COORDINATES[i] = SQUARE_COORDINATES[i] / Loaded.SCREEN_WIDTH;
-            SQUARE_COORDINATES[i + 1] = SQUARE_COORDINATES[i + 1] / Loaded.SCREEN_HEIGHT;
+            SQUARE_COORDINATES[i] = SCALE * SQUARE_COORDINATES[i] / Loaded.SCREEN_WIDTH;
+            SQUARE_COORDINATES[i + 1] = SCALE * SQUARE_COORDINATES[i + 1] / Loaded.SCREEN_HEIGHT;
             SQUARE_COORDINATES[i + 2] = 0;
         }
+
         ByteBuffer bb = ByteBuffer.allocateDirect(SQUARE_COORDINATES.length * 4);
         bb.order(ByteOrder.nativeOrder());
         _vertexBuffer = bb.asFloatBuffer();
         _vertexBuffer.put(SQUARE_COORDINATES);
         _vertexBuffer.position(0);
+
+        // initialize texture byte buffer for texture coordinates
+        bb = ByteBuffer.allocateDirect(TEXTURE_COORDINATES.length * 4);
+        bb.order(ByteOrder.nativeOrder());
+        _textureBuffer = bb.asFloatBuffer();
+        _textureBuffer.put(TEXTURE_COORDINATES);
+        _textureBuffer.position(0);
 
     }
 }

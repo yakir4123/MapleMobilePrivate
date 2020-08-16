@@ -6,9 +6,14 @@ public class Point{
 
     public float x;
     public float y;
-    public Point(Point p) {
-        x = p.x;
-        y = p.y;
+    public Point(Object o) {
+        if ( o instanceof Point) {
+            Point p = (Point)o;
+            x = p.x;
+            y = p.y;
+        } else {
+            throw new IllegalArgumentException("Got Object that is not a Point");
+        }
     }
 
     public Point(float x, float y) {
@@ -39,7 +44,7 @@ public class Point{
     }
 
     public float[] toGLRatio() {
-        return new float[]{x / Loaded.SCREEN_WIDTH , y / Loaded.SCREEN_HEIGHT};
+        return new float[]{2 * x / Loaded.SCREEN_WIDTH, 2 * y / Loaded.SCREEN_HEIGHT};
     }
 
     public Point negateSign() {
@@ -53,6 +58,13 @@ public class Point{
     public void offset(float x, float y){
         this.x += x;
         this.y += y;
+    }
 
+    public String toString() {
+        return "(" + x + ", " + y + ")";
+    }
+
+    public Point mul(Point o) {
+        return new Point(this.x * o.x, this.y * o.y);
     }
 }

@@ -1,7 +1,5 @@
 package com.bapplications.maplemobile.game.textures;
 
-import android.util.Log;
-
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
