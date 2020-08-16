@@ -11,6 +11,5 @@ public class Layer {
         FIVE,
         SIX,
         SEVEN,
-        LENGTH
     };
 }

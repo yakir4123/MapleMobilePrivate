@@ -4,26 +4,20 @@ import android.graphics.Bitmap;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.opengl.Matrix;
-import android.util.Log;
 
-import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.opengl.GLState;
 import com.bapplications.maplemobile.opengl.utils.Point;
-import com.bapplications.maplemobile.opengl.utils.Rectangle;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXBitmapNode;
-import com.bapplications.maplemobile.pkgnx.nodes.NXPointNode;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Texture {
 
-    public static final float xscale = 1;
-    public static final float yscale = 1;
+    private Point pos;
 
-    private float z;
-    protected Point pos;
+    protected float z;
     protected Point origin;
     protected Point dimensions;
     protected float imageRatio;
@@ -37,12 +31,13 @@ public class Texture {
         if (!(src instanceof NXBitmapNode)) {
             throw new IllegalArgumentException("NXNode must be NXBitmapNode in Texture instance");
         }
-        pos = new Point();
         bitmapNode = (NXBitmapNode) src;
         Bitmap bmap = bitmapNode.get();
         this.origin = new Point(src.getChild("origin").get());
-        origin.x *= -1;
         dimensions = new Point(bmap.getWidth(), bmap.getHeight());
+        origin.x *= -1;
+        origin = origin.plus(dimensions.mul(new Point(0.5f, -0.5f)));
+        setPos(new Point(0, 0));
         _textureDataHandle = loadGLTexture(((NXBitmapNode) src).get());
         bmap.recycle();
     }
@@ -83,21 +78,7 @@ public class Texture {
     }
 
     public void draw (Point viewPos) {
-        Point curPoint;
-        //  correct pos
-        curPoint = viewPos.plus(pos).plus(dimensions.mul(new Point(0.5f, -0.5f))).plus(origin);
-
-        //        if (pos.x == 52) {
-//            curPoint = pos.plus(dimensions.mul(new Point(-0.5f, -0.5f))).plus(origin);
-//        }else
-//            curPoint = pos.plus(dimensions.mul(new Point(0.5f, -0.5f))).plus(origin);
-
-//        curPoint = pos.plus(dimensions.scalarMul(-0.5f)).plus(origin);
-//        curPoint = pos;
-        float[] curPos = curPoint.toGLRatio();
-        Log.d("draw", "pos: " + pos + " origin: " + origin + " dimensions " + dimensions);
-        Log.d("draw"," \t curPoint: " + curPoint);
-        Log.d("draw"," \t x = " + (curPos[0] * Loaded.SCREEN_WIDTH) + " y = " + (curPos[1] * Loaded.SCREEN_HEIGHT));
+        float[] curPos = viewPos.plus(pos).toGLRatio();
         float[] scratchMatrix = new float[16];
         System.arraycopy(GLState._MVPMatrix, 0, scratchMatrix, 0, 16);
 
@@ -118,7 +99,6 @@ public class Texture {
         GLES20.glVertexAttribPointer(GLState.textureCoordinateHandle, 2, GLES20.GL_FLOAT, false, 0, GLState._textureBuffer);
 
         // translate the sprite to it's current position
-//        Matrix.translateM(scratchMatrix, 0, curPos.x, curPos.y, 0.1f);
         Matrix.translateM(scratchMatrix, 0, curPos[0] , curPos[1], 1);
 
         // rotate the sprite
@@ -138,36 +118,13 @@ public class Texture {
         GLES20.glDisableVertexAttribArray(GLState.textureCoordinateHandle);
     }
 
-
-    private Rectangle createRectangle() {
-
-        float w = dimensions.x;
-        float h = dimensions.y;
-
-        Point rlt = origin.negateSign();
-        float rl = rlt.x;
-        float rr = rlt.x + w;
-        float rt = rlt.y;
-        float rb = rlt.y + h;
-        float cx = pos.x;
-        float cy = pos.y;
-
-        return new Rectangle(
-                cx + (xscale * rl),
-                cx + (xscale * rr),
-                cy + (yscale * rt),
-                cy + (yscale * rb)
-        );
-
-    }
-
     public float getz()
     {
         return z;
     }
 
     public void setZ(float z) {
-        this.z = (z + 10f) / 20;
+        this.z = z;
     }
 
     public Point getPos() {
@@ -175,7 +132,14 @@ public class Texture {
     }
 
     public void setPos(Point pos) {
-        this.pos = pos;
+        setPos(pos, true);
+    }
+
+    public void setPos(Point pos, boolean relativeOrigin){
+        if(relativeOrigin)
+            this.pos = pos.plus(origin);
+        else
+            this.pos = pos;
     }
 }
 
