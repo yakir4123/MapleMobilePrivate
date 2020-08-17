@@ -54,7 +54,7 @@ public class Background extends Animation{
 
         moveobj = new MovingObject();
         moveobj.set_x(((Long) src.getChild("x").get()).intValue());
-        moveobj.set_y(((Long) src.getChild("y").get()).intValue());
+        moveobj.set_y(-((Long) src.getChild("y").get()).intValue());
 
         Type type = typebyid(((Long) src.getChild("type").get()).intValue());
 
@@ -97,7 +97,7 @@ public class Background extends Animation{
         {
             case HMOVEA:
             case HMOVEB:
-                moveobj.hspeed = rx / 16;
+                moveobj.hspeed = -rx / 16;
                 break;
             case VMOVEA:
             case VMOVEB:
@@ -148,24 +148,27 @@ public class Background extends Animation{
 
         if (htile > 1)
         {
-            while (x > 0)
-                x -= cx;
+            if(x > 0)
+                x = (x % cx) - cx;
 
-            while (x < -cx)
-                x += cx;
+            if (x < -cx)
+                x = x % -cx;
         }
 
         if (vtile > 1)
         {
-            while (y > 0)
-                y -= cy;
+            if(y > 0)
+                y = (y % cy) - cy;
 
-            while (y < -cy)
-                y += cy;
+            if (y < -cy)
+                y = y % -cy;
         }
 
         short ix = (short)(Math.round(x));
         short iy = (short)(Math.round(y));
+
+        ix -= WOFFSET ;
+        iy -= HOFFSET ;
 
         short tw = (short) (cx * htile);
         short th = (short) (cy * vtile);
