@@ -3,6 +3,7 @@ package com.bapplications.maplemobile.game;
 
 import com.bapplications.maplemobile.StaticUtils;
 import com.bapplications.maplemobile.constatns.Loaded;
+import com.bapplications.maplemobile.game.physics.Physics;
 import com.bapplications.maplemobile.game.textures.Texture;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
@@ -16,6 +17,7 @@ public class Stage {
     private MapInfo mapInfo;
     private MapTilesObjs tilesobjs;
     private MapBackgrounds backgrounds;
+    private Physics physics;
 
 
     enum State
@@ -66,8 +68,9 @@ public class Stage {
         // todo:: fix what happend if src == null
         if (src != null) {
             tilesobjs = new MapTilesObjs(src);
-            mapInfo = new MapInfo(src);
             backgrounds = new MapBackgrounds(src.getChild("back"));
+            physics = new Physics(src.getChild("foothold"));
+            mapInfo = new MapInfo(src, physics.getFHT().getWalls(), physics.getFHT().getBorders());
         }
     }
 
@@ -80,7 +83,7 @@ public class Stage {
 //        Point<int16_t> startpos = physics.get_y_below(spawnpoint);
 //        player.respawn(startpos, mapinfo.is_underwater());
 //        camera.set_view(mapInfo.getWalls(), mapInfo.getBorders());
-        camera.setPosition(0,-2300);
+        camera.setPosition(0,0);
 //        camera.setPosition(0,0);
     }
 
