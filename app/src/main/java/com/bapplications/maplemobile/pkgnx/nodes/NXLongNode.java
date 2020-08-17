@@ -64,4 +64,8 @@ public class NXLongNode extends NXNode {
 	public long getLong() {
 		return value;
 	}
+
+	public boolean getBool() {
+		return getLong() > 0;
+	}
 }

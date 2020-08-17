@@ -8,13 +8,13 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.bapplications.maplemobile.R;
 import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.databinding.ActivityGameBinding;
 import com.bapplications.maplemobile.game.GameEngine;
+import com.bapplications.maplemobile.game.Music;
 import com.bapplications.maplemobile.opengl.GameGLSurfaceView;
 
 import java.io.IOException;
@@ -87,7 +87,7 @@ public class GameActivity extends AppCompatActivity {
     {
 
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
+        Music.pauseBgm();
         super.onPause();
     }
 

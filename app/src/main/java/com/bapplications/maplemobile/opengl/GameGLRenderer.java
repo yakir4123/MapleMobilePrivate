@@ -87,7 +87,7 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         // Calculate the projection and view transformation
         Matrix.multiplyMM(GLState._MVPMatrix, 0, GLState._projectionMatrix, 0, GLState._viewMatrix, 0);
 
-        _engine.changeMap(910000000);
+        _engine.changeMap(200090300);
     }
 
     @Override

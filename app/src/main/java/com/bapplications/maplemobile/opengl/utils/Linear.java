@@ -35,4 +35,8 @@ public class Linear {
     public float last() {
         return before;
     }
+
+    public boolean normalized() {
+        return before == now;
+    }
 }
