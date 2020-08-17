@@ -88,7 +88,7 @@ public class Stage {
             return;
 
 //        combat.update();
-//        backgrounds.update();
+//        backgrounds.update(deltatime);
 //        effect.update();
         tilesobjs.update(deltatime);
 
@@ -111,7 +111,7 @@ public class Stage {
 
         Point viewpos = camera.position(alpha);
 
-//        backgrounds.drawbackgrounds(viewx, viewy, alpha);
+        backgrounds.drawBackgrounds(viewpos, alpha);
 //
         for (Layer.Id id : Layer.Id.values())
         {
@@ -126,7 +126,7 @@ public class Stage {
 //
 //        combat.draw(viewx, viewy, alpha);
 //        portals.draw(viewpos, alpha);
-//        backgrounds.drawforegrounds(viewx, viewy, alpha);
+        backgrounds.drawForegrounds(viewpos, alpha);
 //        effect.draw();
     }
 

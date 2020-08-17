@@ -188,6 +188,9 @@ public class Animation {
         }
     }
 
+    public Point getDimensions() {
+        return getFrame().getDimenstion();
+    }
 
 	Frame getFrame()
     {

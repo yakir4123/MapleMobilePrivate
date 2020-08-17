@@ -126,4 +126,7 @@ public class Frame {
         return timestep * (float)(scales.second - scales.first) / delay;
     }
 
+    public Point getDimenstion() {
+        return texture.dimensions;
+    }
 }
