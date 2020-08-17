@@ -27,7 +27,6 @@ public class GameActivity extends AppCompatActivity {
     private RelativeLayout _root;
 
     private GameGLSurfaceView gameGLSurfaceView;
-    private GameEngine engine;
 
     @Override
     protected void onCreate (Bundle savedInstanceState)
@@ -48,7 +47,7 @@ public class GameActivity extends AppCompatActivity {
 
         ActivityGameBinding binding = ActivityGameBinding.inflate(getLayoutInflater());
 
-        _root = binding.getRoot();
+        _root = binding.rootLayout;
         _root.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
         ViewTreeObserver vto = _root.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -58,17 +57,14 @@ public class GameActivity extends AppCompatActivity {
             }
         });
         setContentView(_root);
-
         gameGLSurfaceView = findViewById(R.id.game_view);
+        gameGLSurfaceView.getGameEngine().getStage().getCamera().setTextView(findViewById(R.id.camera_pos_tv), this);
         binding.setMap.setOnClickListener(view -> {
             ChangeMapPopup popUpClass = new ChangeMapPopup();
             popUpClass.showPopupWindow(view);
-            popUpClass.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    gameGLSurfaceView.queueEvent(() -> gameGLSurfaceView.getGameEngine().changeMap(popUpClass.getMapId()));
-                    popUpClass.dismiss();
-                }
+            popUpClass.setOnClickListener(v -> {
+                gameGLSurfaceView.queueEvent(() -> gameGLSurfaceView.getGameEngine().changeMap(popUpClass.getMapId()));
+                popUpClass.dismiss();
             });
         });
     }

@@ -46,7 +46,7 @@ public class Background extends Animation{
 
         animated = ((NXLongNode)src.getChild("ani")).getBool();
         this.opacity = (Long)src.getChild("a").get();
-        flip = ((NXLongNode)src.getChild("f")).getBool();
+        setFlip(((NXLongNode)src.getChild("f")).getBool());
         cx = ((Long) src.getChild("cx").get()).intValue();
         cy = ((Long) src.getChild("cy").get()).intValue();
         rx = ((Long) src.getChild("rx").get()).intValue();
@@ -97,7 +97,7 @@ public class Background extends Animation{
         {
             case HMOVEA:
             case HMOVEB:
-                moveobj.hspeed = -rx / 16;
+                moveobj.hspeed = rx / 16;
                 break;
             case VMOVEA:
             case VMOVEB:
@@ -142,7 +142,7 @@ public class Background extends Animation{
         }
         else
         {
-            float shift_y = ry * (HOFFSET - viewpos.y) / 100 + HOFFSET;
+            float shift_y = ry * (HOFFSET - viewpos.y/2) / 100 + HOFFSET;
             y = moveobj.getAbsoluteY(shift_y, alpha);
         }
 

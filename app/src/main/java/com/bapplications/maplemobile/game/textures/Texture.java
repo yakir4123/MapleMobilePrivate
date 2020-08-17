@@ -1,9 +1,10 @@
 package com.bapplications.maplemobile.game.textures;
 
-import android.graphics.Bitmap;
+import android.util.Log;
 import android.opengl.GLES20;
-import android.opengl.GLUtils;
 import android.opengl.Matrix;
+import android.opengl.GLUtils;
+import android.graphics.Bitmap;
 
 import com.bapplications.maplemobile.opengl.GLState;
 import com.bapplications.maplemobile.opengl.utils.Point;
@@ -16,10 +17,11 @@ import java.util.Map;
 public class Texture {
 
     private Point pos;
+    private Point origin;
+    private Point dimensions;
 
     protected float z;
-    protected Point origin;
-    protected Point dimensions;
+    protected byte flip;
     protected float imageRatio;
     protected int _textureDataHandle;
     protected float _rotationZ = 0.0f;
@@ -27,10 +29,13 @@ public class Texture {
 
     private static Map<Integer, Integer> bitmapToTextureMap = new HashMap<>();
 
+    public Texture(){}
+
     public Texture(NXNode src) {
         if (!(src instanceof NXBitmapNode)) {
             throw new IllegalArgumentException("NXNode must be NXBitmapNode in Texture instance");
         }
+        flip = 1;
         bitmapNode = (NXBitmapNode) src;
         Bitmap bmap = bitmapNode.get();
         this.origin = new Point(src.getChild("origin").get());
@@ -42,6 +47,16 @@ public class Texture {
         bmap.recycle();
     }
 
+    public void setFlip(boolean flip) {
+        if(flip) {
+            setPos(pos.minus(origin), false);
+            origin = origin.minus(dimensions.mul(new Point(0.5f, -0.5f)));
+            origin.x *= -1;
+            origin = origin.plus(dimensions.mul(new Point(-0.5f, -0.5f)));
+            setPos(pos);
+        }
+        this.flip = (byte) (flip ? -1 : 1);
+    }
 
     protected int loadGLTexture(Bitmap bitmap)
     {
@@ -79,6 +94,10 @@ public class Texture {
 
     public void draw (Point viewPos) {
         float[] curPos = viewPos.plus(pos).toGLRatio();
+        // todo:: check rectangle instead of magic number
+        if(Math.abs(curPos[0]) > 1.5 || Math.abs(curPos[1]) > 1.5) {
+            return;
+        }
         float[] scratchMatrix = new float[16];
         System.arraycopy(GLState._MVPMatrix, 0, scratchMatrix, 0, 16);
 
@@ -104,7 +123,7 @@ public class Texture {
         // rotate the sprite
         Matrix.rotateM(scratchMatrix, 0, _rotationZ, 0, 0, 1.0f);
         // scale the sprite
-        Matrix.scaleM(scratchMatrix, 0, dimensions.x, dimensions.y , 1);
+        Matrix.scaleM(scratchMatrix, 0, dimensions.x * flip, dimensions.y , 1);
 //        Matrix.scaleM(scratchMatrix, 0, 1, 1 , 1);
 
         // Apply the projection and view transformation
@@ -118,7 +137,7 @@ public class Texture {
         GLES20.glDisableVertexAttribArray(GLState.textureCoordinateHandle);
     }
 
-    public float getz()
+    public float getZ()
     {
         return z;
     }
@@ -141,5 +160,10 @@ public class Texture {
         else
             this.pos = pos;
     }
+
+    public Point getDimenstion() {
+        return dimensions;
+    }
+
 }
 
