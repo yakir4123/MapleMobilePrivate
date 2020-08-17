@@ -1,36 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    android:id="@+id/root_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.bapplications.maplemobile.views.GameActivity">
 
+    <data>
+        <variable
+            name="camera"
+            type="com.bapplications.maplemobile.game.Camera"/>
+    </data>
 
-    <view
-        android:id="@+id/game_view"
-        class="com.bapplications.maplemobile.opengl.GameGLSurfaceView"
+    <RelativeLayout
+        android:id="@+id/root_layout"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"/>
+        android:layout_height="match_parent">
+
+        <view
+            android:id="@+id/game_view"
+            class="com.bapplications.maplemobile.opengl.GameGLSurfaceView"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"/>
 
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/set_map"
-            android:adjustViewBounds="true"
-            android:maxWidth="84dp"
-            android:maxHeight="84dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/treasure_map_64"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <ImageButton
+                android:id="@+id/set_map"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:contentDescription="Debugging button to change maps"
+                android:maxWidth="84dp"
+                android:maxHeight="84dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/treasure_map_64"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/camera_pos_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_conversion_absoluteHeight="16dp"
+                tools:layout_conversion_absoluteWidth="27dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </LinearLayout>
-
-</RelativeLayout>
+    </RelativeLayout>
+</layout>
 
 

@@ -15,7 +15,7 @@ public class Tile extends Texture {
                 -(int)((NXLongNode)src.getChild("y")).getLong()));
 
         setZ((byte) ((NXLongNode)bitmapNode.getChild("z")).getLong());
-        if (getz() == 0) {
+        if (getZ() == 0) {
             try {
                 setZ((byte) ((NXLongNode)bitmapNode.getChild("zM")).getLong());
             } catch (NullPointerException e){}

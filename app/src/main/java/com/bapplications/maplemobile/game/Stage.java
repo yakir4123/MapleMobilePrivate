@@ -80,8 +80,8 @@ public class Stage {
 //        Point<int16_t> startpos = physics.get_y_below(spawnpoint);
 //        player.respawn(startpos, mapinfo.is_underwater());
 //        camera.set_view(mapInfo.getWalls(), mapInfo.getBorders());
-//        camera.setPosition(0,-2300);
-        camera.setPosition(0,0);
+        camera.setPosition(0,-2300);
+//        camera.setPosition(0,0);
     }
 
     public void update(int deltatime) {

@@ -2,8 +2,6 @@ package com.bapplications.maplemobile.game;
 
 
 
-import android.util.Log;
-
 import com.bapplications.maplemobile.game.textures.Obj;
 import com.bapplications.maplemobile.game.textures.Tile;
 import com.bapplications.maplemobile.opengl.utils.Point;
@@ -42,7 +40,7 @@ public class TilesObjs {
         for (NXNode tilenode : src.getChild("tile"))
         {
             Tile tile = new Tile(tilenode, tileset);
-            float z = tile.getz();
+            float z = tile.getZ();
             putTile(z, tile);
         }
 

@@ -2,22 +2,20 @@ package com.bapplications.maplemobile.game.textures;
 
 import android.util.Pair;
 
-import com.bapplications.maplemobile.opengl.utils.Linear;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.opengl.utils.Rectangle;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
 
-public class Frame {
+public class Frame extends Texture{
     private Pair<Integer, Integer> scales;
     private Pair<Integer, Integer> opacities;
     private short delay;
     private Point head;
-    private Texture texture;
     private Rectangle bounds;
 
     public Frame(NXNode src) {
-        texture = new Texture(src);
+        super(src);
         bounds = new Rectangle(src);
         try {
             head = (Point) src.getChild("head").get();
@@ -84,6 +82,7 @@ public class Frame {
     }
 
     public Frame() {
+        super();
         delay = 0;
         opacities = new Pair(0, 0);
         scales = new Pair(0, 0);
@@ -95,7 +94,6 @@ public class Frame {
         return opacities.first;
     }
 
-
     public int startScale()
     {
         return scales.first;
@@ -103,19 +101,6 @@ public class Frame {
 
     public short getDelay() {
         return delay;
-    }
-
-    public void draw(Point viewpos)
-    {
-        texture.draw(viewpos);
-    }
-
-    public void setZ(float z) {
-        texture.setZ(z);
-    }
-
-    public float getZ() {
-        return texture.getz();
     }
 
     public float opcstep(int timestep) {
@@ -126,7 +111,4 @@ public class Frame {
         return timestep * (float)(scales.second - scales.first) / delay;
     }
 
-    public Point getDimenstion() {
-        return texture.dimensions;
-    }
 }

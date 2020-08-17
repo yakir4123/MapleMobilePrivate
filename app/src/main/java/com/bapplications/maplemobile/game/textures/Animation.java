@@ -18,9 +18,8 @@ public class Animation {
 
     protected Point pos;
     protected short delay;
-    protected boolean flip;
     protected int framestep;
-    protected Nominal frame;
+    protected Nominal frameNumber;
     protected Linear opacity;
     protected Linear xyscale;
     protected boolean animated;
@@ -31,7 +30,8 @@ public class Animation {
         boolean istexture = src instanceof NXBitmapNode;
         opacity = new Linear();
         xyscale = new Linear();
-        frame = new Nominal();
+        frameNumber = new Nominal();
+        pos = new Point();
 
 
         frames = new ArrayList<>();
@@ -79,7 +79,7 @@ public class Animation {
 
     void reset()
     {
-        frame.set(0);
+        frameNumber.set(0);
         opacity.set(frames.get(0).startOpacity());
         xyscale.set(frames.get(0).startScale());
         delay = frames.get(0).getDelay();
@@ -89,7 +89,8 @@ public class Animation {
 
     public void draw(Point viewpos, float alpha)
     {
-        short interframe = (short) frame.get(alpha);
+        viewpos = viewpos.plus(pos);
+        short interframe = (short) frameNumber.get(alpha);
         float interopc = opacity.get(alpha) / 255;
         float interscale = xyscale.get(alpha) / 100;
 
@@ -111,7 +112,7 @@ public class Animation {
 
     public boolean update(int deltatime)
     {
-		Frame framedata = getFrame();
+		Frame framedata = getFrameNumber();
 
         opacity.plus(framedata.opcstep(deltatime));
 
@@ -133,12 +134,12 @@ public class Animation {
 
             if (zigzag && lastframe > 0)
             {
-                if (framestep == 1 && frame.equals(lastframe))
+                if (framestep == 1 && frameNumber.equals(lastframe))
                 {
                     framestep = -framestep;
                     ended = false;
                 }
-                else if (framestep == -1 && frame.equals(0))
+                else if (framestep == -1 && frameNumber.equals(0))
                 {
                     framestep = -framestep;
                     ended = true;
@@ -148,25 +149,25 @@ public class Animation {
                     ended = false;
                 }
 
-                nextframe = (short) frame.plus(framestep);
+                nextframe = (short) frameNumber.plus(framestep);
             }
             else
             {
-                if (frame.equals(lastframe))
+                if (frameNumber.equals(lastframe))
                 {
                     nextframe = 0;
                     ended = true;
                 }
                 else
                 {
-                    nextframe = (short) frame.plus(1);
+                    nextframe = (short) frameNumber.plus(1);
                     ended = false;
                 }
             }
 
             int delta = deltatime - delay;
             float threshold = (float)(delta) / deltatime;
-            frame.next(nextframe, threshold);
+            frameNumber.next(nextframe, threshold);
 
             delay = frames.get(nextframe).getDelay();
 
@@ -180,7 +181,7 @@ public class Animation {
         }
         else
         {
-            frame.normalize();
+            frameNumber.normalize();
 
             delay -= deltatime;
 
@@ -189,11 +190,22 @@ public class Animation {
     }
 
     public Point getDimensions() {
-        return getFrame().getDimenstion();
+        return getFrameNumber().getDimenstion();
     }
 
-	Frame getFrame()
+	Frame getFrameNumber()
     {
-        return frames.get(frame.get());
+        return frames.get(frameNumber.get());
+    }
+
+    public void setFlip(boolean flip){
+        for( Frame frame : frames){
+            frame.setFlip(flip);
+        }
+    }
+
+
+    protected void setPos(Point point) {
+        pos = point;
     }
 }

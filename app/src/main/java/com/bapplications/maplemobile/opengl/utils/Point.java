@@ -29,6 +29,10 @@ public class Point{
         return new Point(x + p.x, y + p.y);
     }
 
+    public Point minus(Point p) {
+        return new Point(x - p.x, y - p.y);
+    }
+
     public Point offsetThisY(float y){
         this.y += y;
         return this;
@@ -37,10 +41,6 @@ public class Point{
     public Point offsetThisX(float x){
         this.x += x;
         return this;
-    }
-
-    public Point minus(Point p) {
-        return new Point(x - p.x, y - p.y);
     }
 
     public float[] toGLRatio() {
@@ -60,11 +60,15 @@ public class Point{
         this.y += y;
     }
 
+    public Point mul(Point o) {
+        return new Point(this.x * o.x, this.y * o.y);
+    }
+
+    public boolean equals(Point p) {
+        return x == p.x && y == p.y;
+    }
     public String toString() {
         return "(" + x + ", " + y + ")";
     }
 
-    public Point mul(Point o) {
-        return new Point(this.x * o.x, this.y * o.y);
-    }
 }
