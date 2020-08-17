@@ -10,32 +10,22 @@ public class MapInfo {
     private Range<Short> mapWalls;
     private Range<Short> mapBorders;
 
-    public MapInfo(NXNode src) {
+    public MapInfo(NXNode src, Range walls, Range borders) {
         NXNode info = src.getChild("info");
 
         try {
-            if (info.getChild("VRLeft").getClass() == NXLongNode.class) {
-                long lower = (Long) info.getChild("VRLeft").get();
-                long upper = (Long) info.getChild("VRRight").get();
-                mapWalls = new Range<Short>((short) lower, (short) upper);
+            long lower = (Long) info.getChild("VRLeft").get();
+            long upper = (Long) info.getChild("VRRight").get();
+            mapWalls = new Range<Short>((short) lower, (short) upper);
 
-                lower = (Long) info.getChild("VRTop").get();
-                upper = (Long) info.getChild("VRBottom").get();
-                mapBorders = new Range<Short>((short) lower, (short) upper);
-            }
+            lower = (Long) info.getChild("VRTop").get();
+            upper = (Long) info.getChild("VRBottom").get();
+            mapBorders = new Range<Short>((short) lower, (short) upper);
         } catch (NullPointerException e) {
-            long lower = -400;
-            long upper = 400;
-            mapWalls = new Range<Short>((short)lower, (short)upper);
-            mapBorders = new Range<Short>((short)lower, (short)upper);
+            mapWalls = walls;
+            mapBorders = borders;
 
         }
-//		else
-//        {
-//            mapwalls = walls;
-//            mapborders = borders;
-//        }
-//
         String bgmpath = (String) info.getChild("bgm").get();
         int split = bgmpath.indexOf('/');
         bgm = bgmpath.substring(0, split) + ".img/" + bgmpath.substring(split + 1);
