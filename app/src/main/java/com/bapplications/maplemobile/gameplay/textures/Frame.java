@@ -1,4 +1,4 @@
-package com.bapplications.maplemobile.game.textures;
+package com.bapplications.maplemobile.gameplay.textures;
 
 import android.util.Pair;
 

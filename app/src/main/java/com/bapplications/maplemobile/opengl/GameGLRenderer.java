@@ -2,22 +2,11 @@ package com.bapplications.maplemobile.opengl;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.opengl.GLUtils;
 import android.opengl.Matrix;
 import android.util.Log;
-import android.util.Range;
 
 import com.bapplications.maplemobile.constatns.Loaded;
-import com.bapplications.maplemobile.game.GameEngine;
-import com.bapplications.maplemobile.game.Stage;
-import com.bapplications.maplemobile.opengl.utils.Color;
-import com.bapplications.maplemobile.opengl.utils.Offset;
-import com.bapplications.maplemobile.opengl.utils.Point;
-import com.bapplications.maplemobile.opengl.utils.QuadsBuffer;
-import com.bapplications.maplemobile.opengl.utils.Rectangle;
-import com.bapplications.maplemobile.pkgnx.nodes.NXBitmapNode;
-
-import java.util.HashMap;
+import com.bapplications.maplemobile.gameplay.GameEngine;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;

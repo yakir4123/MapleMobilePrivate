@@ -1,4 +1,4 @@
-package com.bapplications.maplemobile.game;
+package com.bapplications.maplemobile.gameplay;
 
 import android.graphics.Rect;
 

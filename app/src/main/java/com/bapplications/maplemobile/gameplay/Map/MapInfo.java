@@ -1,9 +1,8 @@
-package com.bapplications.maplemobile.game;
+package com.bapplications.maplemobile.gameplay.Map;
 
 import android.util.Range;
 
 import com.bapplications.maplemobile.pkgnx.NXNode;
-import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
 
 public class MapInfo {
     private final String bgm;

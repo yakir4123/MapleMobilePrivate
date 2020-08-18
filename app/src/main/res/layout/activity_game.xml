@@ -8,7 +8,7 @@
     <data>
         <variable
             name="camera"
-            type="com.bapplications.maplemobile.game.Camera"/>
+            type="com.bapplications.maplemobile.gameplay.Camera"/>
     </data>
 
     <RelativeLayout

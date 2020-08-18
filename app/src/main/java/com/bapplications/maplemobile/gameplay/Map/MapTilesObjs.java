@@ -1,4 +1,4 @@
-package com.bapplications.maplemobile.game;
+package com.bapplications.maplemobile.gameplay.Map;
 
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;

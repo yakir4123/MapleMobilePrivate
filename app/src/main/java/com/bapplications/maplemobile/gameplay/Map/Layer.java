@@ -1,7 +1,7 @@
-package com.bapplications.maplemobile.game;
+package com.bapplications.maplemobile.gameplay.Map;
 
 public class Layer {
-    enum Id
+    public enum Id
     {
         ZERO,
         ONE,

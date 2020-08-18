@@ -1,9 +1,9 @@
-package com.bapplications.maplemobile.game;
+package com.bapplications.maplemobile.gameplay.Map;
 
 
 
-import com.bapplications.maplemobile.game.textures.Obj;
-import com.bapplications.maplemobile.game.textures.Tile;
+import com.bapplications.maplemobile.gameplay.textures.Obj;
+import com.bapplications.maplemobile.gameplay.textures.Tile;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 

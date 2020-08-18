@@ -1,6 +1,5 @@
-package com.bapplications.maplemobile.game.textures;
+package com.bapplications.maplemobile.gameplay.textures;
 
-import android.util.Log;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 import android.opengl.GLUtils;
