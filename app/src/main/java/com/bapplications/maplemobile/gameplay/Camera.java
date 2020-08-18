@@ -1,13 +1,9 @@
-package com.bapplications.maplemobile.game;
+package com.bapplications.maplemobile.gameplay;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Range;
-import android.view.View;
 import android.widget.TextView;
 
-import com.bapplications.maplemobile.constatns.Loaded;
-import com.bapplications.maplemobile.opengl.utils.Linear;
 import com.bapplications.maplemobile.opengl.utils.Point;
 
 

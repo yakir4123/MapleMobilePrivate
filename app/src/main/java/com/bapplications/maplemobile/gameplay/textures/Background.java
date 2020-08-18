@@ -1,11 +1,11 @@
-package com.bapplications.maplemobile.game.textures;
+package com.bapplications.maplemobile.gameplay.textures;
 
 import android.util.Log;
 
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.constatns.Loaded;
-import com.bapplications.maplemobile.game.MovingObject;
+import com.bapplications.maplemobile.gameplay.Map.MovingObject;
 
 import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
 

@@ -1,6 +1,4 @@
-package com.bapplications.maplemobile.game.textures;
-
-import android.util.Log;
+package com.bapplications.maplemobile.gameplay.textures;
 
 import com.bapplications.maplemobile.StaticUtils;
 import com.bapplications.maplemobile.opengl.utils.Linear;

@@ -5,10 +5,9 @@ import android.content.Context;
 import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 
-import com.bapplications.maplemobile.game.GameEngine;
+import com.bapplications.maplemobile.gameplay.GameEngine;
 
 public class GameGLSurfaceView extends GLSurfaceView {
 

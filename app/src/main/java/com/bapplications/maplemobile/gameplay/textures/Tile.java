@@ -1,4 +1,4 @@
-package com.bapplications.maplemobile.game.textures;
+package com.bapplications.maplemobile.gameplay.textures;
 
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.opengl.utils.Point;

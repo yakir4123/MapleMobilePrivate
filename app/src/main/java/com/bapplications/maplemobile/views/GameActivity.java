@@ -3,6 +3,7 @@ package com.bapplications.maplemobile.views;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Range;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
@@ -13,8 +14,7 @@ import com.bapplications.maplemobile.R;
 import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.databinding.ActivityGameBinding;
-import com.bapplications.maplemobile.game.GameEngine;
-import com.bapplications.maplemobile.game.Music;
+import com.bapplications.maplemobile.gameplay.audio.Music;
 import com.bapplications.maplemobile.opengl.GameGLSurfaceView;
 
 import java.io.IOException;
@@ -56,6 +56,7 @@ public class GameActivity extends AppCompatActivity {
                 _root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
+
         setContentView(_root);
         gameGLSurfaceView = findViewById(R.id.game_view);
         gameGLSurfaceView.getGameEngine().getStage().getCamera().setTextView(findViewById(R.id.camera_pos_tv), this);

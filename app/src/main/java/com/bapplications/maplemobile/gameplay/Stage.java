@@ -1,10 +1,15 @@
-package com.bapplications.maplemobile.game;
+package com.bapplications.maplemobile.gameplay;
 
 
 import com.bapplications.maplemobile.StaticUtils;
 import com.bapplications.maplemobile.constatns.Loaded;
-import com.bapplications.maplemobile.game.physics.Physics;
-import com.bapplications.maplemobile.game.textures.Texture;
+import com.bapplications.maplemobile.gameplay.Map.Layer;
+import com.bapplications.maplemobile.gameplay.Map.MapBackgrounds;
+import com.bapplications.maplemobile.gameplay.Map.MapInfo;
+import com.bapplications.maplemobile.gameplay.Map.MapTilesObjs;
+import com.bapplications.maplemobile.gameplay.audio.Music;
+import com.bapplications.maplemobile.gameplay.physics.Physics;
+import com.bapplications.maplemobile.gameplay.textures.Texture;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 

@@ -1,13 +1,13 @@
-package com.bapplications.maplemobile.game;
+package com.bapplications.maplemobile.gameplay.Map;
 
 import com.bapplications.maplemobile.opengl.utils.Linear;
 
 public class MovingObject {
 
-    public int hspeed;
-    public int vspeed;
-    private Linear x;
-    private Linear y;
+    public float hspeed;
+    public float vspeed;
+    public Linear x;
+    public Linear y;
 
     public MovingObject() {
         x = new Linear();
@@ -47,4 +47,5 @@ public class MovingObject {
         x.plus(hspeed);
         y.plus(vspeed);
     }
+
 }

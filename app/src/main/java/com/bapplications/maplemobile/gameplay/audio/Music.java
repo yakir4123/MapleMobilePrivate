@@ -1,4 +1,4 @@
-package com.bapplications.maplemobile.game;
+package com.bapplications.maplemobile.gameplay.audio;
 
 import android.media.MediaPlayer;
 
