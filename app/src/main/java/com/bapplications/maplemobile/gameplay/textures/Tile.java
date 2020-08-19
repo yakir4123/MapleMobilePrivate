@@ -21,5 +21,12 @@ public class Tile extends Texture {
                 setZ((byte) ((NXLongNode)bitmapNode.getChild("zM")).getLong());
             } catch (NullPointerException e){}
         }
+
     }
+
+    public void draw(Point viewpos) {
+        draw(new DrawArgument(viewpos));
+    }
+
+
 }
