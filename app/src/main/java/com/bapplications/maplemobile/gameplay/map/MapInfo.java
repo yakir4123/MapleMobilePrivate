@@ -1,4 +1,4 @@
-package com.bapplications.maplemobile.gameplay.Map;
+package com.bapplications.maplemobile.gameplay.map;
 
 import android.util.Range;
 

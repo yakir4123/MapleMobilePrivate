@@ -2,10 +2,11 @@ package com.bapplications.maplemobile.gameplay.textures;
 
 import android.util.Log;
 
+import com.bapplications.maplemobile.opengl.utils.DrawArgument;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.constatns.Loaded;
-import com.bapplications.maplemobile.gameplay.Map.MovingObject;
+import com.bapplications.maplemobile.gameplay.map.MovingObject;
 
 import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
 
@@ -119,7 +120,6 @@ public class Background extends Animation{
         return Type.NORMAL;
     }
 
-    @Override
     public void draw(Point viewpos, float alpha)
     {
         double x;
@@ -175,7 +175,7 @@ public class Background extends Animation{
 
         for (int tx = 0; tx < tw; tx += cx)
             for (int ty = 0; ty < th; ty += cy)
-                super.draw(new Point(ix + tx, iy + ty),  alpha);
+                super.draw(new DrawArgument(new Point(ix + tx, iy + ty)),  alpha);
     }
 
 

@@ -1,6 +1,7 @@
 package com.bapplications.maplemobile.gameplay.textures;
 
 import com.bapplications.maplemobile.constatns.Loaded;
+import com.bapplications.maplemobile.opengl.utils.DrawArgument;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
@@ -20,8 +21,7 @@ public class Obj extends Animation {
         } catch (NullPointerException e) {}
     }
 
-    @Override
     public void draw(Point viewpos, float alpha){
-        super.draw(viewpos, alpha);
+        super.draw(new DrawArgument(viewpos), alpha);
     }
 }

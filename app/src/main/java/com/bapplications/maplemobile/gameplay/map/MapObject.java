@@ -1,4 +1,4 @@
-package com.bapplications.maplemobile.gameplay.Map;
+package com.bapplications.maplemobile.gameplay.map;
 
 import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.gameplay.physics.PhysicsObject;
@@ -11,10 +11,13 @@ public class MapObject {
     protected boolean active;
 
 
-    MapObject(int o, Point p)
+    protected MapObject(int id){
+        this(id, new Point());
+    }
+    protected MapObject(int id, Point pos)
     {
-        oid = o;
-        set_position(p);
+        oid = id;
+        set_position(pos);
         active = true;
     }
 

@@ -1,6 +1,7 @@
 package com.bapplications.maplemobile.gameplay.textures;
 
 import com.bapplications.maplemobile.StaticUtils;
+import com.bapplications.maplemobile.opengl.utils.DrawArgument;
 import com.bapplications.maplemobile.opengl.utils.Linear;
 import com.bapplications.maplemobile.opengl.utils.Nominal;
 import com.bapplications.maplemobile.opengl.utils.Point;
@@ -17,7 +18,7 @@ public class Animation {
     protected Point pos;
     protected short delay;
     protected int framestep;
-    protected Nominal frameNumber;
+    protected Nominal<Short> frameNumber;
     protected Linear opacity;
     protected Linear xyscale;
     protected boolean animated;
@@ -77,7 +78,7 @@ public class Animation {
 
     void reset()
     {
-        frameNumber.set(0);
+        frameNumber.set((short) 0);
         opacity.set(frames.get(0).startOpacity());
         xyscale.set(frames.get(0).startScale());
         delay = frames.get(0).getDelay();
@@ -85,10 +86,9 @@ public class Animation {
     }
 
 
-    public void draw(Point viewpos, float alpha)
+    public void draw(DrawArgument args, float alpha)
     {
-        viewpos = viewpos.plus(pos);
-        short interframe = (short) frameNumber.get(alpha);
+        short interframe = frameNumber.get(alpha);
         float interopc = opacity.get(alpha) / 255;
         float interscale = xyscale.get(alpha) / 100;
 
@@ -96,7 +96,7 @@ public class Animation {
         boolean modifyscale = interscale != 1.0f;
 
 
-        frames.get(interframe).draw(viewpos);
+        frames.get(interframe).draw(args.plus(pos));
 //        if (modifyopc || modifyscale)
 //            frames[interframe].draw(args + DrawArgument(interscale, interscale, interopc));
 //        else
@@ -147,7 +147,7 @@ public class Animation {
                     ended = false;
                 }
 
-                nextframe = (short) frameNumber.plus(framestep);
+                nextframe = (short) frameNumber.plus((short) framestep);
             }
             else
             {
@@ -158,7 +158,7 @@ public class Animation {
                 }
                 else
                 {
-                    nextframe = (short) frameNumber.plus(1);
+                    nextframe = (short) frameNumber.plus((short) 1);
                     ended = false;
                 }
             }
@@ -201,7 +201,6 @@ public class Animation {
             frame.setFlip(flip);
         }
     }
-
 
     protected void setPos(Point point) {
         pos = point;

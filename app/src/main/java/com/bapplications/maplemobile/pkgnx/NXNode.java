@@ -97,6 +97,11 @@ public abstract class NXNode implements Iterable<NXNode> {
 	 */
 	public abstract Object get();
 
+
+
+	public <T extends NXNode> T getChild(int name) {
+		return getChild("" + name);
+	}
 	/**
 	 * Gets a child node by {@code name}. Returns null if child is not present.
 	 *

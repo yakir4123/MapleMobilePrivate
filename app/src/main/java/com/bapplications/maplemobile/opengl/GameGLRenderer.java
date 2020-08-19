@@ -14,9 +14,6 @@ import javax.microedition.khronos.opengles.GL10;
 public class GameGLRenderer implements GLSurfaceView.Renderer {
 
     private static final String TAG = "GameGLRenderer";
-    private static final int ATLASW = 8192;
-    private static final int ATLASH = 8192;
-    private static final byte MINLOSIZE = 32;
     private static GameGLRenderer instance;
 
     private GameEngine _engine;
@@ -35,9 +32,9 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
     }
 
     private GameGLRenderer(){
+        _engine = new GameEngine();
     }
 
-    boolean locked = false;
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
         GLES20.glClearColor(0.09019f, 0.10588f, 0.13333f, 0.0f);
@@ -62,8 +59,6 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         Loaded.SCREEN_HEIGHT = height;
         Loaded.SCREEN_WIDTH = width;
         Loaded.SCREEN_RATIO = ((float)width) / height;
-
-        _engine.setViewLocations();
 
         GLState.setSpriteSquareRes();
 
@@ -107,4 +102,7 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         _engine = engine;
     }
 
+    public GameEngine getGameEngine() {
+        return _engine;
+    }
 }

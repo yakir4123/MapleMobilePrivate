@@ -1,6 +1,6 @@
 package com.bapplications.maplemobile.gameplay.physics;
 
-import com.bapplications.maplemobile.gameplay.Map.MovingObject;
+import com.bapplications.maplemobile.gameplay.map.MovingObject;
 import com.bapplications.maplemobile.opengl.utils.Point;
 
 public class PhysicsObject extends MovingObject {

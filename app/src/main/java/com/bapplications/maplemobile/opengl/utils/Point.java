@@ -55,6 +55,10 @@ public class Point{
         return new Point(x*a, y*a);
     }
 
+    public void offset(Point p){
+        offset(p.x, p.y);
+    }
+
     public void offset(float x, float y){
         this.x += x;
         this.y += y;

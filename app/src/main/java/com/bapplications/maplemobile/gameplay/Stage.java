@@ -3,10 +3,10 @@ package com.bapplications.maplemobile.gameplay;
 
 import com.bapplications.maplemobile.StaticUtils;
 import com.bapplications.maplemobile.constatns.Loaded;
-import com.bapplications.maplemobile.gameplay.Map.Layer;
-import com.bapplications.maplemobile.gameplay.Map.MapBackgrounds;
-import com.bapplications.maplemobile.gameplay.Map.MapInfo;
-import com.bapplications.maplemobile.gameplay.Map.MapTilesObjs;
+import com.bapplications.maplemobile.gameplay.map.Layer;
+import com.bapplications.maplemobile.gameplay.map.MapBackgrounds;
+import com.bapplications.maplemobile.gameplay.map.MapInfo;
+import com.bapplications.maplemobile.gameplay.map.MapTilesObjs;
 import com.bapplications.maplemobile.gameplay.audio.Music;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.gameplay.textures.Texture;
@@ -20,9 +20,9 @@ public class Stage {
     private State state;
     private Camera camera;
     private MapInfo mapInfo;
+    private Physics physics;
     private MapTilesObjs tilesobjs;
     private MapBackgrounds backgrounds;
-    private Physics physics;
 
 
     enum State
@@ -120,18 +120,19 @@ public class Stage {
 
         Point viewpos = camera.position(alpha);
 
-        backgrounds.drawBackgrounds(viewpos, alpha);
+            tilesobjs.draw(Layer.ZERO, viewpos, alpha);
+//        backgrounds.drawBackgrounds(viewpos, alpha);
 //
-        for (Layer.Id id : Layer.Id.values())
-        {
-            tilesobjs.draw(id, viewpos, alpha);
+//        for (Layer id : Layer.values())
+//        {
+//            tilesobjs.draw(id, viewpos, alpha);
 //            reactors.draw(id, viewx, viewy, alpha);
 //            npcs.draw(id, viewx, viewy, alpha);
 //            mobs.draw(id, viewx, viewy, alpha);
 //            chars.draw(id, viewx, viewy, alpha);
 //            player.draw(id, viewx, viewy, alpha);
 //            drops.draw(id, viewx, viewy, alpha);
-        }
+//        }
 //
 //        combat.draw(viewx, viewy, alpha);
 //        portals.draw(viewpos, alpha);

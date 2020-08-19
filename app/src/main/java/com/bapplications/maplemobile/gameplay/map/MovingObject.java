@@ -1,6 +1,7 @@
-package com.bapplications.maplemobile.gameplay.Map;
+package com.bapplications.maplemobile.gameplay.map;
 
 import com.bapplications.maplemobile.opengl.utils.Linear;
+import com.bapplications.maplemobile.opengl.utils.Point;
 
 public class MovingObject {
 
@@ -33,14 +34,18 @@ public class MovingObject {
         return (short)(Math.round(interx + viewx));
     }
 
-    public boolean vmobile() {
-        return vspeed != 0.0;
-    }
-
-    public double getAbsoluteY(float viewy, float alpha) {
+    public short getAbsoluteY(float viewy, float alpha) {
         double interx = y.normalized() ? Math.round(y.get()) : y.get(alpha);
 
         return (short)(Math.round(interx + viewy));
+    }
+
+    public Point getAbsolute(Point viewpos, float alpha) {
+        return new Point(getAbsoluteX(viewpos.x, alpha), getAbsoluteY(viewpos.y, alpha));
+    }
+
+    public boolean vmobile() {
+        return vspeed != 0.0;
     }
 
     public void move() {
