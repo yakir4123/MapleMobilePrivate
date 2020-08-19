@@ -1,6 +1,7 @@
 package com.bapplications.maplemobile.gameplay.player;
 
 import java.util.EnumMap;
+import java.util.HashMap;
 
 public class Stance {
     public enum Id {
@@ -46,15 +47,19 @@ public class Stance {
         }
     }
     private static Stance.Id[] map = new Stance.Id[Stance.Id.values().length];
-
+    private static HashMap<String, Stance.Id> byName = new HashMap<>();
     static {
         for (Stance.Id stance : Stance.Id.values()) {
             map[stance.ordinal()] = stance;
+            byName.put(stance.stanceName(), stance);
         }
     }
 
     public static Stance.Id valueOf(int stance) {
         return map[stance];
+    }
+    public static Stance.Id valueOf(String stance) {
+        return byName.get(stance.toLowerCase());
     }
 
 }

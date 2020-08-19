@@ -1,5 +1,8 @@
 package com.bapplications.maplemobile.gameplay;
 
+import com.bapplications.maplemobile.gameplay.player.Char;
+import com.bapplications.maplemobile.gameplay.player.CharEntry;
+
 public class GameEngine {
 
     private Stage stage;
@@ -12,6 +15,7 @@ public class GameEngine {
 
     public void startGame()
     {
+        Char.init();
         stage.init();
     }
 
@@ -38,6 +42,12 @@ public class GameEngine {
     public void changeMap(int mapId) {
         stage.clear();
         stage.load(mapId,  0);
+
     }
 
+    public void loadPlayer(int charId) {
+        // for development this will be a new char instead from reading from a db
+        CharEntry ce = new CharEntry(charId);
+        stage.loadPlayer(ce);
+    }
 }

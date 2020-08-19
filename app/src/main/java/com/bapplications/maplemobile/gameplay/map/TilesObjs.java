@@ -63,14 +63,14 @@ public class TilesObjs {
     }
 
     public void draw(Point viewpos, float alpha) {
-//        if(objs == null){
-//            return;
-//        }
-//        for (List<Obj> lobjs : objs.values()){
-//            for(Obj obj : lobjs){
-//                obj.draw(viewpos, alpha);
-//            }
-//        }
+        if(objs == null){
+            return;
+        }
+        for (List<Obj> lobjs : objs.values()){
+            for(Obj obj : lobjs){
+                obj.draw(viewpos, alpha);
+            }
+        }
 
         if(tiles == null){
             return;
@@ -78,9 +78,7 @@ public class TilesObjs {
         for (List<Tile> ltiles : tiles.values()){
             for(Tile tile : ltiles) {
                 tile.draw(viewpos);
-                break;
             }
-            break;
         }
     }
 

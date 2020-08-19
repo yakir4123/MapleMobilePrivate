@@ -3,6 +3,7 @@ package com.bapplications.maplemobile.gameplay.player;
 import com.bapplications.maplemobile.gameplay.map.Layer;
 import com.bapplications.maplemobile.gameplay.map.MapObject;
 import com.bapplications.maplemobile.opengl.utils.Color;
+import com.bapplications.maplemobile.opengl.utils.DrawArgument;
 import com.bapplications.maplemobile.opengl.utils.Point;
 
 public class Char extends MapObject {
@@ -11,6 +12,9 @@ public class Char extends MapObject {
     private final CharLook look_preview;
     private State state;
 
+    public static void init() {
+        CharLook.init();
+    }
     protected void draw(Point viewpos, float alpha) {
         Point absp = phobj.getAbsolute(viewpos, alpha);
 
@@ -30,7 +34,7 @@ public class Char extends MapObject {
 //            color = Color::Code::CWHITE;
 //        }
 
-        look.draw(absp, alpha);
+        look.draw(new DrawArgument(absp), alpha);
 
 //        afterimage.draw(look.get_frame(), DrawArgument(absp, facing_right), alpha);
 

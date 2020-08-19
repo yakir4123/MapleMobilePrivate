@@ -1,5 +1,6 @@
 package com.bapplications.maplemobile.gameplay.physics;
 
+import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 
 public class Physics {
@@ -91,5 +92,11 @@ public class Physics {
 
         phobj.hspeed += phobj.hacc;
         phobj.vspeed += phobj.vacc;
+    }
+
+    public Point getYBelow(Point position) {
+        short ground = footholdtree.getYBelow(position);
+
+        return new Point(position.x, ground - 1);
     }
 }

@@ -3,6 +3,7 @@ package com.bapplications.maplemobile.gameplay.physics;
 import android.util.Range;
 
 import com.bapplications.maplemobile.opengl.utils.Linear;
+import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 
 import java.util.ArrayList;
@@ -86,8 +87,8 @@ public class FootholdTree {
             }
         }
 
-        walls = new Range( leftw + 25, rightw - 25 );
-        borders = new Range( topb - 300, botb + 100 );
+        walls = new Range<>( (short)(leftw + 25),(short)( rightw - 25 ));
+        borders = new Range<>( (short)(topb - 300), (short)(botb + 100 ));
     }
 
     public Range getBorders() {
@@ -179,10 +180,9 @@ public class FootholdTree {
 
     private short getFHidBelow(float fx, float fy) {
         short ret = 0;
-        double comp = borders.getUpper();
+        double comp = (double)borders.getUpper();
 
         short x = (short)(fx);
-        List<Short> range = footholdsbyx.get(x);
 
         for(Short id: footholdsbyx.get(x)) {
 			Foothold fh = footholds.get(id);
@@ -326,4 +326,17 @@ public class FootholdTree {
         }
     }
 
+    public short getYBelow(Point position) {
+        short fhid = getFHidBelow(position.x, position.y);
+        if (fhid != 0)
+        {
+			Foothold fh = getFH(fhid);
+
+            return (short) fh.groundBelow(position.x);
+        }
+		else
+        {
+            return borders.getUpper();
+        }
+    }
 }

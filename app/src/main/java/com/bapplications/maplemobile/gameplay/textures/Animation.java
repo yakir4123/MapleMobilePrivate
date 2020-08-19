@@ -78,7 +78,7 @@ public class Animation {
 
     void reset()
     {
-        frameNumber.set(0);
+        frameNumber.set((short) 0);
         opacity.set(frames.get(0).startOpacity());
         xyscale.set(frames.get(0).startScale());
         delay = frames.get(0).getDelay();

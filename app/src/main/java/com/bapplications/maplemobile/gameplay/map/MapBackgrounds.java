@@ -39,13 +39,6 @@ public class MapBackgrounds {
 //
         for (Background background : backgrounds)
             background.draw(viewpos, alpha);
-//
-//            backgrounds.get(2).draw(viewpos, alpha);
-//            backgrounds.get(3).draw(viewpos, alpha);
-//            backgrounds.get(4).draw(viewpos, alpha);
-//            backgrounds.get(5).draw(viewpos, alpha);
-//            backgrounds.get(6).draw(viewpos, alpha);
-//            backgrounds.get(7).draw(viewpos, alpha);
     }
 
     public void drawForegrounds(Point viewpos, float alpha) {

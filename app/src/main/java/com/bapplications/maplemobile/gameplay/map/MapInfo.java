@@ -3,9 +3,11 @@ package com.bapplications.maplemobile.gameplay.map;
 import android.util.Range;
 
 import com.bapplications.maplemobile.pkgnx.NXNode;
+import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
 
 public class MapInfo {
     private final String bgm;
+    private final boolean swim;
     private Range<Short> mapWalls;
     private Range<Short> mapBorders;
 
@@ -33,7 +35,7 @@ public class MapInfo {
 //        fieldlimit = info["fieldLimit"];
 //        hideminimap = info["hideMinimap"].get_bool();
 //        mapmark = info["mapMark"];
-//        swim = info["swim"].get_bool();
+        swim = ((NXLongNode)info.getChild("swim")).getBool();
 //        town = info["town"].get_bool();
 //
 //        for (auto seat : src["seat"])
@@ -53,5 +55,9 @@ public class MapInfo {
 
     public String getBgm() {
         return bgm;
+    }
+
+    public boolean isUnderwater() {
+        return swim;
     }
 }

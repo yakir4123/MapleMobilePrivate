@@ -9,6 +9,8 @@ import com.bapplications.maplemobile.gameplay.map.MapInfo;
 import com.bapplications.maplemobile.gameplay.map.MapTilesObjs;
 import com.bapplications.maplemobile.gameplay.audio.Music;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
+import com.bapplications.maplemobile.gameplay.player.CharEntry;
+import com.bapplications.maplemobile.gameplay.player.Player;
 import com.bapplications.maplemobile.gameplay.textures.Texture;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
@@ -18,6 +20,7 @@ public class Stage {
 
     private int mapid;
     private State state;
+    private Player player;
     private Camera camera;
     private MapInfo mapInfo;
     private Physics physics;
@@ -42,6 +45,18 @@ public class Stage {
         // drops.init();
     }
 
+
+    public void loadPlayer(CharEntry entry)
+    {
+        player = new Player(entry);
+//        playable = new Playeable(player);
+
+//        start = ContinuousTimer::get().start();
+
+//        CharStats stats = player.getStats();
+//        levelBefore = stats.get_stat(MapleStat::Id::LEVEL);
+//        expBefore = stats.get_exp();
+    }
 
     public void load(int mapid, int portalid)
     {
@@ -85,11 +100,11 @@ public class Stage {
         Music.play(mapInfo.getBgm());
 
 //        Point<int16_t> spawnpoint = portals.get_portal_by_id(portalid);
-//        Point<int16_t> startpos = physics.get_y_below(spawnpoint);
-//        player.respawn(startpos, mapinfo.is_underwater());
+//        Point startpos = physics.get_y_below(spawnpoint);
+        Point startpos = physics.getYBelow(new Point());
+        player.respawn(startpos, mapInfo.isUnderwater());
 //        camera.set_view(mapInfo.getWalls(), mapInfo.getBorders());
         camera.setPosition(0,0);
-//        camera.setPosition(0,0);
     }
 
     public void update(int deltatime) {
@@ -120,19 +135,18 @@ public class Stage {
 
         Point viewpos = camera.position(alpha);
 
-            tilesobjs.draw(Layer.ZERO, viewpos, alpha);
 //        backgrounds.drawBackgrounds(viewpos, alpha);
-//
-//        for (Layer id : Layer.values())
-//        {
+
+        for (Layer id : Layer.values())
+        {
 //            tilesobjs.draw(id, viewpos, alpha);
 //            reactors.draw(id, viewx, viewy, alpha);
 //            npcs.draw(id, viewx, viewy, alpha);
 //            mobs.draw(id, viewx, viewy, alpha);
 //            chars.draw(id, viewx, viewy, alpha);
-//            player.draw(id, viewx, viewy, alpha);
+            player.draw(id, viewpos, alpha);
 //            drops.draw(id, viewx, viewy, alpha);
-//        }
+        }
 //
 //        combat.draw(viewx, viewy, alpha);
 //        portals.draw(viewpos, alpha);

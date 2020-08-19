@@ -39,6 +39,7 @@ public class GameActivity extends AppCompatActivity {
         try {
             Loaded.loadFile("Map", Configuration.WZ_DIRECTORY + "/Map.nx");
             Loaded.loadFile("Sound", Configuration.WZ_DIRECTORY + "/Sound.nx");
+            Loaded.loadFile("Character", Configuration.WZ_DIRECTORY + "/Character.nx");
         } catch (IOException e) {
             e.printStackTrace();
         }
