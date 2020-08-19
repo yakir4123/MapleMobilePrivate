@@ -22,4 +22,10 @@ public class Tile extends Texture {
             } catch (NullPointerException e){}
         }
     }
+
+    public void draw(Point viewpos) {
+        draw(new DrawArgument(viewpos));
+    }
+
+
 }

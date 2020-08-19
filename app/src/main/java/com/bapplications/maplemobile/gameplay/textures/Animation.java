@@ -78,13 +78,12 @@ public class Animation {
 
     void reset()
     {
-        frameNumber.set((short) 0);
+        frameNumber.set(0);
         opacity.set(frames.get(0).startOpacity());
         xyscale.set(frames.get(0).startScale());
         delay = frames.get(0).getDelay();
         framestep = 1;
     }
-
 
     public void draw(DrawArgument args, float alpha)
     {
@@ -158,7 +157,7 @@ public class Animation {
                 }
                 else
                 {
-                    nextframe = (short) frameNumber.plus((short) 1);
+                    nextframe = (short) frameNumber.plus((short)1);
                     ended = false;
                 }
             }

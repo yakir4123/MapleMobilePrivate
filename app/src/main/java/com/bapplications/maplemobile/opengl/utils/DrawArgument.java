@@ -59,8 +59,17 @@ public class DrawArgument {
         return pos;
     }
 
-    public DrawArgument plus(Point pos){
-        return new DrawArgument(this.pos.plus(pos));
+    public DrawArgument plus(Point pos) {
+        return new DrawArgument(this.pos.plus(pos), center, stretch, xscale, yscale, color, angle);
     }
 
+    public DrawArgument plus(DrawArgument o) {
+        return new DrawArgument(this.pos.plus(o.pos),
+                this.center.plus(o.center),
+                stretch.plus(stretch),
+                xscale * o.xscale,
+                yscale * o.yscale,
+                color.mul(o.color),
+                angle + o.angle);
+    }
 }

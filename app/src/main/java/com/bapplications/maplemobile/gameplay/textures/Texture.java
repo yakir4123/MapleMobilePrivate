@@ -94,15 +94,8 @@ public class Texture {
         bitmapToTextureMap.clear();
     }
 
-    public void draw(Point pos) {
-        draw(new DrawArgument(pos));
-    }
-
     public void draw (DrawArgument args) {
-        Log.d("draw::::", "" + args.getPos().plus(pos));
         float[] curPos = args.getPos().plus(pos).toGLRatio();
-//        curPos[0] = 0;
-//        curPos[1] = 0;
         // todo:: check rectangle instead of magic number
         if(Math.abs(curPos[0]) > 1.5 || Math.abs(curPos[1]) > 1.5) {
             return;
