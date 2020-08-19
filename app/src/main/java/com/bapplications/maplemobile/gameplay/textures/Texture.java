@@ -93,8 +93,9 @@ public class Texture {
     }
 
     public void draw (Point viewPos) {
-
+        draw(new DrawArgument(viewPos));
     }
+
     public void draw (DrawArgument args) {
         float[] curPos = args.getPos().plus(pos).toGLRatio();
         // todo:: check rectangle instead of magic number
