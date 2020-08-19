@@ -12,8 +12,10 @@ public class Tile extends Texture {
         super(Loaded.getFile("Map").getRoot().getChild("Tile").getChild(tileset)
                 .getChild((String) src.getChild("u").get())
                 .getChild("" + (Long) src.getChild("no").get()));
-        setPos(new Point((int)((NXLongNode)src.getChild("x")).getLong(),
-                -(int)((NXLongNode)src.getChild("y")).getLong()));
+
+//        setPos(new Point((int)((NXLongNode)src.getChild("x")).getLong(),
+//                -(int)((NXLongNode)src.getChild("y")).getLong()));
+        setPos(new Point(src));
 
         setZ((byte) ((NXLongNode)bitmapNode.getChild("z")).getLong());
         if (getZ() == 0) {

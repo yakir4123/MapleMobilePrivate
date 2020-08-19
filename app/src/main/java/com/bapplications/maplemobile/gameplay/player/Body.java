@@ -12,6 +12,9 @@ import java.util.HashMap;
 public class Body {
 
     public void draw(Stance.Id stance, Layer layer, byte frame, DrawArgument args) {
+        if(stances[stance.ordinal()][layer.ordinal()] == null){
+            return;
+        }
         Texture frameit = stances[stance.ordinal()][layer.ordinal()].get(frame);
 
         if (frameit == null)
@@ -35,7 +38,7 @@ public class Body {
         HEAD,
     };
 
-    private static HashMap<String, Body.Layer> layerByName;
+    public static HashMap<String, Body.Layer> layerByName;
     static {
         layerByName = new HashMap<>();
         layerByName.put("arm", Body.Layer.ARM);
@@ -69,16 +72,16 @@ public class Body {
             if (stancenode == null)
                 continue;
 
-            for (byte frame = 0; stancenode.getChild(frame) != null; ++frame)
-            {
+            for (byte frame = 0; stancenode.getChild(frame) != null; ++frame) {
                 NXNode framenode = stancenode.getChild(frame);
-                for (NXNode partnode : framenode)
-                {
+                for (NXNode partnode : framenode) {
                     String part = partnode.getName();
 
-                    if (!part.equals("delay") && !part.equals("face"))
-                    {
-                        String z = (String) partnode.getChild("z").get();
+                    if (!part.equals("delay") && !part.equals("face")) {
+                        String z = "";
+                        try {
+                            z = (String) partnode.getChild("z").get();
+                        } catch (NullPointerException e) { }
                         Body.Layer layer = layerByName.get(z);
 
                         if (layer == null)
@@ -86,19 +89,26 @@ public class Body {
 
                         Point shift;
 
-                        switch (layer)
-                        {
+                        switch (layer) {
                             case HAND_BELOW_WEAPON:
-                                shift = drawInfo.getHandPosition(stance, frame)
-                                        .minus((Point) partnode.getChild("map").getChild("handMove").get());
+                                try {
+                                    shift = drawInfo.getHandPosition(stance, frame)
+                                            .minus((Point) partnode.getChild("map").getChild("handMove").get());
+                                } catch (NullPointerException e) {
+                                    shift = drawInfo.getHandPosition(stance, frame);
+                                }
                                 break;
                             default:
-                                shift = drawInfo.getBodyPosition(stance, frame)
-                                        .minus((Point) partnode.getChild("map").getChild("navel").get());
+                                try {
+                                    shift = drawInfo.getBodyPosition(stance, frame)
+                                            .minus((Point) partnode.getChild("map").getChild("navel").get());
+                                } catch (NullPointerException e) {
+                                    shift = drawInfo.getBodyPosition(stance, frame);
+                                }
                                 break;
                         }
 
-                        if(stances[stance.ordinal()][layer.ordinal()] == null){
+                        if (stances[stance.ordinal()][layer.ordinal()] == null) {
                             stances[stance.ordinal()][layer.ordinal()] = new HashMap<>();
                         }
                         Texture tex = new Texture(partnode);
@@ -107,13 +117,15 @@ public class Body {
                                 .put(frame, tex);
                     }
                 }
-
-                if (headnode.getChild(stancename).getChild(frame).getChild("head") != null)
-                {
+                boolean hasHeadImg = false;
+                try {
+                    hasHeadImg = !stancename.equals("dead") && headnode.getChild(stancename).getChild(frame).getChild("head") != null;
+                } catch (NullPointerException e){}
+                if (hasHeadImg) {
                     NXNode headsfnode = headnode.getChild(stancename).getChild(frame).getChild("head");
                     Point shift = drawInfo.getHeadPosition(stance, frame);
 
-                    if(stances[stance.ordinal()][Layer.HEAD.ordinal()] == null){
+                    if (stances[stance.ordinal()][Layer.HEAD.ordinal()] == null) {
                         stances[stance.ordinal()][Layer.HEAD.ordinal()] = new HashMap<>();
                     }
                     Texture tex = new Texture(headsfnode);
@@ -122,6 +134,7 @@ public class Body {
                             .put(frame, tex);
                 }
             }
+
         }
 
         String[] skintypes = new String[]{

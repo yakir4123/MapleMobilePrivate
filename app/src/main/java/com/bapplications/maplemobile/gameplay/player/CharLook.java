@@ -20,21 +20,27 @@ public class CharLook {
     private BodyAction action;
     private Nominal<Byte> stframe;
     private TimedBool expcooldown;
-    private BodyDrawInfo drawInfo;
+    private static BodyDrawInfo drawInfo;
     private Nominal<Stance.Id> stance;
     private Nominal<Byte> expframe;
     private HashMap<Byte, Body> bodyTypes;
     private Nominal<Expression> expression;
 
-    public CharLook(CharEntry.LookEntry entry) {
-        reset();
+    public static void init() {
+        drawInfo = new BodyDrawInfo();
+        drawInfo.init();
+    }
 
+    public CharLook(CharEntry.LookEntry entry) {
         stance = new Nominal<>();
         stframe = new Nominal<>();
         expframe = new Nominal<>();
         bodyTypes = new HashMap<>();
         expression = new Nominal<>();
         expcooldown = new TimedBool();
+
+        reset();
+
 
         setBody(entry.skin);
 //        set_hair(entry.hairid);
@@ -94,7 +100,7 @@ public class CharLook {
 //        }
     }
 
-    public void draw(Point absp, float alpha) {
+    public void draw(DrawArgument args, float alpha) {
 //        if (!body || !hair || !face)
 //            return;
 
@@ -106,7 +112,7 @@ public class CharLook {
 //        if (action != null)
 //            acmove = action.get_move();
 
-//        DrawArgument relargs = { acmove, flip };
+        DrawArgument relargs = new DrawArgument( acmove, flip );
         Stance.Id interstance = stance.get(alpha);
         Expression interexpression = expression.get(alpha);
         byte interframe = stframe.get(alpha);
@@ -123,7 +129,7 @@ public class CharLook {
                 break;
             }
         }
-//        draw(relargs + args, interstance, interexpression, interframe, interexpframe);
+        draw(relargs.plus(args), interstance, interexpression, interframe, interexpframe);
     }
     
     private void draw(DrawArgument args,
@@ -131,15 +137,16 @@ public class CharLook {
                       Expression interexpression,
                       byte interframe,
                       byte interexpframe) {
-        body.draw(interstance, Body.Layer.ARM_BELOW_HEAD, interframe, args);
-        body.draw(interstance, Body.Layer.ARM_BELOW_HEAD_OVER_MAIL, interframe, args);
+//        body.draw(interstance, Body.Layer.BODY, interframe, args);
+//        body.draw(interstance, Body.Layer.ARM_BELOW_HEAD, interframe, args);
+//        body.draw(interstance, Body.Layer.ARM_BELOW_HEAD_OVER_MAIL, interframe, args);
         body.draw(interstance, Body.Layer.HEAD, interframe, args);
 
-        body.draw(interstance, Body.Layer.HAND_BELOW_WEAPON, interframe, args);
-        body.draw(interstance, Body.Layer.ARM_OVER_HAIR, interframe, args);
-        body.draw(interstance, Body.Layer.ARM_OVER_HAIR_BELOW_WEAPON, interframe, args);
-        body.draw(interstance, Body.Layer.HAND_OVER_HAIR, interframe, args);
-        body.draw(interstance, Body.Layer.HAND_OVER_WEAPON, interframe, args);
+//        body.draw(interstance, Body.Layer.HAND_BELOW_WEAPON, interframe, args);
+//        body.draw(interstance, Body.Layer.ARM_OVER_HAIR, interframe, args);
+//        body.draw(interstance, Body.Layer.ARM_OVER_HAIR_BELOW_WEAPON, interframe, args);
+//        body.draw(interstance, Body.Layer.HAND_OVER_HAIR, interframe, args);
+//        body.draw(interstance, Body.Layer.HAND_OVER_WEAPON, interframe, args);
 
     }
 }

@@ -17,4 +17,12 @@ public class Player extends Char {
     }
 
 
+    public void respawn(Point pos, boolean underwater) {
+        setPosition(pos.x, pos.y);
+//        this.underwater = underwater;
+//        keysdown.clear();
+//        attacking = false;
+//        ladder = nullptr;
+//        nullstate.update_state(*this);
+    }
 }

@@ -6,9 +6,9 @@ import com.bapplications.maplemobile.opengl.utils.Point;
 
 public class MapObject {
 
-    protected PhysicsObject phobj;
     protected int oid;
     protected boolean active;
+    protected PhysicsObject phobj;
 
 
     protected MapObject(int id){
@@ -17,7 +17,8 @@ public class MapObject {
     protected MapObject(int id, Point pos)
     {
         oid = id;
-        set_position(pos);
+        phobj = new PhysicsObject();
+        setPosition(pos);
         active = true;
     }
 
@@ -28,17 +29,17 @@ public class MapObject {
         return phobj.fhlayer;
     }
 
-    void set_position(float x, float y)
+    public void setPosition(float x, float y)
     {
         phobj.set_x((int) x);
         phobj.set_y((int) y);
     }
 
-    void set_position(Point position)
+    void setPosition(Point position)
     {
         float x = position.x;
         float y = position.y;
-        set_position(x, y);
+        setPosition(x, y);
     }
 
     void makeactive()

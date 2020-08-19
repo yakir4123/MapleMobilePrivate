@@ -1,6 +1,9 @@
 package com.bapplications.maplemobile.opengl.utils;
 
 import com.bapplications.maplemobile.constatns.Loaded;
+import com.bapplications.maplemobile.pkgnx.NXNode;
+import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
+import com.bapplications.maplemobile.pkgnx.nodes.NXPointNode;
 
 public class Point{
 
@@ -14,6 +17,27 @@ public class Point{
         } else {
             throw new IllegalArgumentException("Got Object that is not a Point");
         }
+    }
+
+
+    public Point(NXNode src){
+        if( src instanceof NXPointNode){
+            x = ((Point)src.get()).x;
+            y = ((Point)src.get()).y;
+            return;
+        }
+        try {
+            x = (int) ((NXLongNode) src.getChild("x")).getLong();
+            y = -(int) ((NXLongNode) src.getChild("y")).getLong();
+        } catch (NullPointerException e) {
+            Point o = ((NXPointNode) src.getChild("origin")).get();
+            x = o.x;
+            y = -o.y;
+        }
+    }
+
+    public Point(NXPointNode src){
+        this(src.get());
     }
 
     public Point(float x, float y) {
@@ -56,7 +80,8 @@ public class Point{
     }
 
     public void offset(Point p){
-        offset(p.x, p.y);
+        if (p != null)
+            offset(p.x, p.y);
     }
 
     public void offset(float x, float y){

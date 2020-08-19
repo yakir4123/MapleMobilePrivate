@@ -11,6 +11,12 @@ public class CharEntry {
     public LookEntry look;
     public int id;
 
+    public CharEntry(int cid) {
+        stats = new StatsEntry();
+        look = new LookEntry();
+        id = cid;
+    }
+
     public class StatsEntry {
         String name;
         boolean female;
@@ -49,7 +55,7 @@ public class CharEntry {
 
     };
 
-    public class LookEntry {
+    public static class LookEntry {
         public boolean female;
         public byte skin;
         public int faceid;
