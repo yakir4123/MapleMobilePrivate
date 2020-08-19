@@ -83,4 +83,8 @@ public class DrawArgument {
     public float getAngle() {
         return angle;
     }
+
+    public Point getPos() {
+        return pos;
+    }
 }

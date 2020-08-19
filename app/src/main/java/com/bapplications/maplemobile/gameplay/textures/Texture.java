@@ -6,6 +6,7 @@ import android.opengl.GLUtils;
 import android.graphics.Bitmap;
 
 import com.bapplications.maplemobile.opengl.GLState;
+import com.bapplications.maplemobile.opengl.utils.DrawArgument;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXBitmapNode;
@@ -92,7 +93,10 @@ public class Texture {
     }
 
     public void draw (Point viewPos) {
-        float[] curPos = viewPos.plus(pos).toGLRatio();
+
+    }
+    public void draw (DrawArgument args) {
+        float[] curPos = args.getPos().plus(pos).toGLRatio();
         // todo:: check rectangle instead of magic number
         if(Math.abs(curPos[0]) > 1.5 || Math.abs(curPos[1]) > 1.5) {
             return;
