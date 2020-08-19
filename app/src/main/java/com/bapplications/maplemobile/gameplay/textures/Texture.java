@@ -1,11 +1,14 @@
 package com.bapplications.maplemobile.gameplay.textures;
 
+import android.util.Log;
+
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 import android.opengl.GLUtils;
 import android.graphics.Bitmap;
 
 import com.bapplications.maplemobile.opengl.GLState;
+import com.bapplications.maplemobile.opengl.utils.DrawArgument;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXBitmapNode;
@@ -91,8 +94,15 @@ public class Texture {
         bitmapToTextureMap.clear();
     }
 
-    public void draw (Point viewPos) {
-        float[] curPos = viewPos.plus(pos).toGLRatio();
+    public void draw(Point pos) {
+        draw(new DrawArgument(pos));
+    }
+
+    public void draw (DrawArgument args) {
+        Log.d("draw::::", "" + args.getPos().plus(pos));
+        float[] curPos = args.getPos().plus(pos).toGLRatio();
+//        curPos[0] = 0;
+//        curPos[1] = 0;
         // todo:: check rectangle instead of magic number
         if(Math.abs(curPos[0]) > 1.5 || Math.abs(curPos[1]) > 1.5) {
             return;
@@ -164,5 +174,10 @@ public class Texture {
         return dimensions;
     }
 
+
+    //todo check this out if wierd stuff happend to character
+    public void shift(Point shift) {
+        origin.offset(shift);
+    }
 }
 

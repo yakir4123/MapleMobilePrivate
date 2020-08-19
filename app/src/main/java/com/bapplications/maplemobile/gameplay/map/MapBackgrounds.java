@@ -1,4 +1,4 @@
-package com.bapplications.maplemobile.gameplay.Map;
+package com.bapplications.maplemobile.gameplay.map;
 
 import com.bapplications.maplemobile.gameplay.textures.Background;
 import com.bapplications.maplemobile.opengl.utils.Point;
