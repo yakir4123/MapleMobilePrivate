@@ -1,6 +1,7 @@
 package com.bapplications.maplemobile.gameplay.textures;
 
 import com.bapplications.maplemobile.constatns.Loaded;
+import com.bapplications.maplemobile.opengl.utils.DrawArgument;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
@@ -21,6 +22,10 @@ public class Tile extends Texture {
             } catch (NullPointerException e){}
         }
 
+    }
+
+    public void draw(Point viewpos) {
+        draw(new DrawArgument(viewpos));
     }
 
 

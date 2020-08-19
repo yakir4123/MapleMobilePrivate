@@ -1,6 +1,7 @@
 package com.bapplications.maplemobile.gameplay.textures;
 
 import com.bapplications.maplemobile.StaticUtils;
+import com.bapplications.maplemobile.opengl.utils.DrawArgument;
 import com.bapplications.maplemobile.opengl.utils.Linear;
 import com.bapplications.maplemobile.opengl.utils.Nominal;
 import com.bapplications.maplemobile.opengl.utils.Point;
@@ -84,10 +85,8 @@ public class Animation {
         framestep = 1;
     }
 
-
-    public void draw(Point viewpos, float alpha)
+    public void draw(DrawArgument args, float alpha)
     {
-        viewpos = viewpos.plus(pos);
         short interframe = (short) frameNumber.get(alpha);
         float interopc = opacity.get(alpha) / 255;
         float interscale = xyscale.get(alpha) / 100;
@@ -96,7 +95,7 @@ public class Animation {
         boolean modifyscale = interscale != 1.0f;
 
 
-        frames.get(interframe).draw(viewpos);
+        frames.get(interframe).draw(args.plus(pos));
 //        if (modifyopc || modifyscale)
 //            frames[interframe].draw(args + DrawArgument(interscale, interscale, interopc));
 //        else
