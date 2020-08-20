@@ -35,6 +35,9 @@ import com.bapplications.maplemobile.pkgnx.util.SeekableLittleEndianAccessor;
  * @since 5/27/13
  */
 public class NXNullNode extends NXNode {
+
+	// mostly for debuggin reasons
+	private byte nulls;
 	/**
 	 * Creates a new {@code NXNullNode}.
 	 *
@@ -49,9 +52,26 @@ public class NXNullNode extends NXNode {
 		slea.skip(8);
 	}
 
+	public NXNullNode() {
+		super();
+		nulls = 1;
+	}
+
 	@Override
 	public Object get() {
 		return null;
 	}
 
+	@Override
+	public <T extends NXNode> T getChild(int name) {
+		T res = super.getChild(name);
+		if (res != null)
+			return res;
+		nulls++;
+		return (T)this;
+	}
+
+	public boolean isNull() {
+		return nulls > 0;
+	}
 }

@@ -53,9 +53,7 @@ public class Body {
         NXNode bodynode = Loaded.getFile("Character").getRoot().getChild("000020" + strid + ".img");
         NXNode headnode = Loaded.getFile("Character").getRoot().getChild("000120" + strid + ".img");
 
-        Stance.Id[] arr = new Stance.Id[]{Stance.Id.STAND1};
-        for (Stance.Id stance : arr)
-//        for (Stance.Id stance : Stance.Id.values())
+        for (Stance.Id stance : Stance.Id.values())
         {
 			String stancename = stance.stanceName();
 
@@ -64,7 +62,7 @@ public class Body {
             if (stancenode == null)
                 continue;
 
-            for (byte frame = 0; stancenode.getChild(frame) != null; ++frame) {
+            for (byte frame = 0; stancenode.isChildExist(frame); ++frame) {
                 NXNode framenode = stancenode.getChild(frame);
                 for (NXNode partnode : framenode) {
                     String part = partnode.getName();
@@ -72,10 +70,7 @@ public class Body {
                     if (part.equals("delay") || part.equals("face")) {
                         continue;
                     }
-                    String z = "";
-                    try {
-                        z = (String) partnode.getChild("z").get();
-                    } catch (NullPointerException e) { }
+                    String z = (String) partnode.getChild("z").get("");
                     Body.Layer layer = layerByName.get(z);
 
                     if (layer == null)
@@ -85,20 +80,13 @@ public class Body {
 
                     switch (layer) {
                         case HAND_BELOW_WEAPON:
-                            try {
-                                shift = drawInfo.getHandPosition(stance, frame)
-                                        .minus((Point) partnode.getChild("map").getChild("handMove").get());
-                            } catch (NullPointerException e) {
-                                shift = drawInfo.getHandPosition(stance, frame);
-                            }
+                            shift = drawInfo.getHandPosition(stance, frame)
+                                    .minus((Point) partnode.getChild("map")
+                                            .getChild("handMove").get(new Point()));
                             break;
                         default:
-                            try {
-                                shift = drawInfo.getBodyPosition(stance, frame)
-                                        .minus((Point) partnode.getChild("map").getChild("navel").get());
-                            } catch (NullPointerException e) {
-                                shift = drawInfo.getBodyPosition(stance, frame);
-                            }
+                            shift = drawInfo.getBodyPosition(stance, frame)
+                                    .minus((Point) partnode.getChild("map").getChild("navel").get(new Point()));
                             break;
                     }
 
@@ -127,7 +115,6 @@ public class Body {
                             .put(frame, tex);
                 }
             }
-
         }
 
         String[] skintypes = new String[]{

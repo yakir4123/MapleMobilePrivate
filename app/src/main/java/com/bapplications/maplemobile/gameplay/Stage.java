@@ -89,10 +89,8 @@ public class Stage {
         // in case of no map exist with this mapid
         // todo:: fix what happend if src == null
         if (src != null) {
-            Char.init();
-
             tilesobjs = new MapTilesObjs(src);
-            backgrounds = new MapBackgrounds(src.getChild("back"));
+//            backgrounds = new MapBackgrounds(src.getChild("back"));
             physics = new Physics(src.getChild("foothold"));
             mapInfo = new MapInfo(src, physics.getFHT().getWalls(), physics.getFHT().getBorders());
         }
@@ -115,20 +113,20 @@ public class Stage {
         if (state != State.ACTIVE)
             return;
 
-//        combat.update();
-        backgrounds.update(deltatime);
-//        effect.update();
+////        combat.update();
+//        backgrounds.update(deltatime);
+////        effect.update();
         tilesobjs.update(deltatime);
-
-//        reactors.update(physics);
-//        npcs.update(physics);
-//        mobs.update(physics);
-//        chars.update(physics);
-//        drops.update(physics);
-//        player.update(physics);
-
-//        portals.update(player.get_position());
-//        camera.update(player.get_position());
+//
+////        reactors.update(physics);
+////        npcs.update(physics);
+////        mobs.update(physics);
+////        chars.update(physics);
+////        drops.update(physics);
+////        player.update(physics);
+//
+////        portals.update(player.get_position());
+////        camera.update(player.get_position());
 
     }
 
@@ -139,7 +137,7 @@ public class Stage {
 
         Point viewpos = camera.position(alpha);
 
-        backgrounds.drawBackgrounds(viewpos, alpha);
+//        backgrounds.drawBackgrounds(viewpos, alpha);
 
         for (Layer id : Layer.values())
         {
@@ -154,7 +152,7 @@ public class Stage {
 //
 //        combat.draw(viewx, viewy, alpha);
 //        portals.draw(viewpos, alpha);
-        backgrounds.drawForegrounds(viewpos, alpha);
+//        backgrounds.drawForegrounds(viewpos, alpha);
 //        effect.draw();
     }
 

@@ -24,6 +24,7 @@
 package com.bapplications.maplemobile.pkgnx;
 
 import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
+import com.bapplications.maplemobile.pkgnx.nodes.NXNullNode;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -42,11 +43,12 @@ public abstract class NXNode implements Iterable<NXNode> {
 	private static final int MIN_COUNT_FOR_MAPS = 41;
 	public static final int NODE_SIZE = 20;
 
-	protected final String name;
-	protected final NXFile file;
-	protected final long childIndex;
-	protected final int childCount;
+	protected String name;
+	protected NXFile file;
+	protected int childCount;
+	protected long childIndex;
 	private NXNode[] children;
+	private NXNullNode nullNode;
 	private Map<String, NXNode> childMap;
 
 	/**
@@ -62,6 +64,7 @@ public abstract class NXNode implements Iterable<NXNode> {
 		this.file = file;
 		this.childIndex = childIndex;
 		this.childCount = childCount;
+		this.nullNode = new NXNullNode();
 		if (childCount >= MIN_COUNT_FOR_MAPS) {
 			childMap = new HashMap<>();
 			children = null;
@@ -70,6 +73,9 @@ public abstract class NXNode implements Iterable<NXNode> {
 		} else {
 			children = null;
 		}
+	}
+
+	public NXNode() {
 	}
 
 	/**
@@ -97,6 +103,11 @@ public abstract class NXNode implements Iterable<NXNode> {
 	 */
 	public abstract Object get();
 
+	public Object get(Object def){
+		Object res = get();
+		return res != null ? res : def;
+	}
+
 
 
 	public <T extends NXNode> T getChild(int name) {
@@ -111,12 +122,18 @@ public abstract class NXNode implements Iterable<NXNode> {
 	@SuppressWarnings("unchecked")
 	public <T extends NXNode> T getChild(String name) {
 		if (childCount == 0)
-			return null;
-		return (T) searchChild(name);
+			return (T)nullNode;
+		T res = (T) searchChild(name);
+		if (res == null)
+			return (T)nullNode;
+		return res;
 	}
 
+	public boolean isChildExist(int name){
+		return isChildExist("" + name);
+	}
 	public boolean isChildExist(String name){
-		return getChild(name) != null;
+		return getChild(name) != nullNode;
 	}
 
 

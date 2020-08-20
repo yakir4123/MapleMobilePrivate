@@ -28,4 +28,10 @@ public class StaticUtils {
             return def;
         }
     }
+
+//    public static <T> T NonNull(T o){
+//        if (o == null)
+//            return o.getClass().newInstance();
+//        return o;
+//    }
 }
