@@ -18,6 +18,7 @@ public class BodyDrawInfo {
 
     private HashMap<String, List<Byte>> attack_delays = new HashMap<>();
     private HashMap<String, HashMap<Byte, BodyAction>> body_actions = new HashMap<>();
+    public static boolean bodyDrawInfoInitialized = false;
 
 
     public Point getHandPosition(Stance.Id stance, byte frame) {
@@ -140,5 +141,6 @@ public class BodyDrawInfo {
                 }
             }
         }
+        bodyDrawInfoInitialized = true;
     }
 }

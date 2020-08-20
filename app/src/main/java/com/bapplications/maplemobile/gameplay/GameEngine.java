@@ -15,7 +15,6 @@ public class GameEngine {
 
     public void startGame()
     {
-        Char.init();
         stage.init();
     }
 
@@ -27,7 +26,6 @@ public class GameEngine {
     public void drawFrame ()
     {
         stage.draw(1f);
-//        UI::get().draw(alpha);
 
     }
 
