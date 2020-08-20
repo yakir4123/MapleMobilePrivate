@@ -137,16 +137,16 @@ public class CharLook {
                       Expression interexpression,
                       byte interframe,
                       byte interexpframe) {
-//        body.draw(interstance, Body.Layer.BODY, interframe, args);
-//        body.draw(interstance, Body.Layer.ARM_BELOW_HEAD, interframe, args);
-//        body.draw(interstance, Body.Layer.ARM_BELOW_HEAD_OVER_MAIL, interframe, args);
+        body.draw(interstance, Body.Layer.BODY, interframe, args);
+        body.draw(interstance, Body.Layer.ARM_BELOW_HEAD, interframe, args);
+        body.draw(interstance, Body.Layer.ARM_BELOW_HEAD_OVER_MAIL, interframe, args);
         body.draw(interstance, Body.Layer.HEAD, interframe, args);
 
-//        body.draw(interstance, Body.Layer.HAND_BELOW_WEAPON, interframe, args);
-//        body.draw(interstance, Body.Layer.ARM_OVER_HAIR, interframe, args);
-//        body.draw(interstance, Body.Layer.ARM_OVER_HAIR_BELOW_WEAPON, interframe, args);
-//        body.draw(interstance, Body.Layer.HAND_OVER_HAIR, interframe, args);
-//        body.draw(interstance, Body.Layer.HAND_OVER_WEAPON, interframe, args);
+        body.draw(interstance, Body.Layer.HAND_BELOW_WEAPON, interframe, args);
+        body.draw(interstance, Body.Layer.ARM_OVER_HAIR, interframe, args);
+        body.draw(interstance, Body.Layer.ARM_OVER_HAIR_BELOW_WEAPON, interframe, args);
+        body.draw(interstance, Body.Layer.HAND_OVER_HAIR, interframe, args);
+        body.draw(interstance, Body.Layer.HAND_OVER_WEAPON, interframe, args);
 
     }
 }

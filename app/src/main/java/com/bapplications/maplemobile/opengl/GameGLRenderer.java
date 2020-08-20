@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.gameplay.GameEngine;
+import com.bapplications.maplemobile.gameplay.player.Char;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -71,6 +72,7 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         // Calculate the projection and view transformation
         Matrix.multiplyMM(GLState._MVPMatrix, 0, GLState._projectionMatrix, 0, GLState._viewMatrix, 0);
 
+        Char.init();
         _engine.loadPlayer(0);
         _engine.changeMap(100000000);
     }

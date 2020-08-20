@@ -9,6 +9,8 @@ import com.bapplications.maplemobile.gameplay.map.MapInfo;
 import com.bapplications.maplemobile.gameplay.map.MapTilesObjs;
 import com.bapplications.maplemobile.gameplay.audio.Music;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
+import com.bapplications.maplemobile.gameplay.player.BodyDrawInfo;
+import com.bapplications.maplemobile.gameplay.player.Char;
 import com.bapplications.maplemobile.gameplay.player.CharEntry;
 import com.bapplications.maplemobile.gameplay.player.Player;
 import com.bapplications.maplemobile.gameplay.textures.Texture;
@@ -87,6 +89,8 @@ public class Stage {
         // in case of no map exist with this mapid
         // todo:: fix what happend if src == null
         if (src != null) {
+            Char.init();
+
             tilesobjs = new MapTilesObjs(src);
             backgrounds = new MapBackgrounds(src.getChild("back"));
             physics = new Physics(src.getChild("foothold"));
@@ -135,11 +139,11 @@ public class Stage {
 
         Point viewpos = camera.position(alpha);
 
-//        backgrounds.drawBackgrounds(viewpos, alpha);
+        backgrounds.drawBackgrounds(viewpos, alpha);
 
         for (Layer id : Layer.values())
         {
-//            tilesobjs.draw(id, viewpos, alpha);
+            tilesobjs.draw(id, viewpos, alpha);
 //            reactors.draw(id, viewx, viewy, alpha);
 //            npcs.draw(id, viewx, viewy, alpha);
 //            mobs.draw(id, viewx, viewy, alpha);
@@ -158,7 +162,7 @@ public class Stage {
     public void clear()
     {
         state = State.INACTIVE;
-        Texture.clear();
+//        Texture.clear();
 //        chars.clear();
 //        npcs.clear();
 //        mobs.clear();

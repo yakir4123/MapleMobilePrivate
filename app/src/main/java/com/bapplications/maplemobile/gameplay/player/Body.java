@@ -1,5 +1,7 @@
 package com.bapplications.maplemobile.gameplay.player;
 
+import android.util.Log;
+
 import com.bapplications.maplemobile.StaticUtils;
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.gameplay.textures.Texture;
@@ -10,18 +12,6 @@ import com.bapplications.maplemobile.pkgnx.NXNode;
 import java.util.HashMap;
 
 public class Body {
-
-    public void draw(Stance.Id stance, Layer layer, byte frame, DrawArgument args) {
-        if(stances[stance.ordinal()][layer.ordinal()] == null){
-            return;
-        }
-        Texture frameit = stances[stance.ordinal()][layer.ordinal()].get(frame);
-
-        if (frameit == null)
-            return;
-
-        frameit.draw(args);
-    }
 
     public enum Layer
     {
@@ -63,7 +53,9 @@ public class Body {
         NXNode bodynode = Loaded.getFile("Character").getRoot().getChild("000020" + strid + ".img");
         NXNode headnode = Loaded.getFile("Character").getRoot().getChild("000120" + strid + ".img");
 
-        for (Stance.Id stance : Stance.Id.values())
+        Stance.Id[] arr = new Stance.Id[]{Stance.Id.STAND1};
+        for (Stance.Id stance : arr)
+//        for (Stance.Id stance : Stance.Id.values())
         {
 			String stancename = stance.stanceName();
 
@@ -77,45 +69,46 @@ public class Body {
                 for (NXNode partnode : framenode) {
                     String part = partnode.getName();
 
-                    if (!part.equals("delay") && !part.equals("face")) {
-                        String z = "";
-                        try {
-                            z = (String) partnode.getChild("z").get();
-                        } catch (NullPointerException e) { }
-                        Body.Layer layer = layerByName.get(z);
-
-                        if (layer == null)
-                            continue;
-
-                        Point shift;
-
-                        switch (layer) {
-                            case HAND_BELOW_WEAPON:
-                                try {
-                                    shift = drawInfo.getHandPosition(stance, frame)
-                                            .minus((Point) partnode.getChild("map").getChild("handMove").get());
-                                } catch (NullPointerException e) {
-                                    shift = drawInfo.getHandPosition(stance, frame);
-                                }
-                                break;
-                            default:
-                                try {
-                                    shift = drawInfo.getBodyPosition(stance, frame)
-                                            .minus((Point) partnode.getChild("map").getChild("navel").get());
-                                } catch (NullPointerException e) {
-                                    shift = drawInfo.getBodyPosition(stance, frame);
-                                }
-                                break;
-                        }
-
-                        if (stances[stance.ordinal()][layer.ordinal()] == null) {
-                            stances[stance.ordinal()][layer.ordinal()] = new HashMap<>();
-                        }
-                        Texture tex = new Texture(partnode);
-                        tex.shift(shift);
-                        stances[stance.ordinal()][layer.ordinal()]
-                                .put(frame, tex);
+                    if (part.equals("delay") || part.equals("face")) {
+                        continue;
                     }
+                    String z = "";
+                    try {
+                        z = (String) partnode.getChild("z").get();
+                    } catch (NullPointerException e) { }
+                    Body.Layer layer = layerByName.get(z);
+
+                    if (layer == null)
+                        continue;
+
+                    Point shift;
+
+                    switch (layer) {
+                        case HAND_BELOW_WEAPON:
+                            try {
+                                shift = drawInfo.getHandPosition(stance, frame)
+                                        .minus((Point) partnode.getChild("map").getChild("handMove").get());
+                            } catch (NullPointerException e) {
+                                shift = drawInfo.getHandPosition(stance, frame);
+                            }
+                            break;
+                        default:
+                            try {
+                                shift = drawInfo.getBodyPosition(stance, frame)
+                                        .minus((Point) partnode.getChild("map").getChild("navel").get());
+                            } catch (NullPointerException e) {
+                                shift = drawInfo.getBodyPosition(stance, frame);
+                            }
+                            break;
+                    }
+
+                    if (stances[stance.ordinal()][layer.ordinal()] == null) {
+                        stances[stance.ordinal()][layer.ordinal()] = new HashMap<>();
+                    }
+                    Texture tex = new Texture(partnode);
+                    tex.shift(shift);
+                    stances[stance.ordinal()][layer.ordinal()]
+                            .put(frame, tex);
                 }
                 boolean hasHeadImg = false;
                 try {
@@ -154,7 +147,20 @@ public class Body {
     }
 
 
-	public String getName()
+    public void draw(Stance.Id stance, Layer layer, byte frame, DrawArgument args) {
+        if(stances[stance.ordinal()][layer.ordinal()] == null){
+            return;
+        }
+        Texture frameit = stances[stance.ordinal()][layer.ordinal()].get(frame);
+
+        if (frameit == null)
+            return;
+
+        frameit.draw(args);
+    }
+
+
+    public String getName()
     {
         return name;
     }

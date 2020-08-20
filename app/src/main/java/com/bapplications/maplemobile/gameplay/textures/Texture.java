@@ -45,7 +45,7 @@ public class Texture {
         origin.x *= -1;
         origin = origin.plus(dimensions.mul(new Point(0.5f, -0.5f)));
         setPos(new Point(0, 0));
-        _textureDataHandle = loadGLTexture(((NXBitmapNode) src).get());
+        _textureDataHandle = loadGLTexture(bmap);
         bmap.recycle();
     }
 
