@@ -22,7 +22,7 @@ public class Texture {
     private Point origin;
     private Point dimensions;
 
-    protected float z;
+    protected byte z;
     protected byte flip;
     protected float imageRatio;
     protected int _textureDataHandle;
@@ -144,7 +144,7 @@ public class Texture {
         return z;
     }
 
-    public void setZ(float z) {
+    public void setZ(byte z) {
         this.z = z;
     }
 
@@ -157,6 +157,7 @@ public class Texture {
     }
 
     public void setPos(Point pos, boolean relativeOrigin){
+        pos.y *= -1;
         if(relativeOrigin)
             this.pos = pos.plus(origin);
         else

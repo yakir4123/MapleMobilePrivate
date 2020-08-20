@@ -28,11 +28,11 @@ public class Point{
         }
         try {
             x = (int) ((NXLongNode) src.getChild("x")).getLong();
-            y = -(int) ((NXLongNode) src.getChild("y")).getLong();
+            y = (int) ((NXLongNode) src.getChild("y")).getLong();
         } catch (NullPointerException e) {
             Point o = ((NXPointNode) src.getChild("origin")).get();
             x = o.x;
-            y = -o.y;
+            y = o.y;
         }
     }
 

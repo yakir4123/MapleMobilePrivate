@@ -16,13 +16,8 @@ public class Rectangle {
     }
 
     public Rectangle(NXNode source){
-        try {
-            left_top = new Point(((NXPointNode) source.getChild("lt")).getPoint());
-            right_bottom = new Point(((NXPointNode) source.getChild("rb")).getPoint());
-        } catch ( NullPointerException e){
-            left_top = new Point(0, 0);
-            right_bottom = new Point(0, 0);
-        }
+        left_top = new Point(source.getChild("lt").get(new Point()));
+        right_bottom = new Point(source.getChild("rb").get(new Point()));
     }
 
     public Rectangle(Point leftTop, Point rightBottom) {

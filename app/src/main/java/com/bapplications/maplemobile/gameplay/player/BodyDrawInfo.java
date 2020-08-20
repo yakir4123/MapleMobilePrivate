@@ -22,10 +22,16 @@ public class BodyDrawInfo {
 
 
     public Point getHandPosition(Stance.Id stance, byte frame) {
-        return hand_positions[stance.ordinal()].get(frame);
+        Point p = hand_positions[stance.ordinal()].get(frame);
+        if (p == null)
+            return new Point();
+        return p;
     }
 
     public Point getBodyPosition(Stance.Id stance, byte frame) {
+        Point p = hand_positions[stance.ordinal()].get(frame);
+        if (p == null)
+            return new Point();
         return body_positions[stance.ordinal()].get(frame);
     }
 
@@ -43,7 +49,7 @@ public class BodyDrawInfo {
 
             short attackdelay = 0;
 
-            for (byte frame = 0; stancenode.getChild(frame) != null; ++frame)
+            for (byte frame = 0; stancenode.isChildExist(frame); ++frame)
             {
                 NXNode framenode = stancenode.getChild(frame);
                 boolean isaction = false;
@@ -60,9 +66,7 @@ public class BodyDrawInfo {
 //                        attack_delays[ststr].push_back(attackdelay);
 //
 //                    attackdelay += action.get_delay();
-                }
-                else
-                {
+                } else {
                     Stance.Id stance = Stance.valueOf(ststr);
                     short delay = 0;
                     try {
