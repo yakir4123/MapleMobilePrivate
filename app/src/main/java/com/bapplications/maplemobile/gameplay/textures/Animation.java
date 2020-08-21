@@ -18,12 +18,12 @@ public class Animation {
     protected Point pos;
     protected short delay;
     protected int framestep;
-    protected Nominal<Short> frameNumber;
     protected Linear opacity;
+    protected boolean zigzag;
     protected Linear xyscale;
     protected boolean animated;
     protected List<Frame> frames;
-    protected boolean zigzag;
+    protected Nominal<Short> frameNumber;
 
     public Animation(NXNode src, byte z) {
         boolean istexture = src instanceof NXBitmapNode;
@@ -195,9 +195,9 @@ public class Animation {
         return frames.get(frameNumber.get());
     }
 
-    public void setFlip(boolean flip){
+    public void flip(){
         for( Frame frame : frames){
-            frame.setFlip(flip);
+            frame.flip();
         }
     }
 

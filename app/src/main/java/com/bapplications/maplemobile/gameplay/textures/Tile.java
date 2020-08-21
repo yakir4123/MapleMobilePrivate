@@ -4,7 +4,6 @@ import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.opengl.utils.DrawArgument;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
-import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
 
 public class Tile extends Texture {
 
@@ -14,8 +13,6 @@ public class Tile extends Texture {
                 .getChild("" + (Long) src.getChild("no").get()));
 
         setPos(new Point(src));
-//        setPos(new Point((int)((NXLongNode)src.getChild("x")).getLong(),
-//                -(int)((NXLongNode)src.getChild("y")).getLong()));
 
         setZ(((Long) bitmapNode.getChild("z").get(0L)).byteValue());
         if (getZ() == 0) {

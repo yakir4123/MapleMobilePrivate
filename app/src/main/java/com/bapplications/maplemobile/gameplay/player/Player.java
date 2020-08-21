@@ -1,6 +1,7 @@
 package com.bapplications.maplemobile.gameplay.player;
 
 import com.bapplications.maplemobile.gameplay.map.Layer;
+import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.opengl.utils.Point;
 
 public class Player extends Char {
@@ -24,5 +25,9 @@ public class Player extends Char {
 //        attacking = false;
 //        ladder = nullptr;
 //        nullstate.update_state(*this);
+    }
+
+    public void update(Physics physics, int deltatime) {
+
     }
 }
