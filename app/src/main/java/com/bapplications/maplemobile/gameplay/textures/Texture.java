@@ -20,6 +20,7 @@ public class Texture {
 
     private Point pos;
     private Point origin;
+    private Point nxorigin;
     private Point dimensions;
 
     protected byte z;
@@ -41,23 +42,12 @@ public class Texture {
         bitmapNode = (NXBitmapNode) src;
         Bitmap bmap = bitmapNode.get();
         this.origin = new Point(src.getChild("origin").get());
+        this.nxorigin = new Point(origin);
         dimensions = new Point(bmap.getWidth(), bmap.getHeight());
-        origin.x *= -1;
-        origin = origin.plus(dimensions.mul(new Point(0.5f, -0.5f)));
-        setPos(new Point(0, 0));
+        origin = pointToAndroid(origin);
+        setPos(new Point());
         _textureDataHandle = loadGLTexture(bmap);
         bmap.recycle();
-    }
-
-    public void setFlip(boolean flip) {
-        if(flip) {
-            setPos(pos.minus(origin), false);
-            origin = origin.minus(dimensions.mul(new Point(0.5f, -0.5f)));
-            origin.x *= -1;
-            origin = origin.plus(dimensions.mul(new Point(-0.5f, -0.5f)));
-            setPos(pos);
-        }
-        this.flip = (byte) (flip ? -1 : 1);
     }
 
     protected int loadGLTexture(Bitmap bitmap)
@@ -95,6 +85,7 @@ public class Texture {
     }
 
     public void draw (DrawArgument args) {
+
         float[] curPos = args.getPos().plus(pos).toGLRatio();
         // todo:: check rectangle instead of magic number
         if(Math.abs(curPos[0]) > 1.5 || Math.abs(curPos[1]) > 1.5) {
@@ -126,7 +117,6 @@ public class Texture {
         Matrix.rotateM(scratchMatrix, 0, _rotationZ, 0, 0, 1.0f);
         // scale the sprite
         Matrix.scaleM(scratchMatrix, 0, dimensions.x * flip, dimensions.y , 1);
-//        Matrix.scaleM(scratchMatrix, 0, 1, 1 , 1);
 
         // Apply the projection and view transformation
         GLES20.glUniformMatrix4fv(GLState.mvpMatrixHandle, 1, false, scratchMatrix, 0);
@@ -156,6 +146,7 @@ public class Texture {
         setPos(pos, true);
     }
 
+
     public void setPos(Point pos, boolean relativeOrigin){
         pos.y *= -1;
         if(relativeOrigin)
@@ -171,7 +162,29 @@ public class Texture {
 
     //todo check this out if wierd stuff happend to character
     public void shift(Point shift) {
-        origin.offset(shift);
+        shift.y *= -1;
+        pos.offset(shift);
+    }
+
+    public void setFlip(boolean flip) {
+        if(flip) {
+            setPos(pos.minus(origin), false);
+            origin = origin.minus(dimensions.mul(new Point(0.5f, -0.5f)));
+            origin.x *= -1;
+            origin = origin.plus(dimensions.mul(new Point(-0.5f, -0.5f)));
+            setPos(pos);
+        }
+        this.flip = (byte) (flip ? -1 : 1);
+    }
+
+    private void revertOrigin(){
+        origin = new Point(nxorigin);
+    }
+
+    public Point pointToAndroid(Point p) {
+        p.x *= -1;
+        p = p.plus(dimensions.mul(new Point(0.5f, -0.5f)));
+        return p;
     }
 }
 

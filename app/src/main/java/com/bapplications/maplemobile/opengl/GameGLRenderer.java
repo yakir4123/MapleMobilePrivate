@@ -63,7 +63,6 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
 
         GLState.setSpriteSquareRes();
 
-//        Matrix.orthoM(GLState._projectionMatrix, 0, -Loaded.SCREEN_RATIO, Loaded.SCREEN_RATIO, -1, 1, 0, 1);
         Matrix.orthoM(GLState._projectionMatrix, 0, -1, 1, -1, 1, 0, 1);
 
         // Set the camera position (View matrix)

@@ -1,6 +1,9 @@
 package com.bapplications.maplemobile.gameplay.player;
 
+import android.graphics.Bitmap;
+
 import com.bapplications.maplemobile.constatns.Loaded;
+import com.bapplications.maplemobile.gameplay.textures.Texture;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 
@@ -18,7 +21,6 @@ public class BodyDrawInfo {
 
     private HashMap<String, List<Byte>> attack_delays = new HashMap<>();
     private HashMap<String, HashMap<Byte, BodyAction>> body_actions = new HashMap<>();
-    public static boolean bodyDrawInfoInitialized = false;
 
 
     public Point getHandPosition(Stance.Id stance, byte frame) {
@@ -28,14 +30,24 @@ public class BodyDrawInfo {
         return p;
     }
 
-    public Point getBodyPosition(Stance.Id stance, byte frame) {
-        Point p = hand_positions[stance.ordinal()].get(frame);
+    public Point getArmPosition(Stance.Id stance, byte frame) {
+        Point p = arm_positions[stance.ordinal()].get(frame);
         if (p == null)
             return new Point();
-        return body_positions[stance.ordinal()].get(frame);
+        return p;
+    }
+
+    public Point getBodyPosition(Stance.Id stance, byte frame) {
+        Point p = body_positions[stance.ordinal()].get(frame);
+        if (p == null)
+            return new Point();
+        return p;
     }
 
     public Point getHeadPosition(Stance.Id stance, byte frame) {
+        Point p = head_positions[stance.ordinal()].get(frame);
+        if (p == null)
+            return new Point();
         return head_positions[stance.ordinal()].get(frame);
     }
 
@@ -94,6 +106,7 @@ public class BodyDrawInfo {
                             for (NXNode mapnode : partnode.getChild("map")) {
                                 if(bodyshiftmap.get(z) == null)
                                     bodyshiftmap.put(z, new HashMap<>());
+
                                 bodyshiftmap.get(z).put(mapnode.getName(), new Point(mapnode));
                             }
                         }
@@ -109,6 +122,7 @@ public class BodyDrawInfo {
                         for (NXNode mapnode : headmap) {
                             if (bodyshiftmap.get(Body.Layer.HEAD) == null)
                                 bodyshiftmap.put(Body.Layer.HEAD, new HashMap<>());
+
                             bodyshiftmap.get(Body.Layer.HEAD).put(mapnode.getName(), new Point(mapnode));
                         }
                     }
@@ -123,11 +137,14 @@ public class BodyDrawInfo {
 
                     }
                     Point navel = bodyshiftmap.get(Body.Layer.BODY).get("navel");
-                    body_positions[stance.ordinal()].put(frame, navel == null ? new Point(): navel);
+                    navel = navel == null ? new Point(): navel;
+                    body_positions[stance.ordinal()].put(frame, navel);
 
                     try {
                         arm_positions[stance.ordinal()].put(frame, bodyshiftmap.containsKey(Body.Layer.ARM) ?
-                            (bodyshiftmap.get(Body.Layer.ARM).get("hand").minus(bodyshiftmap.get(Body.Layer.ARM).get("navel")).plus(bodyshiftmap.get(Body.Layer.BODY).get("navel"))) :
+                            (bodyshiftmap.get(Body.Layer.ARM).get("hand")
+                                    .minus(bodyshiftmap.get(Body.Layer.ARM).get("navel"))
+                                    .plus(bodyshiftmap.get(Body.Layer.BODY).get("navel"))) :
                             (bodyshiftmap.get(Body.Layer.ARM_OVER_HAIR).get("hand").minus(bodyshiftmap.get(Body.Layer.ARM_OVER_HAIR).get("navel")).plus(bodyshiftmap.get(Body.Layer.BODY).get("navel"))));
                     } catch (NullPointerException e){}
                     try {
@@ -145,6 +162,5 @@ public class BodyDrawInfo {
                 }
             }
         }
-        bodyDrawInfoInitialized = true;
     }
 }

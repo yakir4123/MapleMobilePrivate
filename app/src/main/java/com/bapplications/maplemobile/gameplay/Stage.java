@@ -90,7 +90,7 @@ public class Stage {
         // todo:: fix what happend if src == null
         if (src != null) {
             tilesobjs = new MapTilesObjs(src);
-//            backgrounds = new MapBackgrounds(src.getChild("back"));
+            backgrounds = new MapBackgrounds(src.getChild("back"));
             physics = new Physics(src.getChild("foothold"));
             mapInfo = new MapInfo(src, physics.getFHT().getWalls(), physics.getFHT().getBorders());
         }
@@ -102,7 +102,6 @@ public class Stage {
         Music.play(mapInfo.getBgm());
 
 //        Point<int16_t> spawnpoint = portals.get_portal_by_id(portalid);
-//        Point startpos = physics.get_y_below(spawnpoint);
         Point startpos = physics.getYBelow(new Point());
         player.respawn(startpos, mapInfo.isUnderwater());
 //        camera.set_view(mapInfo.getWalls(), mapInfo.getBorders());
@@ -114,7 +113,7 @@ public class Stage {
             return;
 
 ////        combat.update();
-//        backgrounds.update(deltatime);
+        backgrounds.update(deltatime);
 ////        effect.update();
         tilesobjs.update(deltatime);
 //
@@ -137,7 +136,7 @@ public class Stage {
 
         Point viewpos = camera.position(alpha);
 
-//        backgrounds.drawBackgrounds(viewpos, alpha);
+        backgrounds.drawBackgrounds(viewpos, alpha);
 
         for (Layer id : Layer.values())
         {
