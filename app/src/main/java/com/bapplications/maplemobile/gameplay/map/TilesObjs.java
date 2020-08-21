@@ -46,7 +46,6 @@ public class TilesObjs {
 
     }
 
-
     private <K, V> void putOnSortedMap(Map<K, List<V>> orderedMap, K z, V value){
         if (!orderedMap.containsKey(z)){
             orderedMap.put(z, new ArrayList<>());

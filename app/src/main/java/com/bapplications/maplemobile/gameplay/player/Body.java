@@ -45,7 +45,7 @@ public class Body {
     }
 
 
-    private String name;
+    private String skinName;
     private HashMap<Byte, Texture>[][] stances = new HashMap[Stance.Id.values().length][Layer.values().length];
 
     public Body(byte skin, BodyDrawInfo drawInfo) {
@@ -131,7 +131,7 @@ public class Body {
                 "Red"
         };
 
-        name = (skin < skintypes.length) ? skintypes[skin] : "";
+        skinName = (skin < skintypes.length) ? skintypes[skin] : "";
     }
 
 
@@ -150,9 +150,9 @@ public class Body {
     }
 
 
-    public String getName()
+    public String getSkinName()
     {
-        return name;
+        return skinName;
     }
 
 

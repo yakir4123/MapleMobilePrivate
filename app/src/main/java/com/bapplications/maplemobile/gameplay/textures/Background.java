@@ -47,7 +47,8 @@ public class Background extends Animation{
 
         animated = ((NXLongNode)src.getChild("ani")).getBool();
         this.opacity = (Long)src.getChild("a").get();
-        setFlip(((NXLongNode)src.getChild("f")).getBool());
+        if(((NXLongNode)src.getChild("f")).getBool())
+            flip();
         cx = ((Long) src.getChild("cx").get()).intValue();
         cy = ((Long) src.getChild("cy").get()).intValue();
         rx = ((Long) src.getChild("rx").get()).intValue();
@@ -107,7 +108,7 @@ public class Background extends Animation{
         }
     }
 
-    public static Type typebyid(int id) {
+    private static Type typebyid(int id) {
         if (id >= Type.NORMAL.ordinal() && id <= Type.VMOVEB.ordinal()){
             for (Type type : Type.values()) {
                 if (type.ordinal() == id) {

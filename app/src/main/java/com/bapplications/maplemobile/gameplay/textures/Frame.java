@@ -7,7 +7,7 @@ import com.bapplications.maplemobile.opengl.utils.Rectangle;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
 
-public class Frame extends Texture{
+public class Frame extends Texture {
     private Pair<Integer, Integer> scales;
     private Pair<Integer, Integer> opacities;
     private short delay;

@@ -37,9 +37,7 @@ public class MapObject {
 
     void setPosition(Point position)
     {
-        float x = position.x;
-        float y = position.y;
-        setPosition(x, y);
+        setPosition(position.x, position.y);
     }
 
     void makeactive()

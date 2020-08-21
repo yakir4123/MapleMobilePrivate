@@ -18,12 +18,12 @@ public class Animation {
     protected Point pos;
     protected short delay;
     protected int framestep;
-    protected Nominal frameNumber;
     protected Linear opacity;
+    protected boolean zigzag;
     protected Linear xyscale;
     protected boolean animated;
     protected List<Frame> frames;
-    protected boolean zigzag;
+    protected Nominal<Short> frameNumber;
 
     public Animation(NXNode src, byte z) {
         boolean istexture = src instanceof NXBitmapNode;
@@ -87,7 +87,7 @@ public class Animation {
 
     public void draw(DrawArgument args, float alpha)
     {
-        short interframe = (short) frameNumber.get(alpha);
+        short interframe = frameNumber.get(alpha);
         float interopc = opacity.get(alpha) / 255;
         float interscale = xyscale.get(alpha) / 100;
 
@@ -146,7 +146,7 @@ public class Animation {
                     ended = false;
                 }
 
-                nextframe = (short) frameNumber.plus(framestep);
+                nextframe = (short) frameNumber.plus((short) framestep);
             }
             else
             {
@@ -157,7 +157,7 @@ public class Animation {
                 }
                 else
                 {
-                    nextframe = (short) frameNumber.plus(1);
+                    nextframe = (short) frameNumber.plus((short)1);
                     ended = false;
                 }
             }
@@ -195,12 +195,11 @@ public class Animation {
         return frames.get(frameNumber.get());
     }
 
-    public void setFlip(boolean flip){
+    public void flip(){
         for( Frame frame : frames){
-            frame.setFlip(flip);
+            frame.flip();
         }
     }
-
 
     protected void setPos(Point point) {
         point.y *= -1;

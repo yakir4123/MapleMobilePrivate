@@ -20,12 +20,10 @@ public class Texture {
 
     private Point pos;
     private Point origin;
-    private Point nxorigin;
     private Point dimensions;
 
     protected byte z;
     protected byte flip;
-    protected float imageRatio;
     protected int _textureDataHandle;
     protected float _rotationZ = 0.0f;
     protected NXBitmapNode bitmapNode;
@@ -42,7 +40,6 @@ public class Texture {
         bitmapNode = (NXBitmapNode) src;
         Bitmap bmap = bitmapNode.get();
         this.origin = new Point(src.getChild("origin").get());
-        this.nxorigin = new Point(origin);
         dimensions = new Point(bmap.getWidth(), bmap.getHeight());
         origin = pointToAndroid(origin);
         setPos(new Point());
@@ -58,8 +55,6 @@ public class Texture {
         {
             return cachedTextureId;
         }
-
-        imageRatio = bitmap.getWidth() / ((float) bitmap.getHeight());
 
         // generate one texture pointer and bind it to our handle
         int[] textureHandle = new int[1];
@@ -166,22 +161,18 @@ public class Texture {
         pos.offset(shift);
     }
 
-    public void setFlip(boolean flip) {
-        if(flip) {
+    public void flip() {
+        this.flip = (byte) (-this.flip);
+        if(this.flip < 0) {
             setPos(pos.minus(origin), false);
             origin = origin.minus(dimensions.mul(new Point(0.5f, -0.5f)));
             origin.x *= -1;
             origin = origin.plus(dimensions.mul(new Point(-0.5f, -0.5f)));
             setPos(pos);
         }
-        this.flip = (byte) (flip ? -1 : 1);
     }
 
-    private void revertOrigin(){
-        origin = new Point(nxorigin);
-    }
-
-    public Point pointToAndroid(Point p) {
+    private Point pointToAndroid(Point p) {
         p.x *= -1;
         p = p.plus(dimensions.mul(new Point(0.5f, -0.5f)));
         return p;

@@ -122,8 +122,8 @@ public class Stage {
 ////        mobs.update(physics);
 ////        chars.update(physics);
 ////        drops.update(physics);
-////        player.update(physics);
-//
+        player.update(physics, deltatime);
+
 ////        portals.update(player.get_position());
 ////        camera.update(player.get_position());
 
