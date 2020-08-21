@@ -143,6 +143,7 @@ public class CharLook {
         body.draw(interstance, Body.Layer.HEAD, interframe, args);
 
 //        body.draw(interstance, Body.Layer.HAND_BELOW_WEAPON, interframe, args);
+        body.draw(interstance, Body.Layer.ARM, interframe, args);
 //        body.draw(interstance, Body.Layer.ARM_OVER_HAIR, interframe, args);
 //        body.draw(interstance, Body.Layer.ARM_OVER_HAIR_BELOW_WEAPON, interframe, args);
 //        body.draw(interstance, Body.Layer.HAND_OVER_HAIR, interframe, args);

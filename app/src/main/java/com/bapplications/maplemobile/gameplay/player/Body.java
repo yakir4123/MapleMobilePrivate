@@ -85,8 +85,9 @@ public class Body {
                                             .getChild("handMove").get(new Point()));
                             break;
                         default:
+                            Point navel = (Point) partnode.getChild("map").getChild("navel").get(new Point());
                             shift = drawInfo.getBodyPosition(stance, frame)
-                                    .minus((Point) partnode.getChild("map").getChild("navel").get(new Point()));
+                                    .minus(navel);
                             break;
                     }
 
@@ -144,6 +145,8 @@ public class Body {
             return;
 
         frameit.draw(args);
+        Log.d("texdraw", layer + ":: drawing pos = " + args.getPos().plus(frameit.getPos()));
+
     }
 
 

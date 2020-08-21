@@ -203,6 +203,7 @@ public class Animation {
 
 
     protected void setPos(Point point) {
+        point.y *= -1;
         pos = point;
     }
 }

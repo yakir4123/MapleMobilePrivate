@@ -14,8 +14,9 @@ public class Obj extends Animation {
                         .getChild((String) src.getChild("l1").get())
                         .getChild((String) src.getChild("l2").get()),
                 (byte) ((NXLongNode)src.getChild("z")).getLong());
-        setPos(new Point((int)((NXLongNode)src.getChild("x")).getLong(),
-                -(int)((NXLongNode)src.getChild("y")).getLong()));
+        setPos(new Point(src));
+//        setPos(new Point((int)((NXLongNode)src.getChild("x")).getLong(),
+//                -(int)((NXLongNode)src.getChild("y")).getLong()));
         try {
             setFlip(((NXLongNode) src.getChild("f")).getBool());
         } catch (NullPointerException e) {}
