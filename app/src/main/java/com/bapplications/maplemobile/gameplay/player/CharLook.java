@@ -58,7 +58,6 @@ public class CharLook {
         actionstr = "";
         actframe = 0;
 
-        setStance(Stance.Id.STAND1);
         stframe.set((byte) 0);
         stelapsed = 0;
 
@@ -85,7 +84,7 @@ public class CharLook {
         }
     }
 
-    private void setStance(Stance.Id newstance) {
+    public void setStance(Stance.Id newstance) {
         if (action != null || newstance == Stance.Id.NONE)
             return;
 
@@ -138,16 +137,95 @@ public class CharLook {
                       byte interframe,
                       byte interexpframe) {
         body.draw(interstance, Body.Layer.BODY, interframe, args);
-//        body.draw(interstance, Body.Layer.ARM_BELOW_HEAD, interframe, args);
-//        body.draw(interstance, Body.Layer.ARM_BELOW_HEAD_OVER_MAIL, interframe, args);
+        body.draw(interstance, Body.Layer.ARM_BELOW_HEAD, interframe, args);
+        body.draw(interstance, Body.Layer.ARM_BELOW_HEAD_OVER_MAIL, interframe, args);
         body.draw(interstance, Body.Layer.HEAD, interframe, args);
 
-//        body.draw(interstance, Body.Layer.HAND_BELOW_WEAPON, interframe, args);
+        body.draw(interstance, Body.Layer.HAND_BELOW_WEAPON, interframe, args);
         body.draw(interstance, Body.Layer.ARM, interframe, args);
-//        body.draw(interstance, Body.Layer.ARM_OVER_HAIR, interframe, args);
-//        body.draw(interstance, Body.Layer.ARM_OVER_HAIR_BELOW_WEAPON, interframe, args);
-//        body.draw(interstance, Body.Layer.HAND_OVER_HAIR, interframe, args);
-//        body.draw(interstance, Body.Layer.HAND_OVER_WEAPON, interframe, args);
+        body.draw(interstance, Body.Layer.ARM_OVER_HAIR, interframe, args);
+        body.draw(interstance, Body.Layer.ARM_OVER_HAIR_BELOW_WEAPON, interframe, args);
+        body.draw(interstance, Body.Layer.HAND_OVER_HAIR, interframe, args);
+        body.draw(interstance, Body.Layer.HAND_OVER_WEAPON, interframe, args);
 
+    }
+
+    public boolean update(short timestep) {
+        if (timestep == 0)
+        {
+            stance.normalize();
+            stframe.normalize();
+            expression.normalize();
+            expframe.normalize();
+            return false;
+        }
+
+        boolean aniend = false;
+        if (action == null)
+        {
+            short delay = getDelay(stance.get(), stframe.get());
+            short delta = (short) (delay - stelapsed);
+
+            if (timestep >= delta)
+            {
+                stelapsed = (short) (timestep - delta);
+
+                byte nextframe = getNextFrame(stance.get(), stframe.get());
+                float threshold = (float)(delta) / timestep;
+                stframe.next(nextframe, threshold);
+
+                if (stframe.get() == 0)
+                    aniend = true;
+            }
+            else
+            {
+                stance.normalize();
+                stframe.normalize();
+
+                stelapsed += timestep;
+            }
+        }
+        else
+        {
+//            short delay = action.getDelay();
+//            short delta = (short) (delay - stelapsed);
+//
+//            if (timestep >= delta)
+//            {
+//                stelapsed = (short) (timestep - delta);
+//                actframe = drawInfo.nextActionFrame(actionstr, actframe);
+//
+//                if (actframe > 0)
+//                {
+//                    action = drawInfo.getAction(actionstr, actframe);
+//
+//                    float threshold = (float)(delta) / timestep;
+//                    stance.next(action.getStance(), threshold);
+//                    stframe.next(action.getFrame(), threshold);
+//                }
+//                else
+//                {
+//                    aniend = true;
+//                    action = null;
+//                    actionstr = "";
+//                    setStance(Stance.Id.STAND1);
+//                }
+//            }
+//            else
+//            {
+//                stance.normalize();
+//                stframe.normalize();
+//                stelapsed += timestep;
+//            }
+        }
+        return aniend;
+    }
+
+    private byte getNextFrame(Stance.Id stance, Byte frame) {
+        return drawInfo.nextFrame(stance, frame);
+    }
+
+    private short getDelay(Stance.Id stance, Byte frame) {
+        return drawInfo.getDelay(stance, frame);
     }
 }

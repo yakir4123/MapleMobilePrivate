@@ -2,9 +2,15 @@ package com.bapplications.maplemobile.gameplay.physics;
 
 import android.util.Range;
 
+import com.bapplications.maplemobile.constatns.Configuration;
+import com.bapplications.maplemobile.opengl.utils.DrawArgument;
+import com.bapplications.maplemobile.opengl.utils.RedCircle;
+import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 
 public class Foothold {
+    private RedCircle c1;
+    private RedCircle c2;
     private Range<Short> m_horizontal;
     private Range<Short> m_vertical;
     private final short m_id;
@@ -18,16 +24,25 @@ public class Foothold {
         m_next = ((Long)(src.getChild("next").get())).shortValue();
         m_horizontal = new Range<Short>(((Long)src.getChild("x1").get()).shortValue(),
                 ((Long)src.getChild("x2").get()).shortValue());
-        //todo :: maybe need to change to -y_ and switch between them
+
         try {
-            m_vertical = new Range<Short>(((Long) src.getChild("y1").get()).shortValue(),
-                    ((Long) src.getChild("y2").get()).shortValue());
-        }catch (IllegalArgumentException e){
-            m_vertical = new Range<Short>(((Long) src.getChild("y2").get()).shortValue(),
-                    ((Long) src.getChild("y1").get()).shortValue());
+            m_vertical = new Range<Short>(
+                    (short) -((Long) src.getChild("y1").get()).shortValue(),
+                    (short) -((Long) src.getChild("y2").get()).shortValue()
+            );
+        } catch (IllegalArgumentException e){
+            m_vertical = new Range<Short>(
+                    (short) -((Long) src.getChild("y2").get()).shortValue(),
+                    (short) -((Long) src.getChild("y1").get()).shortValue()
+            );
         }
         m_id = (short) id;
         m_layer = (byte) layer;
+
+        if(Configuration.DEBUG){
+            c1 = new RedCircle(new Point(m_horizontal.getLower(), m_vertical.getLower()));
+            c2 = new RedCircle(new Point(m_horizontal.getUpper(), m_vertical.getUpper()));
+        }
     }
 
     public Foothold() {
@@ -35,6 +50,8 @@ public class Foothold {
         m_layer = 0;
         m_next = 0;
         m_prev = 0;
+        m_horizontal = new Range<>((short)0, (short)0);
+        m_vertical = new Range<>((short)0, (short)0);
     }
 
 
@@ -116,5 +133,12 @@ public class Foothold {
             return is_wall();
         } catch (IllegalArgumentException e){}
         return false;
+    }
+
+    public void draw(Point viewpos){
+        if(c1 == null || c2 == null)
+            return;
+        c1.draw(new DrawArgument(viewpos));
+        c2.draw(new DrawArgument(viewpos));
     }
 }

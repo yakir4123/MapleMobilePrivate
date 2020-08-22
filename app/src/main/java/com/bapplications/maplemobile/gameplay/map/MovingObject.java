@@ -50,7 +50,8 @@ public class MovingObject {
 
     public void move() {
         x.plus(hspeed);
-        y.plus(vspeed);
+        y.minus(vspeed);
+//        y.plus(vspeed);
     }
 
 }

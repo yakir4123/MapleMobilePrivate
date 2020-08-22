@@ -1,8 +1,8 @@
 package com.bapplications.maplemobile.gameplay.physics;
 
+import android.util.Log;
 import android.util.Range;
 
-import com.bapplications.maplemobile.opengl.utils.Linear;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 
@@ -101,7 +101,7 @@ public class FootholdTree {
 
     public void updateFH(PhysicsObject phobj) {
         if (phobj.type == PhysicsObject.Type.FIXATED && phobj.fhid > 0)
-        return;
+            return;
 
 		Foothold curfh = getFH(phobj.fhid);
         boolean checkslope = false;
@@ -112,9 +112,9 @@ public class FootholdTree {
         if (phobj.onground)
         {
             if (Math.floor(x) > curfh.r())
-            phobj.fhid = curfh.next();
+                phobj.fhid = curfh.next();
 			else if (Math.ceil(x) < curfh.l())
-            phobj.fhid = curfh.prev();
+                phobj.fhid = curfh.prev();
 
             if (phobj.fhid == 0)
                 phobj.fhid = getFHidBelow(x, y);
@@ -135,10 +135,8 @@ public class FootholdTree {
         {
             double vdelta = Math.abs(phobj.fhslope);
 
-            if (phobj.fhslope < 0.0)
-                vdelta *= (ground - y);
-            else if (phobj.fhslope > 0.0)
-                vdelta *= (y - ground);
+            if (phobj.fhslope != 0.0)
+                vdelta *= Math.abs(ground - y);
 
             if (curfh.slope() != 0.0 || nextfh.slope() != 0.0)
             {
@@ -148,17 +146,17 @@ public class FootholdTree {
             }
         }
 
-        phobj.onground = phobj.y.get() == ground;
+        phobj.onground = (phobj.y.get() - ground) < phobj.vspeed;
 
         if (phobj.enablejd || phobj.isFlagSet(PhysicsObject.Flag.CHECKBELOW))
         {
-            short belowid = getFHidBelow(x, nextfh.groundBelow(x) + 1.0f);
+            short belowid = getFHidBelow(x, nextfh.groundBelow(x) - 1.0f);
 
             if (belowid > 0)
             {
                 double nextground = getFH(belowid).groundBelow(x);
-                phobj.enablejd = (nextground - ground) < 600.0;// todo :: understand what this line do
-                phobj.groundbelow = ground + 1.0f;
+                phobj.enablejd = (nextground - ground) < 600.0; // to check if i can jump down
+                phobj.groundbelow = ground - 1.0f;
             }
             else
             {
@@ -180,7 +178,7 @@ public class FootholdTree {
 
     private short getFHidBelow(float fx, float fy) {
         short ret = 0;
-        double comp = (double)borders.getUpper();
+        double comp = (double)borders.getLower();
 
         short x = (short)(fx);
 
@@ -188,7 +186,7 @@ public class FootholdTree {
 			Foothold fh = footholds.get(id);
             double ycomp = fh.groundBelow(fx);
 
-            if (comp >= ycomp && ycomp >= fy)
+            if (comp <= ycomp && ycomp <= fy)
             {
                 comp = ycomp;
                 ret = fh.id();
@@ -336,7 +334,13 @@ public class FootholdTree {
         }
 		else
         {
-            return borders.getUpper();
+            return borders.getLower();
+        }
+    }
+
+    public void draw(Point viewpos) {
+        for(Foothold fh: footholds.values()){
+            fh.draw(viewpos);
         }
     }
 }

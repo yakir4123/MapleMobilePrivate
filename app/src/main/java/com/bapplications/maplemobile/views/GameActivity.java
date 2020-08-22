@@ -1,9 +1,9 @@
 package com.bapplications.maplemobile.views;
 
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Range;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
@@ -16,6 +16,7 @@ import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.databinding.ActivityGameBinding;
 import com.bapplications.maplemobile.gameplay.audio.Music;
 import com.bapplications.maplemobile.opengl.GameGLSurfaceView;
+import com.bapplications.maplemobile.opengl.utils.RedCircle;
 
 import java.io.IOException;
 
@@ -59,6 +60,8 @@ public class GameActivity extends AppCompatActivity {
         });
 
         setContentView(_root);
+        RedCircle.init(BitmapFactory.decodeResource(getResources(),
+                        R.drawable.red_circle));
         gameGLSurfaceView = findViewById(R.id.game_view);
         gameGLSurfaceView.getGameEngine().getStage().getCamera().setTextView(findViewById(R.id.camera_pos_tv), this);
         binding.setMap.setOnClickListener(view -> {

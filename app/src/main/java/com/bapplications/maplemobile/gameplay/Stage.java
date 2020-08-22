@@ -103,7 +103,7 @@ public class Stage {
 
 //        Point<int16_t> spawnpoint = portals.get_portal_by_id(portalid);
         Point startpos = physics.getYBelow(new Point());
-        player.respawn(startpos, mapInfo.isUnderwater());
+        player.respawn(new Point(0, 200), mapInfo.isUnderwater());
 //        camera.set_view(mapInfo.getWalls(), mapInfo.getBorders());
         camera.setPosition(0,0);
     }
@@ -141,6 +141,7 @@ public class Stage {
         for (Layer id : Layer.values())
         {
             tilesobjs.draw(id, viewpos, alpha);
+            physics.draw(viewpos);
 //            reactors.draw(id, viewx, viewy, alpha);
 //            npcs.draw(id, viewx, viewy, alpha);
 //            mobs.draw(id, viewx, viewy, alpha);
@@ -151,7 +152,7 @@ public class Stage {
 //
 //        combat.draw(viewx, viewy, alpha);
 //        portals.draw(viewpos, alpha);
-//        backgrounds.drawForegrounds(viewpos, alpha);
+        backgrounds.drawForegrounds(viewpos, alpha);
 //        effect.draw();
     }
 

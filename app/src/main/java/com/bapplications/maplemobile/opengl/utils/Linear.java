@@ -39,4 +39,11 @@ public class Linear {
     public boolean normalized() {
         return before == now;
     }
+
+    public Linear minus(float value) {
+        before = now;
+        now -= value;
+        return this;
+
+    }
 }

@@ -163,4 +163,18 @@ public class BodyDrawInfo {
             }
         }
     }
+
+    public short getDelay(Stance.Id stance, Byte frame) {
+        Short delay = stance_delays[stance.ordinal()].get(frame);
+        if (delay == null)
+            return 100;
+        return delay;
+    }
+
+    public byte nextFrame(Stance.Id stance, byte frame) {
+        if (stance_delays[stance.ordinal()].containsKey(1 + frame))
+            return (byte) (frame + 1);
+        else
+            return 0;
+    }
 }

@@ -69,4 +69,8 @@ public class MapObject {
     {
         return phobj.get_position();
     }
+
+    public PhysicsObject getPhobj() {
+        return phobj;
+    }
 }

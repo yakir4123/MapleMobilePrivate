@@ -8,6 +8,9 @@ import android.util.Log;
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.gameplay.GameEngine;
 import com.bapplications.maplemobile.gameplay.player.Char;
+import com.bapplications.maplemobile.opengl.utils.DrawArgument;
+import com.bapplications.maplemobile.opengl.utils.RedCircle;
+import com.bapplications.maplemobile.opengl.utils.Point;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -22,6 +25,7 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
     private long fpsTime = System.nanoTime();
     private int frames;
     private long before;
+    private RedCircle tria;
 
     public static GameGLRenderer createInstance(){
         instance = new GameGLRenderer();
