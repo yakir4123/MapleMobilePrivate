@@ -57,6 +57,13 @@ public class BodyDrawInfo {
         return face_positions[stance.ordinal()].get(frame);
     }
 
+    public Point getHairPos(Stance.Id stance, byte frame) {
+        Point p = hair_positions[stance.ordinal()].get(frame);
+        if (p == null)
+            return new Point();
+        return hair_positions[stance.ordinal()].get(frame);
+    }
+
     public void init() {
         NXNode bodynode = Loaded.getFile("Character").getRoot().getChild("00002000.img");
         NXNode headnode = Loaded.getFile("Character").getRoot().getChild("00012000.img");

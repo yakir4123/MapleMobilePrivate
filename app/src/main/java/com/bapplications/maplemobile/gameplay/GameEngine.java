@@ -47,6 +47,7 @@ public class GameEngine {
         // for development this will be a new char instead from reading from a db
         CharEntry ce = new CharEntry(charId);
         ce.look.faceid = 20000;
+        ce.look.hairid = 30020;
         stage.loadPlayer(ce);
     }
 }
