@@ -1,8 +1,10 @@
 package com.bapplications.maplemobile.gameplay.player;
 
+import android.util.Log;
+
 import com.bapplications.maplemobile.gameplay.map.Layer;
 import com.bapplications.maplemobile.gameplay.map.MapObject;
-import com.bapplications.maplemobile.opengl.utils.Color;
+import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.opengl.utils.DrawArgument;
 import com.bapplications.maplemobile.opengl.utils.Point;
 
@@ -10,13 +12,14 @@ public class Char extends MapObject {
 
     private final CharLook look;
     private final CharLook look_preview;
-    private State state;
+    protected State state;
 
     public static void init() {
         CharLook.init();
     }
     protected void draw(Point viewpos, float alpha) {
         Point absp = phobj.getAbsolute(viewpos, alpha);
+//        Log.d("pos::", ""+viewpos.plus(absp));
 
 //        effects.drawbelow(absp, alpha);
 
@@ -62,26 +65,35 @@ public class Char extends MapObject {
 
     }
 
+    protected void setState(State state) {
+        this.state = state;
+
+        Stance.Id stance = Stance.byState(state);
+        look.setStance(stance);
+
+    }
+
     // Player states which determine animation and state
     // Values are used in movement packets (Add one if facing left)
     public enum State
     {
-        WALK (2),
-        STAND (4),
-        FALL (6),
-        ALERT (8),
-        PRONE (10),
-        SWIM (12),
-        LADDER (14),
-        ROPE (16),
-        DIED (18),
-        SIT (20);
+        WALK (Stance.Id.WALK1),
+        STAND (Stance.Id.STAND1),
+        FALL (Stance.Id.JUMP),
+        ALERT (Stance.Id.ALERT),
+        PRONE (Stance.Id.PRONE),
+        SWIM (Stance.Id.FLY),
+        LADDER (Stance.Id.LADDER),
+        ROPE (Stance.Id.ROPE),
+        DIED (Stance.Id.DEAD),
+        SIT (Stance.Id.SIT);
 
-        private final byte val;
+        private final Stance.Id val;
 
-        State(int val) {
-            this.val = (byte) val;
+        State(Stance.Id val) {
+            this.val = val;
         }
+        public Stance.Id getStance() { return val;}
     }
 
     protected Char(int o, CharLook lk, String name) {
@@ -92,6 +104,13 @@ public class Char extends MapObject {
 //        WHITE, Text::Background::NAMETAG, name));
     }
 
+    public boolean update(Physics physics, float speed, int deltaTime){
+        short stancespeed = 0;
+
+        if (speed >= 1.0f / deltaTime)
+            stancespeed = (short)(deltaTime * speed);
+        return look.update(stancespeed);
+    }
 
     public Layer getLayer() {
         return Layer.byValue(isClimbing() ? 7 : phobj.fhlayer);

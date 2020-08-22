@@ -19,7 +19,7 @@ public class PhysicsObject extends MovingObject {
     private int flags;
 
     // Determines which physics engine to use
-    enum Type
+    public enum Type
     {
         NORMAL,
         ICE,
@@ -28,7 +28,7 @@ public class PhysicsObject extends MovingObject {
         FIXATED
     };
 
-    enum Flag
+    public enum Flag
     {
         ERROR0,
         NOGRAVITY,      // 1
@@ -67,7 +67,7 @@ public class PhysicsObject extends MovingObject {
     }
 
     public float nextY() {
-        return y.plus(vspeed).get();
+        return y.minus(vspeed).get();
     }
 
     public void limitY(float d) {
@@ -94,5 +94,9 @@ public class PhysicsObject extends MovingObject {
     public float crntY() 
     {
         return y.get();
+    }
+
+    public void setFlag(Flag f) {
+        flags |= f.ordinal();
     }
 }

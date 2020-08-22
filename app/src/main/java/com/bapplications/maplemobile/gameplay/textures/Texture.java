@@ -1,7 +1,5 @@
 package com.bapplications.maplemobile.gameplay.textures;
 
-import android.util.Log;
-
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 import android.opengl.GLUtils;
@@ -20,11 +18,11 @@ public class Texture {
 
     private Point pos;
     private Point origin;
-    private Point dimensions;
 
     protected byte z;
-    protected byte flip;
-    protected int _textureDataHandle;
+    protected byte flip = 1;
+    protected Point dimensions;
+    protected int textureDataHandle;
     protected float _rotationZ = 0.0f;
     protected NXBitmapNode bitmapNode;
 
@@ -36,18 +34,17 @@ public class Texture {
         if (!(src instanceof NXBitmapNode)) {
             throw new IllegalArgumentException("NXNode must be NXBitmapNode in Texture instance");
         }
-        flip = 1;
         bitmapNode = (NXBitmapNode) src;
         Bitmap bmap = bitmapNode.get();
         this.origin = new Point(src.getChild("origin").get());
         dimensions = new Point(bmap.getWidth(), bmap.getHeight());
         origin = pointToAndroid(origin);
         setPos(new Point());
-        _textureDataHandle = loadGLTexture(bmap);
+        textureDataHandle = loadGLTexture(bmap);
         bmap.recycle();
     }
 
-    protected int loadGLTexture(Bitmap bitmap)
+    protected static int loadGLTexture(Bitmap bitmap)
     {
 
         Integer cachedTextureId = bitmapToTextureMap.get(bitmap.hashCode());
@@ -99,7 +96,7 @@ public class Texture {
         GLES20.glVertexAttribPointer(GLState.positionHandle, GLState.COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, GLState.VERTEX_STRIDE, GLState._vertexBuffer);
 
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, _textureDataHandle);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureDataHandle);
 
         GLState._textureBuffer.position(0);
         GLES20.glEnableVertexAttribArray(GLState.textureCoordinateHandle);

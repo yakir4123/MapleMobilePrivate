@@ -1,5 +1,6 @@
 package com.bapplications.maplemobile.gameplay.physics;
 
+import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 
@@ -97,6 +98,13 @@ public class Physics {
     public Point getYBelow(Point position) {
         short ground = footholdtree.getYBelow(position);
 
-        return new Point(position.x, ground - 1);
+//        return new Point(position.x, ground - 1);
+        return new Point(position.x, ground + 1);
+    }
+
+    public void draw(Point viewpos) {
+        if(Configuration.DEBUG){
+            footholdtree.draw(viewpos);
+        }
     }
 }

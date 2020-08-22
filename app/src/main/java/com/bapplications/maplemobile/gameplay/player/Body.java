@@ -145,7 +145,6 @@ public class Body {
             return;
 
         frameit.draw(args);
-        Log.d("texdraw", layer + ":: drawing pos = " + args.getPos().plus(frameit.getPos()));
 
     }
 

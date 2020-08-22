@@ -1,9 +1,12 @@
 package com.bapplications.maplemobile.gameplay.player;
 
-import java.util.EnumMap;
 import java.util.HashMap;
 
 public class Stance {
+    public static Id byState(Char.State state) {
+        return state.getStance();
+    }
+
     public enum Id {
         NONE,
         ALERT,
