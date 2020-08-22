@@ -48,7 +48,7 @@ public class Body {
     private String skinName;
     private HashMap<Byte, Texture>[][] stances = new HashMap[Stance.Id.values().length][Layer.values().length];
 
-    public Body(byte skin, BodyDrawInfo drawInfo) {
+    public Body(int skin, BodyDrawInfo drawInfo) {
         String strid = StaticUtils.extendId(skin, 2);
         NXNode bodynode = Loaded.getFile("Character").getRoot().getChild("000020" + strid + ".img");
         NXNode headnode = Loaded.getFile("Character").getRoot().getChild("000120" + strid + ".img");

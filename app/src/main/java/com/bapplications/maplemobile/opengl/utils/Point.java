@@ -16,7 +16,10 @@ public class Point{
             x = p.x;
             y = p.y;
         } else {
-            throw new IllegalArgumentException("Got Object that is not a Point");
+            if(o != null)
+                throw new IllegalArgumentException("Got Object that is not a Point");
+            x = 0;
+            y = 0;
         }
     }
 

@@ -1,6 +1,8 @@
 package com.bapplications.maplemobile.gameplay.player;
 
+import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Stance {
     public static Id byState(Char.State state) {
@@ -49,20 +51,73 @@ public class Stance {
             return this.name().toLowerCase();
         }
     }
+
+
+	public static Map<String, Id> mapNames = new HashMap<>();
     private static Stance.Id[] map = new Stance.Id[Stance.Id.values().length];
-    private static HashMap<String, Stance.Id> byName = new HashMap<>();
+
+
     static {
+        String[] names = new String[] {
+            "",
+            "alert",
+            "dead",
+            "fly",
+            "heal",
+            "jump",
+            "ladder",
+            "prone",
+            "proneStab",
+            "rope",
+            "shot",
+            "shoot1",
+            "shoot2",
+            "shootF",
+            "sit",
+            "stabO1",
+            "stabO2",
+            "stabOF",
+            "stabT1",
+            "stabT2",
+            "stabTF",
+            "stand1",
+            "stand2",
+            "swingO1",
+            "swingO2",
+            "swingO3",
+            "swingOF",
+            "swingP1",
+            "swingP2",
+            "swingPF",
+            "swingT1",
+            "swingT2",
+            "swingT3",
+            "swingTF",
+            "walk1",
+            "walk2"
+        };
+        int i = 0;
         for (Stance.Id stance : Stance.Id.values()) {
+            if(i == 0){
+                i++;
+                continue;
+            }
             map[stance.ordinal()] = stance;
-            byName.put(stance.stanceName(), stance);
+            if(stance.name().toLowerCase().equals(names[i].toLowerCase())) {
+                mapNames.put(names[i++], stance);
+            } else {
+                throw new IllegalArgumentException();
+            }
         }
+
     }
 
     public static Stance.Id valueOf(int stance) {
         return map[stance];
     }
+
     public static Stance.Id valueOf(String stance) {
-        return byName.get(stance.toLowerCase());
+        return mapNames.get(stance);
     }
 
 }

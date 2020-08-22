@@ -12,6 +12,7 @@ import java.util.Map;
 public class CharLook {
     private Body body;
     private Face face;
+    private Hair hair;
     private boolean flip;
     private byte actframe;
     private short stelapsed;
@@ -25,13 +26,15 @@ public class CharLook {
     private static BodyDrawInfo drawInfo;
     private Nominal<Expression> expression;
     private static Map<Integer, Face> faceTypes;
-    private static HashMap<Byte, Body> bodyTypes;
+    private static Map<Integer, Hair> hairStyles;
+    private static HashMap<Integer, Body> bodyTypes;
 
     public static void init() {
         drawInfo = new BodyDrawInfo();
         drawInfo.init();
         bodyTypes = new HashMap<>();
         faceTypes = new HashMap<>();
+        hairStyles = new HashMap<>();
     }
 
     public CharLook(CharEntry.LookEntry entry) {
@@ -44,7 +47,7 @@ public class CharLook {
         reset();
 
         setBody(entry.skin);
-//        setHair(entry.hairid);
+        setHair(entry.hairid);
         setFace(entry.faceid);
 //
 //        for (auto& equip : entry.equips)
@@ -62,7 +65,7 @@ public class CharLook {
         stframe.set((byte) 0);
         stelapsed = 0;
 
-        setExpression(Expression.DEFAULT);
+        setExpression(Expression.SMILE);
         expframe.set((byte) 0);
         expelapsed = 0;
     }
@@ -75,11 +78,18 @@ public class CharLook {
         face = faceTypes.get(faceid);
     }
 
-    private void setBody(byte skin_id) {
+    private void setBody(int skin_id) {
         if (!bodyTypes.containsKey(skin_id)){
             bodyTypes.put(skin_id, new Body(skin_id, drawInfo));
         }
         body = bodyTypes.get(skin_id);
+    }
+
+    private void setHair(int hair_id){
+        if (!hairStyles.containsKey(hair_id)){
+            hairStyles.put(hair_id, new Hair(hair_id, drawInfo));
+        }
+        hair = hairStyles.get(hair_id);
     }
 
     private void setExpression(Expression newexpression) {
@@ -109,10 +119,7 @@ public class CharLook {
     }
 
     public void draw(DrawArgument args, float alpha) {
-//        if (!body || !hair || !face)
-//            return;
-
-        if(body == null || /*hair == null ||*/ face == null)
+        if(body == null || hair == null || face == null)
             return;
 
         Point acmove = new Point();
@@ -124,8 +131,8 @@ public class CharLook {
         Stance.Id interstance = stance.get(alpha);
         byte interframe = stframe.get(alpha);
 
-//        Expression interexpression = expression.get(alpha);
-        Expression interexpression = Expression.BLAZE;
+        Expression interexpression = expression.get(alpha);
+//        Expression interexpression = Expression.BLAZE;
         byte interexpframe = expframe.get(alpha);
 
         switch (interstance)
@@ -152,11 +159,18 @@ public class CharLook {
         DrawArgument faceargs = args.plus(faceshift);
 
 
+
+        hair.draw(interstance, Hair.Layer.BELOWBODY, interframe, args);
         body.draw(interstance, Body.Layer.BODY, interframe, args);
         body.draw(interstance, Body.Layer.ARM_BELOW_HEAD, interframe, args);
         body.draw(interstance, Body.Layer.ARM_BELOW_HEAD_OVER_MAIL, interframe, args);
         body.draw(interstance, Body.Layer.HEAD, interframe, args);
+        hair.draw(interstance, Hair.Layer.SHADE, interframe, args);
+        hair.draw(interstance, Hair.Layer.DEFAULT, interframe, args);
         face.draw(interexpression, interexpframe, faceargs);
+
+        // in case of cape need to be more thing...
+        hair.draw(interstance, Hair.Layer.OVERHEAD, interframe, args);
 
         body.draw(interstance, Body.Layer.HAND_BELOW_WEAPON, interframe, args);
         body.draw(interstance, Body.Layer.ARM, interframe, args);
