@@ -1,6 +1,7 @@
 package com.bapplications.maplemobile.opengl.utils;
 
 import com.bapplications.maplemobile.constatns.Loaded;
+import com.bapplications.maplemobile.opengl.GLState;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXPointNode;
@@ -68,7 +69,9 @@ public class Point{
     }
 
     public float[] toGLRatio() {
-        return new float[]{2 * x / Loaded.SCREEN_WIDTH, 2 * y / Loaded.SCREEN_HEIGHT};
+        return new float[]{
+                2 * GLState.SCALE * x / Loaded.SCREEN_WIDTH,
+                2 * GLState.SCALE * y / Loaded.SCREEN_HEIGHT};
     }
 
     public Point negateSign() {

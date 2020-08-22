@@ -19,7 +19,7 @@ public class GLState {
     public static final String POSITION_PARAM = "vPosition";
     public static final String TEXTURE_COORDINATE_PARAM = "aTextureCoordinate";
 
-    public static final float SCALE = 1;
+    public static final float SCALE = 2;
     public static int _programHandle;
     public static int positionHandle = -1;
     public static int mvpMatrixHandle = -1;
