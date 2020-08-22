@@ -1,17 +1,17 @@
 package com.bapplications.maplemobile.gameplay.player;
 
+
 import com.bapplications.maplemobile.opengl.utils.DrawArgument;
-import com.bapplications.maplemobile.opengl.utils.Linear;
 import com.bapplications.maplemobile.opengl.utils.Nominal;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.opengl.utils.TimedBool;
 
 import java.util.HashMap;
-import java.util.function.BinaryOperator;
-import java.util.regex.Matcher;
+import java.util.Map;
 
 public class CharLook {
     private Body body;
+    private Face face;
     private boolean flip;
     private byte actframe;
     private short stelapsed;
@@ -20,31 +20,32 @@ public class CharLook {
     private BodyAction action;
     private Nominal<Byte> stframe;
     private TimedBool expcooldown;
-    private static BodyDrawInfo drawInfo;
-    private Nominal<Stance.Id> stance;
     private Nominal<Byte> expframe;
-    private HashMap<Byte, Body> bodyTypes;
+    private Nominal<Stance.Id> stance;
+    private static BodyDrawInfo drawInfo;
     private Nominal<Expression> expression;
+    private static Map<Integer, Face> faceTypes;
+    private static HashMap<Byte, Body> bodyTypes;
 
     public static void init() {
         drawInfo = new BodyDrawInfo();
         drawInfo.init();
+        bodyTypes = new HashMap<>();
+        faceTypes = new HashMap<>();
     }
 
     public CharLook(CharEntry.LookEntry entry) {
         stance = new Nominal<>();
         stframe = new Nominal<>();
         expframe = new Nominal<>();
-        bodyTypes = new HashMap<>();
         expression = new Nominal<>();
         expcooldown = new TimedBool();
 
         reset();
 
-
         setBody(entry.skin);
-//        set_hair(entry.hairid);
-//        set_face(entry.faceid);
+//        setHair(entry.hairid);
+        setFace(entry.faceid);
 //
 //        for (auto& equip : entry.equips)
 //            add_equip(equip.second);
@@ -64,6 +65,14 @@ public class CharLook {
         setExpression(Expression.DEFAULT);
         expframe.set((byte) 0);
         expelapsed = 0;
+    }
+
+
+    private void setFace(int faceid) {
+        if (!faceTypes.containsKey(faceid)){
+            faceTypes.put(faceid, new Face(faceid));
+        }
+        face = faceTypes.get(faceid);
     }
 
     private void setBody(byte skin_id) {
@@ -103,7 +112,7 @@ public class CharLook {
 //        if (!body || !hair || !face)
 //            return;
 
-        if(body == null)
+        if(body == null || /*hair == null ||*/ face == null)
             return;
 
         Point acmove = new Point();
@@ -113,8 +122,10 @@ public class CharLook {
 
         DrawArgument relargs = new DrawArgument( acmove, flip );
         Stance.Id interstance = stance.get(alpha);
-        Expression interexpression = expression.get(alpha);
         byte interframe = stframe.get(alpha);
+
+//        Expression interexpression = expression.get(alpha);
+        Expression interexpression = Expression.BLAZE;
         byte interexpframe = expframe.get(alpha);
 
         switch (interstance)
@@ -136,10 +147,16 @@ public class CharLook {
                       Expression interexpression,
                       byte interframe,
                       byte interexpframe) {
+
+        Point faceshift = drawInfo.getFacePos(interstance, interframe);
+        DrawArgument faceargs = args.plus(faceshift);
+
+
         body.draw(interstance, Body.Layer.BODY, interframe, args);
         body.draw(interstance, Body.Layer.ARM_BELOW_HEAD, interframe, args);
         body.draw(interstance, Body.Layer.ARM_BELOW_HEAD_OVER_MAIL, interframe, args);
         body.draw(interstance, Body.Layer.HEAD, interframe, args);
+        face.draw(interexpression, interexpframe, faceargs);
 
         body.draw(interstance, Body.Layer.HAND_BELOW_WEAPON, interframe, args);
         body.draw(interstance, Body.Layer.ARM, interframe, args);

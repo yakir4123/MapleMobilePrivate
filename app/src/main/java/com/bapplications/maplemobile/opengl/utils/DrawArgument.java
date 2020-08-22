@@ -88,6 +88,10 @@ public class DrawArgument {
         return pos;
     }
 
+    public Point getCenter() {
+        return center;
+    }
+
     public DrawArgument plus(Point pos) {
         return new DrawArgument(this.pos.plus(pos), center, stretch, xscale, yscale, color, angle);
     }

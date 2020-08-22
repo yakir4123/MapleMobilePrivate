@@ -111,4 +111,7 @@ public class Frame extends Texture {
         return timestep * (float)(scales.second - scales.first) / delay;
     }
 
+    public void setDelay(short delay) {
+        this.delay = delay;
+    }
 }
