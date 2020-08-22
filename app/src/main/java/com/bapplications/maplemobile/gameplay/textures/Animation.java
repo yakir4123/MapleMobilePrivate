@@ -25,16 +25,10 @@ public class Animation {
     protected List<Frame> frames;
     protected Nominal<Short> frameNumber;
 
-    public Animation(NXNode src, byte z) {
-        boolean istexture = src instanceof NXBitmapNode;
-        opacity = new Linear();
-        xyscale = new Linear();
-        frameNumber = new Nominal();
-        pos = new Point();
+    public Animation(NXNode src, Object z) {
+        this();
 
-
-        frames = new ArrayList<>();
-        if (istexture)
+        if (src instanceof NXBitmapNode)
         {
             frames.add(new Frame(src));
         }
@@ -75,6 +69,18 @@ public class Animation {
         reset();
     }
 
+    public Animation() {
+        opacity = new Linear();
+        xyscale = new Linear();
+        frameNumber = new Nominal();
+        pos = new Point();
+        frames = new ArrayList<>();
+    }
+
+    public void newFrame(Frame frame){
+        frames.add(frame);
+        animated = frames.size() > 1;
+    }
 
     void reset()
     {
@@ -102,7 +108,7 @@ public class Animation {
 //            frames[interframe].draw(args);
     }
 
-    public float getZ() {
+    public Object getZ() {
         return frames.get(0).getZ();
     }
 

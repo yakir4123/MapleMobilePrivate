@@ -13,8 +13,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class TilesObjs {
-    private Map<Float, List<Tile>> tiles;
-    private Map<Float, List<Obj>> objs;
+    private Map<Byte, List<Tile>> tiles;
+    private Map<Byte, List<Obj>> objs;
 
     public TilesObjs(NXNode src) {
 
@@ -27,7 +27,7 @@ public class TilesObjs {
         for(int i = 0; i < src.getChild("obj").getChildCount() ;i++)
         {
             Obj obj = new Obj(src.getChild("obj").getChild("" + i));
-            float z = obj.getZ();
+            byte z = (Byte)obj.getZ();
             putObj(z, obj);
         }
 
@@ -40,7 +40,7 @@ public class TilesObjs {
         for (NXNode tilenode : src.getChild("tile"))
         {
             Tile tile = new Tile(tilenode, tileset);
-            float z = tile.getZ();
+            byte z = (Byte)tile.getZ();
             putTile(z, tile);
         }
 
@@ -53,11 +53,11 @@ public class TilesObjs {
         orderedMap.get(z).add(value);
     }
 
-    private void putObj(float z, Obj obj) {
+    private void putObj(byte z, Obj obj) {
         putOnSortedMap(objs, z, obj);
     }
 
-    private void putTile(float z, Tile tile) {
+    private void putTile(byte z, Tile tile) {
         putOnSortedMap(tiles, z, tile);
     }
 

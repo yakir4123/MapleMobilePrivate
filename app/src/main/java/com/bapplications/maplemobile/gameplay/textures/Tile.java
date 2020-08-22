@@ -15,7 +15,7 @@ public class Tile extends Texture {
         setPos(new Point(src));
 
         setZ(((Long) bitmapNode.getChild("z").get(0L)).byteValue());
-        if (getZ() == 0) {
+        if ((Byte)getZ() == 0) {
             setZ(((Long) bitmapNode.getChild("zM").get(0L)).byteValue());
         }
     }

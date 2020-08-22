@@ -1,9 +1,8 @@
 package com.bapplications.maplemobile.gameplay.player;
 
-import android.graphics.Bitmap;
+import android.util.Log;
 
 import com.bapplications.maplemobile.constatns.Loaded;
-import com.bapplications.maplemobile.gameplay.textures.Texture;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 
@@ -49,6 +48,13 @@ public class BodyDrawInfo {
         if (p == null)
             return new Point();
         return head_positions[stance.ordinal()].get(frame);
+    }
+
+    public Point getFacePos(Stance.Id stance, byte frame) {
+        Point p = face_positions[stance.ordinal()].get(frame);
+        if (p == null)
+            return new Point();
+        return face_positions[stance.ordinal()].get(frame);
     }
 
     public void init() {
@@ -154,7 +160,19 @@ public class BodyDrawInfo {
                         head_positions[stance.ordinal()].put(frame, bodyshiftmap.get(Body.Layer.BODY).get("neck").minus(bodyshiftmap.get(Body.Layer.HEAD).get("neck")));
                     } catch (NullPointerException e){}
                     try {
-                        face_positions[stance.ordinal()].put(frame, bodyshiftmap.get(Body.Layer.BODY).get("neck").minus(bodyshiftmap.get(Body.Layer.HEAD).get("neck")).plus(bodyshiftmap.get(Body.Layer.HEAD).get("brow")));
+//                        face_positions[stance.ordinal()].put(frame,
+//                                bodyshiftmap.get(Body.Layer.BODY).get("neck")
+//                                        .minus(bodyshiftmap.get(Body.Layer.HEAD).get("neck"))
+//                                        .plus(bodyshiftmap.get(Body.Layer.HEAD).get("brow")));
+
+                        face_positions[stance.ordinal()].put(frame,
+                                head_positions[stance.ordinal()].get(frame)
+                                        .minus(bodyshiftmap.get(Body.Layer.HEAD).get("brow")
+                                                .mul(new Point(-1, 1)))
+                                        .mul(new Point(1f, -1f))); // voodoo, doo nooot touch this
+                        if(stance == Stance.Id.STAND1 && frame==0){
+                            Log.d("face_pos::", "" + face_positions[stance.ordinal()].get(frame));
+                        }
                     } catch (NullPointerException e) {}
                     try {
                         hair_positions[stance.ordinal()].put(frame, bodyshiftmap.get(Body.Layer.HEAD).get("brow").minus(bodyshiftmap.get(Body.Layer.HEAD).get("neck")).plus(bodyshiftmap.get(Body.Layer.BODY).get("neck")));

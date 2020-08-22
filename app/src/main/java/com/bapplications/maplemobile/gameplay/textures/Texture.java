@@ -19,9 +19,10 @@ public class Texture {
     private Point pos;
     private Point origin;
 
-    protected byte z;
+    protected Object z;
     protected byte flip = 1;
     protected Point dimensions;
+    protected float[] half_dimensions_glratio;
     protected int textureDataHandle;
     protected float _rotationZ = 0.0f;
     protected NXBitmapNode bitmapNode;
@@ -31,6 +32,10 @@ public class Texture {
     public Texture(){}
 
     public Texture(NXNode src) {
+        initTexture(src);
+    }
+
+    public void initTexture(NXNode src){
         if (!(src instanceof NXBitmapNode)) {
             throw new IllegalArgumentException("NXNode must be NXBitmapNode in Texture instance");
         }
@@ -38,6 +43,7 @@ public class Texture {
         Bitmap bmap = bitmapNode.get();
         this.origin = new Point(src.getChild("origin").get());
         dimensions = new Point(bmap.getWidth(), bmap.getHeight());
+        half_dimensions_glratio = dimensions.scalarMul(0.5f).toGLRatio();
         origin = pointToAndroid(origin);
         setPos(new Point());
         textureDataHandle = loadGLTexture(bmap);
@@ -78,9 +84,13 @@ public class Texture {
 
     public void draw (DrawArgument args) {
 
-        float[] curPos = args.getPos().plus(pos).toGLRatio();
-        // todo:: check rectangle instead of magic number
-        if(Math.abs(curPos[0]) > 1.5 || Math.abs(curPos[1]) > 1.5) {
+//        Point drawingPos = args.getPos().plus(pos).minus(args.getCenter());
+        Point drawingPos = args.getPos().plus(pos);
+        float[] curPos = drawingPos.toGLRatio();
+        if(!(curPos[0] + half_dimensions_glratio[0] > -1
+                || curPos[0] - half_dimensions_glratio[0] < 1
+                || curPos[1] - half_dimensions_glratio[1] > -1
+                || curPos[1] - half_dimensions_glratio[1] < 1)) {
             return;
         }
         float[] scratchMatrix = new float[16];
@@ -121,12 +131,12 @@ public class Texture {
         GLES20.glDisableVertexAttribArray(GLState.textureCoordinateHandle);
     }
 
-    public float getZ()
+    public Object getZ()
     {
         return z;
     }
 
-    public void setZ(byte z) {
+    public void setZ(Object z) {
         this.z = z;
     }
 
