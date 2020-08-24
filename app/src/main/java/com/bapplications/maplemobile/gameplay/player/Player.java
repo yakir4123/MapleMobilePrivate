@@ -1,20 +1,28 @@
 package com.bapplications.maplemobile.gameplay.player;
 
+import com.bapplications.maplemobile.gameplay.audio.Sound;
 import com.bapplications.maplemobile.gameplay.map.Layer;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerFallState;
+import com.bapplications.maplemobile.gameplay.player.state.PlayerProneState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerStandState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerState;
+import com.bapplications.maplemobile.gameplay.player.state.PlayerWalkState;
 import com.bapplications.maplemobile.opengl.utils.Point;
+import com.bapplications.maplemobile.views.KeyAction;
+import com.bapplications.maplemobile.views.UIControllers;
 
 public class Player extends Char {
 
     private boolean attacking;
     private final boolean underwater;
+    private final UIControllers controllers;
 
-    public Player(CharEntry entry) {
+
+    public Player(CharEntry entry, UIControllers controllers) {
         super(entry.id, new CharLook(entry.look), entry.stats.name);
 
+        this.controllers = controllers;
         attacking = false;
         underwater = false;
 
@@ -107,9 +115,9 @@ public class Player extends Char {
     }
 
     private static PlayerStandState standing = new PlayerStandState();
-//    private static PlayerWalkState walking = new PlayerStandState();
+    private static PlayerWalkState walking = new PlayerWalkState();
     private static PlayerFallState falling = new PlayerFallState();
-//    private static PlayerProneState lying = new PlayerStandState();
+    private static PlayerProneState lying = new PlayerProneState();
 //    private static PlayerClimbState climbing = new PlayerStandState();
 //    private static PlayerSitState sitting = new PlayerStandState();
 //    private static PlayerFlyState flying = new PlayerStandState();
@@ -119,12 +127,12 @@ public class Player extends Char {
         {
             case STAND:
                 return standing;
-//            case Char.State.WALK:
-//                return walking;
+            case WALK:
+                return walking;
             case FALL:
                 return falling;
-//            case Char.State.PRONE:
-//                return lying;
+            case PRONE:
+                return lying;
 //            case Char.State.LADDER:
 //            case Char.State.ROPE:
 //                return climbing;
@@ -140,5 +148,44 @@ public class Player extends Char {
 
     public boolean isAttacking() {
         return attacking;
+    }
+
+    public boolean isPressed(KeyAction key) {
+        return controllers.isPressed(key);
+    }
+
+    public boolean hasWalkInput() {
+        return controllers.isPressed(KeyAction.LEFT_ARROW_KEY)
+                || controllers.isPressed(KeyAction.RIGHT_ARROW_KEY);
+
+    }
+
+    public float getWalkForce() {
+        return 0.05f + 0.3f;// * (float)(stats.get_total(EquipStat::Id::SPEED)) / 100;
+    }
+
+    public float getJumpForce() {
+        return 1.0f + 6f;// * (float)(stats.get_total(EquipStat::Id::JUMP)) / 100;
+    }
+
+    public void setDirection(boolean flipped) {
+        if (!attacking)
+            super.setDirection(flipped);
+    }
+
+    public void sendAction(KeyAction key) {
+
+		PlayerState pst = getState(state);
+
+        if (pst != null)
+            pst.sendAction(this, key);
+    }
+
+    public void playJumpSound() {
+        (new Sound(Sound.Name.JUMP)).play();
+    }
+
+    public Point getPosition() {
+        return getPhobj().getPosition();
     }
 }

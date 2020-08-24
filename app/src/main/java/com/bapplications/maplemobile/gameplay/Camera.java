@@ -42,9 +42,9 @@ public class Camera {
         textView.setText(pos.toString());
     }
 
-    public void setPosition(int x, int y) {
-        pos.x = x;
-        pos.y = y;
+    public void setPosition(Point p) {
+        pos.x = p.x;
+        pos.y = p.y;
         setText();
     }
 

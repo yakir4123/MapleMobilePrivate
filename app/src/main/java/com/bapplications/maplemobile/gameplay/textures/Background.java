@@ -48,7 +48,7 @@ public class Background extends Animation{
         animated = ((NXLongNode)src.getChild("ani")).getBool();
         this.opacity = (Long)src.getChild("a").get();
         if(((NXLongNode)src.getChild("f")).getBool())
-            flip();
+            lookRight = true;
         cx = ((Long) src.getChild("cx").get()).intValue();
         cy = ((Long) src.getChild("cy").get()).intValue();
         rx = ((Long) src.getChild("rx").get()).intValue();

@@ -65,7 +65,7 @@ public class GameGLSurfaceView extends GLSurfaceView {
                     dy = dy * -1 ;
                 }
                 requestRender();
-                getGameEngine().getStage().getCamera().offsetPosition(-dx, -dy);
+//                getGameEngine().getStage().getCamera().offsetPosition(-dx, -dy);
         }
 
         previousX = x;

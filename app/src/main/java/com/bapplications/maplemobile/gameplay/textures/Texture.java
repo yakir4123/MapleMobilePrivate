@@ -18,6 +18,7 @@ public class Texture {
 
     private Point pos;
     private Point origin;
+    private Point shift;
 
     protected Object z;
     protected byte flip = 1;
@@ -39,6 +40,7 @@ public class Texture {
         if (!(src instanceof NXBitmapNode)) {
             throw new IllegalArgumentException("NXNode must be NXBitmapNode in Texture instance");
         }
+        shift = new Point();
         bitmapNode = (NXBitmapNode) src;
         Bitmap bmap = bitmapNode.get();
         this.origin = new Point(src.getChild("origin").get());
@@ -84,7 +86,7 @@ public class Texture {
 
     public void draw (DrawArgument args) {
 
-//        Point drawingPos = args.getPos().plus(pos).minus(args.getCenter());
+        flip(args.getDirection());
         Point drawingPos = args.getPos().plus(pos);
         float[] curPos = drawingPos.toGLRatio();
         if(!(curPos[0] + half_dimensions_glratio[0] > -1
@@ -162,21 +164,30 @@ public class Texture {
     }
 
 
-    //todo check this out if wierd stuff happend to character
     public void shift(Point shift) {
         shift.y *= -1;
+        this.shift = shift;
         pos.offset(shift);
     }
 
-    public void flip() {
+    private void flip(byte flip) {
+        if (this.flip == flip || (flip != 1 && flip != -1))
+            return;
         this.flip = (byte) (-this.flip);
-        if(this.flip < 0) {
-            setPos(pos.minus(origin), false);
+        pos.offset(shift.negateSign());
+        setPos(pos.minus(origin), false);
+        if (this.flip < 0) {
             origin = origin.minus(dimensions.mul(new Point(0.5f, -0.5f)));
             origin.x *= -1;
             origin = origin.plus(dimensions.mul(new Point(-0.5f, -0.5f)));
-            setPos(pos);
+        } else {
+            origin = origin.plus(dimensions.mul(new Point(-0.5f, -0.5f)));
+            origin.x *= -1;
+            origin = origin.minus(dimensions.mul(new Point(0.5f, -0.5f)));
         }
+        setPos(pos);
+        shift.x *= -1;
+        pos.offset(shift);
     }
 
     private Point pointToAndroid(Point p) {

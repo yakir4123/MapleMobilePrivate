@@ -105,4 +105,12 @@ public class DrawArgument {
                 color.mul(o.color),
                 angle + o.angle);
     }
+
+    public byte getDirection() {
+        return (byte) (xscale > 0 ? 1 : -1);
+    }
+
+    public void setDirection(boolean lookRight) {
+        xscale = lookRight ? -1 : 1;
+    }
 }

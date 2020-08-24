@@ -63,18 +63,18 @@ public class PhysicsObject extends MovingObject {
     }
 
     public float nextX() {
-        return x.plus(hspeed).get();
+        return x.plus(hspeed);
     }
 
     public float nextY() {
-        return y.minus(vspeed).get();
+        return y.minus(vspeed);
     }
 
     public void limitY(float d) {
         y.set(d);
         vspeed = 0;
     }
-    public Point get_position() {
+    public Point getPosition() {
         return new Point(getX(), getY());
     }
 

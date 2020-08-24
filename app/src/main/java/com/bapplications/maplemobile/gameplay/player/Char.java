@@ -13,6 +13,7 @@ public class Char extends MapObject {
     private final CharLook look;
     private final CharLook look_preview;
     protected State state;
+    private boolean facingRight = false;
 
     public static void init() {
         CharLook.init();
@@ -71,6 +72,11 @@ public class Char extends MapObject {
         Stance.Id stance = Stance.byState(state);
         look.setStance(stance);
 
+    }
+
+    protected void setDirection(boolean flipped) {
+        facingRight = flipped;
+        look.setDirection(flipped);
     }
 
     // Player states which determine animation and state
