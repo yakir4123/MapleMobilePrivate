@@ -3,6 +3,7 @@ package com.bapplications.maplemobile.gameplay.player.state;
 import com.bapplications.maplemobile.gameplay.physics.PhysicsObject;
 import com.bapplications.maplemobile.gameplay.player.Char;
 import com.bapplications.maplemobile.gameplay.player.Player;
+import com.bapplications.maplemobile.views.KeyAction;
 
 public class PlayerFallState implements PlayerState {
 
@@ -43,6 +44,11 @@ public class PlayerFallState implements PlayerState {
 //        {
 //            player.setState(Char.State.SWIM);
 //        }
+
+    }
+
+    @Override
+    public void sendAction(Player player, KeyAction key) {
 
     }
 }

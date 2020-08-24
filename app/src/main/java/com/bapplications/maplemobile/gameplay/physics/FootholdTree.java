@@ -146,7 +146,8 @@ public class FootholdTree {
             }
         }
 
-        phobj.onground = (phobj.y.get() - ground) < phobj.vspeed;
+//        phobj.onground = (phobj.y.get() - ground) < 2*phobj.vspeed;
+        phobj.onground = phobj.y.get() == ground;
 
         if (phobj.enablejd || phobj.isFlagSet(PhysicsObject.Flag.CHECKBELOW))
         {
@@ -233,12 +234,20 @@ public class FootholdTree {
             double crnt_y = phobj.crntY();
             double next_y = phobj.nextY();
 
-            Range<Float> ground = new Range<Float>(
-                getFH(phobj.fhid).groundBelow(phobj.crntX()),
-                getFH(phobj.fhid).groundBelow(phobj.nextX())
-				);
-
-            boolean collision = crnt_y <= ground.getLower() && next_y >= ground.getUpper();
+            Range<Float> ground;
+            try {
+                ground = new Range<>(
+                        getFH(phobj.fhid).groundBelow(phobj.nextX()),
+                        getFH(phobj.fhid).groundBelow(phobj.crntX())
+                );
+            } catch (IllegalArgumentException e) {
+                ground = new Range<>(
+                        getFH(phobj.fhid).groundBelow(phobj.crntX()),
+                        getFH(phobj.fhid).groundBelow(phobj.nextX())
+                        );
+            }
+            boolean collision = crnt_y >= ground.getUpper()
+                    && next_y <= ground.getUpper();
 
             if (collision)
             {
@@ -294,7 +303,7 @@ public class FootholdTree {
 
     private float getWall(short curid, boolean left, float fy) {
         short shorty = (short) (fy);
-        Range<Short> vertical = new Range(shorty - 50, shorty - 1);
+        Range<Short> vertical = new Range((short)(shorty + 1), (short)(shorty + 50));
 		Foothold cur = getFH(curid);
 
         if (left) {

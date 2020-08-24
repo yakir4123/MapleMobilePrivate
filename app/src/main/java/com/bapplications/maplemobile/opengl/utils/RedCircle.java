@@ -22,6 +22,7 @@ public class RedCircle extends Texture {
         if(loadedTex == -1) {
             loadedTex = loadGLTexture(bmap);
             dimensions = new Point(RADIUS, RADIUS);
+            half_dimensions_glratio = dimensions.scalarMul(0.5f).toGLRatio();
             bmap.recycle();
         }
         textureDataHandle = loadedTex;

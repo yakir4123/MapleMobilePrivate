@@ -23,6 +23,7 @@ public class Animation {
     protected Linear xyscale;
     protected boolean animated;
     protected List<Frame> frames;
+    protected boolean lookRight = false;
     protected Nominal<Short> frameNumber;
 
     public Animation(NXNode src, Object z) {
@@ -100,7 +101,7 @@ public class Animation {
         boolean modifyopc = interopc != 1.0f;
         boolean modifyscale = interscale != 1.0f;
 
-
+        args.setDirection(lookRight);
         frames.get(interframe).draw(args.plus(pos));
 //        if (modifyopc || modifyscale)
 //            frames[interframe].draw(args + DrawArgument(interscale, interscale, interopc));
@@ -201,11 +202,11 @@ public class Animation {
         return frames.get(frameNumber.get());
     }
 
-    public void flip(){
-        for( Frame frame : frames){
-            frame.flip();
-        }
-    }
+//    public void flip(){
+//        for( Frame frame : frames){
+//            frame.flip();
+//        }
+//    }
 
     protected void setPos(Point point) {
         point.y *= -1;

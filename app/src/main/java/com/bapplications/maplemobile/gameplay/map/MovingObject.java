@@ -49,9 +49,8 @@ public class MovingObject {
     }
 
     public void move() {
-        x.plus(hspeed);
-        y.minus(vspeed);
-//        y.plus(vspeed);
+        x.set(x.plus(hspeed));
+        y.set(y.minus(vspeed));
     }
 
 }

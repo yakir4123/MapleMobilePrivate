@@ -28,6 +28,7 @@ public class GameActivity extends AppCompatActivity {
     private RelativeLayout _root;
 
     private GameGLSurfaceView gameGLSurfaceView;
+    private UIControllers controllers;
 
     @Override
     protected void onCreate (Bundle savedInstanceState)
@@ -62,8 +63,11 @@ public class GameActivity extends AppCompatActivity {
         setContentView(_root);
         RedCircle.init(BitmapFactory.decodeResource(getResources(),
                         R.drawable.red_circle));
+
+        controllers = new UIControllers();
         gameGLSurfaceView = findViewById(R.id.game_view);
         gameGLSurfaceView.getGameEngine().getStage().getCamera().setTextView(findViewById(R.id.camera_pos_tv), this);
+        gameGLSurfaceView.getGameEngine().getStage().setControllers(controllers);
         binding.setMap.setOnClickListener(view -> {
             ChangeMapPopup popUpClass = new ChangeMapPopup();
             popUpClass.showPopupWindow(view);
@@ -72,8 +76,20 @@ public class GameActivity extends AppCompatActivity {
                 popUpClass.dismiss();
             });
         });
+
+
+        putControllers(binding);
     }
-;
+
+    private void putControllers(ActivityGameBinding binding) {
+        controllers.put(KeyAction.UP_ARROW_KEY, binding.upArrowKey);
+        controllers.put(KeyAction.DOWN_ARROW_KEY, binding.downArrowKey);
+        controllers.put(KeyAction.LEFT_ARROW_KEY, binding.leftArrowKey);
+        controllers.put(KeyAction.RIGHT_ARROW_KEY, binding.rightArrowKey);
+        controllers.put(KeyAction.JUMP_KEY, binding.jumpKey);
+    }
+
+
     @Override
     protected void onResume ()
     {
@@ -81,6 +97,7 @@ public class GameActivity extends AppCompatActivity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         toggleFullscreen(true);
+
     }
 
     @Override

@@ -95,6 +95,7 @@ public class Body {
                         stances[stance.ordinal()][layer.ordinal()] = new HashMap<>();
                     }
                     Texture tex = new Texture(partnode);
+//                    shift.x *= -1;
                     tex.shift(shift);
                     stances[stance.ordinal()][layer.ordinal()]
                             .put(frame, tex);
@@ -111,6 +112,7 @@ public class Body {
                         stances[stance.ordinal()][Layer.HEAD.ordinal()] = new HashMap<>();
                     }
                     Texture tex = new Texture(headsfnode);
+//                    shift.x *= -1;
                     tex.shift(shift);
                     stances[stance.ordinal()][Layer.HEAD.ordinal()]
                             .put(frame, tex);

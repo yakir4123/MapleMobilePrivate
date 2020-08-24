@@ -9,15 +9,14 @@ import com.bapplications.maplemobile.gameplay.map.MapInfo;
 import com.bapplications.maplemobile.gameplay.map.MapTilesObjs;
 import com.bapplications.maplemobile.gameplay.audio.Music;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
-import com.bapplications.maplemobile.gameplay.player.BodyDrawInfo;
-import com.bapplications.maplemobile.gameplay.player.Char;
 import com.bapplications.maplemobile.gameplay.player.CharEntry;
 import com.bapplications.maplemobile.gameplay.player.Player;
-import com.bapplications.maplemobile.gameplay.textures.Texture;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
+import com.bapplications.maplemobile.views.KeyAction;
+import com.bapplications.maplemobile.views.UIControllers;
 
-public class Stage {
+public class Stage implements UIControllers.UIKeyListener{
 
 
     private int mapid;
@@ -27,8 +26,8 @@ public class Stage {
     private MapInfo mapInfo;
     private Physics physics;
     private MapTilesObjs tilesobjs;
+    private UIControllers controllers;
     private MapBackgrounds backgrounds;
-
 
     enum State
     {
@@ -50,7 +49,7 @@ public class Stage {
 
     public void loadPlayer(CharEntry entry)
     {
-        player = new Player(entry);
+        player = new Player(entry, controllers);
 //        playable = new Playeable(player);
 
 //        start = ContinuousTimer::get().start();
@@ -105,7 +104,7 @@ public class Stage {
         Point startpos = physics.getYBelow(new Point());
         player.respawn(new Point(0, 200), mapInfo.isUnderwater());
 //        camera.set_view(mapInfo.getWalls(), mapInfo.getBorders());
-        camera.setPosition(0,0);
+        camera.setPosition(player.getPosition());
     }
 
     public void update(int deltatime) {
@@ -134,6 +133,7 @@ public class Stage {
         if (state != State.ACTIVE)
             return;
 
+        camera.setPosition(player.getPosition().negateSign());
         Point viewpos = camera.position(alpha);
 
         backgrounds.drawBackgrounds(viewpos, alpha);
@@ -172,4 +172,18 @@ public class Stage {
     public Camera getCamera() {
         return camera;
     }
+
+    public void setControllers(UIControllers controllers) {
+        this.controllers = controllers;
+        this.controllers.registerListener(this);
+    }
+
+    @Override
+    public void onAction(KeyAction key) {
+        player.sendAction(key);
+        switch (key){
+            case JUMP_KEY:
+        }
+    }
+
 }

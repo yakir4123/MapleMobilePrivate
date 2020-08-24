@@ -197,7 +197,7 @@ public class BodyDrawInfo {
     }
 
     public byte nextFrame(Stance.Id stance, byte frame) {
-        if (stance_delays[stance.ordinal()].containsKey(1 + frame))
+        if (stance_delays[stance.ordinal()].containsKey((byte)(1 + frame)))
             return (byte) (frame + 1);
         else
             return 0;

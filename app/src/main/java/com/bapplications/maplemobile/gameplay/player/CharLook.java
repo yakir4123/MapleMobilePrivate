@@ -13,7 +13,6 @@ public class CharLook {
     private Body body;
     private Face face;
     private Hair hair;
-    private boolean flip;
     private byte actframe;
     private short stelapsed;
     private String actionstr;
@@ -23,11 +22,13 @@ public class CharLook {
     private TimedBool expcooldown;
     private Nominal<Byte> expframe;
     private Nominal<Stance.Id> stance;
+    private boolean lookRight = false;
     private static BodyDrawInfo drawInfo;
     private Nominal<Expression> expression;
     private static Map<Integer, Face> faceTypes;
     private static Map<Integer, Hair> hairStyles;
     private static HashMap<Integer, Body> bodyTypes;
+    private boolean directionChanged = false;
 
     public static void init() {
         drawInfo = new BodyDrawInfo();
@@ -56,7 +57,7 @@ public class CharLook {
     }
 
     private void reset() {
-        flip = true;
+        lookRight = false;
 
         action = null;
         actionstr = "";
@@ -65,7 +66,7 @@ public class CharLook {
         stframe.set((byte) 0);
         stelapsed = 0;
 
-        setExpression(Expression.SMILE);
+        setExpression(Expression.DEFAULT);
         expframe.set((byte) 0);
         expelapsed = 0;
     }
@@ -127,12 +128,11 @@ public class CharLook {
 //        if (action != null)
 //            acmove = action.get_move();
 
-        DrawArgument relargs = new DrawArgument( acmove, flip );
+        DrawArgument relargs = new DrawArgument( acmove, lookRight);
         Stance.Id interstance = stance.get(alpha);
         byte interframe = stframe.get(alpha);
 
         Expression interexpression = expression.get(alpha);
-//        Expression interexpression = Expression.BLAZE;
         byte interexpframe = expframe.get(alpha);
 
         switch (interstance)
@@ -156,9 +156,7 @@ public class CharLook {
                       byte interexpframe) {
 
         Point faceshift = drawInfo.getFacePos(interstance, interframe);
-        DrawArgument faceargs = args.plus(faceshift);
-
-
+        face.shift(faceshift);//.x *= args.getDirection();
 
         hair.draw(interstance, Hair.Layer.BELOWBODY, interframe, args);
         body.draw(interstance, Body.Layer.BODY, interframe, args);
@@ -167,7 +165,7 @@ public class CharLook {
         body.draw(interstance, Body.Layer.HEAD, interframe, args);
         hair.draw(interstance, Hair.Layer.SHADE, interframe, args);
         hair.draw(interstance, Hair.Layer.DEFAULT, interframe, args);
-        face.draw(interexpression, interexpframe, faceargs);
+        face.draw(interexpression, interexpframe, args);
 
         // in case of cape need to be more thing...
         hair.draw(interstance, Hair.Layer.OVERHEAD, interframe, args);
@@ -258,5 +256,10 @@ public class CharLook {
 
     private short getDelay(Stance.Id stance, Byte frame) {
         return drawInfo.getDelay(stance, frame);
+    }
+
+    public void setDirection(boolean flipped) {
+        face.setDirection(lookRight);
+        lookRight = flipped;
     }
 }

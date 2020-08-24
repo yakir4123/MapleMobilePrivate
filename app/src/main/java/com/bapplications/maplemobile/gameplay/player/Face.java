@@ -1,7 +1,6 @@
 package com.bapplications.maplemobile.gameplay.player;
 
 import com.bapplications.maplemobile.constatns.Loaded;
-import com.bapplications.maplemobile.gameplay.textures.Animation;
 import com.bapplications.maplemobile.gameplay.textures.Frame;
 import com.bapplications.maplemobile.opengl.utils.DrawArgument;
 import com.bapplications.maplemobile.opengl.utils.Point;
@@ -12,6 +11,8 @@ import java.util.Map;
 
 public class Face {
     private Map<Byte, Frame>[] expressions;
+    private Point shift = new Point();
+    private int lookLeft = 1;
 
     public Face(int faceid) {
         Frame frame;
@@ -29,8 +30,6 @@ public class Face {
                 frame.setDelay((short) 2500);
                 frame.initTexture(facenode.getChild("face"));
                 frame.setZ("face");
-//                frame.shift(frame.getDimenstion().mul(new Point(0, 0.5f)));
-//                frame.shift(drawInfo.);
                 expressions[exp.ordinal()].put((byte) 0, frame);
             } else {
                 String facename = exp.name().toLowerCase();
@@ -53,7 +52,23 @@ public class Face {
 
     public void draw(Expression expression, byte frame, DrawArgument args) {
         Frame frameit = expressions[expression.ordinal()].get(frame);
-        if (frameit != null)
-            frameit.draw(args);
+        if (frameit != null) {
+            frameit.draw(args.plus(getDirectionShift()));
+        }
+    }
+
+    private Point getDirectionShift() {
+        return shift.mul(new Point(lookLeft, 1));
+    }
+
+    public void shift(Point faceshift) {
+        this.shift = faceshift;
+    }
+
+    public void setDirection(boolean lookRight){
+        if(lookRight)
+            this.lookLeft = -1;
+        else
+            this.lookLeft = 1;
     }
 }
