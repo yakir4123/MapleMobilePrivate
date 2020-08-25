@@ -1,33 +1,45 @@
 package com.bapplications.maplemobile.gameplay.player;
 
 import com.bapplications.maplemobile.gameplay.audio.Sound;
+import com.bapplications.maplemobile.gameplay.map.Ladder;
 import com.bapplications.maplemobile.gameplay.map.Layer;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
+import com.bapplications.maplemobile.gameplay.player.state.PlayerClimbState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerFallState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerProneState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerStandState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerWalkState;
 import com.bapplications.maplemobile.opengl.utils.Point;
+import com.bapplications.maplemobile.opengl.utils.TimedBool;
 import com.bapplications.maplemobile.views.KeyAction;
 import com.bapplications.maplemobile.views.UIControllers;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.TreeSet;
+
 public class Player extends Char {
 
+    private Ladder ladder;
     private boolean attacking;
+    private TimedBool climb_cooldown;
     private final boolean underwater;
     private final UIControllers controllers;
+    private TreeSet<Expression> myExpressions;
 
 
     public Player(CharEntry entry, UIControllers controllers) {
         super(entry.id, new CharLook(entry.look), entry.stats.name);
-
         this.controllers = controllers;
         attacking = false;
         underwater = false;
 
         setState(State.STAND);
-//        setDirection(true);
+        myExpressions = new TreeSet<>();
+        myExpressions.addAll(Arrays.asList(Expression.values()));
+        climb_cooldown = new TimedBool();
     }
 
     @Override
@@ -54,7 +66,6 @@ public class Player extends Char {
     public void respawn(Point pos, boolean underwater) {
         setPosition(pos.x, pos.y);
 //        this.underwater = underwater;
-//        keysdown.clear();
 //        attacking = false;
 //        ladder = nullptr;
 //        nullstate.update_state(*this);
@@ -92,7 +103,7 @@ public class Player extends Char {
 //            lastmove = newmove;
 //        }
 //
-//        climb_cooldown.update();
+        climb_cooldown.update(deltatime);
 
         return getLayer().ordinal();
     }
@@ -114,12 +125,12 @@ public class Player extends Char {
         }
     }
 
-    private static PlayerStandState standing = new PlayerStandState();
+    private static PlayerProneState lying = new PlayerProneState();
     private static PlayerWalkState walking = new PlayerWalkState();
     private static PlayerFallState falling = new PlayerFallState();
-    private static PlayerProneState lying = new PlayerProneState();
-//    private static PlayerClimbState climbing = new PlayerStandState();
-//    private static PlayerSitState sitting = new PlayerStandState();
+    private static PlayerStandState standing = new PlayerStandState();
+    private static PlayerClimbState climbing = new PlayerClimbState();
+    //    private static PlayerSitState sitting = new PlayerStandState();
 //    private static PlayerFlyState flying = new PlayerStandState();
     private PlayerState getState(State state) {
 
@@ -133,9 +144,9 @@ public class Player extends Char {
                 return falling;
             case PRONE:
                 return lying;
-//            case Char.State.LADDER:
-//            case Char.State.ROPE:
-//                return climbing;
+            case LADDER:
+            case ROPE:
+                return climbing;
 //            case Char.State.SIT:
 //                return sitting;
 //            case Char.State.SWIM:
@@ -161,20 +172,23 @@ public class Player extends Char {
     }
 
     public float getWalkForce() {
-        return 0.05f + 0.3f;// * (float)(stats.get_total(EquipStat::Id::SPEED)) / 100;
+        return 0.05f + 0.25f;// * (float)(stats.get_total(EquipStat::Id::SPEED)) / 100;
     }
 
     public float getJumpForce() {
         return 1.0f + 6f;// * (float)(stats.get_total(EquipStat::Id::JUMP)) / 100;
     }
 
-    public void setDirection(boolean flipped) {
+    public float getClimbForce() {
+        return 1.5f;//static_cast<float>(stats.get_total(EquipStat::Id::SPEED)) / 100;
+    }
+
+    public void setDirection(boolean lookLeft) {
         if (!attacking)
-            super.setDirection(flipped);
+            super.setDirection(lookLeft);
     }
 
     public void sendAction(KeyAction key) {
-
 		PlayerState pst = getState(state);
 
         if (pst != null)
@@ -187,5 +201,38 @@ public class Player extends Char {
 
     public Point getPosition() {
         return getPhobj().getPosition();
+    }
+
+    public Collection getExpressions() {
+        return myExpressions;
+    }
+
+    public Ladder getLadder() {
+        return ladder;
+    }
+    
+    public void setLadder(Ladder ldr) {
+        ladder = ldr;
+
+        if (ladder != null)
+        {
+            phobj.set_x(ldr.getX());
+
+            phobj.hspeed = 0.0f;
+            phobj.vspeed = 0.0f;
+            phobj.fhlayer = 7;
+
+            setState(ldr.isLadder() ? Char.State.LADDER : Char.State.ROPE);
+        }
+    }
+
+    public void setClimbCooldown() {
+        climb_cooldown.set_for(1000);
+    }
+
+
+    public boolean canClimb()
+    {
+        return !climb_cooldown.isTrue();
     }
 }

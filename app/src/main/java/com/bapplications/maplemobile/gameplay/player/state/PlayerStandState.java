@@ -24,12 +24,12 @@ public class PlayerStandState implements PlayerState {
 
         if (player.isPressed(KeyAction.RIGHT_ARROW_KEY))
         {
-            player.setDirection(true);
+            player.setDirection(false);
             player.setState(Char.State.WALK);
         }
         else if (player.isPressed(KeyAction.LEFT_ARROW_KEY))
         {
-            player.setDirection(false);
+            player.setDirection(true);
             player.setState(Char.State.WALK);
         }
 

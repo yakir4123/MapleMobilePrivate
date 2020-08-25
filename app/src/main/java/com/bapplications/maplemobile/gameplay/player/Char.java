@@ -1,7 +1,5 @@
 package com.bapplications.maplemobile.gameplay.player;
 
-import android.util.Log;
-
 import com.bapplications.maplemobile.gameplay.map.Layer;
 import com.bapplications.maplemobile.gameplay.map.MapObject;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
@@ -13,7 +11,7 @@ public class Char extends MapObject {
     private final CharLook look;
     private final CharLook look_preview;
     protected State state;
-    private boolean facingRight = false;
+    private boolean lookLeft = true;
 
     public static void init() {
         CharLook.init();
@@ -74,9 +72,13 @@ public class Char extends MapObject {
 
     }
 
-    protected void setDirection(boolean flipped) {
-        facingRight = flipped;
-        look.setDirection(flipped);
+    protected void setDirection(boolean lookLeft) {
+        this.lookLeft = lookLeft;
+        look.setDirection(lookLeft);
+    }
+
+    public CharLook getLook() {
+        return look;
     }
 
     // Player states which determine animation and state
@@ -122,7 +124,7 @@ public class Char extends MapObject {
         return Layer.byValue(isClimbing() ? 7 : phobj.fhlayer);
     }
 
-    private boolean isClimbing() {
+    public boolean isClimbing() {
         return state == State.LADDER || state == State.ROPE;
     }
 

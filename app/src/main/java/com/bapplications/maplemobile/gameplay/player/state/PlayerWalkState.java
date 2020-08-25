@@ -24,12 +24,12 @@ public class PlayerWalkState implements PlayerState {
         {
             if (player.isPressed(KeyAction.RIGHT_ARROW_KEY))
             {
-                player.setDirection(true);
+                player.setDirection(false);
                 player.getPhobj().hforce += player.getWalkForce();
             }
             else if (player.isPressed(KeyAction.LEFT_ARROW_KEY))
             {
-                player.setDirection(false);
+                player.setDirection(true);
                 player.getPhobj().hforce -= player.getWalkForce();
             }
         }

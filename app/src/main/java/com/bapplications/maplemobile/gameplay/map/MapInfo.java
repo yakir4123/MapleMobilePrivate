@@ -2,14 +2,19 @@ package com.bapplications.maplemobile.gameplay.map;
 
 import android.util.Range;
 
+import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MapInfo {
+    private boolean swim;
     private final String bgm;
-    private final boolean swim;
     private Range<Short> mapWalls;
     private Range<Short> mapBorders;
+    private final List<Ladder> ladders = new ArrayList<>();
 
     public MapInfo(NXNode src, Range walls, Range borders) {
         NXNode info = src.getChild("info");
@@ -35,14 +40,18 @@ public class MapInfo {
 //        fieldlimit = info["fieldLimit"];
 //        hideminimap = info["hideMinimap"].get_bool();
 //        mapmark = info["mapMark"];
-        swim = ((NXLongNode)info.getChild("swim")).getBool();
+        try {
+            swim = ((NXLongNode) info.getChild("swim")).getBool();
+        } catch (NullPointerException | ClassCastException e){
+            swim = false;
+        }
 //        town = info["town"].get_bool();
 //
 //        for (auto seat : src["seat"])
 //            seats.push_back(seat);
 //
-//        for (auto ladder : src["ladderRope"])
-//            ladders.push_back(ladder);
+        for (NXNode ladder : src.getChild("ladderRope"))
+            ladders.add(new Ladder(ladder));
 
     }
 
@@ -59,5 +68,13 @@ public class MapInfo {
 
     public boolean isUnderwater() {
         return swim;
+    }
+
+    public Ladder findLadder(Point position, boolean upwards) {
+        for (Ladder ladder: ladders)
+        if (ladder.inRange(position, upwards))
+            return ladder;
+
+        return null;
     }
 }

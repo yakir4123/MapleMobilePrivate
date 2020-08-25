@@ -1,5 +1,6 @@
 package com.bapplications.maplemobile.gameplay.player;
 
+import android.util.Log;
 
 import com.bapplications.maplemobile.opengl.utils.DrawArgument;
 import com.bapplications.maplemobile.opengl.utils.Nominal;
@@ -13,6 +14,7 @@ public class CharLook {
     private Body body;
     private Face face;
     private Hair hair;
+    private int exptime;
     private byte actframe;
     private short stelapsed;
     private String actionstr;
@@ -22,13 +24,12 @@ public class CharLook {
     private TimedBool expcooldown;
     private Nominal<Byte> expframe;
     private Nominal<Stance.Id> stance;
-    private boolean lookRight = false;
+    private boolean lookLeft = true;
     private static BodyDrawInfo drawInfo;
     private Nominal<Expression> expression;
     private static Map<Integer, Face> faceTypes;
     private static Map<Integer, Hair> hairStyles;
     private static HashMap<Integer, Body> bodyTypes;
-    private boolean directionChanged = false;
 
     public static void init() {
         drawInfo = new BodyDrawInfo();
@@ -57,7 +58,7 @@ public class CharLook {
     }
 
     private void reset() {
-        lookRight = false;
+        lookLeft = true;
 
         action = null;
         actionstr = "";
@@ -86,21 +87,22 @@ public class CharLook {
         body = bodyTypes.get(skin_id);
     }
 
-    private void setHair(int hair_id){
+    public void setHair(int hair_id){
         if (!hairStyles.containsKey(hair_id)){
             hairStyles.put(hair_id, new Hair(hair_id, drawInfo));
         }
         hair = hairStyles.get(hair_id);
     }
 
-    private void setExpression(Expression newexpression) {
+    public void setExpression(Expression newexpression) {
         if (expression.get() != newexpression && !expcooldown.isTrue())
         {
             expression.set(newexpression);
             expframe.set((byte) 0);
 
             expelapsed = 0;
-            expcooldown.set_for(5000);
+            exptime = 0;
+//            expcooldown.set_for(5000);
         }
     }
 
@@ -128,7 +130,7 @@ public class CharLook {
 //        if (action != null)
 //            acmove = action.get_move();
 
-        DrawArgument relargs = new DrawArgument( acmove, lookRight);
+        DrawArgument relargs = new DrawArgument( acmove, !lookLeft);
         Stance.Id interstance = stance.get(alpha);
         byte interframe = stframe.get(alpha);
 
@@ -158,6 +160,10 @@ public class CharLook {
         Point faceshift = drawInfo.getFacePos(interstance, interframe);
         face.shift(faceshift);//.x *= args.getDirection();
 
+        if(interstance == Stance.Id.LADDER || interstance == Stance.Id.ROPE){
+            climbingDraw(args, interstance, interframe);
+            return;
+        }
         hair.draw(interstance, Hair.Layer.BELOWBODY, interframe, args);
         body.draw(interstance, Body.Layer.BODY, interframe, args);
         body.draw(interstance, Body.Layer.ARM_BELOW_HEAD, interframe, args);
@@ -176,6 +182,14 @@ public class CharLook {
         body.draw(interstance, Body.Layer.ARM_OVER_HAIR_BELOW_WEAPON, interframe, args);
         body.draw(interstance, Body.Layer.HAND_OVER_HAIR, interframe, args);
         body.draw(interstance, Body.Layer.HAND_OVER_WEAPON, interframe, args);
+
+    }
+
+    private void climbingDraw(DrawArgument args,
+                              Stance.Id interstance,
+                              byte interframe) {
+        body.draw(interstance, Body.Layer.BODY, interframe, args);
+        hair.draw(interstance, Hair.Layer.BACK, interframe, args);
 
     }
 
@@ -198,7 +212,9 @@ public class CharLook {
             if (timestep >= delta)
             {
                 stelapsed = (short) (timestep - delta);
-
+                if(stance.get() == Stance.Id.WALK1) {
+                    Log.d("timestep::", "" + timestep);
+                }
                 byte nextframe = getNextFrame(stance.get(), stframe.get());
                 float threshold = (float)(delta) / timestep;
                 stframe.next(nextframe, threshold);
@@ -247,6 +263,33 @@ public class CharLook {
 //                stelapsed += timestep;
 //            }
         }
+
+
+        short expdelay = face.getDelay(expression.get(), expframe.get());
+        short expdelta = (short) (expdelay - expelapsed);
+
+        exptime += timestep;
+        if (timestep >= expdelta)
+        {
+            expelapsed = (short) (timestep - expdelta);
+            byte nextexpframe = face.nextFrame(expression.get(), expframe.get());
+            float fcthreshold = (float)(expdelta) / timestep;
+            expframe.next(nextexpframe, fcthreshold);
+
+            if (expframe.get() == 0 && exptime > Expression.TIME)
+            {
+                if (expression.get() == Expression.DEFAULT)
+                    expression.next(Expression.BLINK, fcthreshold);
+				else
+                    expression.next(Expression.DEFAULT, fcthreshold);
+            }
+        }
+        else
+        {
+            expression.normalize();
+            expframe.normalize();
+            expelapsed += timestep;
+        }
         return aniend;
     }
 
@@ -259,7 +302,7 @@ public class CharLook {
     }
 
     public void setDirection(boolean flipped) {
-        face.setDirection(lookRight);
-        lookRight = flipped;
+        face.setDirection(lookLeft);
+        lookLeft = flipped;
     }
 }

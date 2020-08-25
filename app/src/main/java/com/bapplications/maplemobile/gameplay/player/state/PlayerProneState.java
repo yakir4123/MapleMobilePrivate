@@ -14,7 +14,7 @@ public class PlayerProneState implements PlayerState {
     @Override
     public void update(Player player) {
 
-        if (player.getPhobj().enablejd == false)
+        if (!player.getPhobj().enablejd)
             player.getPhobj().setFlag(PhysicsObject.Flag.CHECKBELOW);
 
         if (player.isPressed(KeyAction.UP_ARROW_KEY) || !player.isPressed(KeyAction.DOWN_ARROW_KEY))
@@ -22,13 +22,13 @@ public class PlayerProneState implements PlayerState {
 
         if (player.isPressed(KeyAction.LEFT_ARROW_KEY))
         {
-            player.setDirection(false);
+            player.setDirection(true);
             player.setState(Char.State.WALK);
         }
 
         if (player.isPressed(KeyAction.RIGHT_ARROW_KEY))
         {
-            player.setDirection(true);
+            player.setDirection(false);
             player.setState(Char.State.WALK);
         }
     }

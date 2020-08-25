@@ -17,17 +17,17 @@ public class PlayerFallState implements PlayerState {
         if (player.isAttacking())
             return;
 
-//        float hspeed = player.getPhobj().hspeed;
+        float hspeed = player.getPhobj().hspeed;
 
-//        if (hasleftinput(player) && hspeed > 0.0)
-//            hspeed -= 0.025;
-//        else if (hasrightinput(player) && hspeed < 0.0)
-//            hspeed += 0.025;
+        if (player.isPressed(KeyAction.LEFT_ARROW_KEY) && hspeed > 0.0)
+            player.getPhobj().hspeed -= 0.025;
+        else if (player.isPressed(KeyAction.RIGHT_ARROW_KEY) && hspeed < 0.0)
+            player.getPhobj().hspeed += 0.025;
 
-//        if (hasleftinput(player))
-//            player.set_direction(false);
-//        else if (hasrightinput(player))
-//            player.set_direction(true);
+        if (player.isPressed(KeyAction.LEFT_ARROW_KEY))
+            player.setDirection(true);
+        else if (player.isPressed(KeyAction.RIGHT_ARROW_KEY))
+            player.setDirection(false);
 
     }
 
