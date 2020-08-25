@@ -167,19 +167,9 @@ public class BodyDrawInfo {
                         head_positions[stance.ordinal()].put(frame, bodyshiftmap.get(Body.Layer.BODY).get("neck").minus(bodyshiftmap.get(Body.Layer.HEAD).get("neck")));
                     } catch (NullPointerException e){}
                     try {
-//                        face_positions[stance.ordinal()].put(frame,
-//                                bodyshiftmap.get(Body.Layer.BODY).get("neck")
-//                                        .minus(bodyshiftmap.get(Body.Layer.HEAD).get("neck"))
-//                                        .plus(bodyshiftmap.get(Body.Layer.HEAD).get("brow")));
-
-                        face_positions[stance.ordinal()].put(frame,
-                                head_positions[stance.ordinal()].get(frame)
-                                        .minus(bodyshiftmap.get(Body.Layer.HEAD).get("brow")
-                                                .mul(new Point(-1, 1)))
-                                        .mul(new Point(1f, -1f))); // voodoo, doo nooot touch this
-                        if(stance == Stance.Id.STAND1 && frame==0){
-                            Log.d("face_pos::", "" + face_positions[stance.ordinal()].get(frame));
-                        }
+                        face_positions[stance.ordinal()].put(frame, head_positions[stance.ordinal()].get(frame)
+                                .plus(bodyshiftmap.get(Body.Layer.HEAD).get("brow"))
+                                .mul(new Point(1, -1)));
                     } catch (NullPointerException e) {}
                     try {
                         hair_positions[stance.ordinal()].put(frame, bodyshiftmap.get(Body.Layer.HEAD).get("brow").minus(bodyshiftmap.get(Body.Layer.HEAD).get("neck")).plus(bodyshiftmap.get(Body.Layer.BODY).get("neck")));

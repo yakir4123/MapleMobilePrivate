@@ -129,6 +129,11 @@ public abstract class NXNode implements Iterable<NXNode> {
 		return res;
 	}
 
+	public NXLongNode getLongChild(String name) {
+		return (NXLongNode)getChild(name);
+	}
+
+
 	public boolean isChildExist(int name){
 		return isChildExist("" + name);
 	}

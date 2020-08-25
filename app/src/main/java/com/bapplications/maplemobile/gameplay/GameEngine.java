@@ -26,7 +26,6 @@ public class GameEngine {
     public void drawFrame ()
     {
         stage.draw(1f);
-
     }
 
     public void destroy() {

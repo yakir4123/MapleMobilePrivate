@@ -50,12 +50,9 @@ public class Stage implements UIControllers.UIKeyListener{
     public void loadPlayer(CharEntry entry)
     {
         player = new Player(entry, controllers);
-//        playable = new Playeable(player);
-
-//        start = ContinuousTimer::get().start();
-
+        controllers.setExpressions(player.getExpressions());
 //        CharStats stats = player.getStats();
-//        levelBefore = stats.get_stat(MapleStat::Id::LEVEL);
+//        levelBefore = stats.get_stat(MapleStat.LEVEL);
 //        expBefore = stats.get_exp();
     }
 
@@ -102,7 +99,7 @@ public class Stage implements UIControllers.UIKeyListener{
 
 //        Point<int16_t> spawnpoint = portals.get_portal_by_id(portalid);
         Point startpos = physics.getYBelow(new Point());
-        player.respawn(new Point(0, 200), mapInfo.isUnderwater());
+        player.respawn(new Point(3300, 200), mapInfo.isUnderwater());
 //        camera.set_view(mapInfo.getWalls(), mapInfo.getBorders());
         camera.setPosition(player.getPosition());
     }
@@ -125,6 +122,28 @@ public class Stage implements UIControllers.UIKeyListener{
 
 ////        portals.update(player.get_position());
 ////        camera.update(player.get_position());
+
+        if (!player.isClimbing()/* && !player.is_sitting()*/ && !player.isAttacking())
+        {
+            if (player.isPressed(KeyAction.UP_ARROW_KEY) && !player.isPressed(KeyAction.DOWN_ARROW_KEY))
+                checkLadders(true);
+
+            if (player.isPressed(KeyAction.DOWN_ARROW_KEY))
+                checkLadders(false);
+
+//            if (player.isPressed(KeyAction.UP_ARROW_KEY))
+//                check_portals();
+
+
+//            if (player.isPressed(KeyAction.SIT))
+//            check_seats();
+
+//            if (player.isPressed(KeyAction.ATTACK))
+//            combat.use_move(0);
+//
+//            if (player.isPressed(KeyAction.PICKUP))
+//            check_drops();
+        }
 
     }
 
@@ -173,6 +192,10 @@ public class Stage implements UIControllers.UIKeyListener{
         return camera;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
     public void setControllers(UIControllers controllers) {
         this.controllers = controllers;
         this.controllers.registerListener(this);
@@ -184,6 +207,15 @@ public class Stage implements UIControllers.UIKeyListener{
         switch (key){
             case JUMP_KEY:
         }
+    }
+
+
+    public void checkLadders(boolean up)
+    {
+        if (!player.canClimb() || player.isClimbing() || player.isAttacking())
+            return;
+
+        player.setLadder(mapInfo.findLadder(player.getPosition(), up));
     }
 
 }

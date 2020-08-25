@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,9 +15,11 @@ import com.bapplications.maplemobile.R;
 import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.databinding.ActivityGameBinding;
+import com.bapplications.maplemobile.gameplay.GameEngine;
 import com.bapplications.maplemobile.gameplay.audio.Music;
 import com.bapplications.maplemobile.opengl.GameGLSurfaceView;
 import com.bapplications.maplemobile.opengl.utils.RedCircle;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 
@@ -64,10 +67,10 @@ public class GameActivity extends AppCompatActivity {
         RedCircle.init(BitmapFactory.decodeResource(getResources(),
                         R.drawable.red_circle));
 
-        controllers = new UIControllers();
+        controllers = new UIControllers(this, binding);
         gameGLSurfaceView = findViewById(R.id.game_view);
-        gameGLSurfaceView.getGameEngine().getStage().getCamera().setTextView(findViewById(R.id.camera_pos_tv), this);
-        gameGLSurfaceView.getGameEngine().getStage().setControllers(controllers);
+        getGameEngine().getStage().getCamera().setTextView(findViewById(R.id.camera_pos_tv), this);
+        getGameEngine().getStage().setControllers(controllers);
         binding.setMap.setOnClickListener(view -> {
             ChangeMapPopup popUpClass = new ChangeMapPopup();
             popUpClass.showPopupWindow(view);
@@ -76,19 +79,12 @@ public class GameActivity extends AppCompatActivity {
                 popUpClass.dismiss();
             });
         });
-
-
-        putControllers(binding);
     }
 
-    private void putControllers(ActivityGameBinding binding) {
-        controllers.put(KeyAction.UP_ARROW_KEY, binding.upArrowKey);
-        controllers.put(KeyAction.DOWN_ARROW_KEY, binding.downArrowKey);
-        controllers.put(KeyAction.LEFT_ARROW_KEY, binding.leftArrowKey);
-        controllers.put(KeyAction.RIGHT_ARROW_KEY, binding.rightArrowKey);
-        controllers.put(KeyAction.JUMP_KEY, binding.jumpKey);
-    }
 
+    public GameEngine getGameEngine() {
+        return gameGLSurfaceView.getGameEngine();
+    }
 
     @Override
     protected void onResume ()
@@ -103,7 +99,6 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onPause ()
     {
-
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         Music.pauseBgm();
         super.onPause();
@@ -112,7 +107,6 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onDestroy ()
     {
-
         gameGLSurfaceView.exitGame();
         super.onDestroy();
     }
@@ -140,9 +134,11 @@ public class GameActivity extends AppCompatActivity {
             }
         }
     }
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         toggleFullscreen(true);
     }
+
 }

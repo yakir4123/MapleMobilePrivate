@@ -11,15 +11,15 @@ import java.util.Map;
 
 public class Face {
     private Map<Byte, Frame>[] expressions;
-    private Point shift = new Point();
+    private Point frameShift = new Point();
     private int lookLeft = 1;
 
     public Face(int faceid) {
         Frame frame;
         NXNode facenode;
+        Point negateShift = new Point(-1, -1);
         expressions = new HashMap[Expression.values().length];
         NXNode faces = Loaded.getFile("Character").getRoot().getChild("Face").getChild("000" + faceid + ".img");
-
         for (Expression exp : Expression.values())
         {
             expressions[exp.ordinal()] = new HashMap<>();
@@ -29,6 +29,9 @@ public class Face {
                 facenode = faces.getChild("default");
                 frame.setDelay((short) 2500);
                 frame.initTexture(facenode.getChild("face"));
+                Point shift = (Point) facenode.getChild("face").getChild("map")
+                        .getChild("brow").get(new Point());
+                frame.shift(shift.mul(negateShift));
                 frame.setZ("face");
                 expressions[exp.ordinal()].put((byte) 0, frame);
             } else {
@@ -43,6 +46,9 @@ public class Face {
                         frame.setDelay((short) 2500);
                     frame.initTexture(frameNode.getChild("face"));
                     frame.setZ("face");
+                    Point shift = (Point) frameNode.getChild("face").getChild("map")
+                            .getChild("brow").get(new Point());
+                    frame.shift(shift.mul(negateShift));
                     expressions[exp.ordinal()].put(frameNumber, frame);
                 }
             }
@@ -58,17 +64,27 @@ public class Face {
     }
 
     private Point getDirectionShift() {
-        return shift.mul(new Point(lookLeft, 1));
+        return frameShift.mul(new Point(lookLeft, 1));
     }
 
     public void shift(Point faceshift) {
-        this.shift = faceshift;
+        this.frameShift = faceshift;
     }
 
-    public void setDirection(boolean lookRight){
-        if(lookRight)
-            this.lookLeft = -1;
-        else
+    public void setDirection(boolean lookLeft){
+        if(lookLeft)
             this.lookLeft = 1;
+        else
+            this.lookLeft = -1;
+    }
+
+    public short getDelay(Expression expression, Byte frame) {
+        Frame delayit = expressions[expression.ordinal()].get(frame);
+        return delayit != null ? delayit.getDelay() : 100;
+    }
+
+    public byte nextFrame(Expression expression, Byte frame) {
+        return (byte) (expressions[expression.ordinal()]
+                .containsKey((byte) (frame + 1)) ? frame + 1 : 0);
     }
 }
