@@ -72,8 +72,8 @@ public class MapInfo {
 
     public Ladder findLadder(Point position, boolean upwards) {
         for (Ladder ladder: ladders)
-        if (ladder.inRange(position, upwards))
-            return ladder;
+            if (ladder.inRange(position, upwards))
+                return ladder;
 
         return null;
     }

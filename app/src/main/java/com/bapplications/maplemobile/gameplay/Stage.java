@@ -3,11 +3,14 @@ package com.bapplications.maplemobile.gameplay;
 
 import com.bapplications.maplemobile.StaticUtils;
 import com.bapplications.maplemobile.constatns.Loaded;
+import com.bapplications.maplemobile.gameplay.audio.Sound;
 import com.bapplications.maplemobile.gameplay.map.Layer;
 import com.bapplications.maplemobile.gameplay.map.MapBackgrounds;
 import com.bapplications.maplemobile.gameplay.map.MapInfo;
+import com.bapplications.maplemobile.gameplay.map.MapPortals;
 import com.bapplications.maplemobile.gameplay.map.MapTilesObjs;
 import com.bapplications.maplemobile.gameplay.audio.Music;
+import com.bapplications.maplemobile.gameplay.map.Portal;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.gameplay.player.CharEntry;
 import com.bapplications.maplemobile.gameplay.player.Player;
@@ -25,6 +28,7 @@ public class Stage implements UIControllers.UIKeyListener{
     private Camera camera;
     private MapInfo mapInfo;
     private Physics physics;
+    private MapPortals portals;
     private MapTilesObjs tilesobjs;
     private UIControllers controllers;
     private MapBackgrounds backgrounds;
@@ -89,6 +93,7 @@ public class Stage implements UIControllers.UIKeyListener{
             backgrounds = new MapBackgrounds(src.getChild("back"));
             physics = new Physics(src.getChild("foothold"));
             mapInfo = new MapInfo(src, physics.getFHT().getWalls(), physics.getFHT().getBorders());
+            portals = new MapPortals(src.getChild("portal"), mapid);
         }
     }
 
@@ -120,8 +125,9 @@ public class Stage implements UIControllers.UIKeyListener{
 ////        drops.update(physics);
         player.update(physics, deltatime);
 
-////        portals.update(player.get_position());
-////        camera.update(player.get_position());
+        portals.update(player.getPosition(), deltatime);
+//        camera.update(player.get_position());
+        camera.setPosition(player.getPosition().negateSign());
 
         if (!player.isClimbing()/* && !player.is_sitting()*/ && !player.isAttacking())
         {
@@ -131,8 +137,8 @@ public class Stage implements UIControllers.UIKeyListener{
             if (player.isPressed(KeyAction.DOWN_ARROW_KEY))
                 checkLadders(false);
 
-//            if (player.isPressed(KeyAction.UP_ARROW_KEY))
-//                check_portals();
+            if (player.isPressed(KeyAction.UP_ARROW_KEY))
+                checkPortals();
 
 
 //            if (player.isPressed(KeyAction.SIT))
@@ -147,12 +153,32 @@ public class Stage implements UIControllers.UIKeyListener{
 
     }
 
+    private void checkPortals() {
+        if (player.isAttacking())
+            return;
+
+        Point playerpos = player.getPosition();
+        Portal.WarpInfo warpinfo = portals.findWarpAt(playerpos);
+
+        if (warpinfo.intramap)
+        {
+            Point spawnpoint = portals.getPortalByName(warpinfo.toname);
+            Point startpos = physics.getYBelow(spawnpoint);
+
+            player.respawn(startpos, mapInfo.isUnderwater());
+        }
+        else if (warpinfo.valid)
+        {
+            (new Sound(Sound.Name.PORTAL)).play();
+            changeMap(warpinfo.mapid);
+        }
+    }
+
     public void draw(float alpha)
     {
         if (state != State.ACTIVE)
             return;
 
-        camera.setPosition(player.getPosition().negateSign());
         Point viewpos = camera.position(alpha);
 
         backgrounds.drawBackgrounds(viewpos, alpha);
@@ -170,7 +196,7 @@ public class Stage implements UIControllers.UIKeyListener{
         }
 //
 //        combat.draw(viewx, viewy, alpha);
-//        portals.draw(viewpos, alpha);
+        portals.draw(viewpos, alpha);
         backgrounds.drawForegrounds(viewpos, alpha);
 //        effect.draw();
     }
@@ -209,13 +235,18 @@ public class Stage implements UIControllers.UIKeyListener{
         }
     }
 
-
     public void checkLadders(boolean up)
     {
         if (!player.canClimb() || player.isClimbing() || player.isAttacking())
             return;
 
         player.setLadder(mapInfo.findLadder(player.getPosition(), up));
+    }
+
+
+    public void changeMap(int mapId) {
+        clear();
+        load(mapId,  0);
     }
 
 }

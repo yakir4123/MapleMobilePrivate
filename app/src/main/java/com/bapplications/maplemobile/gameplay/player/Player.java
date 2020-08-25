@@ -17,7 +17,6 @@ import com.bapplications.maplemobile.views.UIControllers;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.TreeSet;
 
 public class Player extends Char {

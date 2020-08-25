@@ -33,7 +33,7 @@ public class Ladder {
 
     public boolean inRange(Point position, boolean upwards)
     {
-        Range<Short> hor = new Range((short)(position.x - 10), (short)(position.x + 10));
+        Range<Short> hor = new Range((short)(position.x - 15), (short)(position.x + 15));
         Range<Short> ver = new Range<>(y1, y2);
 
         short y = (short) (upwards ? position.y + 5 : position.y - 5);
