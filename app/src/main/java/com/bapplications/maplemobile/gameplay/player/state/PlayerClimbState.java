@@ -27,9 +27,6 @@ public class PlayerClimbState implements PlayerState{
             player.getPhobj().vspeed = 0.0f;
         }
 
-        if (player.isPressed(KeyAction.JUMP_KEY) && player.hasWalkInput())
-        {}
-
     }
 
     @Override
@@ -58,7 +55,7 @@ public class PlayerClimbState implements PlayerState{
             player.setDirection(player.isPressed(KeyAction.LEFT_ARROW_KEY));
 
             player.getPhobj().hspeed = player.isPressed(KeyAction.LEFT_ARROW_KEY) ? -walkforce : walkforce;
-            player.getPhobj().vspeed = player.getJumpForce() / 1.5f;
+            player.getPhobj().vspeed = -player.getJumpForce() / 1.5f;
 
             cancelLadder(player);
 

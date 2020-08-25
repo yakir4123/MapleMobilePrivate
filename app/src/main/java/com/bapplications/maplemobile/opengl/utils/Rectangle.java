@@ -63,7 +63,7 @@ public class Rectangle {
     {
         return !straight() &&
                         p.x >= left() && p.x <= right() &&
-                        p.y >= top() && p.y <= bottom();
+                        p.y <= top() && p.y >= bottom();
     }
 
     public boolean overlaps(Rectangle ar)

@@ -23,6 +23,7 @@ public class Sound {
     private MediaPlayer mediaPlayer = new MediaPlayer();
 
     public enum Name {
+        PORTAL,
         JUMP;
     }
 
@@ -32,7 +33,8 @@ public class Sound {
 
     public static void init(){
         NXNode gamesrc = Loaded.getFile("Sound").getRoot().getChild("Game.img");
-        addSound(Sound.Name.JUMP, gamesrc.getChild("Jump"));
+        addSound(Name.JUMP, gamesrc.getChild("Jump"));
+        addSound(Name.PORTAL, gamesrc.getChild("Portal"));
     }
 
     public Sound(Name name) {
@@ -47,7 +49,6 @@ public class Sound {
         try {
             fis = new FileInputStream(tempMp3);
             mediaPlayer.setDataSource(fis.getFD());
-
             mediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();

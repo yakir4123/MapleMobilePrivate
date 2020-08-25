@@ -37,9 +37,7 @@ public class GameEngine {
     }
 
     public void changeMap(int mapId) {
-        stage.clear();
-        stage.load(mapId,  0);
-
+        stage.changeMap(mapId);
     }
 
     public void loadPlayer(int charId) {
