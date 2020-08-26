@@ -104,8 +104,8 @@ public class Stage implements UIControllers.UIKeyListener{
 
 //        Point<int16_t> spawnpoint = portals.get_portal_by_id(portalid);
         Point startpos = physics.getYBelow(new Point());
-        player.respawn(new Point(3300, 200), mapInfo.isUnderwater());
-//        camera.set_view(mapInfo.getWalls(), mapInfo.getBorders());
+        player.respawn(new Point(0, 200), mapInfo.isUnderwater());
+        camera.setView(mapInfo.getWalls(), mapInfo.getBorders());
         camera.setPosition(player.getPosition());
     }
 
@@ -126,8 +126,8 @@ public class Stage implements UIControllers.UIKeyListener{
         player.update(physics, deltatime);
 
         portals.update(player.getPosition(), deltatime);
-//        camera.update(player.get_position());
-        camera.setPosition(player.getPosition().negateSign());
+        camera.update(player.getPosition());
+//        camera.setPosition(player.getPosition().negateSign());
 
         if (!player.isClimbing()/* && !player.is_sitting()*/ && !player.isAttacking())
         {

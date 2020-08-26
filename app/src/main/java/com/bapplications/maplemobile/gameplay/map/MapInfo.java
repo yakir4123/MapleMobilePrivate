@@ -22,11 +22,12 @@ public class MapInfo {
         try {
             long lower = (Long) info.getChild("VRLeft").get();
             long upper = (Long) info.getChild("VRRight").get();
-            mapWalls = new Range<Short>((short) lower, (short) upper);
+            mapWalls = new Range<>((short) lower, (short) upper);
 
             lower = (Long) info.getChild("VRTop").get();
             upper = (Long) info.getChild("VRBottom").get();
-            mapBorders = new Range<Short>((short) lower, (short) upper);
+            mapBorders = new Range<>((short) lower, (short) upper);
+//            mapBorders = new Range<>((short) -upper, (short) -lower);
         } catch (NullPointerException e) {
             mapWalls = walls;
             mapBorders = borders;
