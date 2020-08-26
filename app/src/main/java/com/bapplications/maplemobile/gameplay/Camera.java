@@ -4,13 +4,15 @@ import android.app.Activity;
 import android.util.Range;
 import android.widget.TextView;
 
+import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.opengl.utils.Point;
 
 
 public class Camera {
 
     private Point pos;
-
+    private static final int CAMERA_X_OFFSET = 120;
+    private static final int CAMERA_Y_OFFSET = 30;
     // View limits.
     Range<Short> hbounds;
     Range<Short> vbounds;
@@ -22,11 +24,11 @@ public class Camera {
         pos = new Point();
     }
 
-    void set_view(Range<Short> mapwalls, Range<Short> mapborders)
+    void setView(Range<Short> mapwalls, Range<Short> mapborders)
     {
-        hbounds = new Range<Short>((short)(-mapwalls.getUpper()),
-                (short)(-mapwalls.getLower()));
-        vbounds = new Range<Short>((short)(-mapborders.getUpper()),
+        hbounds = new Range<>((short)(mapwalls.getLower()),
+                (short)(mapwalls.getUpper()));
+        vbounds = new Range<>((short)(-mapborders.getUpper()),
                 (short)(-mapborders.getLower()));
     }
 
@@ -45,7 +47,6 @@ public class Camera {
     public void setPosition(Point p) {
         pos.x = p.x;
         pos.y = p.y;
-        setText();
     }
 
     public Point position() {
@@ -63,5 +64,21 @@ public class Camera {
         activity.runOnUiThread(() -> {
             textView.setText(pos.toString());
         });
+    }
+
+    public void update(Point position) {
+        int HWidth = Loaded.SCREEN_WIDTH/2;
+        int HHeight = Loaded.SCREEN_HEIGHT/8;
+
+        pos.x = -position.x;
+        pos.y = -(position.y + HHeight);
+        if (position.x < -(hbounds.getLower() + HWidth + CAMERA_X_OFFSET)){
+            pos.x = (hbounds.getLower() + HWidth + CAMERA_X_OFFSET);
+        }
+        else if (position.x > hbounds.getUpper() - HWidth + 4 * CAMERA_X_OFFSET){
+            pos.x = -(hbounds.getUpper() - HWidth + 4 * CAMERA_X_OFFSET);
+        }
+
+        setText();
     }
 }

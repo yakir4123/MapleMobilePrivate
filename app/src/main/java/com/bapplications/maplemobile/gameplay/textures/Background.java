@@ -38,7 +38,7 @@ public class Background extends Animation{
         super(Loaded.getFile("Map").getRoot().getChild("Back")
                 .getChild(src.getChild("bS").get() + ".img")
                 .getChild(((NXLongNode)src.getChild("ani")).getBool() ? "ani" : "back")
-                .getChild(src.getLongChild("no").get().b()), (byte) 0);
+                .getChild(src.getLongChild("no").get().intValue()), (byte) 0);
 
         VWIDTH = Loaded.SCREEN_WIDTH;
         VHEIGHT = Loaded.SCREEN_HEIGHT;
