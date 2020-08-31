@@ -10,7 +10,7 @@ public class Tile extends Texture {
     public Tile(NXNode src, String tileset) {
         super(Loaded.getFile("Map").getRoot().getChild("Tile").getChild(tileset)
                 .getChild((String) src.getChild("u").get())
-                .getChild("" + (Long) src.getChild("no").get()));
+                .getChild("" + (Long) src.getChild("no").get()), true);
 
         setPos(new Point(src));
 

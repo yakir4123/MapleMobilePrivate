@@ -5,7 +5,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
@@ -19,7 +18,6 @@ import com.bapplications.maplemobile.gameplay.GameEngine;
 import com.bapplications.maplemobile.gameplay.audio.Music;
 import com.bapplications.maplemobile.opengl.GameGLSurfaceView;
 import com.bapplications.maplemobile.opengl.utils.RedCircle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 
@@ -43,7 +41,9 @@ public class GameActivity extends AppCompatActivity {
         Configuration.CACHE_DIRECTORY = getCacheDir().getAbsolutePath();
         try {
             Loaded.loadFile("Map", Configuration.WZ_DIRECTORY + "/Map.nx");
+            Loaded.loadFile("Mob", Configuration.WZ_DIRECTORY + "/Mob.nx");
             Loaded.loadFile("Sound", Configuration.WZ_DIRECTORY + "/Sound.nx");
+            Loaded.loadFile("String", Configuration.WZ_DIRECTORY + "/String.nx");
             Loaded.loadFile("Character", Configuration.WZ_DIRECTORY + "/Character.nx");
         } catch (IOException e) {
             e.printStackTrace();
@@ -69,8 +69,8 @@ public class GameActivity extends AppCompatActivity {
 
         controllers = new UIControllers(this, binding);
         gameGLSurfaceView = findViewById(R.id.game_view);
-        getGameEngine().getStage().getCamera().setTextView(findViewById(R.id.camera_pos_tv), this);
-        getGameEngine().getStage().setControllers(controllers);
+        getGameEngine().getMap().getCamera().setTextView(findViewById(R.id.camera_pos_tv), this);
+        getGameEngine().getMap().setControllers(controllers);
         binding.setMap.setOnClickListener(view -> {
             ChangeMapPopup popUpClass = new ChangeMapPopup();
             popUpClass.showPopupWindow(view);

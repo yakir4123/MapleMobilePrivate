@@ -18,7 +18,8 @@ public class Frame extends Texture {
         super(src);
         bounds = new Rectangle(src);
         try {
-            head = (Point) src.getChild("head").get();
+            head = new Point(src.getChild("head"));
+            head.flipY();
         } catch (NullPointerException e) {
             head = new Point();
         }
@@ -113,5 +114,9 @@ public class Frame extends Texture {
 
     public void setDelay(short delay) {
         this.delay = delay;
+    }
+
+    public Point getHead() {
+        return head;
     }
 }

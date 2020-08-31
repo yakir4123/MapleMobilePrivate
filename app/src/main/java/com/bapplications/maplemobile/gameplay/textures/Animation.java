@@ -23,9 +23,12 @@ public class Animation {
     protected Linear xyscale;
     protected boolean animated;
     protected List<Frame> frames;
-    protected boolean lookRight = false;
+    protected boolean lookLeft = true;
     protected Nominal<Short> frameNumber;
 
+    public Animation(NXNode src) {
+        this(src, 0);
+    }
     public Animation(NXNode src, Object z) {
         this();
 
@@ -83,7 +86,7 @@ public class Animation {
         animated = frames.size() > 1;
     }
 
-    void reset()
+    public void reset()
     {
         frameNumber.set((short) 0);
         opacity.set(frames.get(0).startOpacity());
@@ -101,7 +104,7 @@ public class Animation {
         boolean modifyopc = interopc != 1.0f;
         boolean modifyscale = interscale != 1.0f;
 
-        args.setDirection(lookRight);
+        args.setDirection(lookLeft);
         frames.get(interframe).draw(args.plus(pos));
 //        if (modifyopc || modifyscale)
 //            frames[interframe].draw(args + DrawArgument(interscale, interscale, interopc));
@@ -143,7 +146,7 @@ public class Animation {
                     framestep = -framestep;
                     ended = false;
                 }
-                else if (framestep == -1 && frameNumber.equals(0))
+                else if (framestep == -1 && frameNumber.equals((short)0))
                 {
                     framestep = -framestep;
                     ended = true;
@@ -173,7 +176,11 @@ public class Animation {
             float threshold = (float)(delta) / deltatime;
             frameNumber.next(nextframe, threshold);
 
-            delay = frames.get(nextframe).getDelay();
+            try {
+                delay = frames.get(nextframe).getDelay();
+            } catch (ArrayIndexOutOfBoundsException e){
+                delay = 1;
+            }
 
             if (delay >= delta)
                 delay -= delta;
@@ -202,14 +209,28 @@ public class Animation {
         return frames.get(frameNumber.get());
     }
 
-//    public void flip(){
-//        for( Frame frame : frames){
-//            frame.flip();
-//        }
-//    }
-
     protected void setPos(Point point) {
         point.y *= -1;
         pos = point;
+    }
+
+	public Frame getFrame()
+    {
+        return frames.get(frameNumber.get());
+    }
+    public Point getHead() {
+        return getFrame().getHead();
+    }
+
+    public void shiftY(float y) {
+        for(Frame frame : frames) {
+            frame.shiftY(y);
+        }
+    }
+
+    public void shiftHead() {
+        for(Frame frame : frames) {
+            frame.shiftY(-frame.getHead().y);
+        }
     }
 }

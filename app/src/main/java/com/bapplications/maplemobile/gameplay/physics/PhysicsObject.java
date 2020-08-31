@@ -32,7 +32,7 @@ public class PhysicsObject extends MovingObject {
     {
         ERROR0,
         NOGRAVITY,      // 1
-        TURNATEDGES,    // 2
+        TURN_AT_EDGES,    // 2
         ERROR3,
         CHECKBELOW,     // 4
 

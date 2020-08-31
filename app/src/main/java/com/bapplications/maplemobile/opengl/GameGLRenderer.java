@@ -10,9 +10,7 @@ import com.bapplications.maplemobile.gameplay.GameEngine;
 import com.bapplications.maplemobile.gameplay.audio.Sound;
 import com.bapplications.maplemobile.gameplay.map.MapPortals;
 import com.bapplications.maplemobile.gameplay.player.Char;
-import com.bapplications.maplemobile.opengl.utils.DrawArgument;
 import com.bapplications.maplemobile.opengl.utils.RedCircle;
-import com.bapplications.maplemobile.opengl.utils.Point;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -22,7 +20,7 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
     private static final String TAG = "GameGLRenderer";
     private static GameGLRenderer instance;
 
-    private GameEngine _engine;
+    private GameEngine engine;
 
     private long fpsTime = System.nanoTime();
     private int frames;
@@ -39,7 +37,7 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
     }
 
     private GameGLRenderer(){
-        _engine = new GameEngine();
+        engine = new GameEngine();
     }
 
     @Override
@@ -77,11 +75,19 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         // Calculate the projection and view transformation
         Matrix.multiplyMM(GLState._MVPMatrix, 0, GLState._projectionMatrix, 0, GLState._viewMatrix, 0);
 
+
+        long start = System.currentTimeMillis();
         Char.init();
         Sound.init();
         MapPortals.init();
-        _engine.loadPlayer(0);
-        _engine.changeMap(100000000);
+        long diff = System.currentTimeMillis() - start;
+        Log.d(TAG, "diff init: "  + diff); // 0.3 ~ 1 s
+        start = System.currentTimeMillis();
+        engine.loadPlayer(0);
+        engine.changeMap(50000);
+//        engine.changeMap(100000000);
+        diff = System.currentTimeMillis() - start;
+        Log.d(TAG, "diff load map: "  + diff); // 8 s
     }
 
     @Override
@@ -91,8 +97,8 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
         long now = System.currentTimeMillis();
-        _engine.update((int) (now - before));
-        _engine.drawFrame();
+        engine.update((int) (now - before));
+        engine.drawFrame();
         before = now;
 
         if (now - fpsTime >= 1000)
@@ -109,10 +115,10 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
 
     public void setGameEngine (GameEngine engine)
     {
-        _engine = engine;
+        this.engine = engine;
     }
 
     public GameEngine getGameEngine() {
-        return _engine;
+        return engine;
     }
 }

@@ -23,6 +23,10 @@
  */
 package com.bapplications.maplemobile.pkgnx;
 
+import android.util.Log;
+
+import com.bapplications.maplemobile.pkgnx.nodes.NXAudioNode;
+import com.bapplications.maplemobile.pkgnx.nodes.NXDoubleNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXNullNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXStringNode;
@@ -104,8 +108,8 @@ public abstract class NXNode implements Iterable<NXNode> {
 	 */
 	public abstract Object get();
 
-	public Object get(Object def){
-		Object res = get();
+	public <T> T get(T def) {
+		T res = (T) get();
 		return res != null ? res : def;
 	}
 
@@ -122,16 +126,22 @@ public abstract class NXNode implements Iterable<NXNode> {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T extends NXNode> T getChild(String name) {
+		T res = null;
 		if (childCount == 0)
-			return (T)nullNode;
-		T res = (T) searchChild(name);
+			return (T) nullNode;
+		res = (T) searchChild(name);
 		if (res == null)
-			return (T)nullNode;
+			return (T) nullNode;
 		return res;
 	}
 
+
 	public NXLongNode getLongChild(String name) {
 		return (NXLongNode)getChild(name);
+	}
+
+	public boolean isNull() {
+		return nullNode.isNull();
 	}
 
 	public NXStringNode getStringChild(String name) {
@@ -175,9 +185,10 @@ public abstract class NXNode implements Iterable<NXNode> {
 		int min = 0, max = childCount - 1;
 		String minVal = children[min].getName(), maxVal = children[max].getName();
 		while (true) {
-			if (name.compareTo(minVal) <= 0) return (name.equals(minVal)) ? children[min] : null;
-			if (name.compareTo(maxVal) >= 0) return (name.equals(maxVal)) ? children[max] : null;
-
+			if (name.compareTo(minVal) <= 0)
+				return (name.equals(minVal)) ? children[min] : null;
+			if (name.compareTo(maxVal) >= 0)
+				return (name.equals(maxVal)) ? children[max] : null;
 			int pivot = (min + max) >> 1;
 			String pivotVal = children[pivot].getName();
 
@@ -256,6 +267,14 @@ public abstract class NXNode implements Iterable<NXNode> {
 		else if ((children != null && children[0] == null) || (childMap != null && childMap.isEmpty()))
 			populateChildren();
 		return (childMap != null) ? childMap.values().iterator() : Arrays.asList(children).iterator();
+	}
+
+	public NXDoubleNode getDoubleChild(String name) {
+		return (NXDoubleNode)getChild(name);
+	}
+
+	public NXAudioNode getAudioChild(String name) {
+		return (NXAudioNode)getChild(name);
 	}
 
 	/**

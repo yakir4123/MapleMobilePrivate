@@ -22,7 +22,7 @@ public class MapObject {
         active = true;
     }
 
-    byte update(Physics physics)
+    public byte update(Physics physics, int deltatime)
     {
         physics.moveObject(phobj);
 
@@ -35,42 +35,45 @@ public class MapObject {
         phobj.set_y((int) y);
     }
 
-    void setPosition(Point position)
+    protected void setPosition(Point position)
     {
         setPosition(position.x, position.y);
     }
 
-    void makeactive()
+    protected void makeActive()
     {
         active = true;
     }
 
-    void deactivate()
+    protected void deActivate()
     {
         active = false;
     }
 
-    boolean is_active()
-    {
-        return active;
-    }
-
-    byte get_layer()
+    byte getLayer()
     {
         return phobj.fhlayer;
     }
 
-    int get_oid()
+    int getOid()
     {
         return oid;
     }
 
-    Point get_position()
+    Point getPosition()
     {
         return phobj.getPosition();
     }
 
     public PhysicsObject getPhobj() {
         return phobj;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void draw(Point view, float alpha) {
+
     }
 }

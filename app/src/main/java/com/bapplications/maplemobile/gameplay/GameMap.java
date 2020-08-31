@@ -7,10 +7,12 @@ import com.bapplications.maplemobile.gameplay.audio.Sound;
 import com.bapplications.maplemobile.gameplay.map.Layer;
 import com.bapplications.maplemobile.gameplay.map.MapBackgrounds;
 import com.bapplications.maplemobile.gameplay.map.MapInfo;
+import com.bapplications.maplemobile.gameplay.map.MapMobs;
 import com.bapplications.maplemobile.gameplay.map.MapPortals;
 import com.bapplications.maplemobile.gameplay.map.MapTilesObjs;
 import com.bapplications.maplemobile.gameplay.audio.Music;
 import com.bapplications.maplemobile.gameplay.map.Portal;
+import com.bapplications.maplemobile.gameplay.mobs.MobSpawn;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.gameplay.player.CharEntry;
 import com.bapplications.maplemobile.gameplay.player.Player;
@@ -19,11 +21,12 @@ import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.views.KeyAction;
 import com.bapplications.maplemobile.views.UIControllers;
 
-public class Stage implements UIControllers.UIKeyListener{
+public class GameMap implements UIControllers.UIKeyListener {
 
 
     private int mapid;
     private State state;
+    private MapMobs mobs;
     private Player player;
     private Camera camera;
     private MapInfo mapInfo;
@@ -40,7 +43,7 @@ public class Stage implements UIControllers.UIKeyListener{
         ACTIVE
     };
     
-    public Stage()
+    public GameMap()
     {
         state = State.INACTIVE;
         camera = new Camera();
@@ -55,9 +58,6 @@ public class Stage implements UIControllers.UIKeyListener{
     {
         player = new Player(entry, controllers);
         controllers.setExpressions(player.getExpressions());
-//        CharStats stats = player.getStats();
-//        levelBefore = stats.get_stat(MapleStat.LEVEL);
-//        expBefore = stats.get_exp();
     }
 
     public void load(int mapid, int portalid)
@@ -65,7 +65,7 @@ public class Stage implements UIControllers.UIKeyListener{
         switch (state)
         {
             case INACTIVE:
-                load_map(mapid);
+                loadMap(mapid);
                 respawn(portalid);
                 break;
             case TRANSITION:
@@ -76,8 +76,22 @@ public class Stage implements UIControllers.UIKeyListener{
         state = State.ACTIVE;
     }
 
+    public void spawnMobs(NXNode src) {
+        int oid = 100; // todo: needs a way to calculate that
+        for(NXNode spawnNode : src) {
+            if(!spawnNode.getStringChild("type").get().equals("m")) {
+                continue;
+            }
+            String id = spawnNode.getStringChild("id").get();
+            short flip = spawnNode.getLongChild("f").get().shortValue();
+            Point p = new Point(spawnNode);
+            MobSpawn spawn = new MobSpawn(oid++, Integer.parseInt(id), (byte)0, (byte)0, flip, true, (byte)0, p.flipY());
+            mobs.spawn(spawn);
+        }
+    }
 
-    void load_map(int mapid)
+
+    void loadMap(int mapid)
     {
         this.mapid = mapid;
 
@@ -89,11 +103,14 @@ public class Stage implements UIControllers.UIKeyListener{
         // in case of no map exist with this mapid
         // todo:: fix what happend if src == null
         if (src != null) {
+            mobs = new MapMobs();
             tilesobjs = new MapTilesObjs(src);
-            backgrounds = new MapBackgrounds(src.getChild("back"));
             physics = new Physics(src.getChild("foothold"));
-            mapInfo = new MapInfo(src, physics.getFHT().getWalls(), physics.getFHT().getBorders());
+            backgrounds = new MapBackgrounds(src.getChild("back"));
             portals = new MapPortals(src.getChild("portal"), mapid);
+            mapInfo = new MapInfo(src, physics.getFHT().getWalls(), physics.getFHT().getBorders());
+
+            spawnMobs(src.getChild("life"));
         }
     }
 
@@ -106,7 +123,8 @@ public class Stage implements UIControllers.UIKeyListener{
         Point startpos = physics.getYBelow(new Point());
         player.respawn(new Point(0, 200), mapInfo.isUnderwater());
         camera.setView(mapInfo.getWalls(), mapInfo.getBorders());
-        camera.setPosition(player.getPosition());
+//        camera.setPosition(player.getPosition());
+        camera.update(player.getPosition().negateSign());
     }
 
     public void update(int deltatime) {
@@ -120,14 +138,12 @@ public class Stage implements UIControllers.UIKeyListener{
 //
 ////        reactors.update(physics);
 ////        npcs.update(physics);
-////        mobs.update(physics);
-////        chars.update(physics);
+        mobs.update(physics, deltatime);
+//        chars.update(physics);
 ////        drops.update(physics);
         player.update(physics, deltatime);
-
         portals.update(player.getPosition(), deltatime);
         camera.update(player.getPosition());
-//        camera.setPosition(player.getPosition().negateSign());
 
         if (!player.isClimbing()/* && !player.is_sitting()*/ && !player.isAttacking())
         {
@@ -189,7 +205,7 @@ public class Stage implements UIControllers.UIKeyListener{
             physics.draw(viewpos);
 //            reactors.draw(id, viewx, viewy, alpha);
 //            npcs.draw(id, viewx, viewy, alpha);
-//            mobs.draw(id, viewx, viewy, alpha);
+            mobs.draw(id, viewpos, alpha);
 //            chars.draw(id, viewx, viewy, alpha);
             player.draw(id, viewpos, alpha);
 //            drops.draw(id, viewx, viewy, alpha);

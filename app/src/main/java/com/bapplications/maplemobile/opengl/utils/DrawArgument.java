@@ -81,7 +81,7 @@ public class DrawArgument {
         return (byte) (xscale > 0 ? 1 : -1);
     }
 
-    public void setDirection(boolean lookRight) {
-        xscale = lookRight ? -1 : 1;
+    public void setDirection(boolean lookLeft) {
+        xscale = lookLeft ? xscale : -xscale;
     }
 }
