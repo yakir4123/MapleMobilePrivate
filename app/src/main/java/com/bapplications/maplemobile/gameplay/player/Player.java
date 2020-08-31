@@ -70,7 +70,7 @@ public class Player extends Char {
 //        nullstate.update_state(*this);
     }
 
-    public int update(Physics physics, int deltatime) {
+    public byte update(Physics physics, int deltatime) {
 
 		PlayerState pst = getState(state);
 
@@ -104,7 +104,7 @@ public class Player extends Char {
 //
         climb_cooldown.update(deltatime);
 
-        return getLayer().ordinal();
+        return (byte) getLayer().ordinal();
     }
 
     private float getStanceSpeed() {
@@ -171,7 +171,7 @@ public class Player extends Char {
     }
 
     public float getWalkForce() {
-        return 0.05f + 0.25f;// * (float)(stats.get_total(EquipStat::Id::SPEED)) / 100;
+        return 0.05f + 0.32f;// * (float)(stats.get_total(EquipStat::Id::SPEED)) / 100;
     }
 
     public float getJumpForce() {

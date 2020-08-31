@@ -20,6 +20,7 @@ import io.netty.buffer.ByteBuf;
 
 public class Sound {
 
+    private static int id;
     private MediaPlayer mediaPlayer = new MediaPlayer();
 
     public enum Name {
@@ -37,8 +38,12 @@ public class Sound {
         addSound(Name.PORTAL, gamesrc.getChild("Portal"));
     }
 
+    public Sound(NXAudioNode src) {
+        id = addSound(src);
+    }
+
     public Sound(Name name) {
-        int id = soundsId.get(name);
+        id = soundsId.get(name);
 
         // create temp file that will hold byte array
         File tempMp3 = new File(samples.get(id));
@@ -57,7 +62,7 @@ public class Sound {
     }
 
     public static void addSound(Name name, NXNode src) {
-        int id = addSound(src);
+        id = addSound(src);
 
         if (id != 0)
             soundsId.put(name, id);

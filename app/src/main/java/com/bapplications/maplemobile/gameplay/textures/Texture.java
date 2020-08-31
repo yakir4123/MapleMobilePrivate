@@ -14,6 +14,9 @@ import com.bapplications.maplemobile.pkgnx.nodes.NXBitmapNode;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class Texture {
 
     private Point pos;
@@ -29,33 +32,48 @@ public class Texture {
     protected NXBitmapNode bitmapNode;
 
     private static Map<Integer, Integer> bitmapToTextureMap = new HashMap<>();
+    private Bitmap bmap;
 
     public Texture(){}
 
     public Texture(NXNode src) {
-        initTexture(src);
+        this(src, true);
+    }
+
+    public Texture(NXNode src, boolean initGL) {
+        initTexture(src, initGL);
+//        loadGLTexture();
     }
 
     public void initTexture(NXNode src){
+        initTexture(src, true);
+    }
+
+    public void initTexture(NXNode src, boolean initGL){
         if (!(src instanceof NXBitmapNode)) {
             throw new IllegalArgumentException("NXNode must be NXBitmapNode in Texture instance");
         }
         shift = new Point();
         bitmapNode = (NXBitmapNode) src;
-        Bitmap bmap = bitmapNode.get();
+
+        bmap = bitmapNode.get();
         this.origin = new Point(src.getChild("origin").get());
         dimensions = new Point(bmap.getWidth(), bmap.getHeight());
         half_dimensions_glratio = dimensions.scalarMul(0.5f).toGLRatio();
         origin = pointToAndroid(origin);
         setPos(new Point());
-        textureDataHandle = loadGLTexture(bmap);
-        bmap.recycle();
+        if(initGL)
+            loadGLTexture();
     }
 
-    protected static int loadGLTexture(Bitmap bitmap)
+    public void loadGLTexture() {
+        textureDataHandle = loadGLTexture(bmap);
+    }
+
+    public static int loadGLTexture(Bitmap bmap)
     {
 
-        Integer cachedTextureId = bitmapToTextureMap.get(bitmap.hashCode());
+        Integer cachedTextureId = bitmapToTextureMap.get(bmap.hashCode());
         if (cachedTextureId != null)
         {
             return cachedTextureId;
@@ -71,9 +89,10 @@ public class Texture {
         GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
 
         // Use Android GLUtils to specify a two-dimensional texture image from our bitmap
-        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, bitmap, 0);
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, bmap, 0);
 
-        bitmapToTextureMap.put(bitmap.hashCode(), textureHandle[0]);
+        bitmapToTextureMap.put(bmap.hashCode(), textureHandle[0]);
+        bmap.recycle();
         return textureHandle[0];
     }
 
@@ -194,6 +213,14 @@ public class Texture {
         p.x *= -1;
         p = p.plus(dimensions.mul(new Point(0.5f, -0.5f)));
         return p;
+    }
+
+    public void shiftY(float y) {
+        this.pos.y += y;
+    }
+
+    public void shiftX(float x) {
+        this.pos.x += x;
     }
 }
 

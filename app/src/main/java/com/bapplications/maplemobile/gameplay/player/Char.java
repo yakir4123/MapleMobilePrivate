@@ -16,25 +16,9 @@ public class Char extends MapObject {
     public static void init() {
         CharLook.init();
     }
-    protected void draw(Point viewpos, float alpha) {
+
+    public void draw(Point viewpos, float alpha) {
         Point absp = phobj.getAbsolute(viewpos, alpha);
-//        Log.d("pos::", ""+viewpos.plus(absp));
-
-//        effects.drawbelow(absp, alpha);
-
-//        Color color;
-
-//        if (invincible)
-//        {
-//            float phi = invincible.alpha() * 30;
-//            float rgb = 0.9f - 0.5f * std::abs(std::sinf(phi));
-//
-//            color = Color(rgb, rgb, rgb, 1.0f);
-//        }
-//        else
-//        {
-//            color = Color::Code::CWHITE;
-//        }
 
         look.draw(new DrawArgument(absp), alpha);
 

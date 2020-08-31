@@ -1,7 +1,5 @@
 package com.bapplications.maplemobile.views;
 
-import android.content.Context;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
@@ -106,7 +104,7 @@ public class UIControllers {
                 expButton.setTranslationY(100);
                 expButton.setImageResource(exp.getResource());
                 expButton.setOnClickListener((view -> {
-                    activity.getGameEngine().getStage().getPlayer().getLook().setExpression(exp);
+                    activity.getGameEngine().getMap().getPlayer().getLook().setExpression(exp);
                 }));
                 binding.expressionsBtnsLayout.addView(expButton);
                 setMargins(expButton, 5, 5, 0, 0);

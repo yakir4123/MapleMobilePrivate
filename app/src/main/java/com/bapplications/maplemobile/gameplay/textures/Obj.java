@@ -17,7 +17,7 @@ public class Obj extends Animation {
         setPos(new Point(src));
         try {
             if(((NXLongNode) src.getChild("f")).getBool())
-                lookRight = true;
+                lookLeft = false;
         } catch (NullPointerException e) {}
     }
 

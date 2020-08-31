@@ -36,6 +36,16 @@ public class Linear {
         return now  + value;
     }
 
+
+    public void setPlus(float value){
+        before = now;
+        now += value;
+    }
+
+    public void setMinus(float value){
+        setPlus(-value);
+    }
+
     public float last() {
         return before;
     }
@@ -52,5 +62,9 @@ public class Linear {
 
     public float minus(float value) {
         return now - value;
+    }
+
+    public void normalize() {
+        before = now;
     }
 }

@@ -1,43 +1,42 @@
 package com.bapplications.maplemobile.gameplay;
 
-import com.bapplications.maplemobile.gameplay.player.Char;
 import com.bapplications.maplemobile.gameplay.player.CharEntry;
 
 public class GameEngine {
 
-    private Stage stage;
+    private GameMap map;
 
     public GameEngine() {
-        stage = new Stage();
+        map = new GameMap();
         startGame();
     }
 
 
     public void startGame()
     {
-        stage.init();
+        map.init();
     }
 
 
 
     public void update(int deltatime) {
-        stage.update(deltatime);
+        map.update(deltatime);
     }
     public void drawFrame ()
     {
-        stage.draw(1f);
+        map.draw(1f);
     }
 
     public void destroy() {
 
     }
 
-    public Stage getStage() {
-        return stage;
+    public GameMap getMap() {
+        return map;
     }
 
     public void changeMap(int mapId) {
-        stage.changeMap(mapId);
+        map.changeMap(mapId);
     }
 
     public void loadPlayer(int charId) {
@@ -45,6 +44,6 @@ public class GameEngine {
         CharEntry ce = new CharEntry(charId);
         ce.look.faceid = 20000;
         ce.look.hairid = 30020;
-        stage.loadPlayer(ce);
+        map.loadPlayer(ce);
     }
 }

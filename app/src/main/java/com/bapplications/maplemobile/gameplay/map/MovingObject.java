@@ -15,6 +15,12 @@ public class MovingObject {
         y = new Linear();
     }
 
+
+    public void normalize() {
+        x.normalize();
+        y.normalize();
+    }
+
     public void set_x(int x) {
         this.x.set(x);
     }

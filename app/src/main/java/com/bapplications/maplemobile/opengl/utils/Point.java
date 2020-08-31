@@ -23,7 +23,6 @@ public class Point{
         }
     }
 
-
     public Point(NXNode src){
         if( src instanceof NXPointNode){
             x = ((Point)src.get()).x;
@@ -38,10 +37,6 @@ public class Point{
             x = o.x;
             y = o.y;
         }
-    }
-
-    public Point(NXPointNode src){
-        this(src.get());
     }
 
     public Point(float x, float y) {
@@ -106,4 +101,14 @@ public class Point{
         return "(" + x + ", " + y + ")";
     }
 
+    public Point flipY() {
+        y *= -1;
+        return this;
+    }
+
+
+    public Point flipX() {
+        x *= -1;
+        return this;
+    }
 }

@@ -2,17 +2,30 @@ package com.bapplications.maplemobile.gameplay.map;
 
 
 
+import android.util.Log;
 import com.bapplications.maplemobile.gameplay.textures.Obj;
+import com.bapplications.maplemobile.gameplay.textures.Texture;
 import com.bapplications.maplemobile.gameplay.textures.Tile;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
+
+import org.reactivestreams.Subscriber;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class TilesObjs {
+    private static final String TAG = "TilesObjs";
     private Map<Byte, List<Tile>> tiles;
     private Map<Byte, List<Obj>> objs;
 

@@ -1,6 +1,5 @@
 package com.bapplications.maplemobile.gameplay.physics;
 
-import android.util.Log;
 import android.util.Range;
 
 import com.bapplications.maplemobile.opengl.utils.Point;
@@ -216,7 +215,7 @@ public class FootholdTree {
             float wall = getWall(phobj.fhid, left, phobj.nextY());
             boolean collision = left ? crnt_x >= wall && next_x <= wall : crnt_x <= wall && next_x >= wall;
 
-            if (!collision && phobj.isFlagSet(PhysicsObject.Flag.TURNATEDGES))
+            if (!collision && phobj.isFlagSet(PhysicsObject.Flag.TURN_AT_EDGES))
             {
                 wall = getEdge(phobj.fhid, left);
                 collision = left ? crnt_x >= wall && next_x <= wall : crnt_x <= wall && next_x >= wall;
@@ -225,7 +224,7 @@ public class FootholdTree {
             if (collision)
             {
                 phobj.limitX(wall);
-                phobj.clearFlag(PhysicsObject.Flag.TURNATEDGES);
+                phobj.clearFlag(PhysicsObject.Flag.TURN_AT_EDGES);
             }
         }
 
