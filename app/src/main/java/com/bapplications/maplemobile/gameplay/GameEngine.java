@@ -1,42 +1,89 @@
 package com.bapplications.maplemobile.gameplay;
 
+import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.gameplay.player.CharEntry;
+import com.bapplications.maplemobile.gameplay.player.Player;
+import com.bapplications.maplemobile.views.KeyAction;
+import com.bapplications.maplemobile.views.UIControllers;
 
-public class GameEngine {
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
-    private GameMap map;
+public class GameEngine implements UIControllers.UIKeyListener {
 
-    public GameEngine() {
-        map = new GameMap();
-        startGame();
+    private Player player;
+    private GameMap currMap;
+    private UIControllers controllers;
+    private static GameEngine instance;
+    private Map<Integer, GameMap> nextMaps;
+
+    public static GameEngine getInstance() {
+        if (instance == null)
+            instance = new GameEngine();
+        return instance;
+    }
+
+    private GameEngine() {
+        currMap = new GameMap(new Camera());
+        nextMaps = new HashMap<>();
     }
 
 
     public void startGame()
     {
-        map.init();
+        currMap.init(Configuration.START_MAP);
     }
-
 
 
     public void update(int deltatime) {
-        map.update(deltatime);
+        currMap.update(deltatime);
     }
     public void drawFrame ()
     {
-        map.draw(1f);
+        currMap.draw(1f);
     }
 
     public void destroy() {
 
     }
 
-    public GameMap getMap() {
-        return map;
+
+    public void setControllers(UIControllers controllers) {
+        this.controllers = controllers;
+        this.controllers.registerListener(this);
+    }
+
+    @Override
+    public void onAction(KeyAction key) {
+        player.sendAction(key);
+    }
+
+    public GameMap getCurrMap() {
+        return currMap;
+    }
+
+
+    public void changeMap() {
+        changeMap(currMap.getMapId());
     }
 
     public void changeMap(int mapId) {
-        map.changeMap(mapId);
+        if (mapId == currMap.getMapId()){
+            currMap.enterMap(player);
+            return;
+        }
+
+        if (nextMaps.containsKey(mapId)) {
+            nextMaps.put(currMap.getMapId(), currMap);
+            currMap = nextMaps.get(mapId);
+            currMap.enterMap(player);
+            return;
+        }
+
+        currMap = new GameMap(currMap.getCamera());
+        currMap.init(mapId);
+        currMap.enterMap(player);
     }
 
     public void loadPlayer(int charId) {
@@ -44,6 +91,27 @@ public class GameEngine {
         CharEntry ce = new CharEntry(charId);
         ce.look.faceid = 20000;
         ce.look.hairid = 30020;
-        map.loadPlayer(ce);
+        loadPlayer(ce);
+    }
+
+    public void notifyNewMaps(Set<Integer> mapids) {
+        for (Integer mapid : mapids) {
+
+            GameMap map = new GameMap(currMap.getCamera());
+            map.loadMap(mapid);
+            nextMaps.put(mapid, map);
+//            Thread t = new Thread(() -> {
+//                    GameMap map = new GameMap(currMap.getCamera());
+//                    map.loadMap(mapid);
+//                    nextMaps.put(mapid, map);
+//            });
+//            t.start();
+        }
+    }
+
+    public void loadPlayer(CharEntry entry)
+    {
+        player = new Player(entry, controllers);
+        controllers.setExpressions(player.getExpressions());
     }
 }

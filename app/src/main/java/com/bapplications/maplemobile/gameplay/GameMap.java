@@ -21,7 +21,7 @@ import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.views.KeyAction;
 import com.bapplications.maplemobile.views.UIControllers;
 
-public class GameMap implements UIControllers.UIKeyListener {
+public class GameMap{
 
 
     private int mapid;
@@ -33,47 +33,25 @@ public class GameMap implements UIControllers.UIKeyListener {
     private Physics physics;
     private MapPortals portals;
     private MapTilesObjs tilesobjs;
-    private UIControllers controllers;
     private MapBackgrounds backgrounds;
 
-    enum State
+    public enum State
     {
         INACTIVE,
         TRANSITION,
         ACTIVE
     };
     
-    public GameMap()
+    public GameMap(Camera camera)
     {
         state = State.INACTIVE;
-        camera = new Camera();
+        this.camera = camera;
     }
 
-    public void init(){
+    public void init(int mapid){
         // drops.init();
-    }
-
-
-    public void loadPlayer(CharEntry entry)
-    {
-        player = new Player(entry, controllers);
-        controllers.setExpressions(player.getExpressions());
-    }
-
-    public void load(int mapid, int portalid)
-    {
-        switch (state)
-        {
-            case INACTIVE:
-                loadMap(mapid);
-                respawn(portalid);
-                break;
-            case TRANSITION:
-                respawn(portalid);
-                break;
-        }
-
         state = State.ACTIVE;
+        loadMap(mapid);
     }
 
     public void spawnMobs(NXNode src) {
@@ -94,20 +72,21 @@ public class GameMap implements UIControllers.UIKeyListener {
     void loadMap(int mapid)
     {
         this.mapid = mapid;
-
         String strid = StaticUtils.extendId(mapid, 9);
         char prefix = strid.charAt(0);
 
         NXNode src = mapid == -1 ? null : Loaded.getFile("Map").getRoot().getChild("Map").getChild("Map" + prefix).getChild(strid + ".img");
 
         // in case of no map exist with this mapid
-        // todo:: fix what happend if src == null
-        if (src != null) {
+        if (src != null && !src.isNull()) {
             mobs = new MapMobs();
             tilesobjs = new MapTilesObjs(src);
             physics = new Physics(src.getChild("foothold"));
             backgrounds = new MapBackgrounds(src.getChild("back"));
             portals = new MapPortals(src.getChild("portal"), mapid);
+
+            if(state == State.ACTIVE)
+                GameEngine.getInstance().notifyNewMaps(portals.getNextMaps());
             mapInfo = new MapInfo(src, physics.getFHT().getWalls(), physics.getFHT().getBorders());
 
             spawnMobs(src.getChild("life"));
@@ -123,7 +102,6 @@ public class GameMap implements UIControllers.UIKeyListener {
         Point startpos = physics.getYBelow(new Point());
         player.respawn(new Point(0, 200), mapInfo.isUnderwater());
         camera.setView(mapInfo.getWalls(), mapInfo.getBorders());
-//        camera.setPosition(player.getPosition());
         camera.update(player.getPosition().negateSign());
     }
 
@@ -186,7 +164,7 @@ public class GameMap implements UIControllers.UIKeyListener {
         else if (warpinfo.valid)
         {
             (new Sound(Sound.Name.PORTAL)).play();
-            changeMap(warpinfo.mapid);
+            GameEngine.getInstance().changeMap(warpinfo.mapid);
         }
     }
 
@@ -229,6 +207,9 @@ public class GameMap implements UIControllers.UIKeyListener {
 //        reactors.clear();
     }
 
+    public int getMapId() {
+        return mapid;
+    }
 
     public Camera getCamera() {
         return camera;
@@ -238,17 +219,8 @@ public class GameMap implements UIControllers.UIKeyListener {
         return player;
     }
 
-    public void setControllers(UIControllers controllers) {
-        this.controllers = controllers;
-        this.controllers.registerListener(this);
-    }
-
-    @Override
-    public void onAction(KeyAction key) {
-        player.sendAction(key);
-        switch (key){
-            case JUMP_KEY:
-        }
+    public State getState() {
+        return state;
     }
 
     public void checkLadders(boolean up)
@@ -260,9 +232,11 @@ public class GameMap implements UIControllers.UIKeyListener {
     }
 
 
-    public void changeMap(int mapId) {
-        clear();
-        load(mapId,  0);
+    public void enterMap(Player player) {
+        this.player = player;
+        state = State.ACTIVE;
+        respawn(0);
+        GameEngine.getInstance().notifyNewMaps(portals.getNextMaps());
     }
 
 }
