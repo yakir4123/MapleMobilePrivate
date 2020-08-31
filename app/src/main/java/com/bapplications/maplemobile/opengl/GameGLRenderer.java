@@ -37,7 +37,7 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
     }
 
     private GameGLRenderer(){
-        engine = new GameEngine();
+        engine = GameEngine.getInstance();
     }
 
     @Override
@@ -83,11 +83,13 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         long diff = System.currentTimeMillis() - start;
         Log.d(TAG, "diff init: "  + diff); // 0.3 ~ 1 s
         start = System.currentTimeMillis();
+        engine.startGame();
         engine.loadPlayer(0);
-        engine.changeMap(50000);
+        engine.changeMap();
+//        engine.changeMap(50000);
 //        engine.changeMap(100000000);
-        diff = System.currentTimeMillis() - start;
-        Log.d(TAG, "diff load map: "  + diff); // 8 s
+//        diff = System.currentTimeMillis() - start;
+//        Log.d(TAG, "diff load map: "  + diff); // 8 s
     }
 
     @Override

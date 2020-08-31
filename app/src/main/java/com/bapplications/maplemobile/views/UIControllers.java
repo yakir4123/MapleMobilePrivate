@@ -104,7 +104,7 @@ public class UIControllers {
                 expButton.setTranslationY(100);
                 expButton.setImageResource(exp.getResource());
                 expButton.setOnClickListener((view -> {
-                    activity.getGameEngine().getMap().getPlayer().getLook().setExpression(exp);
+                    activity.getGameEngine().getCurrMap().getPlayer().getLook().setExpression(exp);
                 }));
                 binding.expressionsBtnsLayout.addView(expButton);
                 setMargins(expButton, 5, 5, 0, 0);

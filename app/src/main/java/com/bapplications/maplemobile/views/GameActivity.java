@@ -69,8 +69,8 @@ public class GameActivity extends AppCompatActivity {
 
         controllers = new UIControllers(this, binding);
         gameGLSurfaceView = findViewById(R.id.game_view);
-        getGameEngine().getMap().getCamera().setTextView(findViewById(R.id.camera_pos_tv), this);
-        getGameEngine().getMap().setControllers(controllers);
+        getGameEngine().getCurrMap().getCamera().setTextView(findViewById(R.id.camera_pos_tv), this);
+        getGameEngine().setControllers(controllers);
         binding.setMap.setOnClickListener(view -> {
             ChangeMapPopup popUpClass = new ChangeMapPopup();
             popUpClass.showPopupWindow(view);

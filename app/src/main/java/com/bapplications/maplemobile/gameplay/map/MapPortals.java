@@ -6,6 +6,9 @@ import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class MapPortals {
     private static final short WARPCD = 48;
@@ -119,5 +122,13 @@ public class MapPortals {
 
     public byte getPortalIdByName(String toname) {
         return portalIdsByName.get(toname);
+    }
+
+    public Set<Integer> getNextMaps() {
+        Set<Integer> nextMaps = new HashSet<>();
+        for (Portal portal: portalsById.values()) {
+            nextMaps.add(portal.getWarpInfo().mapid);
+        }
+        return nextMaps;
     }
 }

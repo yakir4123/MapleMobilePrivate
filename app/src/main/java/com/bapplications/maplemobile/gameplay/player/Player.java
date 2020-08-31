@@ -24,7 +24,7 @@ public class Player extends Char {
     private Ladder ladder;
     private boolean attacking;
     private TimedBool climb_cooldown;
-    private final boolean underwater;
+    private boolean underwater;
     private final UIControllers controllers;
     private TreeSet<Expression> myExpressions;
 
@@ -64,9 +64,9 @@ public class Player extends Char {
 
     public void respawn(Point pos, boolean underwater) {
         setPosition(pos.x, pos.y);
-//        this.underwater = underwater;
-//        attacking = false;
-//        ladder = nullptr;
+        this.underwater = underwater;
+        attacking = false;
+        ladder = null;
 //        nullstate.update_state(*this);
     }
 
