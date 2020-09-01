@@ -107,7 +107,7 @@ public class CharLook {
     }
 
     public void setStance(Stance.Id newstance) {
-        if (action != null || newstance == Stance.Id.NONE)
+        if (action != null)
             return;
 
 //        Stance adjstance = equips.adjust_stance(newstance);

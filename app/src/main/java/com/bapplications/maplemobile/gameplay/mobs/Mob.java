@@ -99,18 +99,18 @@ public class Mob extends MapObject {
 
         NXNode info = src.getChild("info");
 
-        level = info.getLongChild("level").get().shortValue();
-        watk = info.getLongChild("PADamage").get().shortValue();
-        matk = info.getLongChild("MADamage").get().shortValue();
-        wdef = info.getLongChild("PDDamage").get().shortValue();
-        mdef = info.getLongChild("MDDamage").get().shortValue();
-        accuracy = info.getLongChild("acc").get().shortValue();
-        avoid = info.getLongChild("eva").get().shortValue();
-        knockback = info.getLongChild("pushed").get().shortValue();
-        speed = info.getLongChild("speed").get().floatValue();
+        level = info.getChild("level").get(0L).shortValue();
+        watk = info.getChild("PADamage").get(0L).shortValue();
+        matk = info.getChild("MADamage").get(0L).shortValue();
+        wdef = info.getChild("PDDamage").get(0L).shortValue();
+        mdef = info.getChild("MDDamage").get(0L).shortValue();
+        accuracy = info.getChild("acc").get(0L).shortValue();
+        avoid = info.getChild("eva").get(0L).shortValue();
+        knockback = info.getChild("pushed").get(0L).shortValue();
+        speed = info.getChild("speed").get(0L).floatValue();
         flyspeed = info.getChild("flySpeed").get(0L).floatValue();
-        touchdamage = info.getLongChild("bodyAttack").getBool();
-        undead = info.getLongChild("undead").getBool();
+        touchdamage = info.getChild("bodyAttack").get(0L) > 0;
+        undead = info.getChild("undead").get(0L) > 0;
         noflip = info.getChild("noFlip").get(0L) >  0;
         notattack = info.getChild("notAttack").get(0L) > 0;
         canjump = src.isChildExist("jump");
@@ -132,12 +132,12 @@ public class Mob extends MapObject {
         putAnimation(Stance.HIT, src.getChild("hit1"));
         putAnimation(Stance.DIE, src.getChild("die1"));
 
-        name = Loaded.getFile("String").getRoot().getChild("Mob.img").getChild(mid).getStringChild("name").get();
+        name = Loaded.getFile("String").getRoot().getChild("Mob.img").getChild(mid).getChild("name").get("");
 
         NXNode sndsrc = Loaded.getFile("Sound").getRoot().getChild("Mob.img").getChild(strid);
 
-        hitsound = new Sound(sndsrc.getAudioChild("Damage"));
-        diesound = new Sound(sndsrc.getAudioChild("Die"));
+        hitsound = new Sound(sndsrc.getChild("Damage"));
+        diesound = new Sound(sndsrc.getChild("Die"));
 
         speed += 100;
         speed *= 0.001f;

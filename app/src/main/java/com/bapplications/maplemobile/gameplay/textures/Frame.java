@@ -17,12 +17,8 @@ public class Frame extends Texture {
     public Frame(NXNode src) {
         super(src);
         bounds = new Rectangle(src);
-        try {
-            head = new Point(src.getChild("head"));
-            head.flipY();
-        } catch (NullPointerException e) {
-            head = new Point();
-        }
+        head = new Point(src.getChild("head"));
+        head.flipY();
         try {
             delay = ((Long)(src.getChild("delay").get())).shortValue();
         } catch (NullPointerException e){

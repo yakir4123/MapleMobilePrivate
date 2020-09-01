@@ -25,10 +25,10 @@ public class MapPortals {
             if (portal_id < 0)
                 continue;
 
-            Portal.Type type = Portal.typeById(sub.getLongChild("pt").get().intValue());
-            String name = sub.getStringChild("pn").get();
-            String target_name = sub.getStringChild("tn").get();
-            int targeMapid = sub.getLongChild("tm").get().intValue();
+            Portal.Type type = Portal.typeById(sub.getChild("pt").get(0L).intValue());
+            String name = sub.getChild("pn").get("");
+            String target_name = sub.getChild("tn").get("");
+            int targeMapid = sub.getChild("tm").get(999999999L).intValue();
             Point position = new Point(sub);
             position.y *= -1;
 

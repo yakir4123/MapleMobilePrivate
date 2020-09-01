@@ -1,7 +1,7 @@
 package com.bapplications.maplemobile.gameplay;
 
 import android.app.Activity;
-import android.util.Range;
+import com.bapplications.maplemobile.opengl.utils.Range;
 import android.widget.TextView;
 
 import com.bapplications.maplemobile.constatns.Loaded;

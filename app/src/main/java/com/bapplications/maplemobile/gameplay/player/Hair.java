@@ -51,7 +51,7 @@ public class Hair {
 
             NXNode stanceNode = hairnode.getChild(stanceName);
 
-            if (stanceNode == null)
+            if (stanceNode.isNull())
                 continue;
 
             for (byte frame = 0; stanceNode.isChildExist(frame); ++frame)

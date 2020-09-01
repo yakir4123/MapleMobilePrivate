@@ -29,13 +29,20 @@ public class Point{
             y = ((Point)src.get()).y;
             return;
         }
-        try {
-            x = (int) ((NXLongNode) src.getChild("x")).getLong();
-            y = (int) ((NXLongNode) src.getChild("y")).getLong();
-        } catch (NullPointerException e) {
-            Point o = ((NXPointNode) src.getChild("origin")).get();
+        if (src.isNull()) {
+            x = 0;
+            y = 0;
+            return;
+        }
+        if(src.isChildExist("origin")){
+            Point o = src.getChild("origin").get(new Point());
             x = o.x;
             y = o.y;
+            return;
+        }
+        if(src.isChildExist("x") && src.isChildExist("y")){
+            x = src.getChild("x").get(0L).floatValue();
+            y = src.getChild("y").get(0L).floatValue();
         }
     }
 

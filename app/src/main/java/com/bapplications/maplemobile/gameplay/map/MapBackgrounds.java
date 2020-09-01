@@ -1,6 +1,7 @@
 package com.bapplications.maplemobile.gameplay.map;
 
 import com.bapplications.maplemobile.gameplay.textures.Background;
+import com.bapplications.maplemobile.opengl.GLState;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 
@@ -16,15 +17,17 @@ public class MapBackgrounds {
     public MapBackgrounds(NXNode src)
     {
         this();
+        black = src.getChild("0").getChild("bS").get().equals("");
+        if(black)
+            return;
         for(int i = 0 ; i < src.getChildCount() ; i++) {
-            NXNode back = src.getChild("" + i);
+            NXNode back = src.getChild(i);
             if (((Long)back.getChild("front").get()) > 0) // if fronted background
                 foregrounds.add(new Background(back));
             else
                 backgrounds.add(new Background(back));
         }
 
-        black = src.getChild("0").getChild("bS").get().equals("");
     }
 
     public MapBackgrounds() {
@@ -34,8 +37,8 @@ public class MapBackgrounds {
 
 
     public void drawBackgrounds(Point viewpos, float alpha) {
-//        if (black)
-//            GLState.drawScreenFill();
+        if (black)
+            GLState.drawScreenFill();
 //
         for (Background background : backgrounds)
             background.draw(viewpos, alpha);

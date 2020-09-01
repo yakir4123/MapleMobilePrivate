@@ -1,5 +1,6 @@
 package com.bapplications.maplemobile.gameplay;
 
+import android.util.Log;
 
 import com.bapplications.maplemobile.StaticUtils;
 import com.bapplications.maplemobile.constatns.Loaded;
@@ -14,12 +15,10 @@ import com.bapplications.maplemobile.gameplay.audio.Music;
 import com.bapplications.maplemobile.gameplay.map.Portal;
 import com.bapplications.maplemobile.gameplay.mobs.MobSpawn;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
-import com.bapplications.maplemobile.gameplay.player.CharEntry;
 import com.bapplications.maplemobile.gameplay.player.Player;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.views.KeyAction;
-import com.bapplications.maplemobile.views.UIControllers;
 
 public class GameMap{
 
@@ -57,11 +56,11 @@ public class GameMap{
     public void spawnMobs(NXNode src) {
         int oid = 100; // todo: needs a way to calculate that
         for(NXNode spawnNode : src) {
-            if(!spawnNode.getStringChild("type").get().equals("m")) {
+            if(!spawnNode.getChild("type").get("").equals("m")) {
                 continue;
             }
-            String id = spawnNode.getStringChild("id").get();
-            short flip = spawnNode.getLongChild("f").get().shortValue();
+            String id = spawnNode.getChild("id").get("");
+            short flip = spawnNode.getChild("f").get(0L).shortValue();
             Point p = new Point(spawnNode);
             MobSpawn spawn = new MobSpawn(oid++, Integer.parseInt(id), (byte)0, (byte)0, flip, true, (byte)0, p.flipY());
             mobs.spawn(spawn);
@@ -79,17 +78,22 @@ public class GameMap{
 
         // in case of no map exist with this mapid
         if (src != null && !src.isNull()) {
-            mobs = new MapMobs();
-            tilesobjs = new MapTilesObjs(src);
-            physics = new Physics(src.getChild("foothold"));
-            backgrounds = new MapBackgrounds(src.getChild("back"));
-            portals = new MapPortals(src.getChild("portal"), mapid);
+            try {
+                mobs = new MapMobs();
+                tilesobjs = new MapTilesObjs(src);
+                physics = new Physics(src.getChild("foothold"));
+                backgrounds = new MapBackgrounds(src.getChild("back"));
+                portals = new MapPortals(src.getChild("portal"), mapid);
 
-            if(state == State.ACTIVE)
-                GameEngine.getInstance().notifyNewMaps(portals.getNextMaps());
-            mapInfo = new MapInfo(src, physics.getFHT().getWalls(), physics.getFHT().getBorders());
+                if (state == State.ACTIVE)
+                    GameEngine.getInstance().notifyNewMaps(portals.getNextMaps());
+                mapInfo = new MapInfo(src, physics.getFHT().getWalls(), physics.getFHT().getBorders());
 
-            spawnMobs(src.getChild("life"));
+                spawnMobs(src.getChild("life"));
+            } catch (Exception e) {
+                Log.e("GameMap", "Error loading map " + mapid);
+                throw e;
+            }
         }
     }
 

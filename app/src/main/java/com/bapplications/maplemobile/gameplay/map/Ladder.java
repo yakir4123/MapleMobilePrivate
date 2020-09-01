@@ -1,6 +1,6 @@
 package com.bapplications.maplemobile.gameplay.map;
 
-import android.util.Range;
+import com.bapplications.maplemobile.opengl.utils.Range;
 
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
@@ -14,16 +14,16 @@ public class Ladder {
 
     public Ladder(NXNode src)
     {
-        x = src.getLongChild("x").get().shortValue();
-        y1 = (short) -src.getLongChild("y1").get().shortValue();
-        y2 = (short) -src.getLongChild("y2").get().shortValue();
+        x = src.getChild("x").get(0L).shortValue();
+        y1 = (short) -src.getChild("y1").get(0L).shortValue();
+        y2 = (short) -src.getChild("y2").get(0L).shortValue();
 
         if ( y1 > y2) {
             short t = y2;
             y2 = y1;
             y1 = t;
         }
-        ladder = src.getLongChild("l").getBool();
+        ladder = src.getChild("l").get(0L) > 0;
     }
 
     public boolean isLadder()
