@@ -86,7 +86,7 @@ public class GameMap{
                 portals = new MapPortals(src.getChild("portal"), mapid);
 
                 if (state == State.ACTIVE)
-                    GameEngine.getInstance().notifyNewMaps(portals.getNextMaps());
+                    notifyNewMaps();
                 mapInfo = new MapInfo(src, physics.getFHT().getWalls(), physics.getFHT().getBorders());
 
                 spawnMobs(src.getChild("life"));
@@ -98,13 +98,13 @@ public class GameMap{
     }
 
 
-    public void respawn(int portalid)
+    public void respawn(Point position)
     {
         Music.play(mapInfo.getBgm());
 
 //        Point<int16_t> spawnpoint = portals.get_portal_by_id(portalid);
-        Point startpos = physics.getYBelow(new Point());
-        player.respawn(new Point(0, 200), mapInfo.isUnderwater());
+        Point startpos = physics.getYBelow(position);
+        player.respawn(startpos, mapInfo.isUnderwater());
         camera.setView(mapInfo.getWalls(), mapInfo.getBorders());
         camera.update(player.getPosition().negateSign());
     }
@@ -151,6 +151,10 @@ public class GameMap{
 
     }
 
+    public Portal getPortalByName(String portalName) {
+        return portals.getPortalByName(portalName);
+    }
+
     private void checkPortals() {
         if (player.isAttacking())
             return;
@@ -160,15 +164,15 @@ public class GameMap{
 
         if (warpinfo.intramap)
         {
-            Point spawnpoint = portals.getPortalByName(warpinfo.toname);
-            Point startpos = physics.getYBelow(spawnpoint);
+            Portal spawnpoint = portals.getPortalByName(warpinfo.toname);
+            Point startpos = physics.getYBelow(spawnpoint.getSpawnPosition());
 
             player.respawn(startpos, mapInfo.isUnderwater());
         }
         else if (warpinfo.valid)
         {
             (new Sound(Sound.Name.PORTAL)).play();
-            GameEngine.getInstance().changeMap(warpinfo.mapid);
+            GameEngine.getInstance().changeMap(warpinfo.mapid, warpinfo.toname);
         }
     }
 
@@ -236,11 +240,15 @@ public class GameMap{
     }
 
 
-    public void enterMap(Player player) {
+    public void enterMap(Player player, Portal portal) {
         this.player = player;
         state = State.ACTIVE;
-        respawn(0);
-        GameEngine.getInstance().notifyNewMaps(portals.getNextMaps());
+        respawn(portal.getSpawnPosition());
+        notifyNewMaps();
+    }
+
+    public void notifyNewMaps() {
+        GameEngine.getInstance().notifyChangedMap(portals.getNextMaps());
     }
 
 }

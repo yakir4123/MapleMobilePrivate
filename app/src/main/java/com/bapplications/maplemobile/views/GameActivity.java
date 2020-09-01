@@ -26,7 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class GameActivity extends AppCompatActivity {
 
     private static final String TAG = "GameActivity";
-    private RelativeLayout _root;
+    private RelativeLayout root;
 
     private GameGLSurfaceView gameGLSurfaceView;
     private UIControllers controllers;
@@ -53,17 +53,17 @@ public class GameActivity extends AppCompatActivity {
 
         ActivityGameBinding binding = ActivityGameBinding.inflate(getLayoutInflater());
 
-        _root = binding.rootLayout;
-        _root.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-        ViewTreeObserver vto = _root.getViewTreeObserver();
+        root = binding.rootLayout;
+        root.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        ViewTreeObserver vto = root.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                _root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                root.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
 
-        setContentView(_root);
+        setContentView(root);
         RedCircle.init(BitmapFactory.decodeResource(getResources(),
                         R.drawable.red_circle));
 
@@ -75,7 +75,7 @@ public class GameActivity extends AppCompatActivity {
             ChangeMapPopup popUpClass = new ChangeMapPopup();
             popUpClass.showPopupWindow(view);
             popUpClass.setOnClickListener(v -> {
-                gameGLSurfaceView.queueEvent(() -> gameGLSurfaceView.getGameEngine().changeMap(popUpClass.getMapId()));
+                gameGLSurfaceView.queueEvent(() -> gameGLSurfaceView.getGameEngine().changeMap(popUpClass.getMapId(), "sp"));
                 popUpClass.dismiss();
             });
         });

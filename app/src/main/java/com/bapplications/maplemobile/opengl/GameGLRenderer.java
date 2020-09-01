@@ -22,10 +22,9 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
 
     private GameEngine engine;
 
-    private long fpsTime = System.nanoTime();
+    private long fpsTime = System.currentTimeMillis();
     private int frames;
     private long before;
-    private RedCircle tria;
 
     public static GameGLRenderer createInstance(){
         instance = new GameGLRenderer();

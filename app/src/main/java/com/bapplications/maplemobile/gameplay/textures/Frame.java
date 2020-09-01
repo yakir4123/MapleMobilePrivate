@@ -19,11 +19,7 @@ public class Frame extends Texture {
         bounds = new Rectangle(src);
         head = new Point(src.getChild("head"));
         head.flipY();
-        try {
-            delay = ((Long)(src.getChild("delay").get())).shortValue();
-        } catch (NullPointerException e){
-            delay = 0;
-        }
+        delay = src.getChild("delay").get(0L).shortValue();
 
         if (delay == 0)
             delay = 100;

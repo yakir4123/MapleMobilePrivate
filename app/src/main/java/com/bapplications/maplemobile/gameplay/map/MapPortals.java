@@ -96,28 +96,15 @@ public class MapPortals {
         return new Portal.WarpInfo();
     }
 
-    public Point getPortalByName(String toname) {
+    public Portal getPortalByName(String toname) {
         Byte pid = portalIdsByName.get(toname);
-
         if (pid != null)
             return getPortalById(pid);
-        else
-            return new Point();
+        return null;
     }
 
-    private Point getPortalById(Byte pid) {
-        Portal portal = portalsById.get(pid);
-
-        if (portal != null)
-        {
-            Point above = new Point(0, -30);
-
-            return portal.getPosition().minus(above);
-        }
-        else
-        {
-            return new Point();
-        }
+    private Portal getPortalById(Byte pid) {
+        return portalsById.get(pid);
     }
 
     public byte getPortalIdByName(String toname) {

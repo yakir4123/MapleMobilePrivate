@@ -8,10 +8,11 @@ import com.bapplications.maplemobile.opengl.utils.Rectangle;
 public class Portal {
 
     private final Type type;
+    private boolean touched;
     private final String name;
     private final Point position;
-    private boolean touched;
     private final WarpInfo warpInfo;
+    private final Point spawnPosition;
     private final Animation animation;
 
     public Portal(Animation animation, Type type, String name, boolean intramap, Point position, int targetMapid, String target_name) {
@@ -20,6 +21,7 @@ public class Portal {
         this.touched = false;
         this.position = position;
         this.animation = animation;
+        this.spawnPosition = position.plus(new Point(0 , 90));
         this.warpInfo =  new WarpInfo(targetMapid, intramap, target_name, name);
     }
 
@@ -50,6 +52,11 @@ public class Portal {
     public Point getPosition()
     {
         return position;
+    }
+
+
+    public Point getSpawnPosition() {
+        return spawnPosition;
     }
 
     public Rectangle bounds()
