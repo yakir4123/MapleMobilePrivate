@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 
 import com.bapplications.maplemobile.R;
+import com.bapplications.maplemobile.StaticUtils;
 import com.bapplications.maplemobile.databinding.ActivityGameBinding;
 import com.bapplications.maplemobile.gameplay.player.Expression;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -32,6 +33,17 @@ public class UIControllers {
             expMenu();
         });
         putControllers();
+    }
+
+    public void loading() {
+        activity.runOnUiThread(() ->
+            StaticUtils.animateView(binding.progressOverlay, View.VISIBLE, 1f, 2000));
+
+    }
+
+    public void finishLoading() {
+        activity.runOnUiThread(() ->
+                StaticUtils.animateView(binding.progressOverlay, View.GONE, 0, 2000));
     }
 
     private void putControllers() {
@@ -63,7 +75,6 @@ public class UIControllers {
             listener.onAction(key);
         }
     }
-
 
     private void expMenu() {
         isExpMenuOpen = !isExpMenuOpen;
