@@ -64,11 +64,7 @@ public class Animation {
         }
 
         animated = frames.size() > 1;
-        try {
-            zigzag = ((Long) src.getChild("zigzag").get()) > 0;
-        } catch (NullPointerException e) {
-            zigzag = false;
-        }
+        zigzag = src.getChild("zigzag").get(0L) > 0;
 
         reset();
     }

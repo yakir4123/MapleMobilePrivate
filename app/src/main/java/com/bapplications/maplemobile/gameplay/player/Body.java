@@ -15,7 +15,6 @@ public class Body {
 
     public enum Layer
     {
-        NONE,
         BODY,
         ARM,
         ARM_BELOW_HEAD,
@@ -55,11 +54,11 @@ public class Body {
 
         for (Stance.Id stance : Stance.Id.values())
         {
-			String stancename = stance.stanceName();
+			String stancename = Stance.valueOf(stance);
 
             NXNode stancenode = bodynode.getChild(stancename);
 
-            if (stancenode == null)
+            if (stancenode.isNull())
                 continue;
 
             for (byte frame = 0; stancenode.isChildExist(frame); ++frame) {
@@ -95,15 +94,11 @@ public class Body {
                         stances[stance.ordinal()][layer.ordinal()] = new HashMap<>();
                     }
                     Texture tex = new Texture(partnode);
-//                    shift.x *= -1;
                     tex.shift(shift);
                     stances[stance.ordinal()][layer.ordinal()]
                             .put(frame, tex);
                 }
-                boolean hasHeadImg = false;
-                try {
-                    hasHeadImg = !stancename.equals("dead") && headnode.getChild(stancename).getChild(frame).getChild("head") != null;
-                } catch (NullPointerException e){}
+                boolean hasHeadImg = !stancename.equals("dead") && !headnode.getChild(stancename).getChild(frame).getChild("head").isNull();
                 if (hasHeadImg) {
                     NXNode headsfnode = headnode.getChild(stancename).getChild(frame).getChild("head");
                     Point shift = drawInfo.getHeadPosition(stance, frame);
@@ -112,7 +107,6 @@ public class Body {
                         stances[stance.ordinal()][Layer.HEAD.ordinal()] = new HashMap<>();
                     }
                     Texture tex = new Texture(headsfnode);
-//                    shift.x *= -1;
                     tex.shift(shift);
                     stances[stance.ordinal()][Layer.HEAD.ordinal()]
                             .put(frame, tex);

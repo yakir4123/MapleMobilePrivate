@@ -77,10 +77,7 @@ public class BodyDrawInfo {
             for (byte frame = 0; stancenode.isChildExist(frame); ++frame)
             {
                 NXNode framenode = stancenode.getChild(frame);
-                boolean isaction = false;
-                try {
-                    isaction = framenode.getChild("action").get() instanceof String;
-                } catch (NullPointerException ignored){ }
+                boolean isaction = framenode.getChild("action").get() instanceof String;
 
                 if (isaction)
                 {
@@ -93,10 +90,7 @@ public class BodyDrawInfo {
 //                    attackdelay += action.get_delay();
                 } else {
                     Stance.Id stance = Stance.valueOf(ststr);
-                    short delay = 0;
-                    try {
-                        delay = ((Long) (framenode.getChild("delay").get())).shortValue();
-                    } catch (NullPointerException e) { }
+                    short delay = framenode.getChild("delay").get(0L).shortValue();
                     if (delay <= 0)
                         delay = 100;
 
@@ -125,13 +119,9 @@ public class BodyDrawInfo {
                         }
                     }
 
-                    NXNode headmap = null;
-                    try {
-                        headmap = headnode.getChild(ststr).getChild(frame)
+                    NXNode headmap = headnode.getChild(ststr).getChild(frame)
                                 .getChild("head").getChild("map");
-                    } catch (NullPointerException e) {}
-
-                    if(headmap != null) {
+                    if(!headmap.isNull()) {
                         for (NXNode mapnode : headmap) {
                             if (bodyshiftmap.get(Body.Layer.HEAD) == null)
                                 bodyshiftmap.put(Body.Layer.HEAD, new HashMap<>());

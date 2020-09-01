@@ -7,6 +7,7 @@ import com.bapplications.maplemobile.views.KeyAction;
 import com.bapplications.maplemobile.views.UIControllers;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -75,7 +76,6 @@ public class GameEngine implements UIControllers.UIKeyListener {
         }
 
         if (nextMaps.containsKey(mapId)) {
-            nextMaps.put(currMap.getMapId(), currMap);
             currMap = nextMaps.get(mapId);
             currMap.enterMap(player);
             return;
@@ -95,17 +95,20 @@ public class GameEngine implements UIControllers.UIKeyListener {
     }
 
     public void notifyNewMaps(Set<Integer> mapids) {
-        for (Integer mapid : mapids) {
+        // put currMap in NextMaps
+        if(!nextMaps.containsKey(currMap.getMapId()))
+            nextMaps.put(currMap.getMapId(), currMap);
 
+        // Remove all those maps that now not 1 way connected to currMap
+        nextMaps.entrySet().removeIf(entry -> mapids.contains(entry.getKey()));
+
+        // Load new maps
+        for (Integer mapid : mapids) {
+            if(nextMaps.containsKey(mapid))
+                continue;
             GameMap map = new GameMap(currMap.getCamera());
             map.loadMap(mapid);
             nextMaps.put(mapid, map);
-//            Thread t = new Thread(() -> {
-//                    GameMap map = new GameMap(currMap.getCamera());
-//                    map.loadMap(mapid);
-//                    nextMaps.put(mapid, map);
-//            });
-//            t.start();
         }
     }
 

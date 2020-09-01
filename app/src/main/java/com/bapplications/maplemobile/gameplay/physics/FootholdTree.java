@@ -1,6 +1,6 @@
 package com.bapplications.maplemobile.gameplay.physics;
 
-import android.util.Range;
+import com.bapplications.maplemobile.opengl.utils.Range;
 
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
@@ -70,7 +70,7 @@ public class FootholdTree {
                     if (foothold.t() < topb)
                         topb = foothold.t();
 
-                    if (foothold.is_wall())
+                    if (foothold.isWall())
                         continue;
 
                     short start = foothold.l();

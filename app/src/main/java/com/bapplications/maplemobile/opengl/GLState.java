@@ -132,4 +132,8 @@ public class GLState {
         _textureBuffer.position(0);
 
     }
+
+    public static void drawScreenFill() {
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+    }
 }

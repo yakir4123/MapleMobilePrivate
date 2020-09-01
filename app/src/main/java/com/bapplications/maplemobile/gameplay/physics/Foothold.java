@@ -1,32 +1,31 @@
 package com.bapplications.maplemobile.gameplay.physics;
 
-import android.util.Range;
-
+import com.bapplications.maplemobile.pkgnx.NXNode;
+import com.bapplications.maplemobile.opengl.utils.Range;
+import com.bapplications.maplemobile.opengl.utils.Point;
+import com.bapplications.maplemobile.opengl.utils.RedCircle;
 import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.opengl.utils.DrawArgument;
-import com.bapplications.maplemobile.opengl.utils.RedCircle;
-import com.bapplications.maplemobile.opengl.utils.Point;
-import com.bapplications.maplemobile.pkgnx.NXNode;
 
 public class Foothold {
     private RedCircle c1;
     private RedCircle c2;
-    private Range<Short> m_horizontal;
-    private Range<Short> m_vertical;
-    private final short m_id;
     private short m_prev;
     private short m_next;
     private byte m_layer;
+    private final short m_id;
+    private Range<Short> m_vertical;
+    private Range<Short> m_horizontal;
 
 
     public Foothold(NXNode src, int id, int layer){
         m_prev = ((Long)(src.getChild("prev").get())).shortValue();
         m_next = ((Long)(src.getChild("next").get())).shortValue();
-        m_horizontal = new Range<Short>(((Long)src.getChild("x1").get()).shortValue(),
+        m_horizontal = new Range<>(((Long)src.getChild("x1").get()).shortValue(),
                 ((Long)src.getChild("x2").get()).shortValue());
 
         try {
-            m_vertical = new Range<Short>(
+            m_vertical = new Range<>(
                     (short) -((Long) src.getChild("y1").get()).shortValue(),
                     (short) -((Long) src.getChild("y2").get()).shortValue()
             );
@@ -71,7 +70,7 @@ public class Foothold {
         return m_vertical.getUpper();
     }
 
-    public boolean is_wall() {
+    public boolean isWall() {
         return m_id != 0 && m_horizontal.getUpper().equals(m_horizontal.getLower());
     }
 
@@ -88,7 +87,7 @@ public class Foothold {
     }
 
     public float slope() {
-        return is_wall() ? 0.0f : (vdelta()) / hdelta();
+        return isWall() ? 0.0f : (vdelta()) / hdelta();
     }
 
     private float hdelta() {
@@ -128,11 +127,7 @@ public class Foothold {
     }
 
     public boolean isBlocking(Range<Short> vertical) {
-        try{
-            m_vertical.intersect(vertical);
-            return is_wall();
-        } catch (IllegalArgumentException e){}
-        return false;
+        return m_vertical.intersect(vertical) && isWall();
     }
 
     public void draw(Point viewpos){

@@ -52,18 +52,13 @@ public class NXNullNode extends NXNode {
 		slea.skip(8);
 	}
 
-	public NXNullNode() {
-		super();
-		nulls = 1;
-	}
-
-	@Override
+		@Override
 	public Object get() {
 		return null;
 	}
 
 	@Override
-	public <T extends NXNode> T getChild(int name) {
+	public <T extends NXNode> T getChild(String name) {
 		T res = super.getChild(name);
 		if (res != null)
 			return res;

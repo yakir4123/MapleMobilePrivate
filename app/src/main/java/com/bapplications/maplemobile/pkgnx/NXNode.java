@@ -23,13 +23,8 @@
  */
 package com.bapplications.maplemobile.pkgnx;
 
-import android.util.Log;
-
-import com.bapplications.maplemobile.pkgnx.nodes.NXAudioNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXDoubleNode;
-import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
-import com.bapplications.maplemobile.pkgnx.nodes.NXNullNode;
-import com.bapplications.maplemobile.pkgnx.nodes.NXStringNode;
+import com.bapplications.maplemobile.pkgnx.nodes.NXNoChildrenNode;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -53,7 +48,7 @@ public abstract class NXNode implements Iterable<NXNode> {
 	protected int childCount;
 	protected long childIndex;
 	private NXNode[] children;
-	private NXNullNode nullNode;
+	private NXNoChildrenNode nullChildrens;
 	private Map<String, NXNode> childMap;
 
 	/**
@@ -69,7 +64,7 @@ public abstract class NXNode implements Iterable<NXNode> {
 		this.file = file;
 		this.childIndex = childIndex;
 		this.childCount = childCount;
-		this.nullNode = new NXNullNode();
+		this.nullChildrens = new NXNoChildrenNode();
 		if (childCount >= MIN_COUNT_FOR_MAPS) {
 			childMap = new HashMap<>();
 			children = null;
@@ -113,8 +108,6 @@ public abstract class NXNode implements Iterable<NXNode> {
 		return res != null ? res : def;
 	}
 
-
-
 	public <T extends NXNode> T getChild(int name) {
 		return getChild("" + name);
 	}
@@ -126,36 +119,26 @@ public abstract class NXNode implements Iterable<NXNode> {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T extends NXNode> T getChild(String name) {
-		T res = null;
-		if (childCount == 0)
-			return (T) nullNode;
-		res = (T) searchChild(name);
-		if (res == null)
-			return (T) nullNode;
+		if (childCount == 0 || isNull()) {
+			return (T) nullChildrens;
+		}
+		T res = (T) searchChild(name);
+		if (res == null) {
+			return (T) nullChildrens;
+		}
 		return res;
 	}
 
-
-	public NXLongNode getLongChild(String name) {
-		return (NXLongNode)getChild(name);
-	}
-
 	public boolean isNull() {
-		return nullNode.isNull();
-	}
-
-	public NXStringNode getStringChild(String name) {
-		return (NXStringNode)getChild(name);
+		return this instanceof NXNoChildrenNode;
 	}
 
 	public boolean isChildExist(int name){
 		return isChildExist("" + name);
 	}
 	public boolean isChildExist(String name){
-		return getChild(name) != nullNode;
+		return getChild(name) != nullChildrens;
 	}
-
-
 
 	/**
 	 * Determines whether or not this node has a child by the specified {@code name}.
@@ -271,10 +254,6 @@ public abstract class NXNode implements Iterable<NXNode> {
 
 	public NXDoubleNode getDoubleChild(String name) {
 		return (NXDoubleNode)getChild(name);
-	}
-
-	public NXAudioNode getAudioChild(String name) {
-		return (NXAudioNode)getChild(name);
 	}
 
 	/**

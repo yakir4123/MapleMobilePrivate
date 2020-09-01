@@ -37,18 +37,17 @@ public class Background extends Animation{
     public Background(NXNode src) {
         super(Loaded.getFile("Map").getRoot().getChild("Back")
                 .getChild(src.getChild("bS").get() + ".img")
-                .getChild(((NXLongNode)src.getChild("ani")).getBool() ? "ani" : "back")
-                .getChild(src.getLongChild("no").get().intValue()), (byte) 0);
+                .getChild(src.getChild("ani").get(0L) > 0 ? "ani" : "back")
+                .getChild(src.getChild("no").get(0L).intValue()), (byte) 0);
 
         VWIDTH = Loaded.SCREEN_WIDTH;
         VHEIGHT = Loaded.SCREEN_HEIGHT;
         WOFFSET = VWIDTH / 2;
         HOFFSET = VHEIGHT / 2;
 
-        animated = ((NXLongNode)src.getChild("ani")).getBool();
-        this.opacity = (Long)src.getChild("a").get();
-        if(((NXLongNode)src.getChild("f")).getBool())
-            lookLeft = false;
+        animated = src.getChild("ani").get(0L) > 0;
+        this.opacity = src.getChild("a").get(0L);
+        lookLeft = src.getChild("f").get(0L) == 0;
         cx = ((Long) src.getChild("cx").get()).intValue();
         cy = ((Long) src.getChild("cy").get()).intValue();
         rx = ((Long) src.getChild("rx").get()).intValue();

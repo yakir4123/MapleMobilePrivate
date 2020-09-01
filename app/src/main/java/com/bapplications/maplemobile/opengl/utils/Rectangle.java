@@ -1,6 +1,6 @@
 package com.bapplications.maplemobile.opengl.utils;
 
-import android.util.Range;
+import com.bapplications.maplemobile.opengl.utils.Range;
 
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXPointNode;
@@ -68,14 +68,8 @@ public class Rectangle {
 
     public boolean overlaps(Rectangle ar)
     {
-        try {
-            get_horizontal().intersect(new Range<Float>(ar.left(), ar.right()));
-            get_vertical().intersect(new Range<Float>(ar.top(), ar.bottom()));
-            return true;
-        } catch (IllegalArgumentException e){
-            return false;
-        }
-
+            return get_horizontal().intersect(new Range<Float>(ar.left(), ar.right()))
+                    && get_vertical().intersect(new Range<Float>(ar.top(), ar.bottom()));
     }
 
     public boolean straight()

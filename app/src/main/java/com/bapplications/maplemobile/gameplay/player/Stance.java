@@ -1,6 +1,5 @@
 package com.bapplications.maplemobile.gameplay.player;
 
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,7 +9,6 @@ public class Stance {
     }
 
     public enum Id {
-        NONE,
         ALERT,
         DEAD,
         FLY,
@@ -48,18 +46,15 @@ public class Stance {
         WALK2;
 
         public String stanceName(){
-            return this.name().toLowerCase();
+            return this.name();
         }
     }
 
-
 	public static Map<String, Id> mapNames = new HashMap<>();
-    private static Stance.Id[] map = new Stance.Id[Stance.Id.values().length];
-
+	public static Map<Id, String> mapStances = new HashMap<>();
 
     static {
         String[] names = new String[] {
-            "",
             "alert",
             "dead",
             "fly",
@@ -98,13 +93,9 @@ public class Stance {
         };
         int i = 0;
         for (Stance.Id stance : Stance.Id.values()) {
-            if(i == 0){
-                i++;
-                continue;
-            }
-            map[stance.ordinal()] = stance;
             if(stance.name().toLowerCase().equals(names[i].toLowerCase())) {
-                mapNames.put(names[i++], stance);
+                mapNames.put(names[i], stance);
+                mapStances.put(stance, names[i++]);
             } else {
                 throw new IllegalArgumentException();
             }
@@ -112,12 +103,12 @@ public class Stance {
 
     }
 
-    public static Stance.Id valueOf(int stance) {
-        return map[stance];
-    }
-
     public static Stance.Id valueOf(String stance) {
         return mapNames.get(stance);
+    }
+
+    public static String valueOf(Stance.Id stance) {
+        return mapStances.get(stance);
     }
 
 }
