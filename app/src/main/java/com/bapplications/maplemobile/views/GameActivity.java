@@ -17,7 +17,7 @@ import com.bapplications.maplemobile.databinding.ActivityGameBinding;
 import com.bapplications.maplemobile.gameplay.GameEngine;
 import com.bapplications.maplemobile.gameplay.audio.Music;
 import com.bapplications.maplemobile.opengl.GameGLSurfaceView;
-import com.bapplications.maplemobile.opengl.utils.RedCircle;
+import com.bapplications.maplemobile.opengl.utils.DrawableCircle;
 
 import java.io.IOException;
 
@@ -64,7 +64,7 @@ public class GameActivity extends AppCompatActivity {
         });
 
         setContentView(root);
-        RedCircle.init(BitmapFactory.decodeResource(getResources(),
+        DrawableCircle.init(BitmapFactory.decodeResource(getResources(),
                         R.drawable.red_circle));
 
         controllers = new UIControllers(this, binding);

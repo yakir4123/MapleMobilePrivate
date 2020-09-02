@@ -1,6 +1,6 @@
 package com.bapplications.maplemobile.opengl.utils;
 
-import com.bapplications.maplemobile.opengl.utils.Range;
+import com.bapplications.maplemobile.constatns.Configuration;
 
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXPointNode;
@@ -13,11 +13,17 @@ public class Rectangle {
     public Rectangle(NXPointNode sourceLeftTop, NXPointNode sourceRightBottom) {
         left_top = new Point(sourceLeftTop.getPoint());
         right_bottom = new Point(sourceRightBottom.getPoint());
+
+        left_top.flipY();
+        right_bottom.flipY();
+
     }
 
     public Rectangle(NXNode source){
-        left_top = new Point(source.getChild("lt").get(new Point()));
-        right_bottom = new Point(source.getChild("rb").get(new Point()));
+        left_top = new Point(source.getChild("lt"));
+        right_bottom = new Point(source.getChild("rb"));
+        left_top.flipY();
+        right_bottom.flipY();
     }
 
     public Rectangle(Point leftTop, Point rightBottom) {
@@ -29,6 +35,11 @@ public class Rectangle {
         right_bottom = new Point(right, bottom);
     }
     public Rectangle() {}
+
+    public Rectangle(Rectangle rect) {
+        left_top = new Point(rect.left_top);
+        right_bottom = new Point(rect.right_bottom);
+    }
 
     public float width()
     {
@@ -92,6 +103,16 @@ public class Rectangle {
         return right_bottom;
     }
 
+    public Point get_right_top()
+    {
+        return new Point(right_bottom.x, left_top.y);
+    }
+
+    public Point get_left_bottom()
+    {
+        return new Point(left_top.x, right_bottom.y);
+    }
+
     public Range<Float> get_horizontal()
     {
         return new Range<Float>( left(), right() );
@@ -106,6 +127,18 @@ public class Rectangle {
     {
         left_top.offset(v.x, v.y);
         right_bottom.offset(v.x, v.y);
+    }
+
+    public void draw(Point pos) {
+        DrawArgument args = new DrawArgument(pos);
+        DrawableCircle[] points = new DrawableCircle[4];
+        points[0] = DrawableCircle.createCircle(get_left_top(), Color.GREEN);
+        points[1] = DrawableCircle.createCircle(get_right_top(), Color.GREEN);
+        points[2] = DrawableCircle.createCircle(get_left_bottom(), Color.GREEN);
+        points[3] = DrawableCircle.createCircle(get_right_bottom(), Color.GREEN);
+        for(DrawableCircle p: points) {
+            p.draw(args);
+        }
     }
 
 }

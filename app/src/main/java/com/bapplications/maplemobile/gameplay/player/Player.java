@@ -1,8 +1,11 @@
 package com.bapplications.maplemobile.gameplay.player;
 
+import com.bapplications.maplemobile.constatns.Configuration;
+import com.bapplications.maplemobile.gameplay.Collider;
 import com.bapplications.maplemobile.gameplay.audio.Sound;
 import com.bapplications.maplemobile.gameplay.map.Ladder;
 import com.bapplications.maplemobile.gameplay.map.Layer;
+import com.bapplications.maplemobile.gameplay.mobs.Attack;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerClimbState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerFallState;
@@ -11,6 +14,7 @@ import com.bapplications.maplemobile.gameplay.player.state.PlayerStandState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerWalkState;
 import com.bapplications.maplemobile.opengl.utils.Point;
+import com.bapplications.maplemobile.opengl.utils.Rectangle;
 import com.bapplications.maplemobile.opengl.utils.TimedBool;
 import com.bapplications.maplemobile.views.KeyAction;
 import com.bapplications.maplemobile.views.UIControllers;
@@ -19,7 +23,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.TreeSet;
 
-public class Player extends Char {
+public class Player extends Char implements Collider {
 
     private Ladder ladder;
     private boolean attacking;
@@ -59,6 +63,10 @@ public class Player extends Char {
     {
         if (layer == getLayer())
             super.draw(viewpos, alpha);
+        if (Configuration.SHOW_PLAYER_RECT) {
+            Rectangle player_rect = getCollider();
+            player_rect.draw(viewpos);
+        }
     }
 
 
@@ -226,12 +234,42 @@ public class Player extends Char {
     }
 
     public void setClimbCooldown() {
-        climb_cooldown.set_for(1000);
+        climb_cooldown.setFor(1000);
     }
 
 
     public boolean canClimb()
     {
         return !climb_cooldown.isTrue();
+    }
+
+    public Attack.MobAttackResult damage(Attack.MobAttack attack) {
+        int damage = 1; //stats.calculate_damage(attack.watk);
+        showDamage(damage);
+
+        boolean fromleft = attack.origin.x > phobj.getX();
+
+//        boolean missed = damage <= 0;
+//        boolean immovable = ladder != null || state == Char.State.DIED;
+//        boolean knockback = !missed && !immovable;
+
+//        if (knockback && randomizer.above(stats.get_stance()))
+//        {
+            phobj.hspeed = (float) (fromleft ? -1.5 : 1.5);
+            phobj.vforce -= 3.5;
+//        }
+
+        byte direction = (byte) (fromleft ? 0 : 1);
+
+        return new Attack.MobAttackResult(attack, damage, direction);
+    }
+
+    @Override
+    public Rectangle getCollider() {
+        return new Rectangle(
+                phobj.getLastX() - 10,
+                phobj.getX() + 10,
+                phobj.getLastY(),
+                phobj.getY() + 50);
     }
 }

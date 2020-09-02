@@ -18,7 +18,7 @@ public class TimedBool {
         return value;
     }
 
-    public void set_for(long millis)
+    public void setFor(long millis)
     {
         last = millis;
         delay = millis;

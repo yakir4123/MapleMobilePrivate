@@ -1,26 +1,28 @@
 package com.bapplications.maplemobile.gameplay.mobs;
 
 import com.bapplications.maplemobile.StaticUtils;
+import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.constatns.Loaded;
+import com.bapplications.maplemobile.gameplay.Collider;
 import com.bapplications.maplemobile.gameplay.audio.Sound;
 import com.bapplications.maplemobile.gameplay.map.MapObject;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.gameplay.physics.PhysicsObject;
 import com.bapplications.maplemobile.gameplay.textures.Animation;
+import com.bapplications.maplemobile.opengl.utils.Color;
 import com.bapplications.maplemobile.opengl.utils.DrawArgument;
+import com.bapplications.maplemobile.opengl.utils.DrawableCircle;
 import com.bapplications.maplemobile.opengl.utils.Linear;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.opengl.utils.Randomizer;
+import com.bapplications.maplemobile.opengl.utils.Rectangle;
 import com.bapplications.maplemobile.opengl.utils.TimedBool;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Mob extends MapObject {
-
-
-    private int stanceLength = 400 * (int)Randomizer.nextExponential();
+public class Mob extends MapObject implements Collider {
 
     enum Stance
     {
@@ -28,9 +30,10 @@ public class Mob extends MapObject {
         STAND,
         JUMP,
         HIT,
-        DIE
+        DIE;
     };
 
+    private int stanceLength = 400 * (int)Randomizer.nextExponential();
 
     enum FlyDirection
     {
@@ -207,11 +210,19 @@ public class Mob extends MapObject {
     {
         Point absp = phobj.getAbsolute(view, alpha);
         Point headpos = getHeadPosition(absp);
-
         if (!dead)
         {
             float interopc = opacity.get(alpha);
-            animations.get(stance).draw(new DrawArgument(absp, flip && !noflip, interopc), alpha);
+
+            DrawArgument dargs= new DrawArgument(absp, flip && !noflip, interopc);
+            animations.get(stance).draw(dargs, alpha);
+            if (Configuration.SHOW_MOBS_RECT) {
+                getCollider().draw(view);
+
+                DrawableCircle origin = DrawableCircle.createCircle(getPosition(), Color.GREEN);
+                origin.draw(dargs);
+
+            }
         }
     }
 
@@ -433,5 +444,35 @@ public class Mob extends MapObject {
 
     private void setFlip(boolean lookLeft) {
         flip = lookLeft;
+    }
+    public boolean isAlive() {
+        return active && !dying;
+    }
+
+    @Override
+    public Rectangle getCollider() {
+        Rectangle bounds = new Rectangle(animations.get(stance).getBounds());
+        bounds.shift(getPosition());
+        return bounds;
+    }
+
+    public boolean isInRange(Collider collider)
+    {
+        if (!active)
+            return false;
+
+
+        return collider.getCollider().overlaps(getCollider());
+    }
+
+    public Attack.MobAttack createTouchAttack() {
+        if (!touchdamage)
+            return new Attack.MobAttack();
+
+        int minattack = (int)(watk * 0.8f);
+        int maxattack = watk;
+        int attack = Randomizer.nextInt(minattack, maxattack);
+
+        return new Attack.MobAttack(attack, getPosition(), id, oid);
     }
 }

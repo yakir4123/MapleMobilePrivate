@@ -59,4 +59,19 @@ public class MovingObject {
         y.set(y.minus(vspeed));
     }
 
+    public short getLastX() {
+        return (short) Math.round(x.last());
+    }
+
+    public short getLastY() {
+        return (short) Math.round(y.last());
+    }
+
+    public short getX() {
+        return (short) Math.round(x.get());
+    }
+
+    public short getY() {
+        return (short) Math.round(y.get());
+    }
 }

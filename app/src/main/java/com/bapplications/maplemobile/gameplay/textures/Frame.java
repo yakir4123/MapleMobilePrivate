@@ -117,4 +117,8 @@ public class Frame extends Texture {
     public Point getHead() {
         return head;
     }
+
+    public Rectangle getBounds() {
+        return bounds;
+    }
 }

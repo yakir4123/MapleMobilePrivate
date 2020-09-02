@@ -1,15 +1,16 @@
 package com.bapplications.maplemobile.gameplay.physics;
 
+import com.bapplications.maplemobile.opengl.utils.Color;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.opengl.utils.Range;
 import com.bapplications.maplemobile.opengl.utils.Point;
-import com.bapplications.maplemobile.opengl.utils.RedCircle;
+import com.bapplications.maplemobile.opengl.utils.DrawableCircle;
 import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.opengl.utils.DrawArgument;
 
 public class Foothold {
-    private RedCircle c1;
-    private RedCircle c2;
+    private DrawableCircle c1;
+    private DrawableCircle c2;
     private short m_prev;
     private short m_next;
     private byte m_layer;
@@ -38,9 +39,9 @@ public class Foothold {
         m_id = (short) id;
         m_layer = (byte) layer;
 
-        if(Configuration.DEBUG){
-            c1 = new RedCircle(new Point(m_horizontal.getLower(), m_vertical.getLower()));
-            c2 = new RedCircle(new Point(m_horizontal.getUpper(), m_vertical.getUpper()));
+        if(Configuration.SHOW_FH){
+            c1 = DrawableCircle.createCircle(new Point(m_horizontal.getLower(), m_vertical.getLower()), Color.RED);
+            c2 = DrawableCircle.createCircle(new Point(m_horizontal.getUpper(), m_vertical.getUpper()), Color.RED);
         }
     }
 

@@ -38,7 +38,11 @@ public class Randomizer {
 
 	public static int nextInt(int to)
 	{
-		return (int)nextReal(0, to);
+		return nextInt(0, to);
+	}
+
+	public static int nextInt(int from, int to) {
+		return (int)nextReal(from, to);
 	}
 
 	public static <E extends Enum<?>> E nextEnum(Class<E> clazz){

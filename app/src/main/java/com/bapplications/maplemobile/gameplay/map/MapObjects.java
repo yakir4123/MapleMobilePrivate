@@ -74,4 +74,8 @@ public class MapObjects {
         }
         layers[layer].add(oid);
     }
+
+    public Map<Integer, MapObject> getObjects() {
+        return objects;
+    }
 }

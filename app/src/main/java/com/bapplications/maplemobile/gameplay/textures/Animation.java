@@ -1,10 +1,12 @@
 package com.bapplications.maplemobile.gameplay.textures;
 
 import com.bapplications.maplemobile.StaticUtils;
+import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.opengl.utils.DrawArgument;
 import com.bapplications.maplemobile.opengl.utils.Linear;
 import com.bapplications.maplemobile.opengl.utils.Nominal;
 import com.bapplications.maplemobile.opengl.utils.Point;
+import com.bapplications.maplemobile.opengl.utils.Rectangle;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXBitmapNode;
 
@@ -102,6 +104,7 @@ public class Animation {
 
         args.setDirection(lookLeft);
         frames.get(interframe).draw(args.plus(pos));
+
 //        if (modifyopc || modifyscale)
 //            frames[interframe].draw(args + DrawArgument(interscale, interscale, interopc));
 //        else
@@ -228,5 +231,9 @@ public class Animation {
         for(Frame frame : frames) {
             frame.shiftY(-frame.getHead().y);
         }
+    }
+
+    public Rectangle getBounds() {
+        return getFrame().getBounds();
     }
 }

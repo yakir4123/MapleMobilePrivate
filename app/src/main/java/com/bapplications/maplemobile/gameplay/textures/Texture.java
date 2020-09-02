@@ -20,8 +20,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class Texture {
 
     private Point pos;
-    private Point origin;
-    private Point shift;
+    protected Point origin;
+    private Point shift = new Point();
 
     protected Object z;
     protected byte flip = 1;
@@ -53,7 +53,6 @@ public class Texture {
         if (!(src instanceof NXBitmapNode)) {
             throw new IllegalArgumentException("NXNode must be NXBitmapNode in Texture instance");
         }
-        shift = new Point();
         bitmapNode = (NXBitmapNode) src;
 
         bmap = bitmapNode.get();
@@ -104,7 +103,6 @@ public class Texture {
     }
 
     public void draw (DrawArgument args) {
-
         flip(args.getDirection());
         Point drawingPos = args.getPos().plus(pos);
         float[] curPos = drawingPos.toGLRatio();
