@@ -101,7 +101,7 @@ public abstract class NXNode implements Iterable<NXNode> {
 	 *
 	 * @return the value as an {@code Object}
 	 */
-	public abstract Object get();
+	protected abstract Object get();
 
 	public <T> T get(T def) {
 		T res = (T) get();

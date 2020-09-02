@@ -24,14 +24,15 @@ public class Point{
     }
 
     public Point(NXNode src){
-        if( src instanceof NXPointNode){
-            x = ((Point)src.get()).x;
-            y = ((Point)src.get()).y;
-            return;
-        }
         if (src.isNull()) {
             x = 0;
             y = 0;
+            return;
+        }
+        if( src instanceof NXPointNode){
+            Point p = src.get(new Point());
+            x = p.x;
+            y = p.y;
             return;
         }
         if(src.isChildExist("origin")){

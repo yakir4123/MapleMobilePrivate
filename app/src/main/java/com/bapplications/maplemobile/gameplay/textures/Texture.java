@@ -57,7 +57,7 @@ public class Texture {
         bitmapNode = (NXBitmapNode) src;
 
         bmap = bitmapNode.get();
-        this.origin = new Point(src.getChild("origin").get());
+        this.origin = new Point(src.getChild("origin"));
         dimensions = new Point(bmap.getWidth(), bmap.getHeight());
         half_dimensions_glratio = dimensions.scalarMul(0.5f).toGLRatio();
         origin = pointToAndroid(origin);

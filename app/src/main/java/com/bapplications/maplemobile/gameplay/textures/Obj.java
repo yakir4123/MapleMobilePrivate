@@ -9,16 +9,13 @@ import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
 public class Obj extends Animation {
 
     public Obj(NXNode src){
-        super(Loaded.getFile("Map").getRoot().getChild("Obj").getChild(src.getChild("oS").get() + ".img")
-                        .getChild((String) src.getChild("l0").get())
-                        .getChild((String) src.getChild("l1").get())
-                        .getChild((String) src.getChild("l2").get()),
-                (byte) ((NXLongNode)src.getChild("z")).getLong());
+        super(Loaded.getFile("Map").getRoot().getChild("Obj").getChild(src.getChild("oS").get("") + ".img")
+                        .getChild(src.getChild("l0").get(""))
+                        .getChild(src.getChild("l1").get(""))
+                        .getChild(src.getChild("l2").get("")),
+                src.getChild("z").get(0L).byteValue());
         setPos(new Point(src));
-        try {
-            if(((NXLongNode) src.getChild("f")).getBool())
-                lookLeft = false;
-        } catch (NullPointerException e) {}
+        lookLeft = src.getChild("f").get(0L) == 0;
     }
 
     public void draw(Point viewpos, float alpha){

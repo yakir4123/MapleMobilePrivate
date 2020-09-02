@@ -96,6 +96,7 @@ public class Mob extends MapObject {
 
         String strid = StaticUtils.extendId(mid, 7);
         NXNode src = Loaded.getFile("Mob").getRoot().getChild(strid + ".img");
+        NXNode linkedNodes;
 
         NXNode info = src.getChild("info");
 
@@ -114,23 +115,31 @@ public class Mob extends MapObject {
         noflip = info.getChild("noFlip").get(0L) >  0;
         notattack = info.getChild("notAttack").get(0L) > 0;
         canjump = src.isChildExist("jump");
-        canfly = src.isChildExist("fly");
-        canmove = src.isChildExist("move") || canfly;
+
+        if(info.isChildExist("link")){
+            linkedNodes = Loaded.getFile("Mob").getRoot().getChild(info.getChild("link").get("") + ".img");
+
+        } else {
+            linkedNodes = src;
+        }
+
+        canfly = linkedNodes.isChildExist("fly");
+        canmove = linkedNodes.isChildExist("move") || canfly;
 
         if (canfly)
         {
-            putAnimation(Stance.STAND, src.getChild("fly"));
-            putAnimation(Stance.MOVE, src.getChild("fly"));
+            putAnimation(Stance.STAND, linkedNodes.getChild("fly"));
+            putAnimation(Stance.MOVE, linkedNodes.getChild("fly"));
         }
         else
         {
-            putAnimation(Stance.STAND, src.getChild("stand"));
-            putAnimation(Stance.MOVE, src.getChild("move"));
+            putAnimation(Stance.STAND, linkedNodes.getChild("stand"));
+            putAnimation(Stance.MOVE, linkedNodes.getChild("move"));
         }
 
-        putAnimation(Stance.JUMP, src.getChild("jump"));
-        putAnimation(Stance.HIT, src.getChild("hit1"));
-        putAnimation(Stance.DIE, src.getChild("die1"));
+        putAnimation(Stance.JUMP, linkedNodes.getChild("jump"));
+        putAnimation(Stance.HIT, linkedNodes.getChild("hit1"));
+        putAnimation(Stance.DIE, linkedNodes.getChild("die1"));
 
         name = Loaded.getFile("String").getRoot().getChild("Mob.img").getChild(mid).getChild("name").get("");
 

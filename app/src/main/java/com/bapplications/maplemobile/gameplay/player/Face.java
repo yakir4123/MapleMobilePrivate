@@ -40,10 +40,7 @@ public class Face {
                 for (byte frameNumber = 0;  facenode.isChildExist(frameNumber); ++frameNumber) {
                     NXNode frameNode = facenode.getChild(frameNumber);
                     frame = new Frame();
-                    if(frameNode.isChildExist("delay"))
-                        frame.setDelay(((Long) frameNode.getChild("delay").get()).shortValue());
-                    else
-                        frame.setDelay((short) 2500);
+                    frame.setDelay((frameNode.getChild("delay").get(2500L)).shortValue());
                     frame.initTexture(frameNode.getChild("face"));
                     frame.setZ("face");
                     Point shift = (Point) frameNode.getChild("face").getChild("map")

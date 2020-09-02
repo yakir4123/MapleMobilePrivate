@@ -17,12 +17,12 @@ public class MapBackgrounds {
     public MapBackgrounds(NXNode src)
     {
         this();
-        black = src.getChild("0").getChild("bS").get().equals("");
+        black = src.getChild("0").getChild("bS").get("").equals("");
         if(black)
             return;
         for(int i = 0 ; i < src.getChildCount() ; i++) {
             NXNode back = src.getChild(i);
-            if (((Long)back.getChild("front").get()) > 0) // if fronted background
+            if ((back.getChild("front").get(0L)) > 0) // if fronted background
                 foregrounds.add(new Background(back));
             else
                 backgrounds.add(new Background(back));

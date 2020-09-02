@@ -19,20 +19,20 @@ public class Foothold {
 
 
     public Foothold(NXNode src, int id, int layer){
-        m_prev = ((Long)(src.getChild("prev").get())).shortValue();
-        m_next = ((Long)(src.getChild("next").get())).shortValue();
-        m_horizontal = new Range<>(((Long)src.getChild("x1").get()).shortValue(),
-                ((Long)src.getChild("x2").get()).shortValue());
+        m_prev = src.getChild("prev").get(0L).shortValue();
+        m_next = src.getChild("next").get(0L).shortValue();
+        m_horizontal = new Range<>(src.getChild("x1").get(0L).shortValue(),
+                src.getChild("x2").get(0L).shortValue());
 
         try {
             m_vertical = new Range<>(
-                    (short) -((Long) src.getChild("y1").get()).shortValue(),
-                    (short) -((Long) src.getChild("y2").get()).shortValue()
+                    (short) -src.getChild("y1").get(0L).shortValue(),
+                    (short) -src.getChild("y2").get(0L).shortValue()
             );
         } catch (IllegalArgumentException e){
-            m_vertical = new Range<Short>(
-                    (short) -((Long) src.getChild("y2").get()).shortValue(),
-                    (short) -((Long) src.getChild("y1").get()).shortValue()
+            m_vertical = new Range<>(
+                    (short) -src.getChild("y2").get(0L).shortValue(),
+                    (short) -src.getChild("y1").get(0L).shortValue()
             );
         }
         m_id = (short) id;
