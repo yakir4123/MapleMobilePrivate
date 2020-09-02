@@ -46,7 +46,7 @@ public class PlayerClimbState implements PlayerState{
         if (player.isAttacking())
             return;
 
-        if (key == KeyAction.JUMP_KEY)
+        if (key == KeyAction.JUMP_KEY && player.hasWalkInput())
         {
             player.playJumpSound();
 

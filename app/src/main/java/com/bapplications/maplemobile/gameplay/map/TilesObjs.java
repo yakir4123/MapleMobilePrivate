@@ -45,7 +45,7 @@ public class TilesObjs {
         }
 
         try {
-            tileset = src.getChild("info").getChild("tS").get() + ".img";
+            tileset = src.getChild("info").getChild("tS").get("") + ".img";
         } catch (NullPointerException e){
           return;
         }

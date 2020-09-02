@@ -57,16 +57,4 @@ public class NXNullNode extends NXNode {
 		return null;
 	}
 
-	@Override
-	public <T extends NXNode> T getChild(String name) {
-		T res = super.getChild(name);
-		if (res != null)
-			return res;
-		nulls++;
-		return (T)this;
-	}
-
-	public boolean isNull() {
-		return nulls > 0;
-	}
 }

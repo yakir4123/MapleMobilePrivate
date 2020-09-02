@@ -36,7 +36,7 @@ public class Background extends Animation{
     private MovingObject moveobj;
     public Background(NXNode src) {
         super(Loaded.getFile("Map").getRoot().getChild("Back")
-                .getChild(src.getChild("bS").get() + ".img")
+                .getChild(src.getChild("bS").get("") + ".img")
                 .getChild(src.getChild("ani").get(0L) > 0 ? "ani" : "back")
                 .getChild(src.getChild("no").get(0L).intValue()), (byte) 0);
 
@@ -48,16 +48,16 @@ public class Background extends Animation{
         animated = src.getChild("ani").get(0L) > 0;
         this.opacity = src.getChild("a").get(0L);
         lookLeft = src.getChild("f").get(0L) == 0;
-        cx = ((Long) src.getChild("cx").get()).intValue();
-        cy = ((Long) src.getChild("cy").get()).intValue();
-        rx = ((Long) src.getChild("rx").get()).intValue();
-        ry = ((Long) src.getChild("ry").get()).intValue();
+        cx = src.getChild("cx").get(0L).intValue();
+        cy = src.getChild("cy").get(0L).intValue();
+        rx = src.getChild("rx").get(0L).intValue();
+        ry = src.getChild("ry").get(0L).intValue();
 
         moveobj = new MovingObject();
-        moveobj.set_x(((Long) src.getChild("x").get()).intValue());
-        moveobj.set_y(-((Long) src.getChild("y").get()).intValue());
+        moveobj.set_x(src.getChild("x").get(0L).intValue());
+        moveobj.set_y(-src.getChild("y").get(0L).intValue());
 
-        Type type = typebyid(((Long) src.getChild("type").get()).intValue());
+        Type type = typebyid(src.getChild("type").get(0L).intValue());
 
         settype(type);
     }

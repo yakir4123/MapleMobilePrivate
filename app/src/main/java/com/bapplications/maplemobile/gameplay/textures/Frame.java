@@ -8,86 +8,92 @@ import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
 
 public class Frame extends Texture {
-    private Pair<Integer, Integer> scales;
-    private Pair<Integer, Integer> opacities;
-    private short delay;
     private Point head;
+    private short delay;
     private Rectangle bounds;
+    private Pair<Byte, Byte> scales;
+    private Pair<Byte, Byte> opacities;
 
     public Frame(NXNode src) {
         super(src);
         bounds = new Rectangle(src);
         head = new Point(src.getChild("head"));
         head.flipY();
-        delay = src.getChild("delay").get(0L).shortValue();
+        try {
+            delay = src.getChild("delay").get(0L).shortValue();
+        } catch (ClassCastException e) {
+            // There are cases where delay is string node and not a numeric node
+            delay = Short.parseShort(src.getChild("delay").get("0"));
+        }
+
 
         if (delay == 0)
             delay = 100;
 
         NXNode a0 = src.getChild("a0");
         NXNode a1 = src.getChild("a1");
-        boolean hasa0 = a0 != null && a0.get() instanceof NXLongNode;
-        boolean hasa1 = a1 != null && a1.get() instanceof NXLongNode;
+        boolean hasa0 = !a0.isNull();
+        boolean hasa1 = !a1.isNull();
 
         if (hasa0 && hasa1)
         {
-            opacities = new Pair(a0.get(), a1.get());
+            opacities = new Pair<>(a0.get(0L).byteValue(), a1.get(0L).byteValue());
         }
         else if (hasa0)
         {
-            byte a0v = (byte)a0.get();
-            opacities = new Pair(a0v, 255 - a0v);
+            byte a0v = a0.get(0L).byteValue();
+            opacities = new Pair<>(a0v, (byte) (255 - a0v));
         }
         else if (hasa1)
         {
-            byte a1v = (byte)a1.get();
-            opacities = new Pair(255 - a1v, a1v);
+            byte a1v = a1.get(0L).byteValue();
+            opacities = new Pair<>((byte)(255 - a1v), a1v);
         }
         else
         {
-            opacities = new Pair(255, 255);
+            opacities = new Pair<>((byte)255, (byte)255);
         }
 
 
         NXNode z0 = src.getChild("z0");
         NXNode z1 = src.getChild("z1");
-        boolean hasz0 = z0 != null && z0.get() instanceof NXLongNode;
-        boolean hasz1 = z1 != null && z1.get() instanceof NXLongNode;
+        boolean hasz0 = !z0.isNull();
+        boolean hasz1 = !z1.isNull();
 
         if (hasz0 && hasz1)
         {
-            scales = new Pair(z0.get(), z1.get());
+            scales = new Pair(z0.get(0L).byteValue(), z1.get(0L).byteValue());
         }
         else if (hasz0)
         {
-            byte z0v = (byte)z0.get();
+            byte z0v = z0.get(0L).byteValue();
             scales = new Pair(z0v, 100 - z0v);
         }
         else if (hasz1)
         {
-            byte z1v = (byte)z1.get();
-            scales = new Pair(100 - z1v, z1v);
+            byte z1v = z1.get(0L).byteValue();
+            scales = new Pair((byte)(100 - z1v), z1v);
         }
         else
         {
-            scales = new Pair(100, 100);
+            scales = new Pair((byte)(100), (byte)(100));
         }
     }
 
     public Frame() {
         super();
         delay = 0;
-        opacities = new Pair(0, 0);
-        scales = new Pair(0, 0);
+        opacities = new Pair<>((byte)0, (byte)0);
+        scales = new Pair<>((byte)0, (byte)0);
     }
 
 
-    public int startOpacity()
+    public byte startOpacity()
     {
         return opacities.first;
     }
 
-    public int startScale()
+    public byte startScale()
     {
         return scales.first;
     }

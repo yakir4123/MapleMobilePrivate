@@ -77,7 +77,7 @@ public class BodyDrawInfo {
             for (byte frame = 0; stancenode.isChildExist(frame); ++frame)
             {
                 NXNode framenode = stancenode.getChild(frame);
-                boolean isaction = framenode.getChild("action").get() instanceof String;
+                boolean isaction = framenode.isChildExist("action");
 
                 if (isaction)
                 {
@@ -107,7 +107,7 @@ public class BodyDrawInfo {
 
                         if (!part.equals("delay") && !part.equals("face"))
                         {
-                            String zstr = (String) partnode.getChild("z").get();
+                            String zstr = (String) partnode.getChild("z").get("");
                             Body.Layer z = Body.layerByName.get(zstr);
 
                             for (NXNode mapnode : partnode.getChild("map")) {

@@ -1,6 +1,8 @@
 package com.bapplications.maplemobile.gameplay;
 
 import android.app.Activity;
+
+import com.bapplications.maplemobile.opengl.GLState;
 import com.bapplications.maplemobile.opengl.utils.Range;
 import android.widget.TextView;
 
@@ -67,17 +69,23 @@ public class Camera {
     }
 
     public void update(Point position) {
-        int HWidth = Loaded.SCREEN_WIDTH/2;
+        int HWidth = (int) (Loaded.SCREEN_WIDTH / 2 / GLState.SCALE);
         int HHeight = Loaded.SCREEN_HEIGHT/8;
+
+        int OFFSETX = 60;
 
         pos.x = -position.x;
         pos.y = -(position.y + HHeight);
-        if (position.x < -(hbounds.getLower() + HWidth + CAMERA_X_OFFSET)){
-            pos.x = (hbounds.getLower() + HWidth + CAMERA_X_OFFSET);
+        if (pos.x > -(hbounds.getLower() + HWidth - OFFSETX)){
+            pos.x = -(hbounds.getLower() + HWidth - OFFSETX);
         }
-        else if (position.x > hbounds.getUpper() - HWidth + 4 * CAMERA_X_OFFSET){
-            pos.x = -(hbounds.getUpper() - HWidth + 4 * CAMERA_X_OFFSET);
+
+        if (pos.x < -(hbounds.getUpper() - HWidth + OFFSETX)){
+            pos.x = -(hbounds.getUpper() - HWidth + OFFSETX);
         }
+//        else if (position.x > hbounds.getUpper() - HWidth + 4 * CAMERA_X_OFFSET){
+//            pos.x = -(hbounds.getUpper() - HWidth + 4 * CAMERA_X_OFFSET);
+//        }
 
         setText();
     }

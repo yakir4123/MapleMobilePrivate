@@ -31,5 +31,7 @@ public class Range<T extends Comparable<T>> {
         return v.compareTo(lower) >= 0 && v.compareTo(upper) < 0;
     }
 
-
+    public boolean isDot() {
+        return getLower().equals(getUpper());
+    }
 }

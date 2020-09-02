@@ -71,7 +71,7 @@ public class Hair {
                     if(layer == Layer.SHADE)
                         layernode = layernode.getChild(0);
 
-                    Point brow = new Point(layernode.getChild("map").getChild("brow").get());
+                    Point brow = new Point(layernode.getChild("map").getChild("brow"));
                     Point shift = drawInfo.getHairPos(stance, frame).minus(brow);
 
 
