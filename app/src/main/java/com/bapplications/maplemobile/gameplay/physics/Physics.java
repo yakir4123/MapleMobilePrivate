@@ -103,7 +103,7 @@ public class Physics {
     }
 
     public void draw(Point viewpos) {
-        if(Configuration.DEBUG){
+        if(Configuration.SHOW_FH){
             footholdtree.draw(viewpos);
         }
     }

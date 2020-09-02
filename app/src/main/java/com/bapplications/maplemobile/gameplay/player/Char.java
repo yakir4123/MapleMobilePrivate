@@ -5,13 +5,15 @@ import com.bapplications.maplemobile.gameplay.map.MapObject;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.opengl.utils.DrawArgument;
 import com.bapplications.maplemobile.opengl.utils.Point;
+import com.bapplications.maplemobile.opengl.utils.TimedBool;
 
 public class Char extends MapObject {
 
-    private final CharLook look;
-    private final CharLook look_preview;
     protected State state;
+    private final CharLook look;
     private boolean lookLeft = true;
+    private final CharLook look_preview;
+    private TimedBool invincible = new TimedBool();
 
     public static void init() {
         CharLook.init();
@@ -101,7 +103,13 @@ public class Char extends MapObject {
 
         if (speed >= 1.0f / deltaTime)
             stancespeed = (short)(deltaTime * speed);
+        invincible.update(deltaTime);
         return look.update(stancespeed);
+    }
+
+    public boolean isInvincible()
+    {
+        return invincible.isTrue();
     }
 
     public Layer getLayer() {
@@ -112,4 +120,13 @@ public class Char extends MapObject {
         return state == State.LADDER || state == State.ROPE;
     }
 
+    protected void showDamage(int damage) {
+        short start_y = (short) (phobj.getY() - 60);
+        short x = (short) (phobj.getX() - 10);
+
+//        damagenumbers.emplace_back(DamageNumber.Type:.TOPLAYER, damage, start_y, x);
+
+        look.setAlerted(5000);
+        invincible.setFor(2000);
+    }
 }

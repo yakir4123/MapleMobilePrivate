@@ -10,6 +10,12 @@ public class Point{
 
     public float x;
     public float y;
+
+    public Point(Point p) {
+        x = p.x;
+        y = p.y;
+    }
+
     public Point(Object o) {
         if ( o instanceof Point) {
             Point p = (Point)o;

@@ -13,6 +13,7 @@ import com.bapplications.maplemobile.gameplay.map.MapPortals;
 import com.bapplications.maplemobile.gameplay.map.MapTilesObjs;
 import com.bapplications.maplemobile.gameplay.audio.Music;
 import com.bapplications.maplemobile.gameplay.map.Portal;
+import com.bapplications.maplemobile.gameplay.mobs.Attack;
 import com.bapplications.maplemobile.gameplay.mobs.MobSpawn;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.gameplay.player.Player;
@@ -147,6 +148,20 @@ public class GameMap{
 //
 //            if (player.isPressed(KeyAction.PICKUP))
 //            check_drops();
+        }
+
+
+        if (player.isInvincible())
+            return;
+
+        int oid = mobs.findColliding(player);
+        if (oid != 0)
+        {
+            Attack.MobAttack attack = mobs.createAttack(oid);
+            if (attack.isValid())
+            {
+                Attack.MobAttackResult result = player.damage(attack);
+            }
         }
 
     }

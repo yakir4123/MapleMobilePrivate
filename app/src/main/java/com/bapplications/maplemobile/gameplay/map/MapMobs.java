@@ -1,11 +1,16 @@
 package com.bapplications.maplemobile.gameplay.map;
 
+import com.bapplications.maplemobile.gameplay.Collider;
+import com.bapplications.maplemobile.gameplay.mobs.Attack;
 import com.bapplications.maplemobile.gameplay.mobs.Mob;
 import com.bapplications.maplemobile.gameplay.mobs.MobSpawn;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.opengl.utils.Point;
+import com.bapplications.maplemobile.opengl.utils.Range;
+import com.bapplications.maplemobile.opengl.utils.Rectangle;
 
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.Queue;
 
 public class MapMobs {
@@ -38,5 +43,22 @@ public class MapMobs {
 
     public void spawn(MobSpawn spawn) {
         spawns.add(spawn);
+    }
+
+    public int findColliding(Collider collider) {
+
+        Optional<MapObject> obj= mobs.getObjects().values().stream()
+                .filter(mob -> ((Mob)mob).isAlive() && ((Mob)mob).isInRange(collider)).findAny();
+
+        return obj.map(mapObject -> mapObject.oid).orElse(0);
+
+    }
+
+    public Attack.MobAttack createAttack(int oid) {
+        Mob mob = (Mob) mobs.get(oid);
+        if (mob != null)
+            return mob.createTouchAttack();
+		else
+            return null;
     }
 }

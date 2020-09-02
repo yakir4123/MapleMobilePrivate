@@ -60,7 +60,7 @@ public class MapObject {
         return oid;
     }
 
-    Point getPosition()
+    protected Point getPosition()
     {
         return phobj.getPosition();
     }

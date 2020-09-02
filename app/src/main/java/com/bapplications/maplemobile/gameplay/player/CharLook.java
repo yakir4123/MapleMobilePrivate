@@ -27,6 +27,7 @@ public class CharLook {
     private boolean lookLeft = true;
     private static BodyDrawInfo drawInfo;
     private Nominal<Expression> expression;
+    private TimedBool alerted = new TimedBool();
     private static Map<Integer, Face> faceTypes;
     private static Map<Integer, Hair> hairStyles;
     private static HashMap<Integer, Body> bodyTypes;
@@ -142,8 +143,8 @@ public class CharLook {
             case STAND1:
             case STAND2:
             {
-//                if (alerted)
-//                    interstance = Stance.Id.Id.ALERT;
+                if (alerted.isTrue())
+                    interstance = Stance.Id.ALERT;
 
                 break;
             }
@@ -202,6 +203,8 @@ public class CharLook {
             expframe.normalize();
             return false;
         }
+
+        alerted.update(timestep);
 
         boolean aniend = false;
         if (action == null)
@@ -304,5 +307,9 @@ public class CharLook {
     public void setDirection(boolean flipped) {
         face.setDirection(lookLeft);
         lookLeft = flipped;
+    }
+
+    public void setAlerted(int millis) {
+        alerted.setFor(millis);
     }
 }

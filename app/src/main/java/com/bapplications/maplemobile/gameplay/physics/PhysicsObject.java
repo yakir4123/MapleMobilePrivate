@@ -78,15 +78,7 @@ public class PhysicsObject extends MovingObject {
         return new Point(getX(), getY());
     }
 
-    private short getX() {
-        return (short)Math.round(x.get());
-    }
-
-    private short getY() {
-        return (short)Math.round(y.get());
-    }
-
-    public float crntX() 
+    public float crntX()
     {
         return x.get();
     }
