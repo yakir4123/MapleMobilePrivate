@@ -27,6 +27,48 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:background="@color/ui_background"
+                app:layout_constraintStart_toEndOf="@id/set_map"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <include layout="@layout/progress_stat_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="15dp"
+                    app:colorBar="@{@color/hp_bar_color}"
+                    app:head="@{`HP:`}"
+                    app:progress="@{41}"
+                    app:maxProgress="@{50}" />
+
+                <include layout="@layout/progress_stat_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="15dp"
+                    app:colorBar="@{@color/mp_bar_color}"
+                    app:head="@{`MP:`}"
+                    app:progress="@{20}"
+                    app:maxProgress="@{20}"/>
+
+                <include layout="@layout/progress_stat_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="15dp"
+                    app:colorBar="@{@color/exp_bar_color}"
+                    app:head="@{`Exp:`}"
+                    app:progress="@{3}"
+                    app:maxProgress="@{15}" />
+
+            </LinearLayout>
             <ImageView
                 android:id="@+id/set_map"
                 android:layout_width="wrap_content"
@@ -137,7 +179,7 @@
                     android:layout_margin="4dp"
                     android:background="@drawable/circle"
                     android:src="@drawable/face_smile"
-                    app:backgroundTint="@color/circle_buttons"
+                    app:backgroundTint="@color/ui_background"
                     app:elevation="0dp"
                     app:fabSize="mini"
                     app:pressedTranslationZ="0dp" />
@@ -161,7 +203,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:indeterminate="true"
-                    android:progressDrawable="@drawable/custom_progressbar"
+                    android:progressDrawable="@drawable/progressbar_loading"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

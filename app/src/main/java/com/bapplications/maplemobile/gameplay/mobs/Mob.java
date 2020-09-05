@@ -221,7 +221,6 @@ public class Mob extends MapObject implements Collider {
 
                 DrawableCircle origin = DrawableCircle.createCircle(getPosition(), Color.GREEN);
                 origin.draw(dargs);
-
             }
         }
     }
@@ -453,6 +452,7 @@ public class Mob extends MapObject implements Collider {
     public Rectangle getCollider() {
         Rectangle bounds = new Rectangle(animations.get(stance).getBounds());
         bounds.shift(getPosition());
+        
         return bounds;
     }
 
