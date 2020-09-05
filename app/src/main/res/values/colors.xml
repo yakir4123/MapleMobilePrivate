@@ -5,6 +5,10 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="black_overlay">#66000000</color>
-    <color name="circle_buttons">#27000000</color>
-    <color name="circle_buttons_stroke">#B3FFFFFF</color>
+    <color name="ui_background">#27000000</color>
+    <color name="ui_stroke">#B3FFFFFF</color>
+    <color name="dirty_white">#F4F4F4</color>
+    <color name="hp_bar_color">#F8382A</color>
+    <color name="mp_bar_color">#366CF4</color>
+    <color name="exp_bar_color">#BAB21A</color>
 </resources>

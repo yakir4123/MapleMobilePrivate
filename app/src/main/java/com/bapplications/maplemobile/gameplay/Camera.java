@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.opengl.utils.Point;
 
+import static com.bapplications.maplemobile.constatns.Configuration.OFFSETX;
+
 
 public class Camera {
 
@@ -72,7 +74,6 @@ public class Camera {
         int HWidth = (int) (Loaded.SCREEN_WIDTH / 2 / GLState.SCALE);
         int HHeight = Loaded.SCREEN_HEIGHT/8;
 
-        int OFFSETX = 60;
 
         pos.x = -position.x;
         pos.y = -(position.y + HHeight);
