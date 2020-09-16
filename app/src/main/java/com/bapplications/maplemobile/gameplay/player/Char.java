@@ -124,7 +124,6 @@ public class Char extends MapObject {
         short start_y = (short) (phobj.getY() - 60);
         short x = (short) (phobj.getX() - 10);
 
-//        damagenumbers.emplace_back(DamageNumber.Type:.TOPLAYER, damage, start_y, x);
 
         look.setAlerted(5000);
         invincible.setFor(2000);

@@ -17,7 +17,7 @@ import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.opengl.utils.Rectangle;
 import com.bapplications.maplemobile.opengl.utils.TimedBool;
 import com.bapplications.maplemobile.views.KeyAction;
-import com.bapplications.maplemobile.views.UIControllers;
+import com.bapplications.maplemobile.views.GameActivityUIControllers;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -26,23 +26,34 @@ import java.util.TreeSet;
 public class Player extends Char implements Collider {
 
     private Ladder ladder;
+    private PlayerStats stats;
     private boolean attacking;
-    private TimedBool climb_cooldown;
     private boolean underwater;
-    private final UIControllers controllers;
+    private TimedBool climb_cooldown;
+    private final GameActivityUIControllers controllers;
     private TreeSet<Expression> myExpressions;
 
 
-    public Player(CharEntry entry, UIControllers controllers) {
+    public Player(CharEntry entry, GameActivityUIControllers controllers) {
         super(entry.id, new CharLook(entry.look), entry.stats.name);
         this.controllers = controllers;
         attacking = false;
         underwater = false;
 
+        loadStats();
         setState(State.STAND);
         myExpressions = new TreeSet<>();
         myExpressions.addAll(Arrays.asList(Expression.values()));
         climb_cooldown = new TimedBool();
+    }
+
+    private void loadStats() {
+        stats = new PlayerStats();
+        stats.setStat(PlayerStats.Id.MAX_HP, (short) 100);
+        stats.setStat(PlayerStats.Id.MAX_MP, (short) 50);
+        stats.setStat(PlayerStats.Id.HP, (short) 32);
+        stats.setStat(PlayerStats.Id.MP, (short) 42);
+        stats.setStat(PlayerStats.Id.EXP, (short) 10);
     }
 
     @Override
@@ -137,7 +148,7 @@ public class Player extends Char implements Collider {
     private static PlayerFallState falling = new PlayerFallState();
     private static PlayerStandState standing = new PlayerStandState();
     private static PlayerClimbState climbing = new PlayerClimbState();
-    //    private static PlayerSitState sitting = new PlayerStandState();
+//    private static PlayerSitState sitting = new PlayerStandState();
 //    private static PlayerFlyState flying = new PlayerStandState();
     private PlayerState getState(State state) {
 
@@ -202,6 +213,18 @@ public class Player extends Char implements Collider {
             pst.sendAction(this, key);
     }
 
+    public short getStat(PlayerStats.Id id) {
+        return stats.getStat(id);
+    }
+
+    public PlayerStats setStat(PlayerStats.Id id, short val) {
+        return stats.setStat(id, val);
+    }
+
+    public PlayerStats addStat(PlayerStats.Id id, short val) {
+        return stats.addStat(id, val);
+    }
+
     public void playJumpSound() {
         (new Sound(Sound.Name.JUMP)).play();
     }
@@ -210,7 +233,7 @@ public class Player extends Char implements Collider {
         return getPhobj().getPosition();
     }
 
-    public Collection getExpressions() {
+    public Collection<Expression> getExpressions() {
         return myExpressions;
     }
 
@@ -245,8 +268,9 @@ public class Player extends Char implements Collider {
 
     public Attack.MobAttackResult damage(Attack.MobAttack attack) {
         int damage = 1; //stats.calculate_damage(attack.watk);
+        addStat(PlayerStats.Id.HP, (short) -damage);
         showDamage(damage);
-
+        controllers.getViewModel().setHp(getStat(PlayerStats.Id.HP));
         boolean fromleft = attack.origin.x > phobj.getX();
 
 //        boolean missed = damage <= 0;

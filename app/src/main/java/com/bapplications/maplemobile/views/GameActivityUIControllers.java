@@ -1,13 +1,16 @@
 package com.bapplications.maplemobile.views;
 
+import android.opengl.GLSurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 
 import com.bapplications.maplemobile.R;
 import com.bapplications.maplemobile.StaticUtils;
+import com.bapplications.maplemobile.constatns.Constants;
 import com.bapplications.maplemobile.databinding.ActivityGameBinding;
 import com.bapplications.maplemobile.gameplay.player.Expression;
+import com.bapplications.maplemobile.gameplay.player.PlayerStats;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -15,33 +18,42 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-public class UIControllers {
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
+import androidx.lifecycle.ViewModelProvider;
+
+
+public class GameActivityUIControllers implements GLSurfaceView.Renderer {
 
     private GameActivity activity;
+    private GameActivityViewModel viewModel;
     private boolean isExpMenuOpen = false;
     private final ActivityGameBinding binding;
-    private Collection<Expression> expressions;
     private List<UIKeyListener> listeners = new ArrayList<>();
     OvershootInterpolator interpolator = new OvershootInterpolator();
-    private HashMap<KeyAction, GameViewController> controllers = new HashMap<>();
+    private HashMap<KeyAction, GameViewButton> controllers = new HashMap<>();
 
 
-    public UIControllers(GameActivity activity, ActivityGameBinding binding) {
+    public GameActivityUIControllers(GameActivity activity, ActivityGameBinding binding) {
         this.activity = activity;
+        viewModel = new ViewModelProvider(activity)
+                .get(GameActivityViewModel.class);
         this.binding = binding;
+        binding.setViewModel(viewModel);
         binding.fabMain.setOnClickListener(view -> {
             expMenu();
         });
         putControllers();
+
     }
 
-    public void loading() {
+    public void startLoadingMap() {
         activity.runOnUiThread(() ->
             StaticUtils.animateView(binding.progressOverlay, View.VISIBLE, 1f, 2000));
-
     }
 
-    public void finishLoading() {
+    public void finishLoadingMap() {
         activity.runOnUiThread(() ->
                 StaticUtils.animateView(binding.progressOverlay, View.GONE, 0, 2000));
     }
@@ -59,8 +71,9 @@ public class UIControllers {
             throw new IllegalArgumentException("Controllers already has this key");
         }
 
-        controllers.put(key, new GameViewController(key, view, this));
+        controllers.put(key, new GameViewButton(key, view, this));
     }
+
 
     public boolean isPressed(KeyAction key) {
         return controllers.get(key).isPressed();
@@ -102,7 +115,6 @@ public class UIControllers {
     }
 
     public void setExpressions(Collection<Expression> expressions) {
-        this.expressions = expressions;
         if(expressions == null)
             return;
         activity.runOnUiThread(() -> {
@@ -129,6 +141,36 @@ public class UIControllers {
             p.setMargins(left, top, right, bottom);
             view.requestLayout();
         }
+    }
+
+    @Override
+    public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
+
+    }
+
+    @Override
+    public void onSurfaceChanged(GL10 gl10, int i, int i1) {
+        viewModel.setHp(activity.getGameEngine().getCurrMap().getPlayer()
+                .getStat(PlayerStats.Id.HP));
+        viewModel.setMaxHp(activity.getGameEngine().getCurrMap()
+                .getPlayer().getStat(PlayerStats.Id.MAX_HP));
+        viewModel.setMp(activity.getGameEngine().getCurrMap().getPlayer()
+                .getStat(PlayerStats.Id.MP));
+        viewModel.setMaxMp(activity.getGameEngine().getCurrMap()
+                .getPlayer().getStat(PlayerStats.Id.MAX_MP));
+        viewModel.setExp(activity.getGameEngine().getCurrMap().getPlayer()
+                .getStat(PlayerStats.Id.EXP));
+        viewModel.setMaxExp(Constants.getExp(activity.getGameEngine()
+                .getCurrMap().getPlayer().getStat(PlayerStats.Id.LEVEL)));
+    }
+
+    @Override
+    public void onDrawFrame(GL10 gl10) {
+
+    }
+
+    public GameActivityViewModel getViewModel() {
+        return viewModel;
     }
 
     public interface UIKeyListener {

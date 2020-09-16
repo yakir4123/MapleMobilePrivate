@@ -6,9 +6,16 @@
     tools:context="com.bapplications.maplemobile.views.GameActivity">
 
     <data>
+        <import type="com.bapplications.maplemobile.gameplay.player.PlayerStats"/>
         <variable
             name="camera"
             type="com.bapplications.maplemobile.gameplay.Camera"/>
+        <variable
+            name="player"
+            type="com.bapplications.maplemobile.gameplay.player.Player"/>
+        <variable
+            name="viewModel"
+            type="com.bapplications.maplemobile.views.GameActivityViewModel"/>
     </data>
 
     <RelativeLayout
@@ -27,7 +34,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            android:layout_height="wrap_content"
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -38,15 +44,17 @@
                 app:layout_constraintStart_toEndOf="@id/set_map"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+
                 <include layout="@layout/progress_stat_layout"
+                    android:id="@+id/hp_progress_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="15dp"
                     app:colorBar="@{@color/hp_bar_color}"
-                    app:head="@{`HP:`}"
-                    app:progress="@{41}"
-                    app:maxProgress="@{50}" />
+                    app:title="@{`HP:`}"
+                    app:progress="@{viewModel.hp}"
+                    app:maxProgress="@{viewModel.max_hp}" />
 
                 <include layout="@layout/progress_stat_layout"
                     android:layout_width="0dp"
@@ -54,9 +62,9 @@
                     android:layout_weight="1"
                     android:layout_marginStart="15dp"
                     app:colorBar="@{@color/mp_bar_color}"
-                    app:head="@{`MP:`}"
-                    app:progress="@{20}"
-                    app:maxProgress="@{20}"/>
+                    app:title="@{`MP:`}"
+                    app:progress="@{viewModel.mp}"
+                    app:maxProgress="@{viewModel.max_mp}" />
 
                 <include layout="@layout/progress_stat_layout"
                     android:layout_width="0dp"
@@ -64,9 +72,9 @@
                     android:layout_weight="1"
                     android:layout_marginStart="15dp"
                     app:colorBar="@{@color/exp_bar_color}"
-                    app:head="@{`Exp:`}"
-                    app:progress="@{3}"
-                    app:maxProgress="@{15}" />
+                    app:title="@{`Exp:`}"
+                    app:progress="@{viewModel.exp}"
+                    app:maxProgress="@{viewModel.max_exp}" />
 
             </LinearLayout>
             <ImageView

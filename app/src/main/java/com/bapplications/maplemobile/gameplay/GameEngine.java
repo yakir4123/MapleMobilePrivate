@@ -4,17 +4,17 @@ import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.gameplay.player.CharEntry;
 import com.bapplications.maplemobile.gameplay.player.Player;
 import com.bapplications.maplemobile.views.KeyAction;
-import com.bapplications.maplemobile.views.UIControllers;
+import com.bapplications.maplemobile.views.GameActivityUIControllers;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class GameEngine implements UIControllers.UIKeyListener {
+public class GameEngine implements GameActivityUIControllers.UIKeyListener {
 
     private Player player;
     private GameMap currMap;
-    private UIControllers controllers;
+    private GameActivityUIControllers controllers;
     private static GameEngine instance;
     private Map<Integer, GameMap> nextMaps;
 
@@ -49,7 +49,7 @@ public class GameEngine implements UIControllers.UIKeyListener {
     }
 
 
-    public void setControllers(UIControllers controllers) {
+    public void setControllers(GameActivityUIControllers controllers) {
         this.controllers = controllers;
         this.controllers.registerListener(this);
     }
@@ -70,7 +70,7 @@ public class GameEngine implements UIControllers.UIKeyListener {
 
     public void changeMap(int mapId, String portalName) {
         if(mapId != currMap.getMapId()) {
-            controllers.loading();
+            controllers.startLoadingMap();
         }
         if (nextMaps.containsKey(mapId)) {
             currMap = nextMaps.get(mapId);
@@ -110,7 +110,7 @@ public class GameEngine implements UIControllers.UIKeyListener {
 //            map.loadMap(mapid);
 //            nextMaps.put(mapid, map);
 //        }
-        controllers.finishLoading();
+        controllers.finishLoadingMap();
     }
 
     public void loadPlayer(CharEntry entry)

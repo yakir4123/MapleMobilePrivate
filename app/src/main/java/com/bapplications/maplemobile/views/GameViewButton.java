@@ -1,22 +1,21 @@
 package com.bapplications.maplemobile.views;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 
 import android.view.MotionEvent;
 import android.view.View;
 
-public class GameViewController {
+public class GameViewButton {
 
     private KeyAction key;
     private boolean isPressed = false;
 
     @SuppressLint("ClickableViewAccessibility")
-    public GameViewController(KeyAction key, View view, UIControllers uiControllers) {
+    public GameViewButton(KeyAction key, View button, GameActivityUIControllers gameActivityUiControllers) {
         this.key = key;
         switch (key.getType()) {
             case CONTINUES_CLICK:
-                view.setOnTouchListener((view1, motionEvent) -> {
+                button.setOnTouchListener((view1, motionEvent) -> {
                     if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                         isPressed = true;
                     } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
@@ -26,7 +25,7 @@ public class GameViewController {
                 });
                 break;
             case SINGLE_CLICK:
-                view.setOnClickListener(view12 -> uiControllers.onClick(key));
+                button.setOnClickListener(view12 -> gameActivityUiControllers.onClick(key));
                 break;
         }
     }

@@ -35,6 +35,9 @@ public class GameGLSurfaceView extends GLSurfaceView {
     public GameEngine getGameEngine() {
         return mRenderer.getGameEngine();
     }
+    public GameGLRenderer getRenderer() {
+        return mRenderer;
+    }
 
     private final float TOUCH_SCALE_FACTOR = 180.0f / 320;
     private float previousX;
