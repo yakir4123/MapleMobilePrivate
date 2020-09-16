@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="head" type="String"/>
+        <variable name="title" type="String"/>
         <variable name="colorBar" type="int"/>
         <variable name="progress" type="int"/>
         <variable name="maxProgress" type="int"/>
@@ -15,7 +16,7 @@
         android:background="@drawable/curved_rectangle">
 
         <ProgressBar style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:id="@+id/hp_bar_pb"
+            android:id="@+id/pb"
             android:layout_width="match_parent"
             android:layout_height="10dp"
             android:layout_margin="2dp"
@@ -31,18 +32,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
-                android:text="@{head}"
+                android:text="@{title}"
                 android:textSize="8sp"
                 android:textColor="@color/dirty_white"
-                />
+                tools:ignore="SmallSp" />
             <TextView
+                android:id="@+id/progress_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{`` + progress + `/` + maxProgress}"
                 android:textSize="8sp"
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/dirty_white"
-                />
+                tools:ignore="SmallSp" />
         </RelativeLayout>
     </FrameLayout>
 </layout>

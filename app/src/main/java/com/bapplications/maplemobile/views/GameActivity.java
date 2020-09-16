@@ -29,7 +29,7 @@ public class GameActivity extends AppCompatActivity {
     private RelativeLayout root;
 
     private GameGLSurfaceView gameGLSurfaceView;
-    private UIControllers controllers;
+    private GameActivityUIControllers controllers;
 
     @Override
     protected void onCreate (Bundle savedInstanceState)
@@ -53,6 +53,7 @@ public class GameActivity extends AppCompatActivity {
 
         ActivityGameBinding binding = ActivityGameBinding.inflate(getLayoutInflater());
 
+        binding.setLifecycleOwner(this);
         root = binding.rootLayout;
         root.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
         ViewTreeObserver vto = root.getViewTreeObserver();
@@ -67,8 +68,9 @@ public class GameActivity extends AppCompatActivity {
         DrawableCircle.init(BitmapFactory.decodeResource(getResources(),
                         R.drawable.red_circle));
 
-        controllers = new UIControllers(this, binding);
+        controllers = new GameActivityUIControllers(this, binding);
         gameGLSurfaceView = findViewById(R.id.game_view);
+        gameGLSurfaceView.getRenderer().registerListener(controllers);
         getGameEngine().getCurrMap().getCamera().setTextView(findViewById(R.id.camera_pos_tv), this);
         getGameEngine().setControllers(controllers);
         binding.setMap.setOnClickListener(view -> {

@@ -2,8 +2,13 @@ package com.bapplications.maplemobile;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.res.Resources;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
+
+import androidx.databinding.BindingAdapter;
+import androidx.databinding.InverseBindingAdapter;
 
 public class StaticUtils {
 

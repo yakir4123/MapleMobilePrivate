@@ -11,6 +11,9 @@ import com.bapplications.maplemobile.gameplay.audio.Sound;
 import com.bapplications.maplemobile.gameplay.map.MapPortals;
 import com.bapplications.maplemobile.gameplay.player.Char;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -48,8 +51,9 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
 
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
-
         GLState.initGL();
+
+        listeners.forEach(listener -> listener.onSurfaceCreated(gl10, eglConfig));
     }
 
     @Override
@@ -88,6 +92,9 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
 //        engine.changeMap(100000000);
 //        diff = System.currentTimeMillis() - start;
 //        Log.d(TAG, "diff load map: "  + diff); // 8 s
+
+
+        listeners.forEach(listener -> listener.onSurfaceChanged(gl10, width, height));
     }
 
     @Override
@@ -111,6 +118,9 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         {
             frames++;
         }
+
+        listeners.forEach(listener -> listener.onDrawFrame(gl10));
+
     }
 
     public void setGameEngine (GameEngine engine)
@@ -121,4 +131,15 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
     public GameEngine getGameEngine() {
         return engine;
     }
+
+    public List<GLSurfaceView.Renderer> listeners = new ArrayList<>();
+
+    public void registerListener(GLSurfaceView.Renderer listener) {
+        listeners.add(listener);
+    }
+
+    public void removeListener(GLSurfaceView.Renderer listener) {
+        listeners.remove(listener);
+    }
+
 }
