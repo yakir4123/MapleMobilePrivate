@@ -35,7 +35,7 @@ public class Background extends Animation{
 
     private MovingObject moveobj;
     public Background(NXNode src) {
-        super(Loaded.getFile("Map").getRoot().getChild("Back")
+        super(Loaded.getFile(Loaded.WzFileName.MAP).getRoot().getChild("Back")
                 .getChild(src.getChild("bS").get("") + ".img")
                 .getChild(src.getChild("ani").get(0L) > 0 ? "ani" : "back")
                 .getChild(src.getChild("no").get(0L).intValue()), (byte) 0);

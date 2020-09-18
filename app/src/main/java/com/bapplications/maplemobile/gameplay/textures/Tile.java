@@ -8,7 +8,7 @@ import com.bapplications.maplemobile.pkgnx.NXNode;
 public class Tile extends Texture {
 
     public Tile(NXNode src, String tileset) {
-        super(Loaded.getFile("Map").getRoot().getChild("Tile").getChild(tileset)
+        super(Loaded.getFile(Loaded.WzFileName.MAP).getRoot().getChild("Tile").getChild(tileset)
                 .getChild(src.getChild("u").get(""))
                 .getChild("" + src.getChild("no").get(0L)), true);
 

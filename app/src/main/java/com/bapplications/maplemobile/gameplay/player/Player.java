@@ -13,7 +13,11 @@ import com.bapplications.maplemobile.gameplay.player.state.PlayerProneState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerStandState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerWalkState;
+import com.bapplications.maplemobile.opengl.utils.Color;
+import com.bapplications.maplemobile.opengl.utils.DrawArgument;
+import com.bapplications.maplemobile.opengl.utils.DrawableCircle;
 import com.bapplications.maplemobile.opengl.utils.Point;
+import com.bapplications.maplemobile.opengl.utils.Randomizer;
 import com.bapplications.maplemobile.opengl.utils.Rectangle;
 import com.bapplications.maplemobile.opengl.utils.TimedBool;
 import com.bapplications.maplemobile.views.KeyAction;
@@ -58,11 +62,10 @@ public class Player extends Char implements Collider {
 
     @Override
     public void setState(State state) {
-        if (!attacking)
-        {
+        if (!attacking) {
             super.setState(state);
 
-			PlayerState pst = getState(state);
+            PlayerState pst = getState(state);
 
             if (pst != null)
                 pst.initialize(this);
@@ -70,13 +73,15 @@ public class Player extends Char implements Collider {
     }
 
 
-    public void draw(Layer layer, Point viewpos, float alpha)
-    {
+    public void draw(Layer layer, Point viewpos, float alpha) {
         if (layer == getLayer())
             super.draw(viewpos, alpha);
         if (Configuration.SHOW_PLAYER_RECT) {
             Rectangle player_rect = getCollider();
             player_rect.draw(viewpos);
+
+            DrawableCircle origin = DrawableCircle.createCircle(getPosition(), Color.GREEN);
+            origin.draw(new DrawArgument(viewpos));
         }
     }
 
@@ -91,22 +96,18 @@ public class Player extends Char implements Collider {
 
     public byte update(Physics physics, int deltatime) {
 
-		PlayerState pst = getState(state);
+        PlayerState pst = getState(state);
 
-        if (pst != null)
-        {
+        if (pst != null) {
             pst.update(this);
             physics.moveObject(phobj);
 
             boolean aniend = super.update(physics, getStanceSpeed(), deltatime);
 
-            if (aniend && attacking)
-            {
+            if (aniend && attacking) {
                 attacking = false;
 //                nullstate.update_state(this);
-            }
-            else
-            {
+            } else {
                 pst.updateState(this);
             }
         }
@@ -131,13 +132,12 @@ public class Player extends Char implements Collider {
 //        if (attacking)
 //            return get_real_attackspeed();
 
-        switch (state)
-        {
+        switch (state) {
             case WALK:
-                return (float)(Math.abs(phobj.hspeed));
+                return Math.abs(phobj.hspeed);
             case LADDER:
             case ROPE:
-                return (float)(Math.abs(phobj.vspeed));
+                return Math.abs(phobj.vspeed);
             default:
                 return 1.0f;
         }
@@ -148,12 +148,12 @@ public class Player extends Char implements Collider {
     private static PlayerFallState falling = new PlayerFallState();
     private static PlayerStandState standing = new PlayerStandState();
     private static PlayerClimbState climbing = new PlayerClimbState();
-//    private static PlayerSitState sitting = new PlayerStandState();
+
+    //    private static PlayerSitState sitting = new PlayerStandState();
 //    private static PlayerFlyState flying = new PlayerStandState();
     private PlayerState getState(State state) {
 
-        switch (state)
-        {
+        switch (state) {
             case STAND:
                 return standing;
             case WALK:
@@ -207,7 +207,7 @@ public class Player extends Char implements Collider {
     }
 
     public void sendAction(KeyAction key) {
-		PlayerState pst = getState(state);
+        PlayerState pst = getState(state);
 
         if (pst != null)
             pst.sendAction(this, key);
@@ -240,12 +240,11 @@ public class Player extends Char implements Collider {
     public Ladder getLadder() {
         return ladder;
     }
-    
+
     public void setLadder(Ladder ldr) {
         ladder = ldr;
 
-        if (ladder != null)
-        {
+        if (ladder != null) {
             phobj.set_x(ldr.getX());
 
             phobj.hspeed = 0.0f;
@@ -261,8 +260,7 @@ public class Player extends Char implements Collider {
     }
 
 
-    public boolean canClimb()
-    {
+    public boolean canClimb() {
         return !climb_cooldown.isTrue();
     }
 
@@ -273,15 +271,15 @@ public class Player extends Char implements Collider {
         controllers.getViewModel().setHp(getStat(PlayerStats.Id.HP));
         boolean fromleft = attack.origin.x > phobj.getX();
 
-//        boolean missed = damage <= 0;
-//        boolean immovable = ladder != null || state == Char.State.DIED;
-//        boolean knockback = !missed && !immovable;
+        boolean missed = damage <= 0;
+        boolean immovable = ladder != null || state == Char.State.DIED;
+        boolean knockback = !missed && !immovable;
 
-//        if (knockback && randomizer.above(stats.get_stance()))
-//        {
+        if (knockback /*&& Randomizer.above(stats.getStance())*/)
+        {
             phobj.hspeed = (float) (fromleft ? -1.5 : 1.5);
             phobj.vforce -= 3.5;
-//        }
+        }
 
         byte direction = (byte) (fromleft ? 0 : 1);
 
@@ -290,10 +288,26 @@ public class Player extends Char implements Collider {
 
     @Override
     public Rectangle getCollider() {
+        int left, right, bottom, top;
+        if (state == State.PRONE) {
+            left = 10;
+            right = -50;
+            bottom = 0;
+            top = 30;
+        } else {
+            left = -15;
+            right = 12;
+            bottom = 0;
+            top = 55;
+        }
+        if (!lookLeft) {
+            left *= -1;
+            right *= -1;
+        }
         return new Rectangle(
-                phobj.getLastX() - 10,
-                phobj.getX() + 10,
-                phobj.getLastY(),
-                phobj.getY() + 50);
+            phobj.getLastX() + left,
+            phobj.getX() + right,
+            phobj.getLastY() + bottom,
+            phobj.getY() + top);
     }
 }

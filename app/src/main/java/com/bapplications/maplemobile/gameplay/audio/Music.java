@@ -36,7 +36,7 @@ public class Music {
         if (path.equals(bgmpath))
             return;
         String[] nodes = path.split("/");
-        NXNode nxNode = Loaded.getFile("Sound").getRoot();
+        NXNode nxNode = Loaded.getFile(Loaded.WzFileName.SOUND).getRoot();
         for (String nodeName : nodes) {
             nxNode = nxNode.getChild(nodeName);
         }

@@ -75,7 +75,7 @@ public class GameMap{
         String strid = StaticUtils.extendId(mapid, 9);
         char prefix = strid.charAt(0);
 
-        NXNode src = mapid == -1 ? null : Loaded.getFile("Map").getRoot().getChild("Map").getChild("Map" + prefix).getChild(strid + ".img");
+        NXNode src = mapid == -1 ? null : Loaded.getFile(Loaded.WzFileName.MAP).getRoot().getChild("Map").getChild("Map" + prefix).getChild(strid + ".img");
 
         // in case of no map exist with this mapid
         if (src != null && !src.isNull()) {
@@ -263,7 +263,7 @@ public class GameMap{
     }
 
     public void notifyNewMaps() {
-        GameEngine.getInstance().notifyChangedMap(portals.getNextMaps());
+        GameEngine.getInstance().notifyChangedMap(this);
     }
 
 }

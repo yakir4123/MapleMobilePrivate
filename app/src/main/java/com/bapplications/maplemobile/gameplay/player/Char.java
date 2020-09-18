@@ -11,9 +11,10 @@ public class Char extends MapObject {
 
     protected State state;
     private final CharLook look;
-    private boolean lookLeft = true;
     private final CharLook look_preview;
     private TimedBool invincible = new TimedBool();
+
+    protected boolean lookLeft = true;
 
     public static void init() {
         CharLook.init();

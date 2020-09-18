@@ -19,7 +19,7 @@ public class Face {
         NXNode facenode;
         Point negateShift = new Point(-1, -1);
         expressions = new HashMap[Expression.values().length];
-        NXNode faces = Loaded.getFile("Character").getRoot().getChild("Face").getChild("000" + faceid + ".img");
+        NXNode faces = Loaded.getFile(Loaded.WzFileName.CHARACTER).getRoot().getChild("Face").getChild("000" + faceid + ".img");
         for (Expression exp : Expression.values())
         {
             expressions[exp.ordinal()] = new HashMap<>();

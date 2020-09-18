@@ -14,9 +14,9 @@ public class GameEngine implements GameActivityUIControllers.UIKeyListener {
 
     private Player player;
     private GameMap currMap;
-    private GameActivityUIControllers controllers;
     private static GameEngine instance;
     private Map<Integer, GameMap> nextMaps;
+    private GameActivityUIControllers controllers;
 
     public static GameEngine getInstance() {
         if (instance == null)
@@ -90,26 +90,7 @@ public class GameEngine implements GameActivityUIControllers.UIKeyListener {
         loadPlayer(ce);
     }
 
-    public void notifyChangedMap() {
-        notifyChangedMap(null);
-    }
-
-    public void notifyChangedMap(Set<Integer> mapids) {
-//        // put currMap in NextMaps
-//        if(!nextMaps.containsKey(currMap.getMapId()))
-//            nextMaps.put(currMap.getMapId(), currMap);
-//
-//        // Remove all those maps that now not 1 way connected to currMap
-//        nextMaps.entrySet().removeIf(entry -> mapids.contains(entry.getKey()));
-//
-//        // Load new maps
-//        for (Integer mapid : mapids) {
-//            if(nextMaps.containsKey(mapid))
-//                continue;
-//            GameMap map = new GameMap(currMap.getCamera());
-//            map.loadMap(mapid);
-//            nextMaps.put(mapid, map);
-//        }
+    public void notifyChangedMap(GameMap to) {
         controllers.finishLoadingMap();
     }
 
