@@ -40,11 +40,11 @@ public class GameActivity extends AppCompatActivity {
         Configuration.WZ_DIRECTORY = getExternalFilesDir(null).getAbsolutePath();
         Configuration.CACHE_DIRECTORY = getCacheDir().getAbsolutePath();
         try {
-            Loaded.loadFile("Map", Configuration.WZ_DIRECTORY + "/Map.nx");
-            Loaded.loadFile("Mob", Configuration.WZ_DIRECTORY + "/Mob.nx");
-            Loaded.loadFile("Sound", Configuration.WZ_DIRECTORY + "/Sound.nx");
-            Loaded.loadFile("String", Configuration.WZ_DIRECTORY + "/String.nx");
-            Loaded.loadFile("Character", Configuration.WZ_DIRECTORY + "/Character.nx");
+            Loaded.loadFile(Loaded.WzFileName.MAP, Configuration.WZ_DIRECTORY + "/Map.nx");
+            Loaded.loadFile(Loaded.WzFileName.MOB, Configuration.WZ_DIRECTORY + "/Mob.nx");
+            Loaded.loadFile(Loaded.WzFileName.SOUND, Configuration.WZ_DIRECTORY + "/Sound.nx");
+            Loaded.loadFile(Loaded.WzFileName.STRING, Configuration.WZ_DIRECTORY + "/String.nx");
+            Loaded.loadFile(Loaded.WzFileName.CHARACTER, Configuration.WZ_DIRECTORY + "/Character.nx");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -92,7 +92,8 @@ public class GameActivity extends AppCompatActivity {
     protected void onResume ()
     {
         super.onResume();
-
+        gameGLSurfaceView.onResume();
+        controllers.setGameActivity(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         toggleFullscreen(true);
 
@@ -101,8 +102,11 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onPause ()
     {
+
+        gameGLSurfaceView.onPause();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         Music.pauseBgm();
+        controllers.onPause();
         super.onPause();
     }
 

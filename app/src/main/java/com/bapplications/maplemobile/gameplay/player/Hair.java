@@ -43,7 +43,7 @@ public class Hair {
     };
 
     public Hair(int hair_id, BodyDrawInfo drawInfo) {
-        NXNode hairnode = Loaded.getFile("Character").getRoot().getChild("Hair").getChild("000" + hair_id + ".img");
+        NXNode hairnode = Loaded.getFile(Loaded.WzFileName.CHARACTER).getRoot().getChild("Hair").getChild("000" + hair_id + ".img");
 
         for (String stanceName : Stance.mapNames.keySet())
         {

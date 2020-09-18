@@ -49,8 +49,8 @@ public class Body {
 
     public Body(int skin, BodyDrawInfo drawInfo) {
         String strid = StaticUtils.extendId(skin, 2);
-        NXNode bodynode = Loaded.getFile("Character").getRoot().getChild("000020" + strid + ".img");
-        NXNode headnode = Loaded.getFile("Character").getRoot().getChild("000120" + strid + ".img");
+        NXNode bodynode = Loaded.getFile(Loaded.WzFileName.CHARACTER).getRoot().getChild("000020" + strid + ".img");
+        NXNode headnode = Loaded.getFile(Loaded.WzFileName.CHARACTER).getRoot().getChild("000120" + strid + ".img");
 
         for (Stance.Id stance : Stance.Id.values())
         {

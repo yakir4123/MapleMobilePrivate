@@ -159,7 +159,7 @@ public class CharLook {
                       byte interexpframe) {
 
         Point faceshift = drawInfo.getFacePos(interstance, interframe);
-        face.shift(faceshift);//.x *= args.getDirection();
+        face.shift(faceshift);
 
         if(interstance == Stance.Id.LADDER || interstance == Stance.Id.ROPE){
             climbingDraw(args, interstance, interframe);

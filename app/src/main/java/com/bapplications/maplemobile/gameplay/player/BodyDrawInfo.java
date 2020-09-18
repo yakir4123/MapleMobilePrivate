@@ -65,8 +65,8 @@ public class BodyDrawInfo {
     }
 
     public void init() {
-        NXNode bodynode = Loaded.getFile("Character").getRoot().getChild("00002000.img");
-        NXNode headnode = Loaded.getFile("Character").getRoot().getChild("00012000.img");
+        NXNode bodynode = Loaded.getFile(Loaded.WzFileName.CHARACTER).getRoot().getChild("00002000.img");
+        NXNode headnode = Loaded.getFile(Loaded.WzFileName.CHARACTER).getRoot().getChild("00012000.img");
 
         for (NXNode stancenode : bodynode)
         {

@@ -43,6 +43,8 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
+        Log.d(TAG,"surface CREATED");
+
         GLES20.glClearColor(0.09019f, 0.10588f, 0.13333f, 0.0f);
 
         GLES20.glEnable(GLES20.GL_BLEND);
@@ -54,6 +56,7 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         GLState.initGL();
 
         listeners.forEach(listener -> listener.onSurfaceCreated(gl10, eglConfig));
+        Log.d("RENDERER", "OnSurfaceCreated");
     }
 
     @Override

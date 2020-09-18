@@ -24,7 +24,6 @@ public class GameGLSurfaceView extends GLSurfaceView {
 
         mRenderer = GameGLRenderer.createInstance();
         setRenderer(mRenderer);
-//        setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
     }
 
@@ -75,4 +74,5 @@ public class GameGLSurfaceView extends GLSurfaceView {
         previousY = y;
         return true;
     }
+
 }

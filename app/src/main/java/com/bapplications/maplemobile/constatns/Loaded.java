@@ -10,18 +10,26 @@ import java.util.Map;
 
 public class Loaded {
 
-    private static Map<String, NXFile> files = new HashMap<>();
+    private static Map<WzFileName, NXFile> files = new HashMap<>();
 
     public static int SCREEN_WIDTH = -1;
     public static int SCREEN_HEIGHT = -1;
     public static float SCREEN_RATIO = -1;
 
 
-    public static void loadFile(String key, String path) throws IOException {
+    public enum WzFileName {
+        MOB,
+        MAP,
+        SOUND,
+        STRING,
+        CHARACTER;
+    }
+
+    public static void loadFile(WzFileName key, String path) throws IOException {
         files.put(key, new LazyNXFile(path));
     }
 
-    public static NXFile getFile(String key) {
+    public static NXFile getFile(WzFileName key) {
         return files.get(key);
     }
 }

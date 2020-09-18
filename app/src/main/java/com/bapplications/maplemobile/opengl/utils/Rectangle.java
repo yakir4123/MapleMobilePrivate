@@ -129,6 +129,13 @@ public class Rectangle {
         right_bottom.offset(v.x, v.y);
     }
 
+    public void setLeft(float val) {
+        left_top.x = val;
+    }
+
+    public void setRight(float val) {
+        right_bottom.x = val;
+    }
     public void draw(Point pos) {
         DrawArgument args = new DrawArgument(pos);
         DrawableCircle[] points = new DrawableCircle[4];
@@ -140,5 +147,4 @@ public class Rectangle {
             p.draw(args);
         }
     }
-
 }

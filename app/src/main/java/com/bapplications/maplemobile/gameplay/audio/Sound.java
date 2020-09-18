@@ -6,6 +6,7 @@ import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXAudioNode;
+import com.bapplications.maplemobile.pkgnx.nodes.NXNoChildrenNode;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,13 +34,15 @@ public class Sound {
 
 
     public static void init(){
-        NXNode gamesrc = Loaded.getFile("Sound").getRoot().getChild("Game.img");
+        NXNode gamesrc = Loaded.getFile(Loaded.WzFileName.SOUND).getRoot().getChild("Game.img");
         addSound(Name.JUMP, gamesrc.getChild("Jump"));
         addSound(Name.PORTAL, gamesrc.getChild("Portal"));
     }
 
-    public Sound(NXAudioNode src) {
-        id = addSound(src);
+
+    public Sound(NXNode src) {
+        if (src instanceof NXAudioNode)
+            id = addSound(src);
     }
 
     public Sound(Name name) {

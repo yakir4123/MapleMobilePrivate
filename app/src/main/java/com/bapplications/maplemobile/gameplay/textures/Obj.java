@@ -9,7 +9,7 @@ import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
 public class Obj extends Animation {
 
     public Obj(NXNode src){
-        super(Loaded.getFile("Map").getRoot().getChild("Obj").getChild(src.getChild("oS").get("") + ".img")
+        super(Loaded.getFile(Loaded.WzFileName.MAP).getRoot().getChild("Obj").getChild(src.getChild("oS").get("") + ".img")
                         .getChild(src.getChild("l0").get(""))
                         .getChild(src.getChild("l1").get(""))
                         .getChild(src.getChild("l2").get("")),

@@ -74,7 +74,7 @@ public class MapPortals {
 
     public static void init()
     {
-        NXNode src = Loaded.getFile("Map").getRoot().getChild("MapHelper.img").getChild("portal").getChild("game");
+        NXNode src = Loaded.getFile(Loaded.WzFileName.MAP).getRoot().getChild("MapHelper.img").getChild("portal").getChild("game");
 
         animations.put(Portal.Type.HIDDEN, new Animation(src.getChild("ph").getChild("default").getChild("portalContinue"), 0));
         animations.put(Portal.Type.REGULAR, new Animation(src.getChild("pv"), 0));

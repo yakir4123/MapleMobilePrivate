@@ -83,7 +83,7 @@ public class Mob extends MapObject implements Collider {
     boolean control;
     boolean aggro;
     Stance stance;
-    boolean flip;
+    boolean lookLeft;
     FlyDirection flydirection;
     float walkforce;
     byte hppercent;
@@ -98,7 +98,7 @@ public class Mob extends MapObject implements Collider {
         animations = new HashMap<>();
 
         String strid = StaticUtils.extendId(mid, 7);
-        NXNode src = Loaded.getFile("Mob").getRoot().getChild(strid + ".img");
+        NXNode src = Loaded.getFile(Loaded.WzFileName.MOB).getRoot().getChild(strid + ".img");
         NXNode linkedNodes;
 
         NXNode info = src.getChild("info");
@@ -120,7 +120,7 @@ public class Mob extends MapObject implements Collider {
         canjump = src.isChildExist("jump");
 
         if(info.isChildExist("link")){
-            linkedNodes = Loaded.getFile("Mob").getRoot().getChild(info.getChild("link").get("") + ".img");
+            linkedNodes = Loaded.getFile(Loaded.WzFileName.MOB).getRoot().getChild(info.getChild("link").get("") + ".img");
 
         } else {
             linkedNodes = src;
@@ -144,9 +144,9 @@ public class Mob extends MapObject implements Collider {
         putAnimation(Stance.HIT, linkedNodes.getChild("hit1"));
         putAnimation(Stance.DIE, linkedNodes.getChild("die1"));
 
-        name = Loaded.getFile("String").getRoot().getChild("Mob.img").getChild(mid).getChild("name").get("");
+        name = Loaded.getFile(Loaded.WzFileName.STRING).getRoot().getChild("Mob.img").getChild(mid).getChild("name").get("");
 
-        NXNode sndsrc = Loaded.getFile("Sound").getRoot().getChild("Mob.img").getChild(strid);
+        NXNode sndsrc = Loaded.getFile(Loaded.WzFileName.SOUND).getRoot().getChild("Mob.img").getChild(strid);
 
         hitsound = new Sound(sndsrc.getChild("Damage"));
         diesound = new Sound(sndsrc.getChild("Die"));
@@ -209,17 +209,24 @@ public class Mob extends MapObject implements Collider {
     public void draw(Point view, float alpha)
     {
         Point absp = phobj.getAbsolute(view, alpha);
+//        Point absp = getPosition();
         Point headpos = getHeadPosition(absp);
         if (!dead)
         {
             float interopc = opacity.get(alpha);
 
-            DrawArgument dargs= new DrawArgument(absp, flip && !noflip, interopc);
+            DrawArgument dargs= new DrawArgument(absp, lookLeft && !noflip, interopc);
             animations.get(stance).draw(dargs, alpha);
             if (Configuration.SHOW_MOBS_RECT) {
                 getCollider().draw(view);
 
                 DrawableCircle origin = DrawableCircle.createCircle(getPosition(), Color.GREEN);
+                origin.draw(dargs);
+
+                origin = DrawableCircle.createCircle(headpos, Color.BLUE);
+                origin.draw(dargs);
+
+                origin = DrawableCircle.createCircle(absp, Color.RED);
                 origin.draw(dargs);
             }
         }
@@ -275,7 +282,7 @@ public class Mob extends MapObject implements Collider {
             {
                 if (phobj.isFlagNotSet(PhysicsObject.Flag.TURN_AT_EDGES))
                 {
-                    flip = !flip;
+                    lookLeft = !lookLeft;
                     phobj.setFlag(PhysicsObject.Flag.TURN_AT_EDGES);
 
                     if (stance == Stance.HIT)
@@ -288,7 +295,7 @@ public class Mob extends MapObject implements Collider {
                 case MOVE:
                     if (canfly)
                     {
-                        phobj.hforce = flip ? flyspeed : -flyspeed;
+                        phobj.hforce = lookLeft ? flyspeed : -flyspeed;
 
                         switch (flydirection)
                         {
@@ -302,7 +309,7 @@ public class Mob extends MapObject implements Collider {
                     }
                     else
                     {
-                        phobj.hforce = flip ? speed : -speed;
+                        phobj.hforce = lookLeft ? speed : -speed;
                     }
 
                     break;
@@ -310,7 +317,7 @@ public class Mob extends MapObject implements Collider {
                     if (canmove)
                     {
                         double KBFORCE = phobj.onground ? 0.2 : 0.1;
-                        phobj.hforce = (float) (flip ? -KBFORCE : KBFORCE);
+                        phobj.hforce = (float) (lookLeft ? -KBFORCE : KBFORCE);
                     }
 
                     break;
@@ -364,7 +371,7 @@ public class Mob extends MapObject implements Collider {
                 case HIT:
                 case STAND:
                     setStance(Stance.MOVE);
-                    flip = Randomizer.nextBoolean();
+                    lookLeft = Randomizer.nextBoolean();
                     break;
                 case MOVE:
                 case JUMP:
@@ -381,11 +388,11 @@ public class Mob extends MapObject implements Collider {
                                 break;
                             case 1:
                                 setStance(Stance.MOVE);
-                                flip = false;
+                                lookLeft = false;
                                 break;
                             case 2:
                                 setStance(Stance.MOVE);
-                                flip = true;
+                                lookLeft = true;
                                 break;
                         }
                     }
@@ -407,16 +414,16 @@ public class Mob extends MapObject implements Collider {
     private Point getHeadPosition(Point pos) {
         Point head = new Point(animations.get(stance).getHead());
 
-        pos.offsetThisX((flip && !noflip) ? -head.x : head.x);
+        pos.offsetThisX((lookLeft && !noflip) ? -head.x : head.x);
         pos.offsetThisY(head.y);
 
         return pos;
     }
 
     private void setStance(byte stancebyte) {
-        flip = (stancebyte % 2) == 0;
+        lookLeft = (stancebyte % 2) == 0;
 
-        if (!flip)
+        if (!lookLeft)
             stancebyte -= 1;
 
         if (stancebyte < Stance.MOVE.ordinal())
@@ -441,9 +448,6 @@ public class Mob extends MapObject implements Collider {
         aggro = mode == 2;
     }
 
-    private void setFlip(boolean lookLeft) {
-        flip = lookLeft;
-    }
     public boolean isAlive() {
         return active && !dying;
     }
@@ -451,6 +455,10 @@ public class Mob extends MapObject implements Collider {
     @Override
     public Rectangle getCollider() {
         Rectangle bounds = new Rectangle(animations.get(stance).getBounds());
+        if (lookLeft) {
+            bounds.setLeft(-bounds.left());
+            bounds.setRight(-bounds.right());
+        }
         bounds.shift(getPosition());
         
         return bounds;

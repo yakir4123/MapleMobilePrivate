@@ -110,8 +110,6 @@ public class GameActivityUIControllers implements GLSurfaceView.Renderer {
                     .setInterpolator(interpolator)
                     .setDuration(300).start();
         }
-
-
     }
 
     public void setExpressions(Collection<Expression> expressions) {
@@ -176,4 +174,13 @@ public class GameActivityUIControllers implements GLSurfaceView.Renderer {
     public interface UIKeyListener {
         void onAction(KeyAction key);
     }
+
+    public void onPause() {
+        activity = null;
+    }
+
+    public void setGameActivity(GameActivity activity) {
+        this.activity = activity;
+    }
+
 }
