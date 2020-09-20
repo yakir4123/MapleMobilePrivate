@@ -119,7 +119,7 @@ public abstract class NXNode implements Iterable<NXNode> {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T extends NXNode> T getChild(String name) {
-		if (childCount == 0 || isNull()) {
+		if (childCount == 0 || isNotExist()) {
 			return (T) nullChildrens;
 		}
 		T res = (T) searchChild(name);
@@ -129,8 +129,12 @@ public abstract class NXNode implements Iterable<NXNode> {
 		return res;
 	}
 
-	public boolean isNull() {
+	public boolean isNotExist() {
 		return this instanceof NXNoChildrenNode;
+	}
+
+	public boolean isExist() {
+		return !isNotExist();
 	}
 
 	public boolean isChildExist(int name){
@@ -256,7 +260,11 @@ public abstract class NXNode implements Iterable<NXNode> {
 		return (NXDoubleNode)getChild(name);
 	}
 
-	/**
+	public boolean getBool() {
+		return get(0L) > 0;
+	}
+
+    /**
 	 * A silent, empty iterator for childless {@code NXNode}s.
 	 *
 	 * @author Aaron Weiss

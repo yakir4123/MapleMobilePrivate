@@ -177,6 +177,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:gravity="center"
+                    android:visibility="gone"
                     android:orientation="vertical"
                     android:rowCount="3"/>
 

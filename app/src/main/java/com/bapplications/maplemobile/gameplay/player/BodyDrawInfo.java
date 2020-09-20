@@ -1,7 +1,5 @@
 package com.bapplications.maplemobile.gameplay.player;
 
-import android.util.Log;
-
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
@@ -121,7 +119,7 @@ public class BodyDrawInfo {
 
                     NXNode headmap = headnode.getChild(ststr).getChild(frame)
                                 .getChild("head").getChild("map");
-                    if(!headmap.isNull()) {
+                    if(!headmap.isNotExist()) {
                         for (NXNode mapnode : headmap) {
                             if (bodyshiftmap.get(Body.Layer.HEAD) == null)
                                 bodyshiftmap.put(Body.Layer.HEAD, new HashMap<>());
@@ -160,6 +158,10 @@ public class BodyDrawInfo {
                         face_positions[stance.ordinal()].put(frame, head_positions[stance.ordinal()].get(frame)
                                 .plus(bodyshiftmap.get(Body.Layer.HEAD).get("brow"))
                                 .mul(new Point(1, -1)));
+
+//                        face_positions[stance.ordinal()].put(frame, head_positions[stance.ordinal()].get(frame)
+//                                .plus(bodyshiftmap.get(Body.Layer.HEAD).get("brow")));
+//                                .mul(new Point(1, -1)));
                     } catch (NullPointerException e) {}
                     try {
                         hair_positions[stance.ordinal()].put(frame, bodyshiftmap.get(Body.Layer.HEAD).get("brow").minus(bodyshiftmap.get(Body.Layer.HEAD).get("neck")).plus(bodyshiftmap.get(Body.Layer.BODY).get("neck")));

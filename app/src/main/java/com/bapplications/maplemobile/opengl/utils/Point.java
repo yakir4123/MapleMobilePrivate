@@ -3,7 +3,6 @@ package com.bapplications.maplemobile.opengl.utils;
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.opengl.GLState;
 import com.bapplications.maplemobile.pkgnx.NXNode;
-import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXPointNode;
 
 public class Point{
@@ -30,7 +29,7 @@ public class Point{
     }
 
     public Point(NXNode src){
-        if (src.isNull()) {
+        if (src.isNotExist()) {
             x = 0;
             y = 0;
             return;

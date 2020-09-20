@@ -5,7 +5,6 @@ import android.util.Pair;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.opengl.utils.Rectangle;
 import com.bapplications.maplemobile.pkgnx.NXNode;
-import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
 
 public class Frame extends Texture {
     private Point head;
@@ -32,8 +31,8 @@ public class Frame extends Texture {
 
         NXNode a0 = src.getChild("a0");
         NXNode a1 = src.getChild("a1");
-        boolean hasa0 = !a0.isNull();
-        boolean hasa1 = !a1.isNull();
+        boolean hasa0 = !a0.isNotExist();
+        boolean hasa1 = !a1.isNotExist();
 
         if (hasa0 && hasa1)
         {
@@ -57,8 +56,8 @@ public class Frame extends Texture {
 
         NXNode z0 = src.getChild("z0");
         NXNode z1 = src.getChild("z1");
-        boolean hasz0 = !z0.isNull();
-        boolean hasz1 = !z1.isNull();
+        boolean hasz0 = !z0.isNotExist();
+        boolean hasz1 = !z1.isNotExist();
 
         if (hasz0 && hasz1)
         {
