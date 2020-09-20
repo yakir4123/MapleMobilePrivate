@@ -78,7 +78,7 @@ public class GameMap{
         NXNode src = mapid == -1 ? null : Loaded.getFile(Loaded.WzFileName.MAP).getRoot().getChild("Map").getChild("Map" + prefix).getChild(strid + ".img");
 
         // in case of no map exist with this mapid
-        if (src != null && !src.isNull()) {
+        if (src != null && !src.isNotExist()) {
             try {
                 mobs = new MapMobs();
                 tilesobjs = new MapTilesObjs(src);

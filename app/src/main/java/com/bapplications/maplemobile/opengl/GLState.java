@@ -20,7 +20,7 @@ public class GLState {
     public static final String TEXTURE_COORDINATE_PARAM = "aTextureCoordinate";
 
     // Warning:: Scaling make fps lower
-    public static final float SCALE = 1.5f;
+    public static final float SCALE = 1.7f;
     public static int _programHandle;
     public static int positionHandle = -1;
     public static int mvpMatrixHandle = -1;

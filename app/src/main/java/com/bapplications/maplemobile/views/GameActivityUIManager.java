@@ -24,7 +24,7 @@ import javax.microedition.khronos.opengles.GL10;
 import androidx.lifecycle.ViewModelProvider;
 
 
-public class GameActivityUIControllers implements GLSurfaceView.Renderer {
+public class GameActivityUIManager implements GLSurfaceView.Renderer {
 
     private GameActivity activity;
     private GameActivityViewModel viewModel;
@@ -35,7 +35,7 @@ public class GameActivityUIControllers implements GLSurfaceView.Renderer {
     private HashMap<KeyAction, GameViewButton> controllers = new HashMap<>();
 
 
-    public GameActivityUIControllers(GameActivity activity, ActivityGameBinding binding) {
+    public GameActivityUIManager(GameActivity activity, ActivityGameBinding binding) {
         this.activity = activity;
         viewModel = new ViewModelProvider(activity)
                 .get(GameActivityViewModel.class);
@@ -98,10 +98,12 @@ public class GameActivityUIControllers implements GLSurfaceView.Renderer {
             rotation = 45;
             translation = 0;
             alpha = 1;
+            binding.expressionsBtnsLayout.setVisibility(View.VISIBLE);
         } else {
             rotation = 0;
             translation = 100;
             alpha = 0;
+            binding.expressionsBtnsLayout.setVisibility(View.GONE);
         }
         binding.fabMain.animate().setInterpolator(interpolator).rotation(rotation).setDuration(300).start();
         for(int i = 0; i < binding.expressionsBtnsLayout.getChildCount(); i++){

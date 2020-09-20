@@ -19,6 +19,7 @@ public class CharLook {
     private short stelapsed;
     private String actionstr;
     private short expelapsed;
+    private CharEquips equips;
     private BodyAction action;
     private Nominal<Byte> stframe;
     private TimedBool expcooldown;
@@ -43,18 +44,18 @@ public class CharLook {
     public CharLook(CharEntry.LookEntry entry) {
         stance = new Nominal<>();
         stframe = new Nominal<>();
+        equips = new CharEquips();
         expframe = new Nominal<>();
         expression = new Nominal<>();
         expcooldown = new TimedBool();
-
         reset();
 
         setBody(entry.skin);
         setHair(entry.hairid);
         setFace(entry.faceid);
-//
-//        for (auto& equip : entry.equips)
-//            add_equip(equip.second);
+
+        for (Integer equip : entry.equips.values())
+            addEquip(equip);
 
     }
 
@@ -122,6 +123,11 @@ public class CharLook {
 //        }
     }
 
+    private void addEquip(Integer itemid) {
+        equips.addEquip(itemid, drawInfo);
+//        updatetwohanded();
+    }
+
     public void draw(DrawArgument args, float alpha) {
         if(body == null || hair == null || face == null)
             return;
@@ -166,31 +172,137 @@ public class CharLook {
             return;
         }
         hair.draw(interstance, Hair.Layer.BELOWBODY, interframe, args);
+        equips.draw(EquipSlot.Id.CAPE, interstance, Clothing.Layer.CAPE, interframe, args);
+        equips.draw(EquipSlot.Id.SHIELD, interstance, Clothing.Layer.SHIELD_BELOW_BODY, interframe, args);
+        equips.draw(EquipSlot.Id.WEAPON, interstance, Clothing.Layer.WEAPON_BELOW_BODY, interframe, args);
+        equips.draw(EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP_BELOW_BODY, interframe, args);
         body.draw(interstance, Body.Layer.BODY, interframe, args);
+        equips.draw(EquipSlot.Id.GLOVES, interstance, Clothing.Layer.WRIST_OVER_BODY, interframe, args);
+        equips.draw(EquipSlot.Id.GLOVES, interstance, Clothing.Layer.GLOVE_OVER_BODY, interframe, args);
+        equips.draw(EquipSlot.Id.SHOES, interstance, Clothing.Layer.SHOES, interframe, args);
         body.draw(interstance, Body.Layer.ARM_BELOW_HEAD, interframe, args);
+
+        if (equips.hasOverall())
+        {
+            equips.draw(EquipSlot.Id.TOP, interstance, Clothing.Layer.MAIL, interframe, args);
+        }
+        else
+        {
+            equips.draw(EquipSlot.Id.BOTTOM, interstance, Clothing.Layer.PANTS, interframe, args);
+            equips.draw(EquipSlot.Id.TOP, interstance, Clothing.Layer.TOP, interframe, args);
+        }
+
         body.draw(interstance, Body.Layer.ARM_BELOW_HEAD_OVER_MAIL, interframe, args);
+        equips.draw(EquipSlot.Id.SHIELD, interstance, Clothing.Layer.SHIELD_OVER_HAIR, interframe, args);
+        equips.draw(EquipSlot.Id.EARACC, interstance, Clothing.Layer.EARRINGS, interframe, args);
         body.draw(interstance, Body.Layer.HEAD, interframe, args);
         hair.draw(interstance, Hair.Layer.SHADE, interframe, args);
         hair.draw(interstance, Hair.Layer.DEFAULT, interframe, args);
         face.draw(interexpression, interexpframe, args);
+//        equips.draw(EquipSlot.Id.FACE, interstance, Clothing.Layer.FACEACC, 0, args);
+        equips.draw(EquipSlot.Id.EYEACC, interstance, Clothing.Layer.EYEACC, interframe, args);
+        equips.draw(EquipSlot.Id.SHIELD, interstance, Clothing.Layer.SHIELD, interframe, args);
 
-        // in case of cape need to be more thing...
-        hair.draw(interstance, Hair.Layer.OVERHEAD, interframe, args);
+        switch (equips.getCapType())
+        {
+            case NONE:
+                hair.draw(interstance, Hair.Layer.OVERHEAD, interframe, args);
+                break;
+            case HEADBAND:
+                equips.draw(EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP, interframe, args);
+                hair.draw(interstance, Hair.Layer.DEFAULT, interframe, args);
+                hair.draw(interstance, Hair.Layer.OVERHEAD, interframe, args);
+                equips.draw(EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP_OVER_HAIR, interframe, args);
+                break;
+            case HALFCOVER:
+                hair.draw(interstance, Hair.Layer.DEFAULT, interframe, args);
+                equips.draw(EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP, interframe, args);
+                break;
+            case FULLCOVER:
+                equips.draw(EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP, interframe, args);
+                break;
+        }
+
+        equips.draw(EquipSlot.Id.WEAPON, interstance, Clothing.Layer.WEAPON_BELOW_ARM, interframe, args);
+        boolean twohanded = isTwoHanded(interstance);
+//
+        if (twohanded)
+        {
+            equips.draw(EquipSlot.Id.TOP, interstance, Clothing.Layer.MAILARM, interframe, args);
+            body.draw(interstance, Body.Layer.ARM, interframe, args);
+            equips.draw(EquipSlot.Id.WEAPON, interstance, Clothing.Layer.WEAPON, interframe, args);
+        }
+        else
+        {
+            equips.draw(EquipSlot.Id.WEAPON, interstance, Clothing.Layer.WEAPON, interframe, args);
+            body.draw(interstance, Body.Layer.ARM, interframe, args);
+            equips.draw(EquipSlot.Id.TOP, interstance, Clothing.Layer.MAILARM, interframe, args);
+        }
+
+        equips.draw(EquipSlot.Id.GLOVES, interstance, Clothing.Layer.WRIST, interframe, args);
+        equips.draw(EquipSlot.Id.GLOVES, interstance, Clothing.Layer.GLOVE, interframe, args);
 
         body.draw(interstance, Body.Layer.HAND_BELOW_WEAPON, interframe, args);
-        body.draw(interstance, Body.Layer.ARM, interframe, args);
+
         body.draw(interstance, Body.Layer.ARM_OVER_HAIR, interframe, args);
         body.draw(interstance, Body.Layer.ARM_OVER_HAIR_BELOW_WEAPON, interframe, args);
+        equips.draw(EquipSlot.Id.WEAPON, interstance, Clothing.Layer.WEAPON_OVER_HAND, interframe, args);
+        equips.draw(EquipSlot.Id.WEAPON, interstance, Clothing.Layer.WEAPON_OVER_BODY, interframe, args);
         body.draw(interstance, Body.Layer.HAND_OVER_HAIR, interframe, args);
         body.draw(interstance, Body.Layer.HAND_OVER_WEAPON, interframe, args);
 
+        equips.draw(EquipSlot.Id.GLOVES, interstance, Clothing.Layer.WRIST_OVER_HAIR, interframe, args);
+        equips.draw(EquipSlot.Id.GLOVES, interstance, Clothing.Layer.GLOVE_OVER_HAIR, interframe, args);
+        equips.draw(EquipSlot.Id.WEAPON, interstance, Clothing.Layer.WEAPON_OVER_GLOVE, interframe, args);
+    }
+
+    private boolean isTwoHanded(Stance.Id st) {
+        switch (st)
+        {
+            case STAND1:
+            case WALK1:
+                return false;
+            case STAND2:
+            case WALK2:
+                return true;
+            default:
+                return equips.isTwoHanded();
+        }
     }
 
     private void climbingDraw(DrawArgument args,
                               Stance.Id interstance,
                               byte interframe) {
         body.draw(interstance, Body.Layer.BODY, interframe, args);
-        hair.draw(interstance, Hair.Layer.BACK, interframe, args);
+        equips.draw(EquipSlot.Id.GLOVES, interstance, Clothing.Layer.GLOVE, interframe, args);
+        equips.draw(EquipSlot.Id.SHOES, interstance, Clothing.Layer.SHOES, interframe, args);
+        equips.draw(EquipSlot.Id.BOTTOM, interstance, Clothing.Layer.PANTS, interframe, args);
+        equips.draw(EquipSlot.Id.TOP, interstance, Clothing.Layer.TOP, interframe, args);
+        equips.draw(EquipSlot.Id.TOP, interstance, Clothing.Layer.MAIL, interframe, args);
+        equips.draw(EquipSlot.Id.CAPE, interstance, Clothing.Layer.CAPE, interframe, args);
+        body.draw(interstance, Body.Layer.HEAD, interframe, args);
+        equips.draw(EquipSlot.Id.EARACC, interstance, Clothing.Layer.EARRINGS, interframe, args);
+
+        switch (equips.getCapType())
+        {
+            case NONE:
+                hair.draw(interstance, Hair.Layer.BACK, interframe, args);
+                break;
+            case HEADBAND:
+                equips.draw(EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP, interframe, args);
+                hair.draw(interstance, Hair.Layer.BACK, interframe, args);
+                break;
+            case HALFCOVER:
+                hair.draw(interstance, Hair.Layer.BELOWCAP, interframe, args);
+                equips.draw(EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP, interframe, args);
+                break;
+            case FULLCOVER:
+                equips.draw(EquipSlot.Id.HAT, interstance, Clothing.Layer.CAP, interframe, args);
+                break;
+        }
+
+        equips.draw(EquipSlot.Id.SHIELD, interstance, Clothing.Layer.BACKSHIELD, interframe, args);
+        equips.draw(EquipSlot.Id.WEAPON, interstance, Clothing.Layer.BACKWEAPON, interframe, args);
 
     }
 
@@ -216,7 +328,7 @@ public class CharLook {
             {
                 stelapsed = (short) (timestep - delta);
                 if(stance.get() == Stance.Id.WALK1) {
-                    Log.d("timestep::", "" + timestep);
+                    Log.d("timestep.", "" + timestep);
                 }
                 byte nextframe = getNextFrame(stance.get(), stframe.get());
                 float threshold = (float)(delta) / timestep;

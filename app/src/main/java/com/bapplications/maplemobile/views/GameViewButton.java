@@ -11,7 +11,7 @@ public class GameViewButton {
     private boolean isPressed = false;
 
     @SuppressLint("ClickableViewAccessibility")
-    public GameViewButton(KeyAction key, View button, GameActivityUIControllers gameActivityUiControllers) {
+    public GameViewButton(KeyAction key, View button, GameActivityUIManager gameActivityUiManager) {
         this.key = key;
         switch (key.getType()) {
             case CONTINUES_CLICK:
@@ -25,7 +25,7 @@ public class GameViewButton {
                 });
                 break;
             case SINGLE_CLICK:
-                button.setOnClickListener(view12 -> gameActivityUiControllers.onClick(key));
+                button.setOnClickListener(view12 -> gameActivityUiManager.onClick(key));
                 break;
         }
     }

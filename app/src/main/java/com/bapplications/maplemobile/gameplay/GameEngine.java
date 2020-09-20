@@ -2,21 +2,21 @@ package com.bapplications.maplemobile.gameplay;
 
 import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.gameplay.player.CharEntry;
+import com.bapplications.maplemobile.gameplay.player.EquipSlot;
 import com.bapplications.maplemobile.gameplay.player.Player;
 import com.bapplications.maplemobile.views.KeyAction;
-import com.bapplications.maplemobile.views.GameActivityUIControllers;
+import com.bapplications.maplemobile.views.GameActivityUIManager;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-public class GameEngine implements GameActivityUIControllers.UIKeyListener {
+public class GameEngine implements GameActivityUIManager.UIKeyListener {
 
     private Player player;
     private GameMap currMap;
     private static GameEngine instance;
     private Map<Integer, GameMap> nextMaps;
-    private GameActivityUIControllers controllers;
+    private GameActivityUIManager controllers;
 
     public static GameEngine getInstance() {
         if (instance == null)
@@ -49,7 +49,7 @@ public class GameEngine implements GameActivityUIControllers.UIKeyListener {
     }
 
 
-    public void setControllers(GameActivityUIControllers controllers) {
+    public void setControllers(GameActivityUIManager controllers) {
         this.controllers = controllers;
         this.controllers.registerListener(this);
     }
@@ -87,6 +87,24 @@ public class GameEngine implements GameActivityUIControllers.UIKeyListener {
         CharEntry ce = new CharEntry(charId);
         ce.look.faceid = 20000;
         ce.look.hairid = 30020;
+
+        ce.look.equips = new HashMap<>();
+
+        // magician look
+//        ce.look.equips.put((byte) EquipSlot.Id.TOP.ordinal(), 1050045);
+//        ce.look.equips.put((byte) EquipSlot.Id.GLOVES.ordinal(), 1082028);
+//        ce.look.equips.put((byte) EquipSlot.Id.HAT.ordinal(), 1002017);
+//        ce.look.equips.put((byte) EquipSlot.Id.SHIELD.ordinal(), 1092045);
+//        ce.look.equips.put((byte) EquipSlot.Id.SHOES.ordinal(), 1072024);
+//        ce.look.equips.put((byte) EquipSlot.Id.WEAPON.ordinal(), 1382009);
+
+        // thief look
+        ce.look.equips.put((byte) EquipSlot.Id.TOP.ordinal(), 1050018);
+        ce.look.equips.put((byte) EquipSlot.Id.GLOVES.ordinal(), 1082223);
+        ce.look.equips.put((byte) EquipSlot.Id.SHOES.ordinal(), 1072171);
+        ce.look.equips.put((byte) EquipSlot.Id.WEAPON.ordinal(), 1472054);
+        ce.look.equips.put((byte) EquipSlot.Id.HAT.ordinal(), 1002357);
+
         loadPlayer(ce);
     }
 

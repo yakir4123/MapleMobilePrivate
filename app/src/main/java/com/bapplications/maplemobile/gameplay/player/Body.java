@@ -1,7 +1,5 @@
 package com.bapplications.maplemobile.gameplay.player;
 
-import android.util.Log;
-
 import com.bapplications.maplemobile.StaticUtils;
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.gameplay.textures.Texture;
@@ -58,7 +56,7 @@ public class Body {
 
             NXNode stancenode = bodynode.getChild(stancename);
 
-            if (stancenode.isNull())
+            if (stancenode.isNotExist())
                 continue;
 
             for (byte frame = 0; stancenode.isChildExist(frame); ++frame) {
@@ -98,7 +96,7 @@ public class Body {
                     stances[stance.ordinal()][layer.ordinal()]
                             .put(frame, tex);
                 }
-                boolean hasHeadImg = !stancename.equals("dead") && !headnode.getChild(stancename).getChild(frame).getChild("head").isNull();
+                boolean hasHeadImg = !stancename.equals("dead") && !headnode.getChild(stancename).getChild(frame).getChild("head").isNotExist();
                 if (hasHeadImg) {
                     NXNode headsfnode = headnode.getChild(stancename).getChild(frame).getChild("head");
                     Point shift = drawInfo.getHeadPosition(stance, frame);

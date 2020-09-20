@@ -17,11 +17,10 @@ import com.bapplications.maplemobile.opengl.utils.Color;
 import com.bapplications.maplemobile.opengl.utils.DrawArgument;
 import com.bapplications.maplemobile.opengl.utils.DrawableCircle;
 import com.bapplications.maplemobile.opengl.utils.Point;
-import com.bapplications.maplemobile.opengl.utils.Randomizer;
 import com.bapplications.maplemobile.opengl.utils.Rectangle;
 import com.bapplications.maplemobile.opengl.utils.TimedBool;
 import com.bapplications.maplemobile.views.KeyAction;
-import com.bapplications.maplemobile.views.GameActivityUIControllers;
+import com.bapplications.maplemobile.views.GameActivityUIManager;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,11 +33,11 @@ public class Player extends Char implements Collider {
     private boolean attacking;
     private boolean underwater;
     private TimedBool climb_cooldown;
-    private final GameActivityUIControllers controllers;
+    private final GameActivityUIManager controllers;
     private TreeSet<Expression> myExpressions;
 
 
-    public Player(CharEntry entry, GameActivityUIControllers controllers) {
+    public Player(CharEntry entry, GameActivityUIManager controllers) {
         super(entry.id, new CharLook(entry.look), entry.stats.name);
         this.controllers = controllers;
         attacking = false;

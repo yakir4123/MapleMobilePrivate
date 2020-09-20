@@ -60,9 +60,9 @@ public class CharEntry {
         public byte skin;
         public int faceid;
         public int hairid;
+        public List<Integer> petids;
         public HashMap<Byte, Integer> equips;
         public HashMap<Byte, Integer> maskedequips;
-        public List<Integer> petids;
 
     }
 

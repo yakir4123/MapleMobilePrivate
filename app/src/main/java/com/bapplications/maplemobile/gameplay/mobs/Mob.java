@@ -194,7 +194,7 @@ public class Mob extends MapObject implements Collider {
     }
 
     private void putAnimation(Stance stance, NXNode src) {
-        if(src == null || src.isNull()){
+        if(src == null || src.isNotExist()){
             return;
         }
         animations.put(stance, new Animation(src));

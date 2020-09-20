@@ -29,7 +29,7 @@ public class GameActivity extends AppCompatActivity {
     private RelativeLayout root;
 
     private GameGLSurfaceView gameGLSurfaceView;
-    private GameActivityUIControllers controllers;
+    private GameActivityUIManager controllers;
 
     @Override
     protected void onCreate (Bundle savedInstanceState)
@@ -68,7 +68,7 @@ public class GameActivity extends AppCompatActivity {
         DrawableCircle.init(BitmapFactory.decodeResource(getResources(),
                         R.drawable.red_circle));
 
-        controllers = new GameActivityUIControllers(this, binding);
+        controllers = new GameActivityUIManager(this, binding);
         gameGLSurfaceView = findViewById(R.id.game_view);
         gameGLSurfaceView.getRenderer().registerListener(controllers);
         getGameEngine().getCurrMap().getCamera().setTextView(findViewById(R.id.camera_pos_tv), this);
