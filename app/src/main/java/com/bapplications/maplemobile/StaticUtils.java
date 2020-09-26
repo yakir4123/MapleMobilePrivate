@@ -1,5 +1,15 @@
 package com.bapplications.maplemobile;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.content.res.Resources;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
+
+import androidx.databinding.BindingAdapter;
+import androidx.databinding.InverseBindingAdapter;
+
 public class StaticUtils {
 
 
@@ -27,5 +37,22 @@ public class StaticUtils {
         {
             return def;
         }
+    }
+
+    public static void animateView(final View view, final int toVisibility, float toAlpha, int duration) {
+        boolean show = toVisibility == View.VISIBLE;
+        if (show) {
+            view.setAlpha(0);
+        }
+        view.setVisibility(View.VISIBLE);
+        view.animate()
+                .setDuration(duration)
+                .alpha(show ? toAlpha : 0)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        view.setVisibility(toVisibility);
+                    }
+                });
     }
 }

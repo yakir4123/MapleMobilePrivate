@@ -19,7 +19,8 @@ public class GLState {
     public static final String POSITION_PARAM = "vPosition";
     public static final String TEXTURE_COORDINATE_PARAM = "aTextureCoordinate";
 
-    private static final float SCALE = 1;
+    // Warning:: Scaling make fps lower
+    public static final float SCALE = 1.7f;
     public static int _programHandle;
     public static int positionHandle = -1;
     public static int mvpMatrixHandle = -1;
@@ -130,5 +131,9 @@ public class GLState {
         _textureBuffer.put(TEXTURE_COORDINATES);
         _textureBuffer.position(0);
 
+    }
+
+    public static void drawScreenFill() {
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
     }
 }

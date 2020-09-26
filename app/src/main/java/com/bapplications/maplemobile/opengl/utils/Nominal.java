@@ -1,37 +1,55 @@
 package com.bapplications.maplemobile.opengl.utils;
 
-public class Nominal {
-    int now;
-    int before;
+import java.util.function.BinaryOperator;
+
+public class Nominal<T> {
+    private BinaryOperator<T> plusOP;
+    T now;
+    T before;
     float threshold;
 
+    public Nominal(){
+        plusOP = new BinaryOperator<T>() {
+            public Object apply(Object t1, Object t2) {
+                return ((Number)t1).doubleValue() + ((Number)t2).doubleValue();
+            }
+        };
+    }
 
-    public Nominal(){}
-
-    public boolean equals(int value){
+    public boolean equals(Object value){
         return now == value;
     }
 
-    public void set(int value) {
+    public void set(T value) {
         now = value;
         before = value;
     }
 
-    public int get() {
+    public T get() {
         return now;
     }
 
-    public int get(float alpha)
+    public T get(float alpha)
     {
         return alpha >= threshold ? now : before;
     }
 
-    public int plus(int value) {
-        return now + value;
-
+    public Object plus(T value) {
+        Number res = (Number) plusOP.apply(now, value);
+        if (now instanceof Byte)
+            return res.byteValue();
+        if (now instanceof Short)
+            return res.shortValue();
+        if (now instanceof Integer)
+            return res.intValue();
+        if (now instanceof Long)
+            return res.longValue();
+        if (now instanceof Float)
+            return res.byteValue();
+        return res.doubleValue();
     }
 
-    public void next(int value, float thrs)
+    public void next(T value, float thrs)
     {
         before = now;
         now = value;

@@ -47,40 +47,41 @@ public class DrawArgument {
     }
 
 
-    public Rectangle get_rectangle(Point origin, Point dimensions)
-    {
-        return null;
-//        int w = stretch.x;
-//
-//        if (w == 0)
-//            w = dimensions.x;
-//
-//        int h = stretch.y;
-//
-//        if (h == 0)
-//            h = dimensions.y;
-//
-//        Point rlt = pos.minus(center).minus(origin);
-//        int rl = rlt.x;
-//        int rr = rlt.x + w;
-//        int rt = rlt.y;
-//        int rb = rlt.y + h;
-//        int cx = center.x;
-//        int cy = center.y;
-//
-//        return new Rectangle(
-//                (int)(cx + (xscale * rl)),
-//                (int)(cx + (xscale * rr)),
-//                (int)(cy + (yscale * rt)),
-//                (int)(cy + (yscale * rb))
-//        );
-    }
-
     public Color getColor() {
         return color;
     }
 
     public float getAngle() {
         return angle;
+    }
+
+    public Point getPos() {
+        return pos;
+    }
+
+    public Point getCenter() {
+        return center;
+    }
+
+    public DrawArgument plus(Point pos) {
+        return new DrawArgument(this.pos.plus(pos), center, stretch, xscale, yscale, color, angle);
+    }
+
+    public DrawArgument plus(DrawArgument o) {
+        return new DrawArgument(this.pos.plus(o.pos),
+                this.center.plus(o.center),
+                stretch.plus(stretch),
+                xscale * o.xscale,
+                yscale * o.yscale,
+                color.mul(o.color),
+                angle + o.angle);
+    }
+
+    public byte getDirection() {
+        return (byte) (xscale > 0 ? 1 : -1);
+    }
+
+    public void setDirection(boolean lookLeft) {
+        xscale = lookLeft ? xscale : -xscale;
     }
 }

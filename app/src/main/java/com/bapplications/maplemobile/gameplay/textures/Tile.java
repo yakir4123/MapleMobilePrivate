@@ -1,0 +1,28 @@
+package com.bapplications.maplemobile.gameplay.textures;
+
+import com.bapplications.maplemobile.constatns.Loaded;
+import com.bapplications.maplemobile.opengl.utils.DrawArgument;
+import com.bapplications.maplemobile.opengl.utils.Point;
+import com.bapplications.maplemobile.pkgnx.NXNode;
+
+public class Tile extends Texture {
+
+    public Tile(NXNode src, String tileset) {
+        super(Loaded.getFile(Loaded.WzFileName.MAP).getRoot().getChild("Tile").getChild(tileset)
+                .getChild(src.getChild("u").get(""))
+                .getChild("" + src.getChild("no").get(0L)), true);
+
+        setPos(new Point(src));
+
+        setZ(((Long) bitmapNode.getChild("z").get(0L)).byteValue());
+        if ((Byte)getZ() == 0) {
+            setZ(((Long) bitmapNode.getChild("zM").get(0L)).byteValue());
+        }
+    }
+
+    public void draw(Point viewpos) {
+        draw(new DrawArgument(viewpos));
+    }
+
+
+}

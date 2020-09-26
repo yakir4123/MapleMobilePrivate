@@ -6,4 +6,5 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="popup_change_map_tv">Go where?</string>
     <string name="popup_change_map_bt">Go</string>
+    <string name="loading_screen">Loading..</string>
 </resources>

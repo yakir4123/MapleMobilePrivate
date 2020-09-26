@@ -1,18 +1,54 @@
 package com.bapplications.maplemobile.opengl.utils;
 
 import com.bapplications.maplemobile.constatns.Loaded;
+import com.bapplications.maplemobile.opengl.GLState;
+import com.bapplications.maplemobile.pkgnx.NXNode;
+import com.bapplications.maplemobile.pkgnx.nodes.NXPointNode;
 
 public class Point{
 
     public float x;
     public float y;
+
+    public Point(Point p) {
+        x = p.x;
+        y = p.y;
+    }
+
     public Point(Object o) {
         if ( o instanceof Point) {
             Point p = (Point)o;
             x = p.x;
             y = p.y;
         } else {
-            throw new IllegalArgumentException("Got Object that is not a Point");
+            if(o != null)
+                throw new IllegalArgumentException("Got Object that is not a Point");
+            x = 0;
+            y = 0;
+        }
+    }
+
+    public Point(NXNode src){
+        if (src.isNotExist()) {
+            x = 0;
+            y = 0;
+            return;
+        }
+        if( src instanceof NXPointNode){
+            Point p = src.get(new Point());
+            x = p.x;
+            y = p.y;
+            return;
+        }
+        if(src.isChildExist("origin")){
+            Point o = src.getChild("origin").get(new Point());
+            x = o.x;
+            y = o.y;
+            return;
+        }
+        if(src.isChildExist("x") && src.isChildExist("y")){
+            x = src.getChild("x").get(0L).floatValue();
+            y = src.getChild("y").get(0L).floatValue();
         }
     }
 
@@ -44,7 +80,9 @@ public class Point{
     }
 
     public float[] toGLRatio() {
-        return new float[]{2 * x / Loaded.SCREEN_WIDTH, 2 * y / Loaded.SCREEN_HEIGHT};
+        return new float[]{
+                2 * GLState.SCALE * x / Loaded.SCREEN_WIDTH,
+                2 * GLState.SCALE * y / Loaded.SCREEN_HEIGHT};
     }
 
     public Point negateSign() {
@@ -53,6 +91,11 @@ public class Point{
 
     public Point scalarMul(float a){
         return new Point(x*a, y*a);
+    }
+
+    public void offset(Point p){
+        if (p != null)
+            offset(p.x, p.y);
     }
 
     public void offset(float x, float y){
@@ -71,4 +114,14 @@ public class Point{
         return "(" + x + ", " + y + ")";
     }
 
+    public Point flipY() {
+        y *= -1;
+        return this;
+    }
+
+
+    public Point flipX() {
+        x *= -1;
+        return this;
+    }
 }

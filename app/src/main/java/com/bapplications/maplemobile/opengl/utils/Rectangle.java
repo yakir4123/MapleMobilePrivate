@@ -1,6 +1,6 @@
 package com.bapplications.maplemobile.opengl.utils;
 
-import android.util.Range;
+import com.bapplications.maplemobile.constatns.Configuration;
 
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXPointNode;
@@ -13,16 +13,17 @@ public class Rectangle {
     public Rectangle(NXPointNode sourceLeftTop, NXPointNode sourceRightBottom) {
         left_top = new Point(sourceLeftTop.getPoint());
         right_bottom = new Point(sourceRightBottom.getPoint());
+
+        left_top.flipY();
+        right_bottom.flipY();
+
     }
 
     public Rectangle(NXNode source){
-        try {
-            left_top = new Point(((NXPointNode) source.getChild("lt")).getPoint());
-            right_bottom = new Point(((NXPointNode) source.getChild("rb")).getPoint());
-        } catch ( NullPointerException e){
-            left_top = new Point(0, 0);
-            right_bottom = new Point(0, 0);
-        }
+        left_top = new Point(source.getChild("lt"));
+        right_bottom = new Point(source.getChild("rb"));
+        left_top.flipY();
+        right_bottom.flipY();
     }
 
     public Rectangle(Point leftTop, Point rightBottom) {
@@ -34,6 +35,11 @@ public class Rectangle {
         right_bottom = new Point(right, bottom);
     }
     public Rectangle() {}
+
+    public Rectangle(Rectangle rect) {
+        left_top = new Point(rect.left_top);
+        right_bottom = new Point(rect.right_bottom);
+    }
 
     public float width()
     {
@@ -68,19 +74,13 @@ public class Rectangle {
     {
         return !straight() &&
                         p.x >= left() && p.x <= right() &&
-                        p.y >= top() && p.y <= bottom();
+                        p.y <= top() && p.y >= bottom();
     }
 
     public boolean overlaps(Rectangle ar)
     {
-        try {
-            get_horizontal().intersect(new Range<Float>(ar.left(), ar.right()));
-            get_vertical().intersect(new Range<Float>(ar.top(), ar.bottom()));
-            return true;
-        } catch (IllegalArgumentException e){
-            return false;
-        }
-
+            return get_horizontal().intersect(new Range<>(ar.left(), ar.right()))
+                    && get_vertical().intersect(new Range<>(ar.top(), ar.bottom()));
     }
 
     public boolean straight()
@@ -103,6 +103,16 @@ public class Rectangle {
         return right_bottom;
     }
 
+    public Point get_right_top()
+    {
+        return new Point(right_bottom.x, left_top.y);
+    }
+
+    public Point get_left_bottom()
+    {
+        return new Point(left_top.x, right_bottom.y);
+    }
+
     public Range<Float> get_horizontal()
     {
         return new Range<Float>( left(), right() );
@@ -119,4 +129,22 @@ public class Rectangle {
         right_bottom.offset(v.x, v.y);
     }
 
+    public void setLeft(float val) {
+        left_top.x = val;
+    }
+
+    public void setRight(float val) {
+        right_bottom.x = val;
+    }
+    public void draw(Point pos) {
+        DrawArgument args = new DrawArgument(pos);
+        DrawableCircle[] points = new DrawableCircle[4];
+        points[0] = DrawableCircle.createCircle(get_left_top(), Color.GREEN);
+        points[1] = DrawableCircle.createCircle(get_right_top(), Color.GREEN);
+        points[2] = DrawableCircle.createCircle(get_left_bottom(), Color.GREEN);
+        points[3] = DrawableCircle.createCircle(get_right_bottom(), Color.GREEN);
+        for(DrawableCircle p: points) {
+            p.draw(args);
+        }
+    }
 }

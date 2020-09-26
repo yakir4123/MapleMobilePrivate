@@ -23,7 +23,8 @@
  */
 package com.bapplications.maplemobile.pkgnx;
 
-import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
+import com.bapplications.maplemobile.pkgnx.nodes.NXDoubleNode;
+import com.bapplications.maplemobile.pkgnx.nodes.NXNoChildrenNode;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -42,11 +43,12 @@ public abstract class NXNode implements Iterable<NXNode> {
 	private static final int MIN_COUNT_FOR_MAPS = 41;
 	public static final int NODE_SIZE = 20;
 
-	protected final String name;
-	protected final NXFile file;
-	protected final long childIndex;
-	protected final int childCount;
+	protected String name;
+	protected NXFile file;
+	protected int childCount;
+	protected long childIndex;
 	private NXNode[] children;
+	private NXNoChildrenNode nullChildrens;
 	private Map<String, NXNode> childMap;
 
 	/**
@@ -62,6 +64,7 @@ public abstract class NXNode implements Iterable<NXNode> {
 		this.file = file;
 		this.childIndex = childIndex;
 		this.childCount = childCount;
+		this.nullChildrens = new NXNoChildrenNode();
 		if (childCount >= MIN_COUNT_FOR_MAPS) {
 			childMap = new HashMap<>();
 			children = null;
@@ -70,6 +73,9 @@ public abstract class NXNode implements Iterable<NXNode> {
 		} else {
 			children = null;
 		}
+	}
+
+	public NXNode() {
 	}
 
 	/**
@@ -95,8 +101,16 @@ public abstract class NXNode implements Iterable<NXNode> {
 	 *
 	 * @return the value as an {@code Object}
 	 */
-	public abstract Object get();
+	protected abstract Object get();
 
+	public <T> T get(T def) {
+		T res = (T) get();
+		return res != null ? res : def;
+	}
+
+	public <T extends NXNode> T getChild(int name) {
+		return getChild("" + name);
+	}
 	/**
 	 * Gets a child node by {@code name}. Returns null if child is not present.
 	 *
@@ -105,16 +119,30 @@ public abstract class NXNode implements Iterable<NXNode> {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T extends NXNode> T getChild(String name) {
-		if (childCount == 0)
-			return null;
-		return (T) searchChild(name);
+		if (childCount == 0 || isNotExist()) {
+			return (T) nullChildrens;
+		}
+		T res = (T) searchChild(name);
+		if (res == null) {
+			return (T) nullChildrens;
+		}
+		return res;
 	}
 
+	public boolean isNotExist() {
+		return this instanceof NXNoChildrenNode;
+	}
+
+	public boolean isExist() {
+		return !isNotExist();
+	}
+
+	public boolean isChildExist(int name){
+		return isChildExist("" + name);
+	}
 	public boolean isChildExist(String name){
-		return getChild(name) != null;
+		return getChild(name) != nullChildrens;
 	}
-
-
 
 	/**
 	 * Determines whether or not this node has a child by the specified {@code name}.
@@ -144,9 +172,10 @@ public abstract class NXNode implements Iterable<NXNode> {
 		int min = 0, max = childCount - 1;
 		String minVal = children[min].getName(), maxVal = children[max].getName();
 		while (true) {
-			if (name.compareTo(minVal) <= 0) return (name.equals(minVal)) ? children[min] : null;
-			if (name.compareTo(maxVal) >= 0) return (name.equals(maxVal)) ? children[max] : null;
-
+			if (name.compareTo(minVal) <= 0)
+				return (name.equals(minVal)) ? children[min] : null;
+			if (name.compareTo(maxVal) >= 0)
+				return (name.equals(maxVal)) ? children[max] : null;
 			int pivot = (min + max) >> 1;
 			String pivotVal = children[pivot].getName();
 
@@ -227,7 +256,15 @@ public abstract class NXNode implements Iterable<NXNode> {
 		return (childMap != null) ? childMap.values().iterator() : Arrays.asList(children).iterator();
 	}
 
-	/**
+	public NXDoubleNode getDoubleChild(String name) {
+		return (NXDoubleNode)getChild(name);
+	}
+
+	public boolean getBool() {
+		return get(0L) > 0;
+	}
+
+    /**
 	 * A silent, empty iterator for childless {@code NXNode}s.
 	 *
 	 * @author Aaron Weiss

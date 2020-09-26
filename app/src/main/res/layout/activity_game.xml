@@ -6,9 +6,16 @@
     tools:context="com.bapplications.maplemobile.views.GameActivity">
 
     <data>
+        <import type="com.bapplications.maplemobile.gameplay.player.PlayerStats"/>
         <variable
             name="camera"
-            type="com.bapplications.maplemobile.game.Camera"/>
+            type="com.bapplications.maplemobile.gameplay.Camera"/>
+        <variable
+            name="player"
+            type="com.bapplications.maplemobile.gameplay.player.Player"/>
+        <variable
+            name="viewModel"
+            type="com.bapplications.maplemobile.views.GameActivityViewModel"/>
     </data>
 
     <RelativeLayout
@@ -22,13 +29,55 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"/>
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <ImageButton
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:background="@color/ui_background"
+                app:layout_constraintStart_toEndOf="@id/set_map"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <include layout="@layout/progress_stat_layout"
+                    android:id="@+id/hp_progress_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="15dp"
+                    app:colorBar="@{@color/hp_bar_color}"
+                    app:title="@{`HP:`}"
+                    app:progress="@{viewModel.hp}"
+                    app:maxProgress="@{viewModel.max_hp}" />
+
+                <include layout="@layout/progress_stat_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="15dp"
+                    app:colorBar="@{@color/mp_bar_color}"
+                    app:title="@{`MP:`}"
+                    app:progress="@{viewModel.mp}"
+                    app:maxProgress="@{viewModel.max_mp}" />
+
+                <include layout="@layout/progress_stat_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="15dp"
+                    app:colorBar="@{@color/exp_bar_color}"
+                    app:title="@{`Exp:`}"
+                    app:progress="@{viewModel.exp}"
+                    app:maxProgress="@{viewModel.max_exp}" />
+
+            </LinearLayout>
+            <ImageView
                 android:id="@+id/set_map"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -40,19 +89,155 @@
                 android:src="@drawable/treasure_map_64"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/camera_pos_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="40dp"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:layout_conversion_absoluteHeight="16dp"
-                tools:layout_conversion_absoluteWidth="27dp" />
+                app:layout_constraintTop_toBottomOf="@+id/set_map"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <ImageView
+                android:id="@+id/left_arrow_key"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginBottom="16dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/left_arrow_key"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/down_arrow_key"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="16dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/down_arrow_key"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/left_arrow_key" />
+
+            <ImageView
+                android:id="@+id/up_arrow_key"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="16dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/up_arrow_key"
+                app:layout_constraintBottom_toTopOf="@id/down_arrow_key"
+                app:layout_constraintStart_toEndOf="@id/left_arrow_key" />
+
+            <ImageView
+                android:id="@+id/right_arrow_key"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="16dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/right_arrow_key"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/down_arrow_key" />
+
+            <ImageView
+                android:id="@+id/jump_key"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/circle"
+                android:src="@drawable/ic_jump"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="35dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="start"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toTopOf="@+id/left_arrow_key"
+                app:layout_constraintStart_toStartOf="parent">
+
+
+                <GridLayout
+                    android:id="@+id/expressions_btns_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:orientation="vertical"
+                    android:rowCount="3"/>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fabMain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/circle"
+                    android:src="@drawable/face_smile"
+                    app:backgroundTint="@color/ui_background"
+                    app:elevation="0dp"
+                    app:fabSize="mini"
+                    app:pressedTranslationZ="0dp" />
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/progress_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:animateLayoutChanges="true"
+                android:background="@android:color/black"
+                android:clickable="true"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="-30dp">
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:indeterminate="true"
+                    android:progressDrawable="@drawable/progressbar_loading"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/progress_bar"
+                    android:text="@string/loading_screen"
+                    android:textSize="20sp"
+                    android:textColor="@android:color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/progress_bar"
+                    app:layout_constraintVertical_bias="0.058" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </RelativeLayout>
+
 </layout>
 
 

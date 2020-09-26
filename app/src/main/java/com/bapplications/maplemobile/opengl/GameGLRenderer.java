@@ -2,22 +2,17 @@ package com.bapplications.maplemobile.opengl;
 
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.opengl.GLUtils;
 import android.opengl.Matrix;
 import android.util.Log;
-import android.util.Range;
 
 import com.bapplications.maplemobile.constatns.Loaded;
-import com.bapplications.maplemobile.game.GameEngine;
-import com.bapplications.maplemobile.game.Stage;
-import com.bapplications.maplemobile.opengl.utils.Color;
-import com.bapplications.maplemobile.opengl.utils.Offset;
-import com.bapplications.maplemobile.opengl.utils.Point;
-import com.bapplications.maplemobile.opengl.utils.QuadsBuffer;
-import com.bapplications.maplemobile.opengl.utils.Rectangle;
-import com.bapplications.maplemobile.pkgnx.nodes.NXBitmapNode;
+import com.bapplications.maplemobile.gameplay.GameEngine;
+import com.bapplications.maplemobile.gameplay.audio.Sound;
+import com.bapplications.maplemobile.gameplay.map.MapPortals;
+import com.bapplications.maplemobile.gameplay.player.Char;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -25,14 +20,11 @@ import javax.microedition.khronos.opengles.GL10;
 public class GameGLRenderer implements GLSurfaceView.Renderer {
 
     private static final String TAG = "GameGLRenderer";
-    private static final int ATLASW = 8192;
-    private static final int ATLASH = 8192;
-    private static final byte MINLOSIZE = 32;
     private static GameGLRenderer instance;
 
-    private GameEngine _engine;
+    private GameEngine engine;
 
-    private long fpsTime = System.nanoTime();
+    private long fpsTime = System.currentTimeMillis();
     private int frames;
     private long before;
 
@@ -46,11 +38,13 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
     }
 
     private GameGLRenderer(){
+        engine = GameEngine.getInstance();
     }
 
-    boolean locked = false;
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
+        Log.d(TAG,"surface CREATED");
+
         GLES20.glClearColor(0.09019f, 0.10588f, 0.13333f, 0.0f);
 
         GLES20.glEnable(GLES20.GL_BLEND);
@@ -59,8 +53,10 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
 
         GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
-
         GLState.initGL();
+
+        listeners.forEach(listener -> listener.onSurfaceCreated(gl10, eglConfig));
+        Log.d("RENDERER", "OnSurfaceCreated");
     }
 
     @Override
@@ -74,11 +70,8 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         Loaded.SCREEN_WIDTH = width;
         Loaded.SCREEN_RATIO = ((float)width) / height;
 
-        _engine.setViewLocations();
-
         GLState.setSpriteSquareRes();
 
-//        Matrix.orthoM(GLState._projectionMatrix, 0, -Loaded.SCREEN_RATIO, Loaded.SCREEN_RATIO, -1, 1, 0, 1);
         Matrix.orthoM(GLState._projectionMatrix, 0, -1, 1, -1, 1, 0, 1);
 
         // Set the camera position (View matrix)
@@ -87,7 +80,24 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         // Calculate the projection and view transformation
         Matrix.multiplyMM(GLState._MVPMatrix, 0, GLState._projectionMatrix, 0, GLState._viewMatrix, 0);
 
-        _engine.changeMap(200090300);
+
+        long start = System.currentTimeMillis();
+        Char.init();
+        Sound.init();
+        MapPortals.init();
+        long diff = System.currentTimeMillis() - start;
+        Log.d(TAG, "diff init: "  + diff); // 0.3 ~ 1 s
+        start = System.currentTimeMillis();
+        engine.startGame();
+        engine.loadPlayer(0);
+        engine.changeMap();
+//        engine.changeMap(50000);
+//        engine.changeMap(100000000);
+//        diff = System.currentTimeMillis() - start;
+//        Log.d(TAG, "diff load map: "  + diff); // 8 s
+
+
+        listeners.forEach(listener -> listener.onSurfaceChanged(gl10, width, height));
     }
 
     @Override
@@ -96,12 +106,12 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         // Draw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
-        long now = System.nanoTime();
-        _engine.update((int) (now - before)/1000000);
-        _engine.drawFrame();
+        long now = System.currentTimeMillis();
+        engine.update((int) (now - before));
+        engine.drawFrame();
         before = now;
 
-        if (now - fpsTime >= 1000000000)
+        if (now - fpsTime >= 1000)
         {
             Log.d(TAG,String.format("fps: %d", frames));
             frames = 1;
@@ -111,11 +121,28 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         {
             frames++;
         }
+
+        listeners.forEach(listener -> listener.onDrawFrame(gl10));
+
     }
 
     public void setGameEngine (GameEngine engine)
     {
-        _engine = engine;
+        this.engine = engine;
+    }
+
+    public GameEngine getGameEngine() {
+        return engine;
+    }
+
+    public List<GLSurfaceView.Renderer> listeners = new ArrayList<>();
+
+    public void registerListener(GLSurfaceView.Renderer listener) {
+        listeners.add(listener);
+    }
+
+    public void removeListener(GLSurfaceView.Renderer listener) {
+        listeners.remove(listener);
     }
 
 }

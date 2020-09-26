@@ -5,16 +5,14 @@ import android.content.Context;
 import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 
-import com.bapplications.maplemobile.game.GameEngine;
+import com.bapplications.maplemobile.gameplay.GameEngine;
 
 public class GameGLSurfaceView extends GLSurfaceView {
 
     // Set the Renderer for drawing on the GLSurfaceView
     private final GameGLRenderer mRenderer;
-    private GameEngine engine;
 
     public GameGLSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -26,18 +24,18 @@ public class GameGLSurfaceView extends GLSurfaceView {
 
         mRenderer = GameGLRenderer.createInstance();
         setRenderer(mRenderer);
-//        setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
-        engine = new GameEngine();
-        mRenderer.setGameEngine(engine);
     }
 
     public void exitGame() {
-        queueEvent(() -> engine.destroy());
+        queueEvent(() -> getGameEngine().destroy());
     }
 
     public GameEngine getGameEngine() {
-        return engine;
+        return mRenderer.getGameEngine();
+    }
+    public GameGLRenderer getRenderer() {
+        return mRenderer;
     }
 
     private final float TOUCH_SCALE_FACTOR = 180.0f / 320;
@@ -69,11 +67,12 @@ public class GameGLSurfaceView extends GLSurfaceView {
                     dy = dy * -1 ;
                 }
                 requestRender();
-                engine.getStage().getCamera().offsetPosition(-dx, -dy);
+//                getGameEngine().getStage().getCamera().offsetPosition(-dx, -dy);
         }
 
         previousX = x;
         previousY = y;
         return true;
     }
+
 }

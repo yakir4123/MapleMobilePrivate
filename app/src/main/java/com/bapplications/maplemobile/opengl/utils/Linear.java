@@ -26,10 +26,24 @@ public class Linear {
         return StaticUtils.lerp(before, now, alpha);
     }
 
-    public Linear plus(float value){
+//    public Linear plus(float value){
+//        before = now;
+//        now += value;
+//        return this;
+//    }
+
+    public float plus(float value){
+        return now  + value;
+    }
+
+
+    public void setPlus(float value){
         before = now;
         now += value;
-        return this;
+    }
+
+    public void setMinus(float value){
+        setPlus(-value);
     }
 
     public float last() {
@@ -38,5 +52,19 @@ public class Linear {
 
     public boolean normalized() {
         return before == now;
+    }
+
+//    public Linear minus(float value) {
+//        before = now;
+//        now -= value;
+//        return this;
+//    }
+
+    public float minus(float value) {
+        return now - value;
+    }
+
+    public void normalize() {
+        before = now;
     }
 }
