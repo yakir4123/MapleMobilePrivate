@@ -47,7 +47,7 @@ public class MapMobs {
 
     public int findColliding(Collider collider) {
 
-        Optional<MapObject> obj= mobs.getObjects().values().stream()
+        Optional<MapObject> obj = mobs.getObjects().values().stream()
                 .filter(mob -> ((Mob)mob).isAlive() && ((Mob)mob).isInRange(collider)).findAny();
 
         return obj.map(mapObject -> mapObject.oid).orElse(0);

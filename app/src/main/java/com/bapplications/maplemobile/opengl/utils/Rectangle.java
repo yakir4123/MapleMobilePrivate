@@ -79,8 +79,8 @@ public class Rectangle {
 
     public boolean overlaps(Rectangle ar)
     {
-            return get_horizontal().intersect(new Range<Float>(ar.left(), ar.right()))
-                    && get_vertical().intersect(new Range<Float>(ar.top(), ar.bottom()));
+            return get_horizontal().intersect(new Range<>(ar.left(), ar.right()))
+                    && get_vertical().intersect(new Range<>(ar.top(), ar.bottom()));
     }
 
     public boolean straight()
