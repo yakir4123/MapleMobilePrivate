@@ -1,6 +1,5 @@
 package com.bapplications.maplemobile.views;
 
-import android.opengl.GLSurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
@@ -11,6 +10,8 @@ import com.bapplications.maplemobile.constatns.Constants;
 import com.bapplications.maplemobile.databinding.ActivityGameBinding;
 import com.bapplications.maplemobile.gameplay.player.Expression;
 import com.bapplications.maplemobile.gameplay.player.PlayerStats;
+import com.bapplications.maplemobile.views.interfaces.GameEngineListener;
+import com.bapplications.maplemobile.views.interfaces.UIKeyListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -18,13 +19,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
-
 import androidx.lifecycle.ViewModelProvider;
 
 
-public class GameActivityUIManager implements GLSurfaceView.Renderer {
+public class GameActivityUIManager implements GameEngineListener {
 
     private GameActivity activity;
     private GameActivityViewModel viewModel;
@@ -144,12 +142,7 @@ public class GameActivityUIManager implements GLSurfaceView.Renderer {
     }
 
     @Override
-    public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
-
-    }
-
-    @Override
-    public void onSurfaceChanged(GL10 gl10, int i, int i1) {
+    public void onGameStarted() {
         viewModel.setHp(activity.getGameEngine().getCurrMap().getPlayer()
                 .getStat(PlayerStats.Id.HP));
         viewModel.setMaxHp(activity.getGameEngine().getCurrMap()
@@ -164,17 +157,8 @@ public class GameActivityUIManager implements GLSurfaceView.Renderer {
                 .getCurrMap().getPlayer().getStat(PlayerStats.Id.LEVEL)));
     }
 
-    @Override
-    public void onDrawFrame(GL10 gl10) {
-
-    }
-
     public GameActivityViewModel getViewModel() {
         return viewModel;
-    }
-
-    public interface UIKeyListener {
-        void onAction(KeyAction key);
     }
 
     public void onPause() {
