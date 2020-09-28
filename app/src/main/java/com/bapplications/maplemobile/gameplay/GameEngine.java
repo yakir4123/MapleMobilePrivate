@@ -6,11 +6,12 @@ import com.bapplications.maplemobile.gameplay.player.EquipSlot;
 import com.bapplications.maplemobile.gameplay.player.Player;
 import com.bapplications.maplemobile.views.KeyAction;
 import com.bapplications.maplemobile.views.GameActivityUIManager;
+import com.bapplications.maplemobile.views.interfaces.UIKeyListener;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class GameEngine implements GameActivityUIManager.UIKeyListener {
+public class GameEngine implements UIKeyListener {
 
     private Player player;
     private GameMap currMap;
@@ -117,4 +118,5 @@ public class GameEngine implements GameActivityUIManager.UIKeyListener {
         player = new Player(entry, controllers);
         controllers.setExpressions(player.getExpressions());
     }
+
 }

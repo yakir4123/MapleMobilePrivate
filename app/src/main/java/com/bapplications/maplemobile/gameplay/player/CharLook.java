@@ -327,9 +327,6 @@ public class CharLook {
             if (timestep >= delta)
             {
                 stelapsed = (short) (timestep - delta);
-                if(stance.get() == Stance.Id.WALK1) {
-                    Log.d("timestep.", "" + timestep);
-                }
                 byte nextframe = getNextFrame(stance.get(), stframe.get());
                 float threshold = (float)(delta) / timestep;
                 stframe.next(nextframe, threshold);
