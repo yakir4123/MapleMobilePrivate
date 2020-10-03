@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.bapplications.maplemobile.BindingUtils"/>
+        <import type="com.bapplications.maplemobile.gameplay.player.inventory.InventoryType.Id"/>
+        <variable
+            name="viewModel"
+            type="com.bapplications.maplemobile.views.GameActivityViewModel"/>
+    </data>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="55dp"
+            android:background="@drawable/window_background">
+
+            <TextView
+                android:id="@+id/popup_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/headline_window_background"
+                android:layout_marginTop="5dp"
+                android:paddingStart="70dp"
+                android:paddingEnd="70dp"
+                android:paddingBottom="3dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/dirty_white"
+                android:text="@string/popup_inventory_title"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+            <RadioGroup
+                android:id="@+id/inventory_type_buttons_group"
+                android:checkedButton="@={BindingUtils.inventoryTypeToButtonId(viewModel.selectedInventoryType)}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/popup_title">
+
+
+                <RadioButton
+                    android:id="@+id/equip_btn"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/inventory_selector"
+                    android:button="@android:color/transparent"
+                    tools:checked="true"
+                    android:paddingBottom="1dp"
+                    android:paddingEnd="9dp"
+                    android:paddingStart="9dp"
+                    android:paddingTop="3dp"
+                    android:textSize="10sp"
+                    android:gravity="center"
+                    android:text="@string/popup_inventory_equip_btn"
+                    android:textColor="@color/dirty_white" />
+
+                <RadioButton
+                    android:id="@+id/use_btn"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/inventory_selector"
+                    android:button="@android:color/transparent"
+                    android:paddingBottom="1dp"
+                    android:paddingEnd="9dp"
+                    android:paddingStart="9dp"
+                    android:paddingTop="3dp"
+                    android:textSize="10sp"
+                    android:gravity="center"
+                    android:text="@string/popup_inventory_use_btn"
+                    android:textColor="@color/dirty_white" />
+
+                <RadioButton
+                    android:id="@+id/setup_btn"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/inventory_selector"
+                    android:button="@android:color/transparent"
+                    android:paddingBottom="1dp"
+                    android:paddingEnd="9dp"
+                    android:paddingStart="9dp"
+                    android:paddingTop="3dp"
+                    android:textSize="10sp"
+                    android:gravity="center"
+                    android:text="@string/popup_inventory_setup_btn"
+                    android:textColor="@color/dirty_white" />
+
+                <RadioButton
+                    android:id="@+id/etc_btn"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/inventory_selector"
+                    android:button="@android:color/transparent"
+                    android:paddingBottom="1dp"
+                    android:paddingEnd="9dp"
+                    android:paddingStart="9dp"
+                    android:paddingTop="3dp"
+                    android:textSize="10sp"
+                    android:gravity="center"
+                    android:text="@string/popup_inventory_etc_btn"
+                    android:textColor="@color/dirty_white" />
+
+                <RadioButton
+                    android:id="@+id/cash_btn"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/inventory_selector"
+                    android:button="@android:color/transparent"
+                    android:paddingBottom="1dp"
+                    android:paddingEnd="9dp"
+                    android:paddingStart="9dp"
+                    android:paddingTop="3dp"
+                    android:textSize="10sp"
+                    android:gravity="center"
+                    android:text="@string/popup_inventory_cash_btn"
+                    android:textColor="@color/dirty_white" />
+
+            </RadioGroup>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/inventory_items_recycler"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/inventory_items_background"
+                app:layout_constraintBottom_toTopOf="@id/gold_iv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/inventory_type_buttons_group"/>
+
+
+            <ImageView
+                android:id="@+id/gold_iv"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/inventory_item_cell_background"
+                android:padding="2dp"
+                android:src="@drawable/gold_coin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/inventory_items_recycler" />
+
+            <TextView
+                android:id="@+id/gold_text_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/inventory_items_recycler"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="30dp"
+                android:text="@string/gold_text"
+                android:textColor="@color/dirty_white"
+                />
+
+            <TextView
+                android:id="@+id/gold_amount_tv"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/inventory_item_cell_background"
+                android:gravity="right"
+                android:text="1,000,000"
+                android:textAlignment="gravity"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/gold_text_tv"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@id/gold_iv"
+                app:layout_constraintTop_toBottomOf="@id/inventory_items_recycler"
+                app:layout_constraintVertical_bias="0.416"
+                tools:text="1,000,000 " />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</layout>

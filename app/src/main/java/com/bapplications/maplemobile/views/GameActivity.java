@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.RelativeLayout;
 
 import com.bapplications.maplemobile.R;
 import com.bapplications.maplemobile.constatns.Configuration;
@@ -16,6 +15,7 @@ import com.bapplications.maplemobile.databinding.ActivityGameBinding;
 import com.bapplications.maplemobile.gameplay.GameEngine;
 import com.bapplications.maplemobile.gameplay.audio.Music;
 import com.bapplications.maplemobile.opengl.utils.DrawableCircle;
+import com.bapplications.maplemobile.views.popup.ChangeMapPopup;
 
 import org.jetbrains.annotations.NotNull;
 

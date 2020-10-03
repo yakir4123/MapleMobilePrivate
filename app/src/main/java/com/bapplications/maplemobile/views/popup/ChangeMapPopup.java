@@ -1,4 +1,4 @@
-package com.bapplications.maplemobile.views;
+package com.bapplications.maplemobile.views.popup;
 
 
 import android.view.Gravity;
@@ -19,7 +19,6 @@ public class ChangeMapPopup {
     PopupWindow popupWindow;
 
     public void showPopupWindow(final View view) {
-
 
         //Create a View object yourself through inflater
         LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(view.getContext().LAYOUT_INFLATER_SERVICE);
