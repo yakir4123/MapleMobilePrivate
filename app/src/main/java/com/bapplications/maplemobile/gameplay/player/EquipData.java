@@ -19,7 +19,7 @@ public class EquipData {
             res = new EquipData(id);
             cache.put(id, res);
         }
-            return res;
+        return res;
     }
 
     private byte slots;

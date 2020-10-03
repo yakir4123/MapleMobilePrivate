@@ -12,6 +12,8 @@ import com.bapplications.maplemobile.gameplay.player.Expression;
 import com.bapplications.maplemobile.gameplay.player.PlayerStats;
 import com.bapplications.maplemobile.views.interfaces.GameEngineListener;
 import com.bapplications.maplemobile.views.interfaces.UIKeyListener;
+import com.bapplications.maplemobile.views.popup.ChangeMapPopup;
+import com.bapplications.maplemobile.views.popup.InventoryPopup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -26,7 +28,6 @@ public class GameActivityUIManager implements GameEngineListener {
 
     private GameActivity activity;
     private GameActivityViewModel viewModel;
-    private boolean isExpMenuOpen = false;
     private final ActivityGameBinding binding;
     private List<UIKeyListener> listeners = new ArrayList<>();
     OvershootInterpolator interpolator = new OvershootInterpolator();
@@ -39,9 +40,12 @@ public class GameActivityUIManager implements GameEngineListener {
                 .get(GameActivityViewModel.class);
         this.binding = binding;
         binding.setViewModel(viewModel);
-        binding.fabMain.setOnClickListener(view -> {
+        binding.expressionsBtns.setOnClickListener(view -> {
             expMenu();
         });
+
+        binding.inventoryBtn.setOnClickListener(this::inventoryMenu);
+
         putControllers();
 
     }
@@ -87,12 +91,25 @@ public class GameActivityUIManager implements GameEngineListener {
         }
     }
 
+    private void inventoryMenu(View view) {
+        InventoryPopup popUpClass = new InventoryPopup();
+        popUpClass.showPopupWindow(view, activity);
+        popUpClass.setOnClickListener(v -> {
+
+            // change map
+            binding.inventoryBtn.animate().setInterpolator(interpolator).rotation(0).setDuration(300).start();
+            popUpClass.dismiss();
+        });
+        binding.inventoryBtn.animate().setInterpolator(interpolator).rotation(45).setDuration(300).start();
+
+
+    }
+
     private void expMenu() {
-        isExpMenuOpen = !isExpMenuOpen;
         float alpha;
         float rotation;
         float translation;
-        if(isExpMenuOpen) {
+        if(binding.expressionsBtnsLayout.getVisibility() == View.GONE) {
             rotation = 45;
             translation = 0;
             alpha = 1;
@@ -103,7 +120,7 @@ public class GameActivityUIManager implements GameEngineListener {
             alpha = 0;
             binding.expressionsBtnsLayout.setVisibility(View.GONE);
         }
-        binding.fabMain.animate().setInterpolator(interpolator).rotation(rotation).setDuration(300).start();
+        binding.expressionsBtns.animate().setInterpolator(interpolator).rotation(rotation).setDuration(300).start();
         for(int i = 0; i < binding.expressionsBtnsLayout.getChildCount(); i++){
             binding.expressionsBtnsLayout.getChildAt(i)
                     .animate().translationY(translation).alpha(alpha)

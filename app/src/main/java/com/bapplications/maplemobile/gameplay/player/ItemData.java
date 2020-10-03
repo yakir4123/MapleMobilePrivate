@@ -1,16 +1,33 @@
 package com.bapplications.maplemobile.gameplay.player;
 
-import android.util.Pair;
+
+import android.graphics.Bitmap;
 
 import com.bapplications.maplemobile.BoolPair;
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.gameplay.textures.Texture;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class ItemData {
+
+
+    private int price;
+    private int itemid;
+    private String name;
+    private String desc;
+    private byte gender;
+    private boolean valid;
+    private boolean unique;
+    private String category;
+    private boolean cashitem;
+    private boolean untradable;
+    private boolean unsellable;
+    private BoolPair<Bitmap> icons = new BoolPair<>();
 
     private static Map<Integer, ItemData> cache = new HashMap<>();
 
@@ -26,18 +43,6 @@ public class ItemData {
         return res;
     }
 
-    private int price;
-    private int itemid;
-    private String name;
-    private String desc;
-    private byte gender;
-    private boolean valid;
-    private boolean unique;
-    private String category;
-    private boolean cashitem;
-    private boolean untradable;
-    private boolean unsellable;
-    private BoolPair<Texture> icons = new BoolPair<>();
 
     private ItemData(int id)
     {
@@ -91,8 +96,8 @@ public class ItemData {
             valid = false;
             return;
         }
-        icons.setOnFalse(new Texture(src.getChild("icon")));
-        icons.setOnTrue(new Texture(src.getChild("iconRaw")));
+        icons.setOnFalse(src.getChild("icon").get(null));
+        icons.setOnTrue(src.getChild("iconRaw").get(null));
         price = src.getChild("price").get(1L).intValue();
         untradable = src.getChild("tradeBlock").getBool();
         unique = src.getChild("only").getBool();
@@ -157,5 +162,10 @@ public class ItemData {
 
     public String getCategory() {
         return category;
+    }
+
+    @Nullable
+    public Bitmap icon(boolean raw) {
+        return icons.get(raw);
     }
 }

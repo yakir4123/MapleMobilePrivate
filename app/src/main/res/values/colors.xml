@@ -11,4 +11,12 @@
     <color name="hp_bar_color">#F8382A</color>
     <color name="mp_bar_color">#366CF4</color>
     <color name="exp_bar_color">#BAB21A</color>
+    <color name="transparent_black">#80000000</color>
+
+    <color name="window_stroke">#E640403F</color>
+    <color name="window_color">#CC40403F</color>
+    <color name="inventory_stroke">#E6898B93</color>
+    <color name="inventory_color">#7C86B8</color>
+    <color name="unselected_tab">#BB9CA5D5</color>
+    <color name="selected_tab">#9CA5D5</color>
 </resources>

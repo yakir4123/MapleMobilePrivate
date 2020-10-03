@@ -7,6 +7,8 @@ import com.bapplications.maplemobile.gameplay.map.Ladder;
 import com.bapplications.maplemobile.gameplay.map.Layer;
 import com.bapplications.maplemobile.gameplay.mobs.Attack;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
+import com.bapplications.maplemobile.gameplay.player.inventory.Inventory;
+import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerClimbState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerFallState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerProneState;
@@ -32,6 +34,7 @@ public class Player extends Char implements Collider {
     private PlayerStats stats;
     private boolean attacking;
     private boolean underwater;
+    private Inventory inventory;
     private TimedBool climb_cooldown;
     private final GameActivityUIManager controllers;
     private TreeSet<Expression> myExpressions;
@@ -39,15 +42,20 @@ public class Player extends Char implements Collider {
 
     public Player(CharEntry entry, GameActivityUIManager controllers) {
         super(entry.id, new CharLook(entry.look), entry.stats.name);
-        this.controllers = controllers;
         attacking = false;
         underwater = false;
+        this.controllers = controllers;
 
         loadStats();
         setState(State.STAND);
+        inventory = new Inventory();
+        addItem();
+
         myExpressions = new TreeSet<>();
         myExpressions.addAll(Arrays.asList(Expression.values()));
         climb_cooldown = new TimedBool();
+
+        controllers.getViewModel().init(this);
     }
 
     private void loadStats() {
@@ -221,7 +229,35 @@ public class Player extends Char implements Collider {
     }
 
     public PlayerStats addStat(PlayerStats.Id id, short val) {
-        return stats.addStat(id, val);
+        stats.addStat(id, val);
+        switch (id){
+            case MAX_MP:
+                controllers.getViewModel().setHp(getStat(PlayerStats.Id.MAX_MP));
+                break;
+            case MAX_HP:
+                controllers.getViewModel().setHp(getStat(PlayerStats.Id.MAX_HP));
+                break;
+            case HP:
+                controllers.getViewModel().setHp(getStat(PlayerStats.Id.HP));
+                break;
+            case MP:
+                controllers.getViewModel().setMp(getStat(PlayerStats.Id.MP));
+                break;
+            case EXP:
+                controllers.getViewModel().setExp(getStat(PlayerStats.Id.EXP));
+                break;
+            case LEVEL:
+//                controllers.getViewModel().setLevel(getStat(PlayerStats.Id.LEVEL));
+                break;
+        }
+        return stats;
+    }
+
+    // todo change signature
+    public void addItem(){
+        inventory.addItem(InventoryType.Id.EQUIP, (short)0, 1050045,false, -1L, (short)0, null, (short)0);
+        inventory.addItem(InventoryType.Id.EQUIP, (short)1, 1002017,false, -1L, (short)0, null, (short)0);
+        inventory.addItem(InventoryType.Id.EQUIP, (short)2, 1092045,false, -1L, (short)0, null, (short)0);
     }
 
     public void playJumpSound() {
@@ -267,7 +303,6 @@ public class Player extends Char implements Collider {
         int damage = 1; //stats.calculate_damage(attack.watk);
         addStat(PlayerStats.Id.HP, (short) -damage);
         showDamage(damage);
-        controllers.getViewModel().setHp(getStat(PlayerStats.Id.HP));
         boolean fromleft = attack.origin.x > phobj.getX();
 
         boolean missed = damage <= 0;
@@ -308,5 +343,9 @@ public class Player extends Char implements Collider {
             phobj.getX() + right,
             phobj.getLastY() + bottom,
             phobj.getY() + top);
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 }

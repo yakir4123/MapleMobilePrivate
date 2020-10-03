@@ -11,4 +11,5 @@ public class Configuration {
 
     public static String WZ_DIRECTORY = "";
     public static String CACHE_DIRECTORY = "";
+    public static int INVENTORY_MAX_SLOTS = 72;
 }

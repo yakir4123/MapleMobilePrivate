@@ -9,4 +9,11 @@
     <string name="loading_screen">Loading..</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="popup_inventory_title">Inventory</string>
+    <string name="popup_inventory_equip_btn">Equip</string>
+    <string name="popup_inventory_use_btn">Use</string>
+    <string name="popup_inventory_setup_btn">Set-Up</string>
+    <string name="popup_inventory_etc_btn">Etc</string>
+    <string name="popup_inventory_cash_btn">Cash</string>
+    <string name="gold_text">gold</string>
 </resources>
