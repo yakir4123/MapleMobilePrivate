@@ -20,6 +20,7 @@ public class Loaded {
     public enum WzFileName {
         MOB,
         MAP,
+        ITEM,
         SOUND,
         STRING,
         CHARACTER;

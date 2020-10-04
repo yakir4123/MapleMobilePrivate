@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="3dp"
                 android:text="@{title}"
-                android:textSize="8sp"
+                android:textSize="@dimen/toolbar_text_size"
                 android:textColor="@color/dirty_white"
                 tools:ignore="SmallSp" />
             <TextView
@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{`` + progress + `/` + maxProgress}"
-                android:textSize="8sp"
+                android:textSize="@dimen/toolbar_text_size"
                 android:layout_centerHorizontal="true"
                 android:textColor="@color/dirty_white"
                 tools:ignore="SmallSp" />

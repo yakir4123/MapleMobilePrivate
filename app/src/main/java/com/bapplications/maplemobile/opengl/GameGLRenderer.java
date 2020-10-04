@@ -109,7 +109,9 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
         long now = System.currentTimeMillis();
-        engine.update((int) (now - before));
+//        engine.update((int) (now - before));
+        // 1000 / 6 to  make it look like its 60fps all the time.. may look slow if the fps is slower than that
+        engine.update(16);
         engine.drawFrame();
         before = now;
 

@@ -12,7 +12,6 @@ import com.bapplications.maplemobile.gameplay.player.Expression;
 import com.bapplications.maplemobile.gameplay.player.PlayerStats;
 import com.bapplications.maplemobile.views.interfaces.GameEngineListener;
 import com.bapplications.maplemobile.views.interfaces.UIKeyListener;
-import com.bapplications.maplemobile.views.popup.ChangeMapPopup;
 import com.bapplications.maplemobile.views.popup.InventoryPopup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -40,24 +39,29 @@ public class GameActivityUIManager implements GameEngineListener {
                 .get(GameActivityViewModel.class);
         this.binding = binding;
         binding.setViewModel(viewModel);
-        binding.expressionsBtns.setOnClickListener(view -> {
-            expMenu();
-        });
 
-        binding.inventoryBtn.setOnClickListener(this::inventoryMenu);
-
+        setClickListeners();
         putControllers();
+
+    }
+
+    public void setClickListeners() {
+        binding.expressionsBtns.setOnClickListener(v ->
+            StaticUtils.popViews(binding.expressionsBtns, binding.expressionsBtnsLayout, StaticUtils.PopDirection.UP)
+        );
+        binding.toolsBtn.setOnClickListener(v -> StaticUtils.popViews(binding.toolsBtn, binding.inventoryBtn, StaticUtils.PopDirection.DOWN));
+        binding.inventoryBtn.setOnClickListener(this::inventoryMenu);
 
     }
 
     public void startLoadingMap() {
         activity.runOnUiThread(() ->
-            StaticUtils.animateView(binding.progressOverlay, View.VISIBLE, 1f, 2000));
+            StaticUtils.alphaAnimateView(binding.progressOverlay, View.VISIBLE, 1f, 2000));
     }
 
     public void finishLoadingMap() {
         activity.runOnUiThread(() ->
-                StaticUtils.animateView(binding.progressOverlay, View.GONE, 0, 2000));
+                StaticUtils.alphaAnimateView(binding.progressOverlay, View.GONE, 0, 2000));
     }
 
     private void putControllers() {
@@ -72,7 +76,6 @@ public class GameActivityUIManager implements GameEngineListener {
         if(controllers.containsKey(key)){
             throw new IllegalArgumentException("Controllers already has this key");
         }
-
         controllers.put(key, new GameViewButton(key, view, this));
     }
 
@@ -95,38 +98,11 @@ public class GameActivityUIManager implements GameEngineListener {
         InventoryPopup popUpClass = new InventoryPopup();
         popUpClass.showPopupWindow(view, activity);
         popUpClass.setOnClickListener(v -> {
-
-            // change map
             binding.inventoryBtn.animate().setInterpolator(interpolator).rotation(0).setDuration(300).start();
             popUpClass.dismiss();
         });
         binding.inventoryBtn.animate().setInterpolator(interpolator).rotation(45).setDuration(300).start();
 
-
-    }
-
-    private void expMenu() {
-        float alpha;
-        float rotation;
-        float translation;
-        if(binding.expressionsBtnsLayout.getVisibility() == View.GONE) {
-            rotation = 45;
-            translation = 0;
-            alpha = 1;
-            binding.expressionsBtnsLayout.setVisibility(View.VISIBLE);
-        } else {
-            rotation = 0;
-            translation = 100;
-            alpha = 0;
-            binding.expressionsBtnsLayout.setVisibility(View.GONE);
-        }
-        binding.expressionsBtns.animate().setInterpolator(interpolator).rotation(rotation).setDuration(300).start();
-        for(int i = 0; i < binding.expressionsBtnsLayout.getChildCount(); i++){
-            binding.expressionsBtnsLayout.getChildAt(i)
-                    .animate().translationY(translation).alpha(alpha)
-                    .setInterpolator(interpolator)
-                    .setDuration(300).start();
-        }
     }
 
     public void setExpressions(Collection<Expression> expressions) {
@@ -138,8 +114,6 @@ public class GameActivityUIManager implements GameEngineListener {
                 if ( exp.getResource() == 0)
                     continue;
                 FloatingActionButton expButton = (FloatingActionButton) activity.getLayoutInflater().inflate(R.layout.expression_button_layout, null);
-                expButton.setAlpha(0f);
-                expButton.setTranslationY(100);
                 expButton.setImageResource(exp.getResource());
                 expButton.setOnClickListener((view -> {
                     activity.getGameEngine().getCurrMap().getPlayer().getLook().setExpression(exp);

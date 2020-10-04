@@ -66,29 +66,45 @@ public class ItemData {
                 category = getEqCategory(itemid);
                 src = Loaded.getFile(Loaded.WzFileName.CHARACTER).getRoot()
                         .getChild(category).getChild(strid + ".img").getChild("info");
-                strsrc = Loaded.getFile(Loaded.WzFileName.CHARACTER).getRoot()
+                strsrc = Loaded.getFile(Loaded.WzFileName.STRING).getRoot()
                         .getChild("Eqp.img").getChild("Eqp").getChild(category)
-                        .getChild("" + itemid);
+                        .getChild(itemid);
                 break;
             case 2:
-//                category = "Consume";
-//                src = nl::nx::item["Consume"][strprefix + ".img"][strid]["info"];
-//                strsrc = nl::nx::string["Consume.img"][std::to_string(itemid)];
+                category = "Consume";
+                src = Loaded.getFile(Loaded.WzFileName.ITEM).getRoot().getChild("Consume")
+                        .getChild(strprefix + ".img").getChild(strid).getChild("info");
+                strsrc = Loaded.getFile(Loaded.WzFileName.STRING).getRoot()
+                        .getChild("Consume.img").getChild(itemid);
                 break;
             case 3:
-//                category = "Install";
-//                src = nl::nx::item["Install"][strprefix + ".img"][strid]["info"];
-//                strsrc = nl::nx::string["Ins.img"][std::to_string(itemid)];
+                category = "Install";
+                src = Loaded.getFile(Loaded.WzFileName.ITEM).getRoot().getChild("Install")
+                        .getChild(strprefix + ".img").getChild(strid).getChild("info");
+                strsrc = Loaded.getFile(Loaded.WzFileName.STRING).getRoot()
+                        .getChild("Ins.img").getChild(itemid);
                 break;
             case 4:
-//                category = "Etc";
-//                src = nl::nx::item["Etc"][strprefix + ".img"][strid]["info"];
-//                strsrc = nl::nx::string["Etc.img"]["Etc"][std::to_string(itemid)];
+                category = "Etc";
+                src = Loaded.getFile(Loaded.WzFileName.ITEM).getRoot().getChild("Etc")
+                        .getChild(strprefix + ".img").getChild(strid).getChild("info");
+                strsrc = Loaded.getFile(Loaded.WzFileName.STRING).getRoot()
+                        .getChild("Etc.img").getChild("Etc").getChild(itemid);
                 break;
             case 5:
-//                category = "Cash";
-//                src = nl::nx::item["Cash"][strprefix + ".img"][strid]["info"];
-//                strsrc = nl::nx::string["Cash.img"][std::to_string(itemid)];
+                if(isPet(itemid)){
+                    category = "Pet";
+                    src = Loaded.getFile(Loaded.WzFileName.ITEM).getRoot().getChild("Pet")
+                            .getChild(itemid + ".img").getChild("info");
+                    strsrc = Loaded.getFile(Loaded.WzFileName.STRING).getRoot()
+                            .getChild("Pet.img").getChild(itemid);
+                } else {
+                    category = "Cash";
+                    src = Loaded.getFile(Loaded.WzFileName.ITEM).getRoot().getChild("Cash")
+                            .getChild(strprefix + ".img").getChild(strid).getChild("info");
+                    strsrc = Loaded.getFile(Loaded.WzFileName.STRING).getRoot()
+                            .getChild("Cash.img").getChild(itemid);
+                }
                 break;
         }
 
@@ -111,6 +127,10 @@ public class ItemData {
         valid = true;
     }
 
+    public boolean isPet(int itemid) {
+        return itemid / 10000 == 500;
+    }
+
     private static String[] categorynames =
         {
                 "Cap",
@@ -129,6 +149,7 @@ public class ItemData {
                 "Accessory",
                 "Accessory"
         };
+
     private String getEqCategory(int id) {
 
         int index = getItemPrefix(id) - 100;
@@ -167,5 +188,9 @@ public class ItemData {
     @Nullable
     public Bitmap icon(boolean raw) {
         return icons.get(raw);
+    }
+
+    public boolean isCash() {
+        return cashitem;
     }
 }

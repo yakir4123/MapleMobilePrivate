@@ -3,7 +3,7 @@
         android:type="radial"
         android:startColor="#FFFFFF"
         android:endColor="#EFEFEF"
-        android:gradientRadius="30dp"
+        android:gradientRadius="20dp"
         />
 
     <corners

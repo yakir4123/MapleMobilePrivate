@@ -255,9 +255,24 @@ public class Player extends Char implements Collider {
 
     // todo change signature
     public void addItem(){
-        inventory.addItem(InventoryType.Id.EQUIP, (short)0, 1050045,false, -1L, (short)0, null, (short)0);
-        inventory.addItem(InventoryType.Id.EQUIP, (short)1, 1002017,false, -1L, (short)0, null, (short)0);
-        inventory.addItem(InventoryType.Id.EQUIP, (short)2, 1092045,false, -1L, (short)0, null, (short)0);
+
+        inventory.addItem(InventoryType.Id.EQUIP, (short)0, 1050045, -1L, (short)1, null, (short)0);
+        inventory.addItem(InventoryType.Id.EQUIP, (short)1, 1002017, -1L, (short)1, null, (short)0);
+        inventory.addItem(InventoryType.Id.EQUIP, (short)2, 1092045, -1L, (short)1, null, (short)0);
+        inventory.addItem(InventoryType.Id.EQUIP, (short)8, 1050087, -1L, (short)1, null, (short)0);
+        inventory.addItem(InventoryType.Id.EQUIP, (short)9, 1002575, -1L, (short)1, null, (short)0);
+        inventory.addItem(InventoryType.Id.USE, (short)2, 2000000, -1L, (short)76, null, (short)0);
+        inventory.addItem(InventoryType.Id.USE, (short)3, 2000001, -1L, (short)50, null, (short)0);
+        inventory.addItem(InventoryType.Id.USE, (short)1, 2000002, -1L, (short)100, null, (short)0);
+        inventory.addItem(InventoryType.Id.USE, (short)7, 2002000, -1L, (short)100, null, (short)0);
+        inventory.addItem(InventoryType.Id.USE, (short)0, 2070006, -1L, (short)800, null, (short)0);
+        inventory.addItem(InventoryType.Id.ETC, (short)0, 4020006, -1L, (short)100, null, (short)0);
+        inventory.addItem(InventoryType.Id.SETUP, (short)0, 3010072, -1L, (short)1, null, (short)0);
+        inventory.addItem(InventoryType.Id.SETUP, (short)6, 3010106, -1L, (short)1, null, (short)0);
+        inventory.addItem(InventoryType.Id.CASH, (short)8, 5021011, -1L, (short)1, null, (short)0);
+        inventory.addItem(InventoryType.Id.CASH, (short)0, 5030000, -1L, (short)1, null, (short)0);
+        inventory.addItem(InventoryType.Id.CASH, (short)1, 5000000, -1L, (short)1, null, (short)0);
+        inventory.addItem(InventoryType.Id.CASH, (short)2, 5000028, -1L, (short)1, null, (short)0);
     }
 
     public void playJumpSound() {

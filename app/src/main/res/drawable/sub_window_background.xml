@@ -6,7 +6,7 @@
         android:shape="rectangle" >
         <stroke
             android:width="2dp"
-            android:color="@color/inventory_stroke" />
+            android:color="@color/sub_window_stroke" />
 
         <corners
             android:bottomLeftRadius="5dp"
@@ -14,8 +14,8 @@
 
         <gradient
             android:type="linear"
-            android:endColor="@color/inventory_color"
-            android:startColor="@color/selected_tab"
+            android:startColor="@color/sub_window_color_main"
+            android:endColor="@color/sub_window_color_secondary"
             android:angle="270"
             android:centerY="0.2"
             />

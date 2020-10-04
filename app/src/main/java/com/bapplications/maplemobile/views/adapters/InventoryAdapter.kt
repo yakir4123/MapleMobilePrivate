@@ -1,6 +1,7 @@
 package com.bapplications.maplemobile.views.adapters
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bapplications.maplemobile.R
@@ -20,11 +21,15 @@ class InventoryAdapter: RecyclerView.Adapter<ImageItemViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ImageItemViewHolder, position: Int) {
-        val item = data[position]
-        if(item.itemId != 0) {
+        val item : Slot = data[position]
+        if (item.itemId != 0) {
             holder.itemImage.setImageBitmap(ItemData.get(item.itemId).icon(false))
+            holder.itemCountText.text = item.count.toString()
+            holder.isCashIcon.visibility = if(item.isCash) View.VISIBLE else View.GONE
         } else {
-            holder.itemImage.setImageBitmap(null);
+            holder.itemImage.setImageBitmap(null)
+            holder.itemCountText.text = ""
+            holder.isCashIcon.visibility = View.GONE
         }
     }
 
