@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
-
     <color name="black_overlay">#66000000</color>
-    <color name="ui_background">#27000000</color>
-    <color name="ui_stroke">#B3FFFFFF</color>
     <color name="dirty_white">#F4F4F4</color>
+
+
     <color name="hp_bar_color">#F8382A</color>
     <color name="mp_bar_color">#366CF4</color>
     <color name="exp_bar_color">#BAB21A</color>
@@ -15,8 +11,7 @@
 
     <color name="window_stroke">#E640403F</color>
     <color name="window_color">#CC40403F</color>
-    <color name="inventory_stroke">#E6898B93</color>
-    <color name="inventory_color">#7C86B8</color>
-    <color name="unselected_tab">#BB9CA5D5</color>
-    <color name="selected_tab">#9CA5D5</color>
+    <color name="sub_window_stroke">#E6898B93</color>
+    <color name="sub_window_color_main">#BBB7BACA</color>
+    <color name="sub_window_color_secondary">#BBA2A5B3</color>
 </resources>

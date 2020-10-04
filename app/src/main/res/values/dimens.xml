@@ -2,4 +2,7 @@
 <resources>
     <dimen name="icon_size">40dp</dimen>
     <dimen name="window_radius">5dp</dimen>
+    <dimen name="toolbar_text_size">8sp</dimen>
+    <dimen name="pops_up_or_right_translation">20dp</dimen>
+    <dimen name="pops_down_or_left_translation">-20dp</dimen>
 </resources>

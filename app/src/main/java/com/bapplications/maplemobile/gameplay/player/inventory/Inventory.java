@@ -31,16 +31,15 @@ public class Inventory {
     }
 
 
-    public void addItem(InventoryType.Id invType, short slot, int itemId,
-                        boolean cash, long expire, short count, String owner, short flags)
+    public void addItem(InventoryType.Id invType, short slot, int itemId, long expire, short count, String owner, short flags)
     {
-        items.put(addSlot(invType, slot, itemId, count, cash),
+        items.put(addSlot(invType, slot, itemId, count),
                 new Item(itemId, expire, owner, flags));
     }
 
-    int addSlot(InventoryType.Id type, short slot, int itemId, short count, boolean cash)
+    int addSlot(InventoryType.Id type, short slot, int itemId, short count)
     {
-        inventories.get(type).put(slot, new Slot(slot, itemId, count, cash));
+        inventories.get(type).put(slot, new Slot(slot, itemId, count));
         return slot;
     }
 
