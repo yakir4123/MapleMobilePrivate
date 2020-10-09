@@ -7,8 +7,12 @@ import com.bapplications.maplemobile.gameplay.map.Ladder;
 import com.bapplications.maplemobile.gameplay.map.Layer;
 import com.bapplications.maplemobile.gameplay.mobs.Attack;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
+import com.bapplications.maplemobile.gameplay.player.inventory.Equip;
+import com.bapplications.maplemobile.gameplay.player.inventory.EquippedInventory;
 import com.bapplications.maplemobile.gameplay.player.inventory.Inventory;
 import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType;
+import com.bapplications.maplemobile.gameplay.player.inventory.Item;
+import com.bapplications.maplemobile.gameplay.player.inventory.Slot;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerClimbState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerFallState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerProneState;
@@ -55,7 +59,6 @@ public class Player extends Char implements Collider {
         myExpressions.addAll(Arrays.asList(Expression.values()));
         climb_cooldown = new TimedBool();
 
-        controllers.getViewModel().init(this);
     }
 
     private void loadStats() {
@@ -253,26 +256,36 @@ public class Player extends Char implements Collider {
         return stats;
     }
 
+    public boolean changeEquip(Slot to)
+    {
+        boolean changed = inventory.equipItem((Equip) to.getItem());
+        if(changed) {
+            getLook().addEquip(to.getItemId());
+            inventory.getInventory(InventoryType.Id.EQUIP).popItem(to.getSlotId());
+        }
+        return changed;
+    }
+
     // todo change signature
     public void addItem(){
-
-        inventory.addItem(InventoryType.Id.EQUIP, (short)0, 1050045, -1L, (short)1, null, (short)0);
-        inventory.addItem(InventoryType.Id.EQUIP, (short)1, 1002017, -1L, (short)1, null, (short)0);
-        inventory.addItem(InventoryType.Id.EQUIP, (short)2, 1092045, -1L, (short)1, null, (short)0);
-        inventory.addItem(InventoryType.Id.EQUIP, (short)8, 1050087, -1L, (short)1, null, (short)0);
-        inventory.addItem(InventoryType.Id.EQUIP, (short)9, 1002575, -1L, (short)1, null, (short)0);
-        inventory.addItem(InventoryType.Id.USE, (short)2, 2000000, -1L, (short)76, null, (short)0);
-        inventory.addItem(InventoryType.Id.USE, (short)3, 2000001, -1L, (short)50, null, (short)0);
-        inventory.addItem(InventoryType.Id.USE, (short)1, 2000002, -1L, (short)100, null, (short)0);
-        inventory.addItem(InventoryType.Id.USE, (short)7, 2002000, -1L, (short)100, null, (short)0);
-        inventory.addItem(InventoryType.Id.USE, (short)0, 2070006, -1L, (short)800, null, (short)0);
-        inventory.addItem(InventoryType.Id.ETC, (short)0, 4020006, -1L, (short)100, null, (short)0);
-        inventory.addItem(InventoryType.Id.SETUP, (short)0, 3010072, -1L, (short)1, null, (short)0);
-        inventory.addItem(InventoryType.Id.SETUP, (short)6, 3010106, -1L, (short)1, null, (short)0);
-        inventory.addItem(InventoryType.Id.CASH, (short)8, 5021011, -1L, (short)1, null, (short)0);
-        inventory.addItem(InventoryType.Id.CASH, (short)0, 5030000, -1L, (short)1, null, (short)0);
-        inventory.addItem(InventoryType.Id.CASH, (short)1, 5000000, -1L, (short)1, null, (short)0);
-        inventory.addItem(InventoryType.Id.CASH, (short)2, 5000028, -1L, (short)1, null, (short)0);
+        inventory.addItem(new Equip(1002357, -1L,  null, (short)0, (byte)7, (byte)0), (short)1);
+        inventory.addItem(new Equip(1050045, -1L,  null, (short)0, (byte)7, (byte)0), (short)1);
+        inventory.addItem(new Equip(1002017, -1L,  null, (short)0, (byte)7, (byte)0), (short)1);
+        inventory.addItem(new Equip(1092045, -1L,  null, (short)0, (byte)7, (byte)0), (short)1);
+        inventory.addItem(new Equip(1050087, -1L,  null, (short)0, (byte)7, (byte)0), (short)1);
+        inventory.addItem(new Equip(1002575, -1L,  null, (short)0, (byte)7, (byte)0), (short)1);
+        inventory.addItem(new Item(2000000, -1L,  null, (short)0), (short)76);
+        inventory.addItem(new Item(2000001, -1L,  null, (short)0), (short)50);
+        inventory.addItem(new Item(2000002, -1L,  null, (short)0), (short)100);
+        inventory.addItem(new Item(2002000, -1L,  null, (short)0), (short)100);
+        inventory.addItem(new Item(2070006, -1L,  null, (short)0), (short)800);
+        inventory.addItem(new Item(4020006, -1L,  null, (short)0), (short)19);
+        inventory.addItem(new Item(3010072, -1L,  null, (short)0), (short)1);
+        inventory.addItem(new Item(3010106, -1L,  null, (short)0), (short)1);
+        inventory.addItem(new Item(5021011, -1L,  null, (short)0), (short)1);
+        inventory.addItem(new Item(5030000, -1L,  null, (short)0), (short)1);
+        inventory.addItem(new Item(5000000, -1L,  null, (short)0), (short)1);
+        inventory.addItem(new Item(5000028, -1L,  null, (short)0), (short)1);
     }
 
     public void playJumpSound() {

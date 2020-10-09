@@ -1,9 +1,10 @@
-package com.bapplications.maplemobile.views;
+package com.bapplications.maplemobile.views.view_models;
 
 
 import com.bapplications.maplemobile.gameplay.player.Player;
 import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType;
 import com.bapplications.maplemobile.gameplay.player.inventory.Slot;
+import com.bapplications.maplemobile.views.GameActivityUIManager;
 
 import java.util.ArrayList;
 
@@ -14,19 +15,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 public class GameActivityViewModel extends ViewModel {
-
-    private Player player;
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void init(Player player){
-        this.player = player;
-        itemInventory.postValue(player.getInventory().getInventory(selectedInventoryType.getValue()).getItems());
-        this.itemInventory.addSource(selectedInventoryType, value ->{
-            itemInventory.postValue(player.getInventory().getInventory(value).getItems());
-        });
-    }
 
     private MutableLiveData<Short> hp = new MutableLiveData<>();
     public LiveData<Short> getHp() {
@@ -70,13 +58,12 @@ public class GameActivityViewModel extends ViewModel {
     }
     public void setMaxExp(int maxExp){ this.max_exp.postValue(maxExp); }
 
-    private MediatorLiveData<ArrayList<Slot>> itemInventory = new MediatorLiveData<>();
-    public MutableLiveData<ArrayList<Slot>> getItemInventory() {
-        return itemInventory;
+    private MutableLiveData<GameActivityUIManager.WindowState> windowState = new MutableLiveData<>(GameActivityUIManager.WindowState.GONE);
+    public MutableLiveData<GameActivityUIManager.WindowState> getWindowState() {
+        return windowState;
     }
 
-    private MutableLiveData<InventoryType.Id> selectedInventoryType = new MutableLiveData<>(InventoryType.Id.EQUIP);
-    public MutableLiveData<InventoryType.Id> getSelectedInventoryType() {
-        return selectedInventoryType;
-    }
+    public void setWindowState(GameActivityUIManager.WindowState state){
+        if(windowState.getValue() != state)
+        this.windowState.postValue(state); }
 }

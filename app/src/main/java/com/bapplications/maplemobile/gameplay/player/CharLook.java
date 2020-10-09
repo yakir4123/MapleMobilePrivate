@@ -2,6 +2,8 @@ package com.bapplications.maplemobile.gameplay.player;
 
 import android.util.Log;
 
+import com.bapplications.maplemobile.gameplay.player.inventory.Equip;
+import com.bapplications.maplemobile.gameplay.player.inventory.Item;
 import com.bapplications.maplemobile.opengl.utils.DrawArgument;
 import com.bapplications.maplemobile.opengl.utils.Nominal;
 import com.bapplications.maplemobile.opengl.utils.Point;
@@ -123,7 +125,7 @@ public class CharLook {
 //        }
     }
 
-    private void addEquip(Integer itemid) {
+    public void addEquip(Integer itemid) {
         equips.addEquip(itemid, drawInfo);
 //        updatetwohanded();
     }
@@ -421,4 +423,5 @@ public class CharLook {
     public void setAlerted(int millis) {
         alerted.setFor(millis);
     }
+
 }

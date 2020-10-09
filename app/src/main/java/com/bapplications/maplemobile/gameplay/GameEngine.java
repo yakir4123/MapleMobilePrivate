@@ -1,15 +1,15 @@
 package com.bapplications.maplemobile.gameplay;
 
+import com.bapplications.maplemobile.views.KeyAction;
+import com.bapplications.maplemobile.gameplay.player.Player;
 import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.gameplay.player.CharEntry;
 import com.bapplications.maplemobile.gameplay.player.EquipSlot;
-import com.bapplications.maplemobile.gameplay.player.Player;
-import com.bapplications.maplemobile.views.KeyAction;
 import com.bapplications.maplemobile.views.GameActivityUIManager;
 import com.bapplications.maplemobile.views.interfaces.UIKeyListener;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.HashMap;
 
 public class GameEngine implements UIKeyListener {
 
@@ -48,7 +48,6 @@ public class GameEngine implements UIKeyListener {
     public void destroy() {
 
     }
-
 
     public void setControllers(GameActivityUIManager controllers) {
         this.controllers = controllers;
@@ -100,11 +99,11 @@ public class GameEngine implements UIKeyListener {
 //        ce.look.equips.put((byte) EquipSlot.Id.WEAPON.ordinal(), 1382009);
 
         // thief look
-        ce.look.equips.put((byte) EquipSlot.Id.TOP.ordinal(), 1050018);
-        ce.look.equips.put((byte) EquipSlot.Id.GLOVES.ordinal(), 1082223);
-        ce.look.equips.put((byte) EquipSlot.Id.SHOES.ordinal(), 1072171);
-        ce.look.equips.put((byte) EquipSlot.Id.WEAPON.ordinal(), 1472054);
-        ce.look.equips.put((byte) EquipSlot.Id.HAT.ordinal(), 1002357);
+//        ce.look.equips.put((byte) EquipSlot.Id.TOP.ordinal(), 1050018);
+//        ce.look.equips.put((byte) EquipSlot.Id.HAT.ordinal(), 1002357);
+//        ce.look.equips.put((byte) EquipSlot.Id.SHOES.ordinal(), 1072171);
+//        ce.look.equips.put((byte) EquipSlot.Id.GLOVES.ordinal(), 1082223);
+//        ce.look.equips.put((byte) EquipSlot.Id.WEAPON.ordinal(), 1472054);
 
         loadPlayer(ce);
     }
@@ -117,6 +116,10 @@ public class GameEngine implements UIKeyListener {
     {
         player = new Player(entry, controllers);
         controllers.setExpressions(player.getExpressions());
+    }
+
+    public Player getPlayer(){
+        return player;
     }
 
 }

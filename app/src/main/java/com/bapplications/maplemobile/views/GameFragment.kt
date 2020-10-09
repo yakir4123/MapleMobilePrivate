@@ -33,4 +33,8 @@ class GameFragment : Fragment() {
         @JvmStatic
         fun newInstance() = GameFragment()
     }
+
+    interface runOnGLThread {
+        fun runOnGLThread(run: Runnable)
+    }
 }
