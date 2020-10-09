@@ -1,0 +1,23 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <gradient
+                android:angle="0"
+                android:centerX="0.6"
+                android:endColor="@android:color/transparent"
+                android:centerColor="@color/transparent_black"
+                android:startColor="@android:color/transparent" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <gradient
+                android:angle="0"
+                android:centerX="0.4"
+                android:startColor="@android:color/transparent"
+                android:endColor="@android:color/transparent"
+                android:centerColor="@color/transparent_black" />
+        </shape>
+    </item>
+</layer-list>

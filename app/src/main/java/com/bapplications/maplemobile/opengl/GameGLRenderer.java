@@ -10,6 +10,7 @@ import com.bapplications.maplemobile.gameplay.GameEngine;
 import com.bapplications.maplemobile.gameplay.audio.Sound;
 import com.bapplications.maplemobile.gameplay.map.MapPortals;
 import com.bapplications.maplemobile.gameplay.player.Char;
+import com.bapplications.maplemobile.views.interfaces.GameEngineListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,6 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
 
         GLState.initGL();
 
-        listeners.forEach(listener -> listener.onSurfaceCreated(gl10, eglConfig));
         Log.d("RENDERER", "OnSurfaceCreated");
     }
 
@@ -88,6 +88,11 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         long diff = System.currentTimeMillis() - start;
         Log.d(TAG, "diff init: "  + diff); // 0.3 ~ 1 s
         start = System.currentTimeMillis();
+        startGame();
+        listeners.forEach(listener -> listener.onGameStarted());
+    }
+
+    public void startGame() {
         engine.startGame();
         engine.loadPlayer(0);
         engine.changeMap();
@@ -95,9 +100,6 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
 //        engine.changeMap(100000000);
 //        diff = System.currentTimeMillis() - start;
 //        Log.d(TAG, "diff load map: "  + diff); // 8 s
-
-
-        listeners.forEach(listener -> listener.onSurfaceChanged(gl10, width, height));
     }
 
     @Override
@@ -107,7 +109,9 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
         long now = System.currentTimeMillis();
-        engine.update((int) (now - before));
+//        engine.update((int) (now - before));
+        // 1000 / 6 to  make it look like its 60fps all the time.. may look slow if the fps is slower than that
+        engine.update(16);
         engine.drawFrame();
         before = now;
 
@@ -122,26 +126,20 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
             frames++;
         }
 
-        listeners.forEach(listener -> listener.onDrawFrame(gl10));
 
-    }
-
-    public void setGameEngine (GameEngine engine)
-    {
-        this.engine = engine;
     }
 
     public GameEngine getGameEngine() {
         return engine;
     }
 
-    public List<GLSurfaceView.Renderer> listeners = new ArrayList<>();
+    public List<GameEngineListener> listeners = new ArrayList<>();
 
-    public void registerListener(GLSurfaceView.Renderer listener) {
+    public void registerListener(GameEngineListener listener) {
         listeners.add(listener);
     }
 
-    public void removeListener(GLSurfaceView.Renderer listener) {
+    public void removeListener(GameEngineListener listener) {
         listeners.remove(listener);
     }
 

@@ -9,12 +9,26 @@ import androidx.databinding.BindingAdapter;
 
 public class PlayerStats {
     public enum Id {
-        MAX_MP,
-        MAX_HP,
+        SKIN,
+        FACE,
+        HAIR,
+        LEVEL,
+        JOB,
+        STR,
+        DEX,
+        INT,
+        LUK,
         HP,
+        MAX_HP,
         MP,
+        MAX_MP,
+        AP,
+        SP,
         EXP,
-        LEVEL;
+        FAME,
+        MESO,
+        PET,
+        GACHAEXP
     }
 
     private final Map<Id, Short> stats = new EnumMap<>(Id.class);

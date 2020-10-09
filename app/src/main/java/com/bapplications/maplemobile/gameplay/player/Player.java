@@ -7,6 +7,12 @@ import com.bapplications.maplemobile.gameplay.map.Ladder;
 import com.bapplications.maplemobile.gameplay.map.Layer;
 import com.bapplications.maplemobile.gameplay.mobs.Attack;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
+import com.bapplications.maplemobile.gameplay.player.inventory.Equip;
+import com.bapplications.maplemobile.gameplay.player.inventory.EquippedInventory;
+import com.bapplications.maplemobile.gameplay.player.inventory.Inventory;
+import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType;
+import com.bapplications.maplemobile.gameplay.player.inventory.Item;
+import com.bapplications.maplemobile.gameplay.player.inventory.Slot;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerClimbState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerFallState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerProneState;
@@ -32,6 +38,7 @@ public class Player extends Char implements Collider {
     private PlayerStats stats;
     private boolean attacking;
     private boolean underwater;
+    private Inventory inventory;
     private TimedBool climb_cooldown;
     private final GameActivityUIManager controllers;
     private TreeSet<Expression> myExpressions;
@@ -39,15 +46,19 @@ public class Player extends Char implements Collider {
 
     public Player(CharEntry entry, GameActivityUIManager controllers) {
         super(entry.id, new CharLook(entry.look), entry.stats.name);
-        this.controllers = controllers;
         attacking = false;
         underwater = false;
+        this.controllers = controllers;
 
         loadStats();
         setState(State.STAND);
+        inventory = new Inventory();
+        addItem();
+
         myExpressions = new TreeSet<>();
         myExpressions.addAll(Arrays.asList(Expression.values()));
         climb_cooldown = new TimedBool();
+
     }
 
     private void loadStats() {
@@ -221,7 +232,60 @@ public class Player extends Char implements Collider {
     }
 
     public PlayerStats addStat(PlayerStats.Id id, short val) {
-        return stats.addStat(id, val);
+        stats.addStat(id, val);
+        switch (id){
+            case MAX_MP:
+                controllers.getViewModel().setHp(getStat(PlayerStats.Id.MAX_MP));
+                break;
+            case MAX_HP:
+                controllers.getViewModel().setHp(getStat(PlayerStats.Id.MAX_HP));
+                break;
+            case HP:
+                controllers.getViewModel().setHp(getStat(PlayerStats.Id.HP));
+                break;
+            case MP:
+                controllers.getViewModel().setMp(getStat(PlayerStats.Id.MP));
+                break;
+            case EXP:
+                controllers.getViewModel().setExp(getStat(PlayerStats.Id.EXP));
+                break;
+            case LEVEL:
+//                controllers.getViewModel().setLevel(getStat(PlayerStats.Id.LEVEL));
+                break;
+        }
+        return stats;
+    }
+
+    public boolean changeEquip(Slot to)
+    {
+        boolean changed = inventory.equipItem((Equip) to.getItem());
+        if(changed) {
+            getLook().addEquip(to.getItemId());
+            inventory.getInventory(InventoryType.Id.EQUIP).popItem(to.getSlotId());
+        }
+        return changed;
+    }
+
+    // todo change signature
+    public void addItem(){
+        inventory.addItem(new Equip(1002357, -1L,  null, (short)0, (byte)7, (byte)0), (short)1);
+        inventory.addItem(new Equip(1050045, -1L,  null, (short)0, (byte)7, (byte)0), (short)1);
+        inventory.addItem(new Equip(1002017, -1L,  null, (short)0, (byte)7, (byte)0), (short)1);
+        inventory.addItem(new Equip(1092045, -1L,  null, (short)0, (byte)7, (byte)0), (short)1);
+        inventory.addItem(new Equip(1050087, -1L,  null, (short)0, (byte)7, (byte)0), (short)1);
+        inventory.addItem(new Equip(1002575, -1L,  null, (short)0, (byte)7, (byte)0), (short)1);
+        inventory.addItem(new Item(2000000, -1L,  null, (short)0), (short)76);
+        inventory.addItem(new Item(2000001, -1L,  null, (short)0), (short)50);
+        inventory.addItem(new Item(2000002, -1L,  null, (short)0), (short)100);
+        inventory.addItem(new Item(2002000, -1L,  null, (short)0), (short)100);
+        inventory.addItem(new Item(2070006, -1L,  null, (short)0), (short)800);
+        inventory.addItem(new Item(4020006, -1L,  null, (short)0), (short)19);
+        inventory.addItem(new Item(3010072, -1L,  null, (short)0), (short)1);
+        inventory.addItem(new Item(3010106, -1L,  null, (short)0), (short)1);
+        inventory.addItem(new Item(5021011, -1L,  null, (short)0), (short)1);
+        inventory.addItem(new Item(5030000, -1L,  null, (short)0), (short)1);
+        inventory.addItem(new Item(5000000, -1L,  null, (short)0), (short)1);
+        inventory.addItem(new Item(5000028, -1L,  null, (short)0), (short)1);
     }
 
     public void playJumpSound() {
@@ -267,7 +331,6 @@ public class Player extends Char implements Collider {
         int damage = 1; //stats.calculate_damage(attack.watk);
         addStat(PlayerStats.Id.HP, (short) -damage);
         showDamage(damage);
-        controllers.getViewModel().setHp(getStat(PlayerStats.Id.HP));
         boolean fromleft = attack.origin.x > phobj.getX();
 
         boolean missed = damage <= 0;
@@ -308,5 +371,9 @@ public class Player extends Char implements Collider {
             phobj.getX() + right,
             phobj.getLastY() + bottom,
             phobj.getY() + top);
+    }
+
+    public Inventory getInventory() {
+        return inventory;
     }
 }

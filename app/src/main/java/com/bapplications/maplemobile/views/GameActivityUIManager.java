@@ -1,6 +1,5 @@
 package com.bapplications.maplemobile.views;
 
-import android.opengl.GLSurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
@@ -11,28 +10,32 @@ import com.bapplications.maplemobile.constatns.Constants;
 import com.bapplications.maplemobile.databinding.ActivityGameBinding;
 import com.bapplications.maplemobile.gameplay.player.Expression;
 import com.bapplications.maplemobile.gameplay.player.PlayerStats;
+import com.bapplications.maplemobile.views.interfaces.GameEngineListener;
+import com.bapplications.maplemobile.views.interfaces.UIKeyListener;
+import com.bapplications.maplemobile.views.view_models.GameActivityViewModel;
+import com.bapplications.maplemobile.views.windows.InventoryFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
-
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 
-public class GameActivityUIManager implements GLSurfaceView.Renderer {
+public class GameActivityUIManager implements GameEngineListener {
 
     private GameActivity activity;
     private GameActivityViewModel viewModel;
-    private boolean isExpMenuOpen = false;
     private final ActivityGameBinding binding;
     private List<UIKeyListener> listeners = new ArrayList<>();
     OvershootInterpolator interpolator = new OvershootInterpolator();
     private HashMap<KeyAction, GameViewButton> controllers = new HashMap<>();
+    private Fragment windowFragment;
 
 
     public GameActivityUIManager(GameActivity activity, ActivityGameBinding binding) {
@@ -41,21 +44,57 @@ public class GameActivityUIManager implements GLSurfaceView.Renderer {
                 .get(GameActivityViewModel.class);
         this.binding = binding;
         binding.setViewModel(viewModel);
-        binding.fabMain.setOnClickListener(view -> {
-            expMenu();
-        });
+
+        initToolsWindow();
+        setClickListeners();
         putControllers();
+
+    }
+
+    private void initToolsWindow() {
+        // it is just for initialization to avoid fail on first time on transaction.remove(null)
+        windowFragment = new Fragment();
+        viewModel.getWindowState().observe(activity, windowState -> {
+            FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+            switch (windowState) {
+                case GONE:
+                    transaction.remove(windowFragment);
+                    windowFragment = null;
+                    binding.toolsWindow.setVisibility(View.GONE);
+                    break;
+                case INVENTORY:
+                    windowFragment = InventoryFragment.newInstance(activity.getGameEngine().getPlayer());
+                    transaction.replace(R.id.tools_window, windowFragment);
+                    binding.toolsWindow.setVisibility(View.VISIBLE);
+                    break;
+            }
+            transaction.commit();
+        });
+    }
+
+    private void setClickListeners() {
+        binding.expressionsBtns.setOnClickListener(v ->
+            StaticUtils.popViews(binding.expressionsBtns, binding.expressionsBtnsLayout, StaticUtils.PopDirection.UP)
+        );
+        binding.toolsBtn.setOnClickListener(v -> {
+            viewModel.setWindowState(WindowState.GONE);
+            StaticUtils.popViews(binding.toolsBtn,
+                    Arrays.asList(binding.inventoryBtn, binding.equipedBtn,
+                            binding.statsBtn, binding.skillsBtn),
+                    StaticUtils.PopDirection.DOWN);
+        });
+        binding.inventoryBtn.setOnClickListener(this::inventoryMenu);
 
     }
 
     public void startLoadingMap() {
         activity.runOnUiThread(() ->
-            StaticUtils.animateView(binding.progressOverlay, View.VISIBLE, 1f, 2000));
+            StaticUtils.alphaAnimateView(binding.progressOverlay, View.VISIBLE, 1f, 2000));
     }
 
     public void finishLoadingMap() {
         activity.runOnUiThread(() ->
-                StaticUtils.animateView(binding.progressOverlay, View.GONE, 0, 2000));
+                StaticUtils.alphaAnimateView(binding.progressOverlay, View.GONE, 0, 2000));
     }
 
     private void putControllers() {
@@ -70,7 +109,6 @@ public class GameActivityUIManager implements GLSurfaceView.Renderer {
         if(controllers.containsKey(key)){
             throw new IllegalArgumentException("Controllers already has this key");
         }
-
         controllers.put(key, new GameViewButton(key, view, this));
     }
 
@@ -89,28 +127,12 @@ public class GameActivityUIManager implements GLSurfaceView.Renderer {
         }
     }
 
-    private void expMenu() {
-        isExpMenuOpen = !isExpMenuOpen;
-        float alpha;
-        float rotation;
-        float translation;
-        if(isExpMenuOpen) {
-            rotation = 45;
-            translation = 0;
-            alpha = 1;
-            binding.expressionsBtnsLayout.setVisibility(View.VISIBLE);
+    private void inventoryMenu(View view) {
+        binding.inventoryBtn.animate().setInterpolator(interpolator).rotation(45).setDuration(300).start();
+        if(viewModel.getWindowState().getValue() != WindowState.INVENTORY) {
+            viewModel.setWindowState(WindowState.INVENTORY);
         } else {
-            rotation = 0;
-            translation = 100;
-            alpha = 0;
-            binding.expressionsBtnsLayout.setVisibility(View.GONE);
-        }
-        binding.fabMain.animate().setInterpolator(interpolator).rotation(rotation).setDuration(300).start();
-        for(int i = 0; i < binding.expressionsBtnsLayout.getChildCount(); i++){
-            binding.expressionsBtnsLayout.getChildAt(i)
-                    .animate().translationY(translation).alpha(alpha)
-                    .setInterpolator(interpolator)
-                    .setDuration(300).start();
+            viewModel.setWindowState(WindowState.GONE);
         }
     }
 
@@ -123,8 +145,6 @@ public class GameActivityUIManager implements GLSurfaceView.Renderer {
                 if ( exp.getResource() == 0)
                     continue;
                 FloatingActionButton expButton = (FloatingActionButton) activity.getLayoutInflater().inflate(R.layout.expression_button_layout, null);
-                expButton.setAlpha(0f);
-                expButton.setTranslationY(100);
                 expButton.setImageResource(exp.getResource());
                 expButton.setOnClickListener((view -> {
                     activity.getGameEngine().getCurrMap().getPlayer().getLook().setExpression(exp);
@@ -144,12 +164,7 @@ public class GameActivityUIManager implements GLSurfaceView.Renderer {
     }
 
     @Override
-    public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
-
-    }
-
-    @Override
-    public void onSurfaceChanged(GL10 gl10, int i, int i1) {
+    public void onGameStarted() {
         viewModel.setHp(activity.getGameEngine().getCurrMap().getPlayer()
                 .getStat(PlayerStats.Id.HP));
         viewModel.setMaxHp(activity.getGameEngine().getCurrMap()
@@ -164,17 +179,8 @@ public class GameActivityUIManager implements GLSurfaceView.Renderer {
                 .getCurrMap().getPlayer().getStat(PlayerStats.Id.LEVEL)));
     }
 
-    @Override
-    public void onDrawFrame(GL10 gl10) {
-
-    }
-
     public GameActivityViewModel getViewModel() {
         return viewModel;
-    }
-
-    public interface UIKeyListener {
-        void onAction(KeyAction key);
     }
 
     public void onPause() {
@@ -185,4 +191,8 @@ public class GameActivityUIManager implements GLSurfaceView.Renderer {
         this.activity = activity;
     }
 
+    public enum WindowState {
+        GONE,
+        INVENTORY;
+    }
 }
