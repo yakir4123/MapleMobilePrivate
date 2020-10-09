@@ -10,6 +10,10 @@ import android.view.View;
 import android.view.ViewPropertyAnimator;
 import android.view.animation.OvershootInterpolator;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class StaticUtils {
 
 
@@ -45,10 +49,17 @@ public class StaticUtils {
         LEFT,
         RIGHT
     }
+
     public static void popViews(View poper, View pops, PopDirection direc) {
+        popViews(poper, Collections.singletonList(pops), direc);
+    }
+
+
+    public static void popViews(View poper, List<View> pops, PopDirection direc) {
         StaticUtils.rotateViewAnimation(poper,
-                pops.getVisibility() == View.GONE).start();
-        StaticUtils.popUpView(pops, direc).start();
+                pops.get(0).getVisibility() == View.GONE).start();
+        for (View pop : pops)
+            StaticUtils.popUpView(pop, direc).start();
     }
 
     public static ViewPropertyAnimator rotateViewAnimation(final View view, boolean popIn) {

@@ -1,20 +1,13 @@
 package com.bapplications.maplemobile.gameplay.player.inventory;
 
-import android.view.View;
-
 import java.util.ArrayList;
-import java.util.List;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
-public class InventoryType extends ViewModel {
+public class InventoryType {
 
 
-    private int maxSlots;
-    private InventoryType.Id type;
-    private ArrayList<Slot> inventory;
+    protected int maxSlots;
+    protected InventoryType.Id type;
+    protected ArrayList<Slot> inventory;
 
 
     public InventoryType(InventoryType.Id type, int maxSlots) {
@@ -25,20 +18,60 @@ public class InventoryType extends ViewModel {
 
     public void addSlots(int add) {
         for(int i = 0; i < add ; i++){
-            inventory.add(maxSlots + i,new Slot());
+            inventory.add(maxSlots + i, new Slot(i));
         }
         this.maxSlots += add;
     }
 
-    public void put(short slotId, Slot item) {
-        inventory.set(slotId, item);
+    public int add(Item item){
+        return add(item, (short)1);
+    }
+
+    public int add(Item item, short count)
+    {
+        return add(item, getEmptySlot(), count);
+    }
+
+    protected int add(Item item, int slotid, short count) {
+        if(slotid == -1 || count < 1) {
+            return slotid;
+        }
+        Slot slot = inventory.get(slotid);
+        slot.item = item;
+        slot.count = count;
+        return slotid;
     }
 
     public ArrayList<Slot> getItems() {
         return inventory;
     }
 
+    public int getEmptySlot() {
+        for(int i = 0; i < inventory.size() ; i++) {
+            if (isEmptyFull(i)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public boolean isEmptyFull(int slot){
+        return inventory.get(slot).item == null;
+    }
+
+    public Slot popItem(int slot) {
+        Slot res = inventory.get(slot);
+        inventory.set(slot, new Slot(res.slotid));
+        return res;
+    }
+
+    public void removeItem(Slot to) {
+    }
+
     public enum Id {
+        // do not change the order!
+
+        // I repeat DO NOT change the order
         NONE,
         EQUIP,
         USE,

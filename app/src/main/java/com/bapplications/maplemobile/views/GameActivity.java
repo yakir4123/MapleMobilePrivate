@@ -15,7 +15,7 @@ import com.bapplications.maplemobile.databinding.ActivityGameBinding;
 import com.bapplications.maplemobile.gameplay.GameEngine;
 import com.bapplications.maplemobile.gameplay.audio.Music;
 import com.bapplications.maplemobile.opengl.utils.DrawableCircle;
-import com.bapplications.maplemobile.views.popup.ChangeMapPopup;
+import com.bapplications.maplemobile.views.windows.ChangeMapPopup;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity implements GameFragment.runOnGLThread {
 
     private static final String TAG = "GameActivity";
     private ConstraintLayout root;
@@ -160,4 +160,8 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void runOnGLThread(@NotNull Runnable run) {
+        gameFragment.runOnGLThread(run);
+    }
 }

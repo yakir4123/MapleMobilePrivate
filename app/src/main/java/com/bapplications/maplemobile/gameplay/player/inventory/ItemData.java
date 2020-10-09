@@ -1,20 +1,20 @@
-package com.bapplications.maplemobile.gameplay.player;
+package com.bapplications.maplemobile.gameplay.player.inventory;
 
 
 import android.graphics.Bitmap;
 
 import com.bapplications.maplemobile.BoolPair;
 import com.bapplications.maplemobile.constatns.Loaded;
-import com.bapplications.maplemobile.gameplay.textures.Texture;
+import com.bapplications.maplemobile.gameplay.player.PlayerStats;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ItemData {
-
 
     private int price;
     private int itemid;
@@ -29,22 +29,28 @@ public class ItemData {
     private boolean unsellable;
     private BoolPair<Bitmap> icons = new BoolPair<>();
 
-    private static Map<Integer, ItemData> cache = new HashMap<>();
+    protected static Map<Integer, ItemData> cache = new HashMap<>();
 
     // Return a ref to the game object with the specified id.
     // If the object is not in cache, it is created.
     public static ItemData get(int id) {
+        if(!isItem(id)){
+            return null;
+        }
         ItemData res = cache.get(id);
-
         if (res == null){
-            res = new ItemData(id);
+            if(getPrefix(id) == 1) {
+                res = new EquipData(id);
+            } else {
+                res = new ItemData(id);
+            }
             cache.put(id, res);
         }
         return res;
     }
 
 
-    private ItemData(int id)
+    protected ItemData(int id)
     {
         itemid = id;
         unique = false;
@@ -121,8 +127,8 @@ public class ItemData {
         cashitem = src.getChild("cash").getBool();
         gender = getItemGender(itemid);
 
-        name = strsrc.getChild("name").get("");
-        desc = strsrc.getChild("desc").get("");
+        name = strsrc.getChild("name").get("").replace("\\n", Objects.requireNonNull(System.getProperty("line.separator")));
+        desc = strsrc.getChild("desc").get("").replace("\\n", Objects.requireNonNull(System.getProperty("line.separator")));
 
         valid = true;
     }
@@ -173,7 +179,7 @@ public class ItemData {
         return (byte) ((gender_digit > 1) ? 2 : gender_digit);
     }
 
-    private int getPrefix(int id) {
+    private static int getPrefix(int id) {
         return id / 1000000;
     }
 
@@ -192,5 +198,62 @@ public class ItemData {
 
     public boolean isCash() {
         return cashitem;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public int getItemid() {
+        return itemid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public byte getGender() {
+        return gender;
+    }
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public boolean isUnique() {
+        return unique;
+    }
+
+    public boolean isCashitem() {
+        return cashitem;
+    }
+
+    public boolean isUntradable() {
+        return untradable;
+    }
+
+    public boolean isUnsellable() {
+        return unsellable;
+    }
+
+    public BoolPair<Bitmap> getIcons() {
+        return icons;
+    }
+
+    public static String[] getCategorynames() {
+        return categorynames;
+    }
+
+    public static boolean isEquip(int itemId) {
+        return getPrefix(itemId) == 1;
+    }
+
+    public static boolean isItem(int itemId) {
+        int prefix = getPrefix(itemId);
+        return prefix >= 1 && prefix <= 5;
     }
 }

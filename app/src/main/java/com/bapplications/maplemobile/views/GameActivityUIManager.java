@@ -12,14 +12,18 @@ import com.bapplications.maplemobile.gameplay.player.Expression;
 import com.bapplications.maplemobile.gameplay.player.PlayerStats;
 import com.bapplications.maplemobile.views.interfaces.GameEngineListener;
 import com.bapplications.maplemobile.views.interfaces.UIKeyListener;
-import com.bapplications.maplemobile.views.popup.InventoryPopup;
+import com.bapplications.maplemobile.views.view_models.GameActivityViewModel;
+import com.bapplications.maplemobile.views.windows.InventoryFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 
@@ -31,6 +35,7 @@ public class GameActivityUIManager implements GameEngineListener {
     private List<UIKeyListener> listeners = new ArrayList<>();
     OvershootInterpolator interpolator = new OvershootInterpolator();
     private HashMap<KeyAction, GameViewButton> controllers = new HashMap<>();
+    private Fragment windowFragment;
 
 
     public GameActivityUIManager(GameActivity activity, ActivityGameBinding binding) {
@@ -40,16 +45,44 @@ public class GameActivityUIManager implements GameEngineListener {
         this.binding = binding;
         binding.setViewModel(viewModel);
 
+        initToolsWindow();
         setClickListeners();
         putControllers();
 
     }
 
-    public void setClickListeners() {
+    private void initToolsWindow() {
+        // it is just for initialization to avoid fail on first time on transaction.remove(null)
+        windowFragment = new Fragment();
+        viewModel.getWindowState().observe(activity, windowState -> {
+            FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+            switch (windowState) {
+                case GONE:
+                    transaction.remove(windowFragment);
+                    windowFragment = null;
+                    binding.toolsWindow.setVisibility(View.GONE);
+                    break;
+                case INVENTORY:
+                    windowFragment = InventoryFragment.newInstance(activity.getGameEngine().getPlayer());
+                    transaction.replace(R.id.tools_window, windowFragment);
+                    binding.toolsWindow.setVisibility(View.VISIBLE);
+                    break;
+            }
+            transaction.commit();
+        });
+    }
+
+    private void setClickListeners() {
         binding.expressionsBtns.setOnClickListener(v ->
             StaticUtils.popViews(binding.expressionsBtns, binding.expressionsBtnsLayout, StaticUtils.PopDirection.UP)
         );
-        binding.toolsBtn.setOnClickListener(v -> StaticUtils.popViews(binding.toolsBtn, binding.inventoryBtn, StaticUtils.PopDirection.DOWN));
+        binding.toolsBtn.setOnClickListener(v -> {
+            viewModel.setWindowState(WindowState.GONE);
+            StaticUtils.popViews(binding.toolsBtn,
+                    Arrays.asList(binding.inventoryBtn, binding.equipedBtn,
+                            binding.statsBtn, binding.skillsBtn),
+                    StaticUtils.PopDirection.DOWN);
+        });
         binding.inventoryBtn.setOnClickListener(this::inventoryMenu);
 
     }
@@ -95,14 +128,12 @@ public class GameActivityUIManager implements GameEngineListener {
     }
 
     private void inventoryMenu(View view) {
-        InventoryPopup popUpClass = new InventoryPopup();
-        popUpClass.showPopupWindow(view, activity);
-        popUpClass.setOnClickListener(v -> {
-            binding.inventoryBtn.animate().setInterpolator(interpolator).rotation(0).setDuration(300).start();
-            popUpClass.dismiss();
-        });
         binding.inventoryBtn.animate().setInterpolator(interpolator).rotation(45).setDuration(300).start();
-
+        if(viewModel.getWindowState().getValue() != WindowState.INVENTORY) {
+            viewModel.setWindowState(WindowState.INVENTORY);
+        } else {
+            viewModel.setWindowState(WindowState.GONE);
+        }
     }
 
     public void setExpressions(Collection<Expression> expressions) {
@@ -160,4 +191,8 @@ public class GameActivityUIManager implements GameEngineListener {
         this.activity = activity;
     }
 
+    public enum WindowState {
+        GONE,
+        INVENTORY;
+    }
 }

@@ -3,6 +3,7 @@
     <color name="black_overlay">#66000000</color>
     <color name="dirty_white">#F4F4F4</color>
 
+    <color name="tc_window">#F4F4F4</color>
 
     <color name="hp_bar_color">#F8382A</color>
     <color name="mp_bar_color">#366CF4</color>

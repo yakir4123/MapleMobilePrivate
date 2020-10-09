@@ -1,4 +1,4 @@
-package com.bapplications.maplemobile.views.popup;
+package com.bapplications.maplemobile.views.windows;
 
 
 import android.view.Gravity;

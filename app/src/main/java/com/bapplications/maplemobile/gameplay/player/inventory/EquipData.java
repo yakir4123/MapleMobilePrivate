@@ -1,20 +1,25 @@
-package com.bapplications.maplemobile.gameplay.player;
+package com.bapplications.maplemobile.gameplay.player.inventory;
 
 import com.bapplications.maplemobile.constatns.Loaded;
+import com.bapplications.maplemobile.gameplay.player.EquipSlot;
+import com.bapplications.maplemobile.gameplay.player.PlayerStats;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.EnumMap;
 
-public class EquipData {
+public class EquipData extends ItemData {
 
-    private static Map<Integer, EquipData> cache = new HashMap<>();
+    private byte slots;
+    private String type;
+    private EquipSlot.Id eqSlot;
+    private EnumMap<PlayerStats.Id, Short> reqStats;
+    private EnumMap<EquipStat, Short> defStats;
 
-    // Return a ref to the game object with the specified id.
-    // If the object is not in cache, it is created.
     public static EquipData get(int id) {
-        EquipData res = cache.get(id);
-
+        if(!ItemData.isEquip(id)){
+            return null;
+        }
+        EquipData res = (EquipData) cache.get(id);
         if (res == null){
             res = new EquipData(id);
             cache.put(id, res);
@@ -22,46 +27,40 @@ public class EquipData {
         return res;
     }
 
-    private byte slots;
-    private String type;
-    private boolean cash;
-    private ItemData itemData;
-    private boolean tradeblock;
-    private EquipSlot.Id eqSlot;
-
-    private EquipData(int id)
+    public EquipData(int id)
     {
-        itemData = ItemData.get(id);
+        super(id);
         String strid = "0" + id;
-        String category = itemData.getCategory();
+        String category = super.getCategory();
         NXNode src = Loaded.getFile(Loaded.WzFileName.CHARACTER).getRoot()
                 .getChild(category).getChild(strid + ".img").getChild("info");
 
-        cash = src.getChild("cash").getBool();
-        tradeblock = src.getChild("tradeBlock").getBool();
         slots = src.getChild("tuc").get(0L).byteValue();
 
-//        reqstats[MapleStat.Id.LEVEL] = src["reqLevel"];
-//        reqstats[MapleStat.Id.JOB] = src["reqJob"];
-//        reqstats[MapleStat.Id.STR] = src["reqSTR"];
-//        reqstats[MapleStat.Id.DEX] = src["reqDEX"];
-//        reqstats[MapleStat.Id.INT] = src["reqINT"];
-//        reqstats[MapleStat.Id.LUK] = src["reqLUK"];
-//        defstats[EquipStat.Id.STR] = src["incSTR"];
-//        defstats[EquipStat.Id.DEX] = src["incDEX"];
-//        defstats[EquipStat.Id.INT] = src["incINT"];
-//        defstats[EquipStat.Id.LUK] = src["incLUK"];
-//        defstats[EquipStat.Id.WATK] = src["incPAD"];
-//        defstats[EquipStat.Id.WDEF] = src["incPDD"];
-//        defstats[EquipStat.Id.MAGIC] = src["incMAD"];
-//        defstats[EquipStat.Id.MDEF] = src["incMDD"];
-//        defstats[EquipStat.Id.HP] = src["incMHP"];
-//        defstats[EquipStat.Id.MP] = src["incMMP"];
-//        defstats[EquipStat.Id.ACC] = src["incACC"];
-//        defstats[EquipStat.Id.AVOID] = src["incEVA"];
-//        defstats[EquipStat.Id.HANDS] = src["incHANDS"];
-//        defstats[EquipStat.Id.SPEED] = src["incSPEED"];
-//        defstats[EquipStat.Id.JUMP] = src["incJUMP"];
+        reqStats = new EnumMap<>(PlayerStats.Id.class);
+        reqStats.put(PlayerStats.Id.LEVEL, src.getChild("reqLevel").get(0L).shortValue());
+        reqStats.put(PlayerStats.Id.JOB, src.getChild("reqJob").get(0L).shortValue());
+        reqStats.put(PlayerStats.Id.STR, src.getChild("reqSTR").get(0L).shortValue());
+        reqStats.put(PlayerStats.Id.DEX, src.getChild("reqDEX").get(0L).shortValue());
+        reqStats.put(PlayerStats.Id.INT, src.getChild("reqINT").get(0L).shortValue());
+        reqStats.put(PlayerStats.Id.LUK, src.getChild("reqLUK").get(0L).shortValue());
+
+        defStats = new EnumMap<>(EquipStat.class);
+        defStats.put(EquipStat.STR, src.getChild("incSTR").get(0L).shortValue());
+        defStats.put(EquipStat.DEX, src.getChild("incDEX").get(0L).shortValue());
+        defStats.put(EquipStat.INT, src.getChild("incINT").get(0L).shortValue());
+        defStats.put(EquipStat.LUK, src.getChild("incLUK").get(0L).shortValue());
+        defStats.put(EquipStat.WATK, src.getChild("incPAD").get(0L).shortValue());
+        defStats.put(EquipStat.WDEF, src.getChild("incPDD").get(0L).shortValue());
+        defStats.put(EquipStat.MAGIC, src.getChild("incMAD").get(0L).shortValue());
+        defStats.put(EquipStat.MDEF, src.getChild("incMDD").get(0L).shortValue());
+        defStats.put(EquipStat.HP, src.getChild("incMHP").get(0L).shortValue());
+        defStats.put(EquipStat.MP, src.getChild("incMMP").get(0L).shortValue());
+        defStats.put(EquipStat.ACC, src.getChild("incACC").get(0L).shortValue());
+        defStats.put(EquipStat.AVOID, src.getChild("incEVA").get(0L).shortValue());
+        defStats.put(EquipStat.HANDS, src.getChild("incHANDS").get(0L).shortValue());
+        defStats.put(EquipStat.SPEED, src.getChild("incSPEED").get(0L).shortValue());
+        defStats.put(EquipStat.JUMP, src.getChild("incJUMP").get(0L).shortValue());
 
         int WEAPON_TYPES = 20;
         int NON_WEAPON_TYPES = 15;
@@ -150,7 +149,15 @@ public class EquipData {
         return eqSlot;
     }
 
-    public ItemData getItemData() {
-        return itemData;
+    public short getDefaultStat(EquipStat stat) {
+        return defStats.get(stat);
+    }
+
+    public int getRequirment(PlayerStats.Id requirement_stat) {
+        try {
+            return reqStats.get(requirement_stat);
+        } catch (NullPointerException e) {
+            return 0;
+        }
     }
 }

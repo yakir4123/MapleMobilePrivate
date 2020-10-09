@@ -7,7 +7,7 @@
     <string name="popup_change_map_tv">Go where?</string>
     <string name="popup_change_map_bt">Go</string>
     <string name="loading_screen">Loading..</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="popup_inventory_title">Inventory</string>
     <string name="popup_inventory_equip_btn">Equip</string>
@@ -16,4 +16,30 @@
     <string name="popup_inventory_etc_btn">Etc</string>
     <string name="popup_inventory_cash_btn">Cash</string>
     <string name="gold_text">gold</string>
+
+    <string name="item_info_req_lvl">REQ LEV</string>
+    <string name="item_info_req_str">REQ STR</string>
+    <string name="item_info_req_dex">REQ DEX</string>
+    <string name="item_info_req_int">REQ INT</string>
+    <string name="item_info_req_luk">REQ LUK</string>
+    <string name="item_info_req_fame">REQ FAM</string>
+    <string name="item_info_category">CATEGORY:\ </string>
+    <string name="item_info_str">STR:  +</string>
+    <string name="item_info_dex">DEX:  +</string>
+    <string name="item_info_int">INT:  +</string>
+    <string name="item_info_luk">LUK:  +</string>
+    <string name="item_info_hp">HP:  +</string>
+    <string name="item_info_mp">MP:  +</string>
+    <string name="item_info_watk">WEAPON ATTACK:  +</string>
+    <string name="item_info_magic">MAGIC ATTACK:  +</string>
+    <string name="item_info_wdef">WEAPON DEF:  +</string>
+    <string name="item_info_mdef">MAGIC ATTACK:  +</string>
+    <string name="item_info_acc">ACCURACY:  +</string>
+    <string name="item_info_avoid">AVOIDABILITY:  +</string>
+    <string name="item_info_hands">HANDS:  +</string>
+    <string name="item_info_speed">SPEED:  +</string>
+    <string name="item_info_jump">JUMP:  +</string>
+
+    <string name="drop_action">Drop</string>
+    <string name="equip_action">Equip</string>
 </resources>

@@ -1,6 +1,8 @@
 package com.bapplications.maplemobile.gameplay.player;
 
 import com.bapplications.maplemobile.constatns.Loaded;
+import com.bapplications.maplemobile.gameplay.player.inventory.EquipData;
+import com.bapplications.maplemobile.gameplay.player.inventory.ItemData;
 import com.bapplications.maplemobile.gameplay.textures.Texture;
 import com.bapplications.maplemobile.opengl.utils.DrawArgument;
 import com.bapplications.maplemobile.opengl.utils.Point;
@@ -13,7 +15,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 public class Clothing {
 
@@ -31,7 +32,7 @@ public class Clothing {
         this.itemid = itemid;
         stances = new EnumMap<>(Stance.Id.class);
 
-        EquipData equipData = EquipData.get(itemid);
+        EquipData equipData = (EquipData) ItemData.get(itemid);
         eqSlot = equipData.getEqSlot();
         if (eqSlot == EquipSlot.Id.WEAPON) {
 //            twohanded = WeaponData.get(itemid).isTwoHanded();
@@ -72,7 +73,7 @@ public class Clothing {
             chlayer = Clothing.Layer.CAPE;
 
         String strid = "0" + itemid;
-        String category = equipData.getItemData().getCategory();
+        String category = equipData.getCategory();
         NXNode src = Loaded.getFile(Loaded.WzFileName.CHARACTER).getRoot().getChild(category).getChild(strid + ".img");
         NXNode info = src.getChild("info");
 
