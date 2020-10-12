@@ -1,8 +1,8 @@
 package com.bapplications.maplemobile.views.interfaces
 
-import com.bapplications.maplemobile.views.KeyAction
+import com.bapplications.maplemobile.gameplay.inputs.InputAction
 
 interface UIKeyListener {
-    fun onAction(key: KeyAction?)
+    fun onAction(input: InputAction?)
 
 }

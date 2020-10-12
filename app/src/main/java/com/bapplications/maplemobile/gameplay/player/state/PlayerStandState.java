@@ -1,9 +1,11 @@
 package com.bapplications.maplemobile.gameplay.player.state;
 
+import android.util.Log;
+
+import com.bapplications.maplemobile.gameplay.inputs.InputAction;
 import com.bapplications.maplemobile.gameplay.physics.PhysicsObject;
 import com.bapplications.maplemobile.gameplay.player.Char;
 import com.bapplications.maplemobile.gameplay.player.Player;
-import com.bapplications.maplemobile.views.KeyAction;
 
 public class PlayerStandState implements PlayerState {
 
@@ -22,21 +24,21 @@ public class PlayerStandState implements PlayerState {
         if (player.isAttacking())
             return;
 
-        if (player.isPressed(KeyAction.RIGHT_ARROW_KEY))
+        if (player.isPressed(InputAction.RIGHT_ARROW_KEY))
         {
-            player.setDirection(false);
+            player.setLookLeft(false);
             player.setState(Char.State.WALK);
         }
-        else if (player.isPressed(KeyAction.LEFT_ARROW_KEY))
+        else if (player.isPressed(InputAction.LEFT_ARROW_KEY))
         {
-            player.setDirection(true);
+            player.setLookLeft(true);
             player.setState(Char.State.WALK);
         }
 
-        if (player.isPressed(KeyAction.DOWN_ARROW_KEY)
-                && !player.isPressed(KeyAction.UP_ARROW_KEY)
+        if (player.isPressed(InputAction.DOWN_ARROW_KEY)
+                && !player.isPressed(InputAction.UP_ARROW_KEY)
                 && !player.hasWalkInput())
-        player.setState(Char.State.PRONE);
+            player.setState(Char.State.PRONE);
 
     }
 
@@ -47,16 +49,18 @@ public class PlayerStandState implements PlayerState {
     }
 
     @Override
-    public void sendAction(Player player, KeyAction key) {
+    public boolean sendAction(Player player, InputAction key) {
 
         if (player.isAttacking())
-            return;
+            return false;
 
-        if (key == KeyAction.JUMP_KEY)
+        if (key == InputAction.JUMP_KEY)
         {
             player.playJumpSound();
 
             player.getPhobj().vforce = -player.getJumpForce();
+            return true;
         }
+        return false;
     }
 }

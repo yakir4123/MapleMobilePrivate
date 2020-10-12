@@ -1,5 +1,6 @@
 package com.bapplications.maplemobile.gameplay.player;
 
+import com.bapplications.maplemobile.gameplay.inputs.ExpressionInputAction;
 import com.bapplications.maplemobile.gameplay.map.Layer;
 import com.bapplications.maplemobile.gameplay.map.MapObject;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
@@ -59,13 +60,23 @@ public class Char extends MapObject {
 
     }
 
-    protected void setDirection(boolean lookLeft) {
+    protected void setLookLeft(boolean lookLeft) {
         this.lookLeft = lookLeft;
         look.setDirection(lookLeft);
     }
 
+    public boolean getLookLeft() {
+        return lookLeft;
+    }
+
+
     public CharLook getLook() {
         return look;
+    }
+
+    public Boolean setExpression(ExpressionInputAction expressionInputAction) {
+        getLook().setExpression(expressionInputAction.getExp());
+        return true;
     }
 
     // Player states which determine animation and state

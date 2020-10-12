@@ -19,7 +19,7 @@ import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.gameplay.player.Player;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
-import com.bapplications.maplemobile.views.KeyAction;
+import com.bapplications.maplemobile.gameplay.inputs.InputAction;
 
 public class GameMap{
 
@@ -130,23 +130,23 @@ public class GameMap{
 
         if (!player.isClimbing()/* && !player.is_sitting()*/ && !player.isAttacking())
         {
-            if (player.isPressed(KeyAction.UP_ARROW_KEY) && !player.isPressed(KeyAction.DOWN_ARROW_KEY))
+            if (player.isPressed(InputAction.UP_ARROW_KEY) && !player.isPressed(InputAction.DOWN_ARROW_KEY))
                 checkLadders(true);
 
-            if (player.isPressed(KeyAction.DOWN_ARROW_KEY))
+            if (player.isPressed(InputAction.DOWN_ARROW_KEY))
                 checkLadders(false);
 
-            if (player.isPressed(KeyAction.UP_ARROW_KEY))
+            if (player.isPressed(InputAction.UP_ARROW_KEY))
                 checkPortals();
 
 
-//            if (player.isPressed(KeyAction.SIT))
+//            if (player.isPressed(InputAction.SIT))
 //            check_seats();
 
-//            if (player.isPressed(KeyAction.ATTACK))
+//            if (player.isPressed(InputAction.ATTACK))
 //            combat.use_move(0);
 //
-//            if (player.isPressed(KeyAction.PICKUP))
+//            if (player.isPressed(InputAction.PICKUP))
 //            check_drops();
         }
 
