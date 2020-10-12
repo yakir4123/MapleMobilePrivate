@@ -1,17 +1,17 @@
 package com.bapplications.maplemobile.gameplay;
 
-import com.bapplications.maplemobile.views.KeyAction;
 import com.bapplications.maplemobile.gameplay.player.Player;
 import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.gameplay.player.CharEntry;
-import com.bapplications.maplemobile.gameplay.player.EquipSlot;
 import com.bapplications.maplemobile.views.GameActivityUIManager;
-import com.bapplications.maplemobile.views.interfaces.UIKeyListener;
+import com.bapplications.maplemobile.views.GameViewController;
 
 import java.util.Map;
 import java.util.HashMap;
 
-public class GameEngine implements UIKeyListener {
+import kotlin.jvm.functions.Function1;
+
+public class GameEngine {
 
     private Player player;
     private GameMap currMap;
@@ -38,6 +38,12 @@ public class GameEngine implements UIKeyListener {
 
 
     public void update(int deltatime) {
+        Map<GameViewController, Function1<Player, Boolean>> clickedButtons =
+                controllers.getInputHandler().handleClick();
+        Map<GameViewController, Function1<Player, Boolean>> releasedButtons =
+                controllers.getInputHandler().handleReleased();
+        clickedButtons.values().forEach(f -> f.invoke(getPlayer()));
+        releasedButtons.values().forEach(f -> f.invoke(getPlayer()));
         currMap.update(deltatime);
     }
     public void drawFrame ()
@@ -51,18 +57,11 @@ public class GameEngine implements UIKeyListener {
 
     public void setControllers(GameActivityUIManager controllers) {
         this.controllers = controllers;
-        this.controllers.registerListener(this);
-    }
-
-    @Override
-    public void onAction(KeyAction key) {
-        player.sendAction(key);
     }
 
     public GameMap getCurrMap() {
         return currMap;
     }
-
 
     public void changeMap() {
         changeMap(currMap.getMapId(), "sp");

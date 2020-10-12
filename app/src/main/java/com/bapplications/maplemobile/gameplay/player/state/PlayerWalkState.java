@@ -1,9 +1,9 @@
 package com.bapplications.maplemobile.gameplay.player.state;
 
+import com.bapplications.maplemobile.gameplay.inputs.InputAction;
 import com.bapplications.maplemobile.gameplay.physics.PhysicsObject;
 import com.bapplications.maplemobile.gameplay.player.Char;
 import com.bapplications.maplemobile.gameplay.player.Player;
-import com.bapplications.maplemobile.views.KeyAction;
 
 public class PlayerWalkState implements PlayerState {
     @Override
@@ -22,20 +22,20 @@ public class PlayerWalkState implements PlayerState {
 
         if (player.hasWalkInput())
         {
-            if (player.isPressed(KeyAction.RIGHT_ARROW_KEY))
+            if (player.isPressed(InputAction.RIGHT_ARROW_KEY))
             {
-                player.setDirection(false);
+                player.setLookLeft(false);
                 player.getPhobj().hforce += player.getWalkForce();
             }
-            else if (player.isPressed(KeyAction.LEFT_ARROW_KEY))
+            else if (player.isPressed(InputAction.LEFT_ARROW_KEY))
             {
-                player.setDirection(true);
+                player.setLookLeft(true);
                 player.getPhobj().hforce -= player.getWalkForce();
             }
         }
         else
         {
-            if (player.isPressed(KeyAction.DOWN_ARROW_KEY))
+            if (player.isPressed(InputAction.DOWN_ARROW_KEY))
                 player.setState(Char.State.PRONE);
         }
 
@@ -56,17 +56,19 @@ public class PlayerWalkState implements PlayerState {
     }
 
     @Override
-    public void sendAction(Player player, KeyAction key) {
+    public boolean sendAction(Player player, InputAction key) {
 
         if (player.isAttacking())
-            return;
+            return false;
 
-        if (key == KeyAction.JUMP_KEY)
+        if (key == InputAction.JUMP_KEY)
         {
             player.playJumpSound();
 
             player.getPhobj().vforce = -player.getJumpForce();
+            return true;
         }
+        return false;
     }
 
 }

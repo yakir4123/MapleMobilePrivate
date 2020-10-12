@@ -1,7 +1,7 @@
 package com.bapplications.maplemobile.gameplay.player.state;
 
 import com.bapplications.maplemobile.gameplay.player.Player;
-import com.bapplications.maplemobile.views.KeyAction;
+import com.bapplications.maplemobile.gameplay.inputs.InputAction;
 
 public interface PlayerState {
 
@@ -9,5 +9,5 @@ public interface PlayerState {
     void update(Player player);
     void updateState(Player player);
 
-    void sendAction(Player player, KeyAction key);
+    boolean sendAction(Player player, InputAction key);
 }

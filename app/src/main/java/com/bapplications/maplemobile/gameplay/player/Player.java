@@ -1,23 +1,22 @@
 package com.bapplications.maplemobile.gameplay.player;
 
-import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.gameplay.Collider;
-import com.bapplications.maplemobile.gameplay.audio.Sound;
-import com.bapplications.maplemobile.gameplay.map.Ladder;
 import com.bapplications.maplemobile.gameplay.map.Layer;
+import com.bapplications.maplemobile.gameplay.map.Ladder;
+import com.bapplications.maplemobile.gameplay.audio.Sound;
 import com.bapplications.maplemobile.gameplay.mobs.Attack;
+import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
-import com.bapplications.maplemobile.gameplay.player.inventory.Equip;
-import com.bapplications.maplemobile.gameplay.player.inventory.EquippedInventory;
-import com.bapplications.maplemobile.gameplay.player.inventory.Inventory;
-import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType;
 import com.bapplications.maplemobile.gameplay.player.inventory.Item;
 import com.bapplications.maplemobile.gameplay.player.inventory.Slot;
-import com.bapplications.maplemobile.gameplay.player.state.PlayerClimbState;
+import com.bapplications.maplemobile.gameplay.player.inventory.Equip;
+import com.bapplications.maplemobile.gameplay.player.state.PlayerState;
+import com.bapplications.maplemobile.gameplay.player.inventory.Inventory;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerFallState;
+import com.bapplications.maplemobile.gameplay.player.state.PlayerClimbState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerProneState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerStandState;
-import com.bapplications.maplemobile.gameplay.player.state.PlayerState;
+import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerWalkState;
 import com.bapplications.maplemobile.opengl.utils.Color;
 import com.bapplications.maplemobile.opengl.utils.DrawArgument;
@@ -25,12 +24,16 @@ import com.bapplications.maplemobile.opengl.utils.DrawableCircle;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.opengl.utils.Rectangle;
 import com.bapplications.maplemobile.opengl.utils.TimedBool;
-import com.bapplications.maplemobile.views.KeyAction;
+import com.bapplications.maplemobile.gameplay.inputs.InputAction;
 import com.bapplications.maplemobile.views.GameActivityUIManager;
 
+import android.util.Log;
+
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.Collection;
+
 
 public class Player extends Char implements Collider {
 
@@ -40,8 +43,10 @@ public class Player extends Char implements Collider {
     private boolean underwater;
     private Inventory inventory;
     private TimedBool climb_cooldown;
-    private final GameActivityUIManager controllers;
     private TreeSet<Expression> myExpressions;
+    private final GameActivityUIManager controllers;
+
+    private ArrayList<InputAction> pressedButton = new ArrayList<>();
 
 
     public Player(CharEntry entry, GameActivityUIManager controllers) {
@@ -116,22 +121,10 @@ public class Player extends Char implements Collider {
 
             if (aniend && attacking) {
                 attacking = false;
-//                nullstate.update_state(this);
             } else {
                 pst.updateState(this);
             }
         }
-//
-//        byte stancebyte = facing_right ? state : state + 1;
-//        Movement newmove(phobj, stancebyte);
-//        boolean needupdate = lastmove.hasmoved(newmove);
-//
-//        if (needupdate)
-//        {
-//            MovePlayerPacket(newmove).dispatch();
-//            lastmove = newmove;
-//        }
-//
         climb_cooldown.update(deltatime);
 
         return (byte) getLayer().ordinal();
@@ -189,14 +182,8 @@ public class Player extends Char implements Collider {
         return attacking;
     }
 
-    public boolean isPressed(KeyAction key) {
-        return controllers.isPressed(key);
-    }
-
     public boolean hasWalkInput() {
-        return controllers.isPressed(KeyAction.LEFT_ARROW_KEY)
-                || controllers.isPressed(KeyAction.RIGHT_ARROW_KEY);
-
+        return isPressed(InputAction.LEFT_ARROW_KEY) || isPressed(InputAction.RIGHT_ARROW_KEY);
     }
 
     public float getWalkForce() {
@@ -211,24 +198,42 @@ public class Player extends Char implements Collider {
         return 1.5f;//static_cast<float>(stats.get_total(EquipStat::Id::SPEED)) / 100;
     }
 
-    public void setDirection(boolean lookLeft) {
+    public void setLookLeft(boolean lookLeft) {
         if (!attacking)
-            super.setDirection(lookLeft);
+            super.setLookLeft(lookLeft);
     }
 
-    public void sendAction(KeyAction key) {
+    public boolean clickedButton(InputAction key) {
         PlayerState pst = getState(state);
 
-        if (pst != null)
-            pst.sendAction(this, key);
+        if (pst == null) {
+            return false;
+        }
+
+        if(pressedButton.contains(key)) {
+            return true;
+        }
+
+        if (key.getType() == InputAction.Type.CONTINUES_CLICK){
+            pressedButton.add(key);
+        }
+        return pst.sendAction(this, key);
+    }
+
+    public boolean releasedButtons(InputAction key) {
+        if (!pressedButton.contains(key)) {
+            return false;
+        }
+        pressedButton.remove(key);
+        return true;
+    }
+
+    public boolean isPressed(InputAction key) {
+        return pressedButton.contains(key);
     }
 
     public short getStat(PlayerStats.Id id) {
         return stats.getStat(id);
-    }
-
-    public PlayerStats setStat(PlayerStats.Id id, short val) {
-        return stats.setStat(id, val);
     }
 
     public PlayerStats addStat(PlayerStats.Id id, short val) {
