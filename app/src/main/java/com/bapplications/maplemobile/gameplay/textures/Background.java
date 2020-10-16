@@ -45,9 +45,9 @@ public class Background extends Animation{
         WOFFSET = VWIDTH / 2;
         HOFFSET = VHEIGHT / 2;
 
-        animated = src.getChild("ani").get(0L) > 0;
+        setAnimated(src.getChild("ani").get(0L) > 0);
         this.opacity = src.getChild("a").get(0L);
-        lookLeft = src.getChild("f").get(0L) == 0;
+        setLookLeft(src.getChild("f").get(0L) == 0);
         cx = src.getChild("cx").get(0L).intValue();
         cy = src.getChild("cy").get(0L).intValue();
         rx = src.getChild("rx").get(0L).intValue();

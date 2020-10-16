@@ -15,7 +15,7 @@ public class Obj extends Animation {
                         .getChild(src.getChild("l2").get("")),
                 src.getChild("z").get(0L).byteValue());
         setPos(new Point(src));
-        lookLeft = src.getChild("f").get(0L) == 0;
+        setLookLeft(src.getChild("f").get(0L) == 0);
     }
 
     public void draw(Point viewpos, float alpha){

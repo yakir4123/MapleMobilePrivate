@@ -2,6 +2,9 @@ package com.bapplications.maplemobile.gameplay.mobs;
 
 import com.bapplications.maplemobile.opengl.utils.Point;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MobSpawn {
     private int id;
     private int oid;
@@ -31,7 +34,12 @@ public class MobSpawn {
         return mode;
     }
 
-    public Mob instantiate() {
-        return new Mob(oid, id, mode, stance, fh, newspawn, team, position);
+    public Mob instantiate(Map<Integer, MobModel> mobModels) {
+        MobModel model = mobModels.get(id);
+        if(model == null){
+            model = new MobModel(id);
+            mobModels.put(id, model);
+        }
+        return new Mob(oid, model, mode, stance, fh, newspawn, team, position);
     }
 }
