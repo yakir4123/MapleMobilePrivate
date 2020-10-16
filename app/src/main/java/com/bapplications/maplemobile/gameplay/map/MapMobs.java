@@ -3,19 +3,23 @@ package com.bapplications.maplemobile.gameplay.map;
 import com.bapplications.maplemobile.gameplay.Collider;
 import com.bapplications.maplemobile.gameplay.mobs.Attack;
 import com.bapplications.maplemobile.gameplay.mobs.Mob;
+import com.bapplications.maplemobile.gameplay.mobs.MobModel;
 import com.bapplications.maplemobile.gameplay.mobs.MobSpawn;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.opengl.utils.Range;
 import com.bapplications.maplemobile.opengl.utils.Rectangle;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Queue;
 
 public class MapMobs {
     MapObjects mobs = new MapObjects();
     Queue<MobSpawn> spawns = new LinkedList<>();
+    Map<Integer, MobModel> models = new HashMap<>();
 
     public void draw(Layer layer, Point view, float alpha)
     {
@@ -35,7 +39,7 @@ public class MapMobs {
                     mob.setControl(mode);
                 mob.makeActive();
             } else {
-                mobs.add(spawn.instantiate());
+                mobs.add(spawn.instantiate(models));
             }
         }
         mobs.update(physics, deltatime);

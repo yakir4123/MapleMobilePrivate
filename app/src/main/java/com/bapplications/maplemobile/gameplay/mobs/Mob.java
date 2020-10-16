@@ -1,14 +1,12 @@
 package com.bapplications.maplemobile.gameplay.mobs;
 
-import com.bapplications.maplemobile.StaticUtils;
 import com.bapplications.maplemobile.constatns.Configuration;
-import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.gameplay.Collider;
-import com.bapplications.maplemobile.gameplay.audio.Sound;
 import com.bapplications.maplemobile.gameplay.map.MapObject;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.gameplay.physics.PhysicsObject;
 import com.bapplications.maplemobile.gameplay.textures.Animation;
+import com.bapplications.maplemobile.gameplay.textures.AnimationModel;
 import com.bapplications.maplemobile.opengl.utils.Color;
 import com.bapplications.maplemobile.opengl.utils.DrawArgument;
 import com.bapplications.maplemobile.opengl.utils.DrawableCircle;
@@ -16,15 +14,14 @@ import com.bapplications.maplemobile.opengl.utils.Linear;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.opengl.utils.Randomizer;
 import com.bapplications.maplemobile.opengl.utils.Rectangle;
-import com.bapplications.maplemobile.opengl.utils.TimedBool;
-import com.bapplications.maplemobile.pkgnx.NXNode;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Mob extends MapObject implements Collider {
 
-    enum Stance
+    public enum Stance
     {
         MOVE,
         STAND,
@@ -43,37 +40,9 @@ public class Mob extends MapObject implements Collider {
         NUM_DIRECTIONS
     };
     
-    Map<Stance, Animation> animations;
-    String name;
-    Sound hitsound;
-    Sound diesound;
-    short level;
-    float speed;
-    float flyspeed;
-    short watk;
-    short matk;
-    short wdef;
-    short mdef;
-    short accuracy;
-    short avoid;
-    short knockback;
-    boolean undead;
-    boolean touchdamage;
-    boolean noflip;
-    boolean notattack;
-    boolean canmove;
-    boolean canjump;
-    boolean canfly;
+    MobModel mobModel;
+    Map<Stance, Animation> animations = new EnumMap<>(Mob.Stance.class);
 
-//    EffectLayer effects;
-//    Text namelabel;
-//    MobHpBar hpbar;
-
-    TimedBool showhp;
-
-
-//    List<Movement> movements;
-    short counter;
 
     int id;
     byte effect;
@@ -84,6 +53,7 @@ public class Mob extends MapObject implements Collider {
     boolean aggro;
     Stance stance;
     boolean lookLeft;
+    short stanceCounter;
     FlyDirection flydirection;
     float walkforce;
     byte hppercent;
@@ -91,76 +61,19 @@ public class Mob extends MapObject implements Collider {
     boolean fadein;
     Linear opacity;
 
-    public Mob(int oi, int mid, byte mode, byte st, short fh, boolean newspawn, byte tm, Point position)
+    public Mob(int oi, MobModel mobModel, byte mode, byte st, short fh, boolean newspawn, byte tm, Point position)
     {
         super(oi);
+        this.mobModel = mobModel;
+        for(Stance stance: Stance.values()) {
+            AnimationModel aniModel = mobModel.getAnimations().get(stance);
+            if (aniModel != null) {
+                animations.put(stance, new Animation(aniModel));
+            }
+        }
+
         opacity = new Linear();
-        animations = new HashMap<>();
-
-        String strid = StaticUtils.extendId(mid, 7);
-        NXNode src = Loaded.getFile(Loaded.WzFileName.MOB).getRoot().getChild(strid + ".img");
-        NXNode linkedNodes;
-
-        NXNode info = src.getChild("info");
-
-        level = info.getChild("level").get(0L).shortValue();
-        watk = info.getChild("PADamage").get(0L).shortValue();
-        matk = info.getChild("MADamage").get(0L).shortValue();
-        wdef = info.getChild("PDDamage").get(0L).shortValue();
-        mdef = info.getChild("MDDamage").get(0L).shortValue();
-        accuracy = info.getChild("acc").get(0L).shortValue();
-        avoid = info.getChild("eva").get(0L).shortValue();
-        knockback = info.getChild("pushed").get(0L).shortValue();
-        speed = info.getChild("speed").get(0L).floatValue();
-        flyspeed = info.getChild("flySpeed").get(0L).floatValue();
-        touchdamage = info.getChild("bodyAttack").get(0L) > 0;
-        undead = info.getChild("undead").get(0L) > 0;
-        noflip = info.getChild("noFlip").get(0L) >  0;
-        notattack = info.getChild("notAttack").get(0L) > 0;
-        canjump = src.isChildExist("jump");
-
-        if(info.isChildExist("link")){
-            linkedNodes = Loaded.getFile(Loaded.WzFileName.MOB).getRoot().getChild(info.getChild("link").get("") + ".img");
-
-        } else {
-            linkedNodes = src;
-        }
-
-        canfly = linkedNodes.isChildExist("fly");
-        canmove = linkedNodes.isChildExist("move") || canfly;
-
-        if (canfly)
-        {
-            putAnimation(Stance.STAND, linkedNodes.getChild("fly"));
-            putAnimation(Stance.MOVE, linkedNodes.getChild("fly"));
-        }
-        else
-        {
-            putAnimation(Stance.STAND, linkedNodes.getChild("stand"));
-            putAnimation(Stance.MOVE, linkedNodes.getChild("move"));
-        }
-
-        putAnimation(Stance.JUMP, linkedNodes.getChild("jump"));
-        putAnimation(Stance.HIT, linkedNodes.getChild("hit1"));
-        putAnimation(Stance.DIE, linkedNodes.getChild("die1"));
-
-        name = Loaded.getFile(Loaded.WzFileName.STRING).getRoot().getChild("Mob.img").getChild(mid).getChild("name").get("");
-
-        NXNode sndsrc = Loaded.getFile(Loaded.WzFileName.SOUND).getRoot().getChild("Mob.img").getChild(strid);
-
-        hitsound = new Sound(sndsrc.getChild("Damage"));
-        diesound = new Sound(sndsrc.getChild("Die"));
-
-        speed += 100;
-        speed *= 0.001f;
-
-        flyspeed += 100;
-        flyspeed *= 0.0005f;
-
-        if (canfly)
-            phobj.type = PhysicsObject.Type.FLYING;
-
-        id = mid;
+        id = mobModel.getId();
         team = tm;
         setPosition(position);
         setControl(mode);
@@ -173,9 +86,9 @@ public class Mob extends MapObject implements Collider {
         fading = false;
         setStance(st);
         flydirection = FlyDirection.STRAIGHT;
-        counter = 0;
+        stanceCounter = 0;
 
-//        namelabel = Text(Text.Font.A13M, Text.Alignment.CENTER, Color.Name.WHITE, Text.Background.NAMETAG, name);
+        if (mobModel.getCanfly()) phobj.type = PhysicsObject.Type.FLYING;
 
         if (newspawn)
         {
@@ -190,33 +103,19 @@ public class Mob extends MapObject implements Collider {
 
 //        if (control && stance == Stance.STAND)
         nextMove();
-        fixAnimatins();
-    }
-
-    private void putAnimation(Stance stance, NXNode src) {
-        if(src == null || src.isNotExist()){
-            return;
-        }
-        animations.put(stance, new Animation(src));
-    }
-
-    private void fixAnimatins() {
-        for(Animation anim: animations.values()) {
-            anim.shiftHead();
-        }
     }
 
     public void draw(Point view, float alpha)
     {
         Point absp = phobj.getAbsolute(view, alpha);
-//        Point absp = getPosition();
         Point headpos = getHeadPosition(absp);
         if (!dead)
         {
             float interopc = opacity.get(alpha);
 
-            DrawArgument dargs= new DrawArgument(absp, lookLeft && !noflip, interopc);
+            DrawArgument dargs= new DrawArgument(absp, lookLeft && !mobModel.getNoflip(), interopc);
             animations.get(stance).draw(dargs, alpha);
+//            mobModel.draw(stance, dargs, alpha);
             if (Configuration.SHOW_MOBS_RECT) {
                 getCollider().draw(view);
 
@@ -278,7 +177,7 @@ public class Mob extends MapObject implements Collider {
 
         if (!dying)
         {
-            if (!canfly)
+            if (!mobModel.getCanfly())
             {
                 if (phobj.isFlagNotSet(PhysicsObject.Flag.TURN_AT_EDGES))
                 {
@@ -293,28 +192,28 @@ public class Mob extends MapObject implements Collider {
             switch (stance)
             {
                 case MOVE:
-                    if (canfly)
+                    if (mobModel.getCanfly())
                     {
-                        phobj.hforce = lookLeft ? flyspeed : -flyspeed;
+                        phobj.hforce = lookLeft ? mobModel.getFlyspeed() : -mobModel.getFlyspeed();
 
                         switch (flydirection)
                         {
                             case UPWARDS:
-                                phobj.vforce = flyspeed;
+                                phobj.vforce = mobModel.getFlyspeed();
                                 break;
                             case DOWNWARDS:
-                                phobj.vforce = -flyspeed;
+                                phobj.vforce = -mobModel.getFlyspeed();
                                 break;
                         }
                     }
                     else
                     {
-                        phobj.hforce = lookLeft ? speed : -speed;
+                        phobj.hforce = lookLeft ? mobModel.getSpeed() : -mobModel.getSpeed();
                     }
 
                     break;
                 case HIT:
-                    if (canmove)
+                    if (mobModel.getCanmove())
                     {
                         double KBFORCE = phobj.onground ? 0.2 : 0.1;
                         phobj.hforce = (float) (lookLeft ? -KBFORCE : KBFORCE);
@@ -330,20 +229,20 @@ public class Mob extends MapObject implements Collider {
 
 //            if (control)
 //            {
-                counter++;
+                stanceCounter++;
 
                 boolean next;
 
                 switch (stance)
                 {
                     case HIT:
-                        next = counter > 60;
+                        next = stanceCounter > 60;
                         break;
                     case JUMP:
                         next = phobj.onground;
                         break;
                     default:
-                        next = aniend && counter > stanceLength;
+                        next = aniend && stanceCounter > stanceLength;
                         break;
                 }
 
@@ -364,7 +263,7 @@ public class Mob extends MapObject implements Collider {
     }
 
     private void nextMove() {
-        if (canmove)
+        if (mobModel.getCanmove())
         {
             switch (stance)
             {
@@ -375,7 +274,7 @@ public class Mob extends MapObject implements Collider {
                     break;
                 case MOVE:
                 case JUMP:
-                    if (canjump && phobj.onground && Randomizer.below(0.25f))
+                    if (mobModel.getCanjump() && phobj.onground && Randomizer.below(0.25f))
                     {
                         setStance(Stance.JUMP);
                     }
@@ -400,7 +299,7 @@ public class Mob extends MapObject implements Collider {
                     break;
             }
 
-            if (stance == Stance.MOVE && canfly)
+            if (stance == Stance.MOVE && mobModel.getCanfly())
                 flydirection = Randomizer.nextEnum(FlyDirection.class);
         }
         else
@@ -408,13 +307,13 @@ public class Mob extends MapObject implements Collider {
             setStance(Stance.STAND);
         }
         stanceLength = 400 * (int)Randomizer.nextExponential();
-        counter = 0;
+        stanceCounter = 0;
     }
 
     private Point getHeadPosition(Point pos) {
-        Point head = new Point(animations.get(stance).getHead());
+        Point head = new Point(Objects.requireNonNull(animations.get(stance)).getHead());
 
-        pos.offsetThisX((lookLeft && !noflip) ? -head.x : head.x);
+        pos.offsetThisX((lookLeft && !mobModel.getNoflip()) ? -head.x : head.x);
         pos.offsetThisY(head.y);
 
         return pos;
@@ -439,7 +338,7 @@ public class Mob extends MapObject implements Collider {
         {
             stance = newstance;
 
-            animations.get(stance).reset();
+            animations.forEach((stance, animation) -> animation.reset());
         }
     }
 
@@ -454,7 +353,7 @@ public class Mob extends MapObject implements Collider {
 
     @Override
     public Rectangle getCollider() {
-        Rectangle bounds = new Rectangle(animations.get(stance).getBounds());
+        Rectangle bounds = Objects.requireNonNull(animations.get(stance)).getBounds();
         if (lookLeft) {
             bounds.setLeft(-bounds.left());
             bounds.setRight(-bounds.right());
@@ -474,11 +373,11 @@ public class Mob extends MapObject implements Collider {
     }
 
     public Attack.MobAttack createTouchAttack() {
-        if (!touchdamage)
+        if (!mobModel.getTouchdamage())
             return new Attack.MobAttack();
 
-        int minattack = (int)(watk * 0.8f);
-        int maxattack = watk;
+        int minattack = (int)(mobModel.getWatk() * 0.8f);
+        int maxattack = mobModel.getWatk();
         int attack = Randomizer.nextInt(minattack, maxattack);
 
         return new Attack.MobAttack(attack, getPosition(), id, oid);
