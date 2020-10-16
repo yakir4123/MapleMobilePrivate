@@ -5,11 +5,11 @@ import com.bapplications.maplemobile.pkgnx.NXNode
 import com.bapplications.maplemobile.pkgnx.nodes.NXBitmapNode
 import java.util.*
 
-class AnimationModel {
+open class AnimationModel {
     protected var frames: MutableList<Frame> = mutableListOf();
     var zigzag = false
 
-    constructor(src: NXNode, z: Any = 0) {
+    constructor(src: NXNode, z: Any? = "0") {
         zigzag = src.getChild<NXNode>("zigzag").get(0L) > 0
         if (src is NXBitmapNode) {
             frames.add(Frame(src))

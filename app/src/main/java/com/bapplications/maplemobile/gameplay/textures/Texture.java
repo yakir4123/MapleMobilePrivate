@@ -29,7 +29,6 @@ public class Texture {
     protected float[] half_dimensions_glratio;
     protected int textureDataHandle;
     protected float _rotationZ = 0.0f;
-    protected NXBitmapNode bitmapNode;
 
     private static Map<Integer, Integer> bitmapToTextureMap = new HashMap<>();
     private Bitmap bmap;
@@ -53,9 +52,12 @@ public class Texture {
         if (!(src instanceof NXBitmapNode)) {
             throw new IllegalArgumentException("NXNode must be NXBitmapNode in Texture instance");
         }
-        bitmapNode = (NXBitmapNode) src;
+        bmap = ((NXBitmapNode) src).get();
+        setZ(src.getChild("z").get("0"));
+        if (getZ().equals("0")) {
+            setZ(src.getChild("zM").get("0"));
+        }
 
-        bmap = bitmapNode.get();
         this.origin = new Point(src.getChild("origin"));
         dimensions = new Point(bmap.getWidth(), bmap.getHeight());
         half_dimensions_glratio = dimensions.scalarMul(0.5f).toGLRatio();
@@ -174,6 +176,10 @@ public class Texture {
             this.pos = pos.plus(origin);
         else
             this.pos = pos;
+    }
+
+    public Point calculateDrawingPos(Point pos)  {
+        return pos.flipY();//.plus(origin);
     }
 
     public Point getDimenstion() {

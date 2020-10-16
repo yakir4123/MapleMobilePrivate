@@ -3,8 +3,8 @@ package com.bapplications.maplemobile.constatns;
 public class Configuration {
 
     public static final boolean SHOW_FH = false;
-    public static final boolean SHOW_MOBS_RECT = true;
-    public static final boolean SHOW_PLAYER_RECT = true;
+    public static final boolean SHOW_MOBS_RECT = false;
+    public static final boolean SHOW_PLAYER_RECT = false;
 
     public static final int START_MAP = 100000000;//105090900;
     public static final int OFFSETX = 30;

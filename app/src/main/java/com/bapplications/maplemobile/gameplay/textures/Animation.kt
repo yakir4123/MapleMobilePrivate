@@ -22,7 +22,7 @@ open class Animation() {
         reset()
     }
 
-    constructor(src: NXNode, z: Any = 0) : this(AnimationModel(src, z))
+    constructor(src: NXNode, z: Any?) : this(AnimationModel(src, z))
 
 
     fun reset() {
