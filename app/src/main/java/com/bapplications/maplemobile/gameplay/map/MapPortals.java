@@ -76,8 +76,8 @@ public class MapPortals {
     {
         NXNode src = Loaded.getFile(Loaded.WzFileName.MAP).getRoot().getChild("MapHelper.img").getChild("portal").getChild("game");
 
-        animations.put(Portal.Type.HIDDEN, new Animation(src.getChild("ph").getChild("default").getChild("portalContinue"), 0));
-        animations.put(Portal.Type.REGULAR, new Animation(src.getChild("pv"), 0));
+        animations.put(Portal.Type.HIDDEN, new Animation(src.getChild("ph").getChild("default").getChild("portalContinue"), "0"));
+        animations.put(Portal.Type.REGULAR, new Animation(src.getChild("pv"), "0"));
     }
 
     public Portal.WarpInfo findWarpAt(Point playerpos) {
