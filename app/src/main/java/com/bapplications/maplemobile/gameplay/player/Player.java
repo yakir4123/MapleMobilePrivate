@@ -1,12 +1,13 @@
 package com.bapplications.maplemobile.gameplay.player;
 
-import com.bapplications.maplemobile.gameplay.Collider;
+import com.bapplications.maplemobile.gameplay.GameMap;
 import com.bapplications.maplemobile.gameplay.map.Layer;
 import com.bapplications.maplemobile.gameplay.map.Ladder;
 import com.bapplications.maplemobile.gameplay.audio.Sound;
 import com.bapplications.maplemobile.gameplay.mobs.Attack;
 import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
+import com.bapplications.maplemobile.gameplay.ColliderComponent;
 import com.bapplications.maplemobile.gameplay.player.inventory.Item;
 import com.bapplications.maplemobile.gameplay.player.inventory.Slot;
 import com.bapplications.maplemobile.gameplay.player.inventory.Equip;
@@ -18,6 +19,7 @@ import com.bapplications.maplemobile.gameplay.player.state.PlayerProneState;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerStandState;
 import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerWalkState;
+
 import com.bapplications.maplemobile.opengl.utils.Color;
 import com.bapplications.maplemobile.opengl.utils.DrawArgument;
 import com.bapplications.maplemobile.opengl.utils.DrawableCircle;
@@ -27,16 +29,15 @@ import com.bapplications.maplemobile.opengl.utils.TimedBool;
 import com.bapplications.maplemobile.gameplay.inputs.InputAction;
 import com.bapplications.maplemobile.views.GameActivityUIManager;
 
-import android.util.Log;
-
 import java.util.Arrays;
 import java.util.TreeSet;
 import java.util.ArrayList;
 import java.util.Collection;
 
 
-public class Player extends Char implements Collider {
+public class Player extends Char implements ColliderComponent {
 
+    private GameMap map;
     private Ladder ladder;
     private PlayerStats stats;
     private boolean attacking;
@@ -271,6 +272,16 @@ public class Player extends Char implements Collider {
         return changed;
     }
 
+    public boolean dropItem(InventoryType.Id invType, Slot slot) {
+        // it actually just like slot
+        Slot dropped = inventory.getInventory(invType).popItem(slot.getSlotId());
+        if(dropped.isEmpty()) {
+            return false;
+        }
+        getMap().spawnItemDrop(dropped.getItem());
+        return true;
+    }
+
     // todo change signature
     public void addItem(){
         inventory.addItem(new Equip(1002357, -1L,  null, (short)0, (byte)7, (byte)0), (short)1);
@@ -380,5 +391,13 @@ public class Player extends Char implements Collider {
 
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public void setMap(GameMap map) {
+        this.map = map;
+    }
+
+    public GameMap getMap() {
+        return map;
     }
 }

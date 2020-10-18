@@ -26,4 +26,8 @@ public class Slot {
     public int getSlotId() {
         return slotid;
     }
+
+    public boolean isEmpty() {
+        return count == 0;
+    }
 }

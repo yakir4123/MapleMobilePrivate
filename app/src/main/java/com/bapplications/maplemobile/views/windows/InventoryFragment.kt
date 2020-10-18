@@ -73,6 +73,17 @@ class InventoryFragment(private var player: Player) : Fragment() {
             }
         }
 
+        binding.itemInfoDropBt.setOnClickListener {
+            (activity as GameActivity).runOnGLThread {
+                if(player.dropItem(viewModel.selectedInventoryType.value, viewModel.slot.value)) {
+                    (activity as GameActivity).runOnUiThread {
+                        adapter.notifyDataSetChanged()
+                        returnToInventory(binding)
+                    }
+                }
+            }
+        }
+
         // swipes
         binding.inventoryItemsRecycler.setOnHorizonSwipe { isLeft -> inventorySwipe(isLeft) }
         viewModel.selectedInventoryType.observe(viewLifecycleOwner, {

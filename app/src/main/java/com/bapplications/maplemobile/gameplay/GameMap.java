@@ -5,8 +5,11 @@ import android.util.Log;
 import com.bapplications.maplemobile.StaticUtils;
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.gameplay.audio.Sound;
+import com.bapplications.maplemobile.gameplay.map.Drop;
+import com.bapplications.maplemobile.gameplay.map.DropSpawn;
 import com.bapplications.maplemobile.gameplay.map.Layer;
 import com.bapplications.maplemobile.gameplay.map.MapBackgrounds;
+import com.bapplications.maplemobile.gameplay.map.MapDrops;
 import com.bapplications.maplemobile.gameplay.map.MapInfo;
 import com.bapplications.maplemobile.gameplay.map.MapMobs;
 import com.bapplications.maplemobile.gameplay.map.MapPortals;
@@ -17,6 +20,7 @@ import com.bapplications.maplemobile.gameplay.mobs.Attack;
 import com.bapplications.maplemobile.gameplay.mobs.MobSpawn;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.gameplay.player.Player;
+import com.bapplications.maplemobile.gameplay.player.inventory.Item;
 import com.bapplications.maplemobile.opengl.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.gameplay.inputs.InputAction;
@@ -29,6 +33,7 @@ public class GameMap{
     private MapMobs mobs;
     private Player player;
     private Camera camera;
+    private MapDrops drops;
     private MapInfo mapInfo;
     private Physics physics;
     private MapPortals portals;
@@ -68,6 +73,14 @@ public class GameMap{
         }
     }
 
+    public void spawnItemDrop(Item item) {
+        int oid = item.getItemId(); // todo: needs a way to calculate that
+        DropSpawn spawn = new DropSpawn(oid, item.getItemId(), false,
+                0, player.getPosition(), getPlayer().getPosition(),
+                Drop.State.DROPPED, true );
+        drops.spawn(spawn);
+    }
+
 
     void loadMap(int mapid)
     {
@@ -81,6 +94,7 @@ public class GameMap{
         if (src != null && !src.isNotExist()) {
             try {
                 mobs = new MapMobs();
+                drops = new MapDrops();
                 tilesobjs = new MapTilesObjs(src);
                 physics = new Physics(src.getChild("foothold"));
                 backgrounds = new MapBackgrounds(src.getChild("back"));
@@ -123,7 +137,7 @@ public class GameMap{
 ////        npcs.update(physics);
         mobs.update(physics, deltatime);
 //        chars.update(physics);
-////        drops.update(physics);
+        drops.update(physics, deltatime);
         player.update(physics, deltatime);
         portals.update(player.getPosition(), deltatime);
         camera.update(player.getPosition());
@@ -209,7 +223,7 @@ public class GameMap{
             mobs.draw(id, viewpos, alpha);
 //            chars.draw(id, viewx, viewy, alpha);
             player.draw(id, viewpos, alpha);
-//            drops.draw(id, viewx, viewy, alpha);
+            drops.draw(id, viewpos, alpha);
         }
 //
 //        combat.draw(viewx, viewy, alpha);
@@ -257,6 +271,7 @@ public class GameMap{
 
     public void enterMap(Player player, Portal portal) {
         this.player = player;
+        player.setMap(this);
         state = State.ACTIVE;
         respawn(portal.getSpawnPosition());
         notifyNewMaps();
