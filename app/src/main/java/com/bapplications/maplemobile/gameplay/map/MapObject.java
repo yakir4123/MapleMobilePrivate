@@ -14,6 +14,7 @@ public class MapObject {
     protected MapObject(int id){
         this(id, new Point());
     }
+
     protected MapObject(int id, Point pos)
     {
         oid = id;

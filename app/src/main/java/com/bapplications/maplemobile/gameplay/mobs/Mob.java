@@ -1,7 +1,7 @@
 package com.bapplications.maplemobile.gameplay.mobs;
 
 import com.bapplications.maplemobile.constatns.Configuration;
-import com.bapplications.maplemobile.gameplay.Collider;
+import com.bapplications.maplemobile.gameplay.ColliderComponent;
 import com.bapplications.maplemobile.gameplay.map.MapObject;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.gameplay.physics.PhysicsObject;
@@ -19,7 +19,7 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class Mob extends MapObject implements Collider {
+public class Mob extends MapObject implements ColliderComponent {
 
     public enum Stance
     {
@@ -363,7 +363,7 @@ public class Mob extends MapObject implements Collider {
         return bounds;
     }
 
-    public boolean isInRange(Collider collider)
+    public boolean isInRange(ColliderComponent collider)
     {
         if (!active)
             return false;

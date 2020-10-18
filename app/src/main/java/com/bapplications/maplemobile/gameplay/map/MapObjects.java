@@ -8,9 +8,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class MapObjects {
+public class MapObjects<T extends MapObject> {
 
-    private Map<Integer, MapObject> objects = new HashMap<>();
+    private Map<Integer, T> objects = new HashMap<>();
     private Set<Integer>[] layers = new Set[Layer.values().length];
 
     public void draw(Layer layer, Point view, float alpha) {
@@ -30,7 +30,7 @@ public class MapObjects {
         return objects.get(oid);
     }
 
-    public void add(MapObject mo)
+    public void add(T mo)
     {
         int oid = mo.getOid();
         byte layer = mo.getLayer();
@@ -75,7 +75,14 @@ public class MapObjects {
         layers[layer].add(oid);
     }
 
-    public Map<Integer, MapObject> getObjects() {
+    public Map<Integer, T> getObjects() {
         return objects;
+    }
+
+    public void clear() {
+        objects.clear();
+
+        for (Set<Integer> layer : layers)
+            layer.clear();
     }
 }

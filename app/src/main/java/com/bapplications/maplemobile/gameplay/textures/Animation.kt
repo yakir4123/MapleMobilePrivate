@@ -14,8 +14,6 @@ open class Animation() {
     protected lateinit var model: AnimationModel
     protected var frameNumber : Nominal<Short> = Nominal<Short>()
 
-
-
     constructor(model: AnimationModel) : this() {
         this.model = model
         animated = model.size() > 1

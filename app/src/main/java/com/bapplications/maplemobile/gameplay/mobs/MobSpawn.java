@@ -2,7 +2,6 @@ package com.bapplications.maplemobile.gameplay.mobs;
 
 import com.bapplications.maplemobile.opengl.utils.Point;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class MobSpawn {

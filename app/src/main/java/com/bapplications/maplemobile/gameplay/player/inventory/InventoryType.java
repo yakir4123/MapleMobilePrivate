@@ -65,9 +65,6 @@ public class InventoryType {
         return res;
     }
 
-    public void removeItem(Slot to) {
-    }
-
     public enum Id {
         // do not change the order!
 
