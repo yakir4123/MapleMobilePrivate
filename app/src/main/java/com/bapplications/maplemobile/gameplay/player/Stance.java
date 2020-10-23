@@ -1,5 +1,7 @@
 package com.bapplications.maplemobile.gameplay.player;
 
+import com.bapplications.maplemobile.gameplay.player.look.Char;
+
 import java.util.HashMap;
 import java.util.Map;
 

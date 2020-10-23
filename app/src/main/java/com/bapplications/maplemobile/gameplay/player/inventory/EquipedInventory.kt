@@ -1,7 +1,5 @@
 package com.bapplications.maplemobile.gameplay.player.inventory
 
-import com.bapplications.maplemobile.gameplay.player.EquipSlot
-
 class EquippedInventory : InventoryType(Id.EQUIPPED, EquipSlot.Id.values().size) {
 
     private var isInWearingProcess : Boolean = false

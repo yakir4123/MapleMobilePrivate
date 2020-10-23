@@ -1,9 +1,9 @@
 package com.bapplications.maplemobile.gameplay.map;
 
 import com.bapplications.maplemobile.gameplay.textures.Animation;
-import com.bapplications.maplemobile.opengl.utils.DrawArgument;
-import com.bapplications.maplemobile.opengl.utils.Point;
-import com.bapplications.maplemobile.opengl.utils.Rectangle;
+import com.bapplications.maplemobile.utils.DrawArgument;
+import com.bapplications.maplemobile.utils.Point;
+import com.bapplications.maplemobile.utils.Rectangle;
 
 public class Portal {
 

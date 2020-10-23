@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
         <activity
-            android:name=".views.GameActivity"
+            android:name=".ui.GameActivity"
             android:screenOrientation="landscape"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>

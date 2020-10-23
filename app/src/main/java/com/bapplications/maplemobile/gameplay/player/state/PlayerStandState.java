@@ -1,10 +1,8 @@
 package com.bapplications.maplemobile.gameplay.player.state;
 
-import android.util.Log;
-
 import com.bapplications.maplemobile.gameplay.inputs.InputAction;
 import com.bapplications.maplemobile.gameplay.physics.PhysicsObject;
-import com.bapplications.maplemobile.gameplay.player.Char;
+import com.bapplications.maplemobile.gameplay.player.look.Char;
 import com.bapplications.maplemobile.gameplay.player.Player;
 
 public class PlayerStandState implements PlayerState {

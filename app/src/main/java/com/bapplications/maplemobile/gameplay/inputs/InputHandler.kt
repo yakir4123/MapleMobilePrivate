@@ -1,7 +1,7 @@
 package com.bapplications.maplemobile.gameplay.inputs
 
 import com.bapplications.maplemobile.gameplay.player.Player
-import com.bapplications.maplemobile.views.GameViewController
+import com.bapplications.maplemobile.ui.GameViewController
 import kotlin.collections.HashMap
 
 class InputHandler {

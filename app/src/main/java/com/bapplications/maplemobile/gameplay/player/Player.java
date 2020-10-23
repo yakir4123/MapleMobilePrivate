@@ -1,16 +1,20 @@
 package com.bapplications.maplemobile.gameplay.player;
 
+import com.bapplications.maplemobile.NetworkHandlerPOC;
 import com.bapplications.maplemobile.gameplay.GameMap;
 import com.bapplications.maplemobile.gameplay.map.Layer;
 import com.bapplications.maplemobile.gameplay.map.Ladder;
 import com.bapplications.maplemobile.gameplay.audio.Sound;
-import com.bapplications.maplemobile.gameplay.mobs.Attack;
+import com.bapplications.maplemobile.gameplay.map.map_objects.mobs.Attack;
 import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
-import com.bapplications.maplemobile.gameplay.ColliderComponent;
+import com.bapplications.maplemobile.gameplay.components.ColliderComponent;
 import com.bapplications.maplemobile.gameplay.player.inventory.Item;
 import com.bapplications.maplemobile.gameplay.player.inventory.Slot;
 import com.bapplications.maplemobile.gameplay.player.inventory.Equip;
+import com.bapplications.maplemobile.gameplay.player.look.Char;
+import com.bapplications.maplemobile.gameplay.player.look.CharLook;
+import com.bapplications.maplemobile.gameplay.player.look.Expression;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerState;
 import com.bapplications.maplemobile.gameplay.player.inventory.Inventory;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerFallState;
@@ -20,14 +24,14 @@ import com.bapplications.maplemobile.gameplay.player.state.PlayerStandState;
 import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerWalkState;
 
-import com.bapplications.maplemobile.opengl.utils.Color;
-import com.bapplications.maplemobile.opengl.utils.DrawArgument;
-import com.bapplications.maplemobile.opengl.utils.DrawableCircle;
-import com.bapplications.maplemobile.opengl.utils.Point;
-import com.bapplications.maplemobile.opengl.utils.Rectangle;
-import com.bapplications.maplemobile.opengl.utils.TimedBool;
+import com.bapplications.maplemobile.utils.Color;
+import com.bapplications.maplemobile.utils.DrawArgument;
+import com.bapplications.maplemobile.utils.DrawableCircle;
+import com.bapplications.maplemobile.utils.Point;
+import com.bapplications.maplemobile.utils.Rectangle;
+import com.bapplications.maplemobile.utils.TimedBool;
 import com.bapplications.maplemobile.gameplay.inputs.InputAction;
-import com.bapplications.maplemobile.views.GameActivityUIManager;
+import com.bapplications.maplemobile.ui.GameActivityUIManager;
 
 import java.util.Arrays;
 import java.util.TreeSet;
@@ -272,12 +276,16 @@ public class Player extends Char implements ColliderComponent {
         return changed;
     }
 
-    public boolean dropItem(InventoryType.Id invType, Slot slot) {
+    public boolean dropItem(Slot slot) {
+        InventoryType.Id invType = slot.getInventoryType();
         // it actually just like slot
         Slot dropped = inventory.getInventory(invType).popItem(slot.getSlotId());
         if(dropped.isEmpty()) {
             return false;
         }
+        NetworkHandlerPOC.Companion.getInstance().dropItem(dropped.getItemId(), getPosition(),
+                0, invType.ordinal(), slot.getSlotId());
+
         getMap().spawnItemDrop(dropped.getItem());
         return true;
     }

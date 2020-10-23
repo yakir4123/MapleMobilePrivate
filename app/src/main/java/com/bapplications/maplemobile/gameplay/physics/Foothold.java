@@ -1,12 +1,12 @@
 package com.bapplications.maplemobile.gameplay.physics;
 
-import com.bapplications.maplemobile.opengl.utils.Color;
+import com.bapplications.maplemobile.utils.Color;
 import com.bapplications.maplemobile.pkgnx.NXNode;
-import com.bapplications.maplemobile.opengl.utils.Range;
-import com.bapplications.maplemobile.opengl.utils.Point;
-import com.bapplications.maplemobile.opengl.utils.DrawableCircle;
+import com.bapplications.maplemobile.utils.Range;
+import com.bapplications.maplemobile.utils.Point;
+import com.bapplications.maplemobile.utils.DrawableCircle;
 import com.bapplications.maplemobile.constatns.Configuration;
-import com.bapplications.maplemobile.opengl.utils.DrawArgument;
+import com.bapplications.maplemobile.utils.DrawArgument;
 
 public class Foothold {
     private DrawableCircle c1;

@@ -2,26 +2,26 @@ package com.bapplications.maplemobile.gameplay;
 
 import android.util.Log;
 
-import com.bapplications.maplemobile.StaticUtils;
+import com.bapplications.maplemobile.utils.StaticUtils;
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.gameplay.audio.Sound;
-import com.bapplications.maplemobile.gameplay.map.Drop;
-import com.bapplications.maplemobile.gameplay.map.DropSpawn;
+import com.bapplications.maplemobile.gameplay.map.map_objects.Drop;
+import com.bapplications.maplemobile.gameplay.map.map_objects.DropSpawn;
 import com.bapplications.maplemobile.gameplay.map.Layer;
-import com.bapplications.maplemobile.gameplay.map.MapBackgrounds;
-import com.bapplications.maplemobile.gameplay.map.MapDrops;
+import com.bapplications.maplemobile.gameplay.map.map_objects.MapBackgrounds;
+import com.bapplications.maplemobile.gameplay.map.map_objects.MapDrops;
 import com.bapplications.maplemobile.gameplay.map.MapInfo;
-import com.bapplications.maplemobile.gameplay.map.MapMobs;
-import com.bapplications.maplemobile.gameplay.map.MapPortals;
-import com.bapplications.maplemobile.gameplay.map.MapTilesObjs;
+import com.bapplications.maplemobile.gameplay.map.map_objects.MapMobs;
+import com.bapplications.maplemobile.gameplay.map.map_objects.MapPortals;
+import com.bapplications.maplemobile.gameplay.map.map_objects.MapTilesObjs;
 import com.bapplications.maplemobile.gameplay.audio.Music;
 import com.bapplications.maplemobile.gameplay.map.Portal;
-import com.bapplications.maplemobile.gameplay.mobs.Attack;
-import com.bapplications.maplemobile.gameplay.mobs.MobSpawn;
+import com.bapplications.maplemobile.gameplay.map.map_objects.mobs.Attack;
+import com.bapplications.maplemobile.gameplay.map.map_objects.mobs.MobSpawn;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.gameplay.player.Player;
 import com.bapplications.maplemobile.gameplay.player.inventory.Item;
-import com.bapplications.maplemobile.opengl.utils.Point;
+import com.bapplications.maplemobile.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.gameplay.inputs.InputAction;
 
@@ -73,14 +73,19 @@ public class GameMap{
         }
     }
 
+    public void spawnItemDrop(int oid, int id, Point start, int owner) {
+        DropSpawn spawn = new DropSpawn(oid, id, id == 0,
+                0, start, Drop.State.DROPPED, true );
+        drops.spawn(spawn);
+
+    }
+
     public void spawnItemDrop(Item item) {
         int oid = item.getItemId(); // todo: needs a way to calculate that
         DropSpawn spawn = new DropSpawn(oid, item.getItemId(), false,
-                0, player.getPosition(), getPlayer().getPosition(),
-                Drop.State.DROPPED, true );
+                0, player.getPosition(), Drop.State.DROPPED, true );
         drops.spawn(spawn);
     }
-
 
     void loadMap(int mapid)
     {

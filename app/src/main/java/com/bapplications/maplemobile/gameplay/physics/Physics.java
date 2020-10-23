@@ -1,7 +1,7 @@
 package com.bapplications.maplemobile.gameplay.physics;
 
 import com.bapplications.maplemobile.constatns.Configuration;
-import com.bapplications.maplemobile.opengl.utils.Point;
+import com.bapplications.maplemobile.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 
 public class Physics {
