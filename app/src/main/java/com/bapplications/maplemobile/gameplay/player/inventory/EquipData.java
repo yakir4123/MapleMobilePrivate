@@ -1,7 +1,6 @@
 package com.bapplications.maplemobile.gameplay.player.inventory;
 
 import com.bapplications.maplemobile.constatns.Loaded;
-import com.bapplications.maplemobile.gameplay.player.EquipSlot;
 import com.bapplications.maplemobile.gameplay.player.PlayerStats;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 

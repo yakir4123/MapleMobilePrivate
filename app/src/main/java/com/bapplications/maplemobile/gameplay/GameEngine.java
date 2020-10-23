@@ -1,10 +1,11 @@
 package com.bapplications.maplemobile.gameplay;
 
+import com.bapplications.maplemobile.NetworkHandlerPOC;
 import com.bapplications.maplemobile.gameplay.player.Player;
 import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.gameplay.player.CharEntry;
-import com.bapplications.maplemobile.views.GameActivityUIManager;
-import com.bapplications.maplemobile.views.GameViewController;
+import com.bapplications.maplemobile.ui.GameActivityUIManager;
+import com.bapplications.maplemobile.ui.GameViewController;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ public class GameEngine {
 
     private GameEngine() {
         currMap = new GameMap(new Camera());
+
         nextMaps = new HashMap<>();
     }
 
@@ -77,6 +79,7 @@ public class GameEngine {
         } else {
             currMap = new GameMap(currMap.getCamera());
             currMap.init(mapId);
+            NetworkHandlerPOC.Companion.getInstance().setGameMap(currMap);
         }
         currMap.enterMap(player, currMap.getPortalByName(portalName));
     }

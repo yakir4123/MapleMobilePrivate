@@ -8,9 +8,9 @@ import android.util.Log;
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.gameplay.GameEngine;
 import com.bapplications.maplemobile.gameplay.audio.Sound;
-import com.bapplications.maplemobile.gameplay.map.MapPortals;
-import com.bapplications.maplemobile.gameplay.player.Char;
-import com.bapplications.maplemobile.views.interfaces.GameEngineListener;
+import com.bapplications.maplemobile.gameplay.map.map_objects.MapPortals;
+import com.bapplications.maplemobile.gameplay.player.look.Char;
+import com.bapplications.maplemobile.ui.interfaces.GameEngineListener;
 
 import java.util.ArrayList;
 import java.util.List;

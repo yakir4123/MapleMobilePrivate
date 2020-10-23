@@ -5,12 +5,9 @@ import android.opengl.Matrix;
 import android.opengl.GLUtils;
 import android.graphics.Bitmap;
 
-import com.bapplications.maplemobile.constatns.Configuration;
-import com.bapplications.maplemobile.constatns.Constants;
-import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.opengl.GLState;
-import com.bapplications.maplemobile.opengl.utils.DrawArgument;
-import com.bapplications.maplemobile.opengl.utils.Point;
+import com.bapplications.maplemobile.utils.DrawArgument;
+import com.bapplications.maplemobile.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXBitmapNode;
 

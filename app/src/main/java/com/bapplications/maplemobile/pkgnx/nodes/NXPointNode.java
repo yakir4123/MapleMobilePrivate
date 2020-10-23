@@ -24,7 +24,7 @@
 package com.bapplications.maplemobile.pkgnx.nodes;
 
 
-import com.bapplications.maplemobile.opengl.utils.Point;
+import com.bapplications.maplemobile.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXFile;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.util.SeekableLittleEndianAccessor;

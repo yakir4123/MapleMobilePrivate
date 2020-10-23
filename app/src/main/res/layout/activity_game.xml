@@ -3,13 +3,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.bapplications.maplemobile.views.GameActivity">
+    tools:context="com.bapplications.maplemobile.ui.GameActivity">
 
     <data>
         <import type="com.bapplications.maplemobile.gameplay.player.PlayerStats"/>
         <variable
             name="viewModel"
-            type="com.bapplications.maplemobile.views.view_models.GameActivityViewModel"/>
+            type="com.bapplications.maplemobile.ui.view_models.GameActivityViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +20,7 @@
 
         <fragment
             android:id="@+id/game_fragment_container"
-            class="com.bapplications.maplemobile.views.GameFragment"
+            class="com.bapplications.maplemobile.ui.GameFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"

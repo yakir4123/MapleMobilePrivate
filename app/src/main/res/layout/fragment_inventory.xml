@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="com.bapplications.maplemobile.views.BindingUtils"/>
+        <import type="com.bapplications.maplemobile.ui.BindingUtils"/>
         <import type="com.bapplications.maplemobile.gameplay.player.PlayerStats"/>
         <import type="com.bapplications.maplemobile.gameplay.player.inventory.InventoryType.Id"/>
         <variable
             name="viewModel"
-            type="com.bapplications.maplemobile.views.view_models.InventoryViewModel"/>
+            type="com.bapplications.maplemobile.ui.view_models.InventoryViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -721,7 +721,7 @@
 
         </RadioGroup>
 
-        <com.bapplications.maplemobile.views.custom_views.InventoryView
+        <com.bapplications.maplemobile.ui.custom_views.InventoryView
             android:id="@+id/inventory_items_recycler"
             android:layout_width="0dp"
             android:layout_height="0dp"

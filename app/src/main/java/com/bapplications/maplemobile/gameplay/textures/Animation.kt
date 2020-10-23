@@ -1,7 +1,8 @@
 package com.bapplications.maplemobile.gameplay.textures
 
-import com.bapplications.maplemobile.opengl.utils.*
+import com.bapplications.maplemobile.gameplay.model_pools.AnimationModel
 import com.bapplications.maplemobile.pkgnx.NXNode
+import com.bapplications.maplemobile.utils.*
 
 open class Animation() {
     private var pos: Point

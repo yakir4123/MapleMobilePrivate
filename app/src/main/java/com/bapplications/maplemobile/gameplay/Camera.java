@@ -1,13 +1,10 @@
 package com.bapplications.maplemobile.gameplay;
 
-import android.app.Activity;
-
 import com.bapplications.maplemobile.opengl.GLState;
-import com.bapplications.maplemobile.opengl.utils.Range;
-import android.widget.TextView;
+import com.bapplications.maplemobile.utils.Range;
 
 import com.bapplications.maplemobile.constatns.Loaded;
-import com.bapplications.maplemobile.opengl.utils.Point;
+import com.bapplications.maplemobile.utils.Point;
 
 import static com.bapplications.maplemobile.constatns.Configuration.OFFSETX;
 
