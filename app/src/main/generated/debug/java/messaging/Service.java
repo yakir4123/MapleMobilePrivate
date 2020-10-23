@@ -1210,6 +1210,12 @@ public final class Service {
      * @return The slotid.
      */
     int getSlotid();
+
+    /**
+     * <code>int32 mapid = 8;</code>
+     * @return The mapid.
+     */
+    int getMapid();
   }
   /**
    * Protobuf type {@code messaging.RequestDropItem}
@@ -1419,6 +1425,32 @@ public final class Service {
     private void clearSlotid() {
       
       slotid_ = 0;
+    }
+
+    public static final int MAPID_FIELD_NUMBER = 8;
+    private int mapid_;
+    /**
+     * <code>int32 mapid = 8;</code>
+     * @return The mapid.
+     */
+    @java.lang.Override
+    public int getMapid() {
+      return mapid_;
+    }
+    /**
+     * <code>int32 mapid = 8;</code>
+     * @param value The mapid to set.
+     */
+    private void setMapid(int value) {
+      
+      mapid_ = value;
+    }
+    /**
+     * <code>int32 mapid = 8;</code>
+     */
+    private void clearMapid() {
+      
+      mapid_ = 0;
     }
 
     public static messaging.Service.RequestDropItem parseFrom(
@@ -1727,6 +1759,34 @@ public final class Service {
         return this;
       }
 
+      /**
+       * <code>int32 mapid = 8;</code>
+       * @return The mapid.
+       */
+      @java.lang.Override
+      public int getMapid() {
+        return instance.getMapid();
+      }
+      /**
+       * <code>int32 mapid = 8;</code>
+       * @param value The mapid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMapid(int value) {
+        copyOnWrite();
+        instance.setMapid(value);
+        return this;
+      }
+      /**
+       * <code>int32 mapid = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMapid() {
+        copyOnWrite();
+        instance.clearMapid();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:messaging.RequestDropItem)
     }
     @java.lang.Override
@@ -1749,10 +1809,11 @@ public final class Service {
               "start_",
               "invtype_",
               "slotid_",
+              "mapid_",
             };
             java.lang.String info =
-                "\u0000\u0006\u0000\u0000\u0001\u0007\u0006\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
-                "\u0003\u0004\u0004\t\u0006\u0004\u0007\u0004";
+                "\u0000\u0007\u0000\u0000\u0001\b\u0007\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
+                "\u0003\u0004\u0004\t\u0006\u0004\u0007\u0004\b\u0004";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through
@@ -1843,6 +1904,12 @@ public final class Service {
      * @return The owner.
      */
     int getOwner();
+
+    /**
+     * <code>int32 mapid = 5;</code>
+     * @return The mapid.
+     */
+    int getMapid();
   }
   /**
    * Protobuf type {@code messaging.ResponseDropItem}
@@ -1988,6 +2055,32 @@ public final class Service {
     private void clearOwner() {
       
       owner_ = 0;
+    }
+
+    public static final int MAPID_FIELD_NUMBER = 5;
+    private int mapid_;
+    /**
+     * <code>int32 mapid = 5;</code>
+     * @return The mapid.
+     */
+    @java.lang.Override
+    public int getMapid() {
+      return mapid_;
+    }
+    /**
+     * <code>int32 mapid = 5;</code>
+     * @param value The mapid to set.
+     */
+    private void setMapid(int value) {
+      
+      mapid_ = value;
+    }
+    /**
+     * <code>int32 mapid = 5;</code>
+     */
+    private void clearMapid() {
+      
+      mapid_ = 0;
     }
 
     public static messaging.Service.ResponseDropItem parseFrom(
@@ -2228,6 +2321,34 @@ public final class Service {
         return this;
       }
 
+      /**
+       * <code>int32 mapid = 5;</code>
+       * @return The mapid.
+       */
+      @java.lang.Override
+      public int getMapid() {
+        return instance.getMapid();
+      }
+      /**
+       * <code>int32 mapid = 5;</code>
+       * @param value The mapid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMapid(int value) {
+        copyOnWrite();
+        instance.setMapid(value);
+        return this;
+      }
+      /**
+       * <code>int32 mapid = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMapid() {
+        copyOnWrite();
+        instance.clearMapid();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:messaging.ResponseDropItem)
     }
     @java.lang.Override
@@ -2248,10 +2369,11 @@ public final class Service {
               "id_",
               "start_",
               "owner_",
+              "mapid_",
             };
             java.lang.String info =
-                "\u0000\u0004\u0000\u0000\u0001\u0004\u0004\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
-                "\u0003\t\u0004\u0004";
+                "\u0000\u0005\u0000\u0000\u0001\u0005\u0005\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
+                "\u0003\t\u0004\u0004\u0005\u0004";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through

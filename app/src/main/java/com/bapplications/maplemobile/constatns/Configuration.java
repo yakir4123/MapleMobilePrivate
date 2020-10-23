@@ -6,7 +6,7 @@ public class Configuration {
     public static final boolean SHOW_MOBS_RECT = false;
     public static final boolean SHOW_PLAYER_RECT = false;
 
-    public static final String HOST = "192.168.193.164";
+    public static final String HOST = "10.147.20.164"; //"192.168.193.164";
     public static final int PORT = 50051;
 
     public static final int START_MAP = 100000000;//105090900;

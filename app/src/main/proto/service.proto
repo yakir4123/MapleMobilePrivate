@@ -31,6 +31,7 @@ message RequestDropItem {
   Point start = 4;
   int32 invtype = 6; // todo refactor to enum later
   int32 slotid = 7;
+  int32 mapid = 8;
 }
 
 message ResponseDropItem {
@@ -38,6 +39,7 @@ message ResponseDropItem {
   int32 id = 2; //0 mesos
   Point start = 3;
   int32 owner = 4;
+  int32 mapid = 5;
 }
 
 enum DropState {

@@ -1,6 +1,6 @@
 package com.bapplications.maplemobile.gameplay.player.state;
 
-import com.bapplications.maplemobile.gameplay.inputs.InputAction;
+import com.bapplications.maplemobile.input.InputAction;
 import com.bapplications.maplemobile.gameplay.map.Ladder;
 import com.bapplications.maplemobile.gameplay.physics.PhysicsObject;
 import com.bapplications.maplemobile.gameplay.player.look.Char;

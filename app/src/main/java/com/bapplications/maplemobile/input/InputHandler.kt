@@ -1,4 +1,4 @@
-package com.bapplications.maplemobile.gameplay.inputs
+package com.bapplications.maplemobile.input
 
 import com.bapplications.maplemobile.gameplay.player.Player
 import com.bapplications.maplemobile.ui.GameViewController
