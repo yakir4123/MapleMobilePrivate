@@ -2,7 +2,7 @@ package com.bapplications.maplemobile.ui
 
 import android.view.MotionEvent
 import android.view.View
-import com.bapplications.maplemobile.gameplay.inputs.InputAction
+import com.bapplications.maplemobile.input.InputAction
 
 class GameViewController(button: View, val type: InputAction.Type) {
 

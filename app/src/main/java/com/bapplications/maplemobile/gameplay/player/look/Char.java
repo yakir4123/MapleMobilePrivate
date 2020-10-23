@@ -1,6 +1,6 @@
 package com.bapplications.maplemobile.gameplay.player.look;
 
-import com.bapplications.maplemobile.gameplay.inputs.ExpressionInputAction;
+import com.bapplications.maplemobile.input.ExpressionInputAction;
 import com.bapplications.maplemobile.gameplay.map.Layer;
 import com.bapplications.maplemobile.gameplay.map.MapObject;
 import com.bapplications.maplemobile.gameplay.physics.Physics;

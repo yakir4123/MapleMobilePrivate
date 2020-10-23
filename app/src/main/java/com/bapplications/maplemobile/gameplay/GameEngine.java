@@ -1,9 +1,10 @@
 package com.bapplications.maplemobile.gameplay;
 
-import com.bapplications.maplemobile.NetworkHandlerPOC;
 import com.bapplications.maplemobile.gameplay.player.Player;
 import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.gameplay.player.CharEntry;
+import com.bapplications.maplemobile.input.EventsQueue;
+import com.bapplications.maplemobile.input.network.NetworkHandler;
 import com.bapplications.maplemobile.ui.GameActivityUIManager;
 import com.bapplications.maplemobile.ui.GameViewController;
 
@@ -17,6 +18,7 @@ public class GameEngine {
     private Player player;
     private GameMap currMap;
     private static GameEngine instance;
+    private NetworkHandler networkHandler;
     private Map<Integer, GameMap> nextMaps;
     private GameActivityUIManager controllers;
 
@@ -28,7 +30,7 @@ public class GameEngine {
 
     private GameEngine() {
         currMap = new GameMap(new Camera());
-
+        networkHandler = new NetworkHandler(Configuration.HOST, Configuration.PORT);
         nextMaps = new HashMap<>();
     }
 
@@ -40,12 +42,16 @@ public class GameEngine {
 
 
     public void update(int deltatime) {
+
+        // handle clicked buttons
         Map<GameViewController, Function1<Player, Boolean>> clickedButtons =
                 controllers.getInputHandler().handleClick();
         Map<GameViewController, Function1<Player, Boolean>> releasedButtons =
                 controllers.getInputHandler().handleReleased();
         clickedButtons.values().forEach(f -> f.invoke(getPlayer()));
         releasedButtons.values().forEach(f -> f.invoke(getPlayer()));
+
+        EventsQueue.Companion.getInstance().dequeueAll();
         currMap.update(deltatime);
     }
     public void drawFrame ()
@@ -79,7 +85,6 @@ public class GameEngine {
         } else {
             currMap = new GameMap(currMap.getCamera());
             currMap.init(mapId);
-            NetworkHandlerPOC.Companion.getInstance().setGameMap(currMap);
         }
         currMap.enterMap(player, currMap.getPortalByName(portalName));
     }

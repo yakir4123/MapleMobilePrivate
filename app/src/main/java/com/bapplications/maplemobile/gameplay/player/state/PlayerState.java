@@ -1,7 +1,7 @@
 package com.bapplications.maplemobile.gameplay.player.state;
 
 import com.bapplications.maplemobile.gameplay.player.Player;
-import com.bapplications.maplemobile.gameplay.inputs.InputAction;
+import com.bapplications.maplemobile.input.InputAction;
 
 public interface PlayerState {
 

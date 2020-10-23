@@ -2,6 +2,12 @@ package com.bapplications.maplemobile.gameplay;
 
 import android.util.Log;
 
+import com.bapplications.maplemobile.input.EventsQueue;
+import com.bapplications.maplemobile.input.events.DropItemEvent;
+import com.bapplications.maplemobile.input.events.Event;
+import com.bapplications.maplemobile.input.events.EventListener;
+import com.bapplications.maplemobile.input.events.EventType;
+import com.bapplications.maplemobile.input.events.ItemDroppedEvent;
 import com.bapplications.maplemobile.utils.StaticUtils;
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.gameplay.audio.Sound;
@@ -23,9 +29,16 @@ import com.bapplications.maplemobile.gameplay.player.Player;
 import com.bapplications.maplemobile.gameplay.player.inventory.Item;
 import com.bapplications.maplemobile.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
-import com.bapplications.maplemobile.gameplay.inputs.InputAction;
+import com.bapplications.maplemobile.input.InputAction;
 
-public class GameMap{
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class GameMap implements EventListener {
 
 
     private int mapid;
@@ -51,12 +64,24 @@ public class GameMap{
     {
         state = State.INACTIVE;
         this.camera = camera;
+        EventsQueue.Companion.getInstance().registerListener(EventType.ItemDropped, this);
     }
 
     public void init(int mapid){
         // drops.init();
         state = State.ACTIVE;
         loadMap(mapid);
+    }
+
+    @Override
+    public void onEventReceive(@NotNull Event event) {
+        switch (event.getType()) {
+            case ItemDropped:
+                ItemDroppedEvent _event = (ItemDroppedEvent) event;
+                if(mapid == _event.getMapId()) {
+                    spawnItemDrop(_event.getOid(), _event.getId(), _event.getStart(), _event.getOwner());
+                }
+        }
     }
 
     public void spawnMobs(NXNode src) {
@@ -74,10 +99,10 @@ public class GameMap{
     }
 
     public void spawnItemDrop(int oid, int id, Point start, int owner) {
-        DropSpawn spawn = new DropSpawn(oid, id, id == 0,
-                0, start, Drop.State.DROPPED, true );
+        Map<Class<? extends Event>, List<EventListener>> listeners = new HashMap<>();
+        listeners.put(DropItemEvent.class, new ArrayList<>());
+        DropSpawn spawn = new DropSpawn(oid, id, id == 0, owner, start, Drop.State.DROPPED, true );
         drops.spawn(spawn);
-
     }
 
     public void spawnItemDrop(Item item) {

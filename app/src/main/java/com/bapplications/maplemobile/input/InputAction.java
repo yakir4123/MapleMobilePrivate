@@ -1,4 +1,4 @@
-package com.bapplications.maplemobile.gameplay.inputs;
+package com.bapplications.maplemobile.input;
 
 public class InputAction {
     public static InputAction UP_ARROW_KEY = new InputAction(Type.CONTINUES_CLICK);

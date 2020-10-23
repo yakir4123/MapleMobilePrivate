@@ -14,6 +14,7 @@ import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.databinding.ActivityGameBinding;
 import com.bapplications.maplemobile.gameplay.GameEngine;
 import com.bapplications.maplemobile.gameplay.audio.Music;
+import com.bapplications.maplemobile.input.network.NetworkHandler;
 import com.bapplications.maplemobile.utils.DrawableCircle;
 import com.bapplications.maplemobile.ui.windows.ChangeMapPopup;
 
@@ -75,7 +76,6 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
         setContentView(root);
         DrawableCircle.init(BitmapFactory.decodeResource(getResources(),
                         R.drawable.red_circle));
-
 
         binding.setMap.setOnClickListener(view -> {
             ChangeMapPopup popUpClass = new ChangeMapPopup();

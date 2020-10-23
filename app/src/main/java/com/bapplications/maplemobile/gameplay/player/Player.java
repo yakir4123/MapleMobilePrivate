@@ -1,6 +1,8 @@
 package com.bapplications.maplemobile.gameplay.player;
 
-import com.bapplications.maplemobile.NetworkHandlerPOC;
+import com.bapplications.maplemobile.input.EventsQueue;
+import com.bapplications.maplemobile.input.events.DropItemEvent;
+import com.bapplications.maplemobile.input.network.NetworkHandler;
 import com.bapplications.maplemobile.gameplay.GameMap;
 import com.bapplications.maplemobile.gameplay.map.Layer;
 import com.bapplications.maplemobile.gameplay.map.Ladder;
@@ -30,7 +32,7 @@ import com.bapplications.maplemobile.utils.DrawableCircle;
 import com.bapplications.maplemobile.utils.Point;
 import com.bapplications.maplemobile.utils.Rectangle;
 import com.bapplications.maplemobile.utils.TimedBool;
-import com.bapplications.maplemobile.gameplay.inputs.InputAction;
+import com.bapplications.maplemobile.input.InputAction;
 import com.bapplications.maplemobile.ui.GameActivityUIManager;
 
 import java.util.Arrays;
@@ -283,10 +285,10 @@ public class Player extends Char implements ColliderComponent {
         if(dropped.isEmpty()) {
             return false;
         }
-        NetworkHandlerPOC.Companion.getInstance().dropItem(dropped.getItemId(), getPosition(),
-                0, invType.ordinal(), slot.getSlotId());
+        EventsQueue.Companion.getInstance()
+                .enqueue(new DropItemEvent(dropped.getItemId(), getPosition(),
+                                        0, invType.ordinal(), slot.getSlotId(), map.getMapId()));
 
-        getMap().spawnItemDrop(dropped.getItem());
         return true;
     }
 
