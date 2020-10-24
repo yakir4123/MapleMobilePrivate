@@ -17,9 +17,9 @@ interface EventListener {
     fun onEventReceive(event: Event)
 }
 
-class DropItemEvent (val itemid: Int, val startDropPos: Point, val owner: Int,
+data class DropItemEvent (val itemid: Int, val startDropPos: Point, val owner: Int,
                val invType: Int, val slotId: Int, val mapId: Int) : Event(EventType.DropItem)
 
-class ItemDroppedEvent (val oid: Int, val id: Int, val start: Point,
+data class ItemDroppedEvent (val oid: Int, val id: Int, val start: Point,
                         val owner: Int, val mapId: Int): Event(EventType.ItemDropped)
 
