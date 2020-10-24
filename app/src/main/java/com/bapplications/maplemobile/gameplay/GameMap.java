@@ -99,8 +99,6 @@ public class GameMap implements EventListener {
     }
 
     public void spawnItemDrop(int oid, int id, Point start, int owner) {
-        Map<Class<? extends Event>, List<EventListener>> listeners = new HashMap<>();
-        listeners.put(DropItemEvent.class, new ArrayList<>());
         DropSpawn spawn = new DropSpawn(oid, id, id == 0, owner, start, Drop.State.DROPPED, true );
         drops.spawn(spawn);
     }
