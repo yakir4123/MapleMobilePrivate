@@ -21,7 +21,6 @@
             android:id="@+id/inventory_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:background="@drawable/headline_window_background"
             android:paddingStart="70dp"
             android:paddingEnd="70dp"
@@ -40,9 +39,11 @@
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@+id/inventory_type_buttons_group"
             app:layout_constraintBottom_toTopOf="@id/gold_iv"
-            app:layout_constraintEnd_toEndOf="@id/inventory_type_buttons_group"
-            app:layout_constraintStart_toStartOf="@id/inventory_type_buttons_group"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginBottom="12dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginStart="2dp"
             android:background="@drawable/sub_window_background"
             />
 
@@ -115,7 +116,25 @@
             tools:visibility="gone"
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.DESC}"
             app:itemId="@{viewModel.slot.item.itemId}"/>
-        
+
+<!--        <androidx.constraintlayout.helper.widget.Flow-->
+<!--            android:id="@+id/req_flow"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:constraint_referenced_ids="item_info_reqlvl_tv, item_info_colon_lvl, item_info_reqlvl,-->
+<!--                    item_info_reqstr_tv, item_info_colon_str, item_info_reqstr,-->
+<!--                    item_info_reqdex_tv, item_info_colon_dex, item_info_reqdex,-->
+<!--                    item_info_reqint_tv, item_info_colon_int, item_info_reqint,-->
+<!--                    item_info_reqluk_tv, item_info_colon_luk, item_info_reqluk,-->
+<!--                    item_info_reqfame_tv, item_info_colon_fame, item_info_reqfame"-->
+<!--            app:layout_constraintTop_toTopOf="@id/item_info_background"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/item_info_background"-->
+<!--            app:layout_constraintEnd_toEndOf="@id/item_info_background"-->
+<!--            android:layout_marginStart="4dp"-->
+<!--            android:layout_marginEnd="4dp"-->
+<!--            android:layout_marginTop="6dp"-->
+<!--            app:flow_wrapMode="chain"/>-->
+
         <TextView
             android:id="@+id/item_info_reqlvl_tv"
             android:layout_width="wrap_content"
@@ -600,6 +619,7 @@
                     item_info_reqdex_tv, item_info_reqfame_tv, item_info_reqint_tv, item_info_reqluk_tv, item_info_reqlvl_tv, item_info_reqstr_tv,
                     item_info_reqdex, item_info_reqfame, item_info_reqint, item_info_reqluk, item_info_reqlvl, item_info_reqstr, item_info_equip_bt"
             android:visibility="@{viewModel.slot.item.equip}"
+            tools:visibility="visible"
             />
 
         <Button
@@ -632,27 +652,26 @@
 
         <RadioGroup
             android:id="@+id/inventory_type_buttons_group"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:checkedButton="@={BindingUtils.inventoryTypeToButtonId(viewModel.selectedInventoryType) }"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
             android:background="@android:color/transparent"
             android:paddingTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/sub_window_background"
+            app:layout_constraintStart_toStartOf="@id/sub_window_background"
             app:layout_constraintTop_toBottomOf="@id/inventory_title">
 
             <RadioButton
                 android:id="@+id/equip_btn"
-                android:layout_width="60dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:background="@drawable/inventory_selector"
                 android:button="@android:color/transparent"
                 android:gravity="center"
-                android:paddingStart="9dp"
                 android:paddingTop="3dp"
-                android:paddingEnd="9dp"
                 android:paddingBottom="1dp"
                 android:text="@string/popup_inventory_equip_btn"
                 android:textColor="@color/tc_window"
@@ -661,14 +680,13 @@
 
             <RadioButton
                 android:id="@+id/use_btn"
-                android:layout_width="60dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:background="@drawable/inventory_selector"
                 android:button="@android:color/transparent"
                 android:gravity="center"
-                android:paddingStart="9dp"
                 android:paddingTop="3dp"
-                android:paddingEnd="9dp"
                 android:paddingBottom="1dp"
                 android:text="@string/popup_inventory_use_btn"
                 android:textColor="@color/tc_window"
@@ -676,14 +694,13 @@
 
             <RadioButton
                 android:id="@+id/setup_btn"
-                android:layout_width="60dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:background="@drawable/inventory_selector"
                 android:button="@android:color/transparent"
                 android:gravity="center"
-                android:paddingStart="9dp"
                 android:paddingTop="3dp"
-                android:paddingEnd="9dp"
                 android:paddingBottom="1dp"
                 android:text="@string/popup_inventory_setup_btn"
                 android:textColor="@color/tc_window"
@@ -691,14 +708,13 @@
 
             <RadioButton
                 android:id="@+id/etc_btn"
-                android:layout_width="60dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:background="@drawable/inventory_selector"
                 android:button="@android:color/transparent"
                 android:gravity="center"
-                android:paddingStart="9dp"
                 android:paddingTop="3dp"
-                android:paddingEnd="9dp"
                 android:paddingBottom="1dp"
                 android:text="@string/popup_inventory_etc_btn"
                 android:textColor="@color/tc_window"
@@ -706,14 +722,13 @@
 
             <RadioButton
                 android:id="@+id/cash_btn"
-                android:layout_width="60dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:background="@drawable/inventory_selector"
                 android:button="@android:color/transparent"
                 android:gravity="center"
-                android:paddingStart="9dp"
                 android:paddingTop="3dp"
-                android:paddingEnd="9dp"
                 android:paddingBottom="1dp"
                 android:text="@string/popup_inventory_cash_btn"
                 android:textColor="@color/tc_window"
@@ -725,6 +740,7 @@
             android:id="@+id/inventory_items_recycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:columnWidth="@dimen/icon_size"
             app:layout_constraintTop_toTopOf="@id/sub_window_background"
             app:layout_constraintEnd_toEndOf="@id/sub_window_background"
             app:layout_constraintStart_toStartOf="@id/sub_window_background"
