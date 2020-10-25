@@ -18,7 +18,7 @@ public class InventoryType {
 
     public void addSlots(int add) {
         for(int i = 0; i < add ; i++){
-            inventory.add(maxSlots + i, new Slot(i));
+            inventory.add(maxSlots + i, new Slot(type, i));
         }
         this.maxSlots += add;
     }
@@ -61,11 +61,8 @@ public class InventoryType {
 
     public Slot popItem(int slot) {
         Slot res = inventory.get(slot);
-        inventory.set(slot, new Slot(res.slotid));
+        inventory.set(slot, new Slot(type, res.slotid));
         return res;
-    }
-
-    public void removeItem(Slot to) {
     }
 
     public enum Id {

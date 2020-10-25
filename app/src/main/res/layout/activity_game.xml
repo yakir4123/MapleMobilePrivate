@@ -3,13 +3,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.bapplications.maplemobile.views.GameActivity">
+    tools:context="com.bapplications.maplemobile.ui.GameActivity">
 
     <data>
         <import type="com.bapplications.maplemobile.gameplay.player.PlayerStats"/>
         <variable
             name="viewModel"
-            type="com.bapplications.maplemobile.views.view_models.GameActivityViewModel"/>
+            type="com.bapplications.maplemobile.ui.view_models.GameActivityViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,7 +20,7 @@
 
         <fragment
             android:id="@+id/game_fragment_container"
-            class="com.bapplications.maplemobile.views.GameFragment"
+            class="com.bapplications.maplemobile.ui.GameFragment"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -110,7 +110,7 @@
                 android:layout_marginTop="5dp"
                 app:colorBar="@{@color/mp_bar_color}"
                 app:layout_constraintEnd_toStartOf="@id/tools_btn"
-                app:layout_constraintStart_toEndOf="@+id/hp_progress_layout"
+                app:layout_constraintStart_toEndOf="@id/hp_progress_layout"
                 app:layout_constraintTop_toTopOf="parent"
                 app:maxProgress="@{viewModel.max_mp}"
                 app:progress="@{viewModel.mp}"
@@ -123,7 +123,7 @@
                 android:layout_height="wrap_content"
                 app:colorBar="@{@color/exp_bar_color}"
                 app:layout_constraintEnd_toEndOf="@id/mp_progress_layout"
-                app:layout_constraintStart_toStartOf="@+id/hp_progress_layout"
+                app:layout_constraintStart_toStartOf="@id/hp_progress_layout"
                 app:layout_constraintBottom_toBottomOf="@id/tools_btn"
                 app:maxProgress="@{viewModel.max_exp}"
                 app:progress="@{viewModel.exp}"
@@ -170,7 +170,7 @@
                 app:pressedTranslationZ="0dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginTop="2dp"
-                app:layout_constraintTop_toBottomOf="@+id/ui_toolbar"
+                app:layout_constraintTop_toBottomOf="@id/ui_toolbar"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -187,7 +187,7 @@
                 app:pressedTranslationZ="0dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginTop="2dp"
-                app:layout_constraintTop_toBottomOf="@+id/inventory_btn"
+                app:layout_constraintTop_toBottomOf="@id/inventory_btn"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -204,7 +204,7 @@
                 app:pressedTranslationZ="0dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginTop="2dp"
-                app:layout_constraintTop_toBottomOf="@+id/equiped_btn"
+                app:layout_constraintTop_toBottomOf="@id/equiped_btn"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -221,7 +221,7 @@
                 app:pressedTranslationZ="0dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginTop="2dp"
-                app:layout_constraintTop_toBottomOf="@+id/skills_btn"
+                app:layout_constraintTop_toBottomOf="@id/skills_btn"
                 app:layout_constraintEnd_toEndOf="parent" />
 
 
@@ -232,7 +232,7 @@
                 android:visibility="gone"
                 tools:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@id/ui_toolbar"
-                app:layout_constraintBottom_toBottomOf="@id/left_arrow_key"
+                app:layout_constraintBottom_toBottomOf="@id/ctrl_left_arrow"
                 app:layout_constraintEnd_toEndOf="@id/mp_progress_layout"
                 app:layout_constraintStart_toStartOf="@id/mp_progress_layout"
                 android:layout_marginTop="2dp"
@@ -254,7 +254,7 @@
                 app:layout_constraintTop_toBottomOf="@id/name_tv" />
 
             <ImageView
-                android:id="@+id/left_arrow_key"
+                android:id="@+id/ctrl_left_arrow"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="30dp"
@@ -266,74 +266,74 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:background="@drawable/arrow_key"
-                app:layout_constraintTop_toTopOf="@id/left_arrow_key"
-                app:layout_constraintEnd_toEndOf="@id/left_arrow_key"
-                app:layout_constraintStart_toStartOf="@id/left_arrow_key"
-                app:layout_constraintBottom_toBottomOf="@id/left_arrow_key"
+                app:layout_constraintTop_toTopOf="@id/ctrl_left_arrow"
+                app:layout_constraintEnd_toEndOf="@id/ctrl_left_arrow"
+                app:layout_constraintStart_toStartOf="@id/ctrl_left_arrow"
+                app:layout_constraintBottom_toBottomOf="@id/ctrl_left_arrow"
                 android:rotation="270"
                 android:layout_marginEnd="30dp"/>
 
             <ImageView
-                android:id="@+id/down_arrow_key"
+                android:id="@+id/ctrl_down_arrow"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="10dp"
                 android:src="@drawable/window_background"
-                app:layout_constraintBottom_toBottomOf="@id/left_arrow_key"
-                app:layout_constraintStart_toEndOf="@id/left_arrow_key" />
+                app:layout_constraintBottom_toBottomOf="@id/ctrl_left_arrow"
+                app:layout_constraintStart_toEndOf="@id/ctrl_left_arrow" />
             <ImageView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:background="@drawable/arrow_key"
-                app:layout_constraintTop_toTopOf="@id/down_arrow_key"
-                app:layout_constraintEnd_toEndOf="@id/down_arrow_key"
-                app:layout_constraintStart_toStartOf="@id/down_arrow_key"
-                app:layout_constraintBottom_toBottomOf="@id/down_arrow_key"
+                app:layout_constraintTop_toTopOf="@id/ctrl_down_arrow"
+                app:layout_constraintEnd_toEndOf="@id/ctrl_down_arrow"
+                app:layout_constraintStart_toStartOf="@id/ctrl_down_arrow"
+                app:layout_constraintBottom_toBottomOf="@id/ctrl_down_arrow"
                 android:rotation="180"
                 android:layout_marginTop="30dp"/>
 
             <ImageView
-                android:id="@+id/up_arrow_key"
+                android:id="@+id/ctrl_up_arrow"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="16dp"
                 android:src="@drawable/window_background"
-                app:layout_constraintBottom_toTopOf="@id/down_arrow_key"
-                app:layout_constraintStart_toEndOf="@id/left_arrow_key" />
+                app:layout_constraintBottom_toTopOf="@id/ctrl_down_arrow"
+                app:layout_constraintStart_toEndOf="@id/ctrl_left_arrow" />
             <ImageView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:background="@drawable/arrow_key"
-                app:layout_constraintTop_toTopOf="@id/up_arrow_key"
-                app:layout_constraintEnd_toEndOf="@id/up_arrow_key"
-                app:layout_constraintStart_toStartOf="@id/up_arrow_key"
-                app:layout_constraintBottom_toBottomOf="@id/up_arrow_key"
+                app:layout_constraintTop_toTopOf="@id/ctrl_up_arrow"
+                app:layout_constraintEnd_toEndOf="@id/ctrl_up_arrow"
+                app:layout_constraintStart_toStartOf="@id/ctrl_up_arrow"
+                app:layout_constraintBottom_toBottomOf="@id/ctrl_up_arrow"
                 android:layout_marginBottom="30dp"/>
 
 
             <ImageView
-                android:id="@+id/right_arrow_key"
+                android:id="@+id/ctrl_right_arrow"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="10dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/window_background"
-                app:layout_constraintBottom_toBottomOf="@id/left_arrow_key"
-                app:layout_constraintStart_toEndOf="@id/down_arrow_key" />
+                app:layout_constraintBottom_toBottomOf="@id/ctrl_left_arrow"
+                app:layout_constraintStart_toEndOf="@id/ctrl_down_arrow" />
             <ImageView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:background="@drawable/arrow_key"
-                app:layout_constraintTop_toTopOf="@id/right_arrow_key"
-                app:layout_constraintEnd_toEndOf="@id/right_arrow_key"
-                app:layout_constraintStart_toStartOf="@id/right_arrow_key"
-                app:layout_constraintBottom_toBottomOf="@id/right_arrow_key"
+                app:layout_constraintTop_toTopOf="@id/ctrl_right_arrow"
+                app:layout_constraintEnd_toEndOf="@id/ctrl_right_arrow"
+                app:layout_constraintStart_toStartOf="@id/ctrl_right_arrow"
+                app:layout_constraintBottom_toBottomOf="@id/ctrl_right_arrow"
                 android:rotation="90"
                 android:layout_marginStart="30dp"/>
 
             <ImageView
-                android:id="@+id/jump_key"
+                android:id="@+id/ctrl_jump"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginEnd="30dp"
@@ -353,8 +353,8 @@
                 android:rowCount="3"
                 android:visibility="gone"
                 android:translationY="@dimen/pops_up_or_right_translation"
-                app:layout_constraintBottom_toTopOf="@+id/up_arrow_key"
-                app:layout_constraintStart_toStartOf="@+id/expressions_btns" />
+                app:layout_constraintBottom_toTopOf="@id/ctrl_up_arrow"
+                app:layout_constraintStart_toStartOf="@id/expressions_btns" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/expressions_btns"
@@ -368,7 +368,7 @@
                 app:pressedTranslationZ="0dp"
                 android:layout_marginStart="40dp"
                 android:layout_marginBottom="25dp"
-                app:layout_constraintBottom_toTopOf="@+id/left_arrow_key"
+                app:layout_constraintBottom_toTopOf="@id/ctrl_left_arrow"
                 app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -408,7 +408,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/progress_bar"
+                app:layout_constraintTop_toBottomOf="@id/progress_bar"
                 app:layout_constraintVertical_bias="0.058" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

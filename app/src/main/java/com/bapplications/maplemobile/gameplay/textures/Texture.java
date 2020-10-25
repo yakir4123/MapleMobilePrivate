@@ -6,16 +6,13 @@ import android.opengl.GLUtils;
 import android.graphics.Bitmap;
 
 import com.bapplications.maplemobile.opengl.GLState;
-import com.bapplications.maplemobile.opengl.utils.DrawArgument;
-import com.bapplications.maplemobile.opengl.utils.Point;
+import com.bapplications.maplemobile.utils.DrawArgument;
+import com.bapplications.maplemobile.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXBitmapNode;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class Texture {
 
@@ -29,7 +26,6 @@ public class Texture {
     protected float[] half_dimensions_glratio;
     protected int textureDataHandle;
     protected float _rotationZ = 0.0f;
-    protected NXBitmapNode bitmapNode;
 
     private static Map<Integer, Integer> bitmapToTextureMap = new HashMap<>();
     private Bitmap bmap;
@@ -42,7 +38,17 @@ public class Texture {
 
     public Texture(NXNode src, boolean initGL) {
         initTexture(src, initGL);
-//        loadGLTexture();
+    }
+
+    public Texture(Bitmap bitmap) {
+        bmap = bitmap;
+        setZ("0");
+        this.origin = new Point();
+        dimensions = new Point(bmap.getWidth(), bmap.getHeight());
+        half_dimensions_glratio = dimensions.scalarMul(0.5f).toGLRatio();
+        origin = pointToAndroid(origin);
+        setPos(new Point());
+        loadGLTexture();
     }
 
     public void initTexture(NXNode src){
@@ -53,9 +59,12 @@ public class Texture {
         if (!(src instanceof NXBitmapNode)) {
             throw new IllegalArgumentException("NXNode must be NXBitmapNode in Texture instance");
         }
-        bitmapNode = (NXBitmapNode) src;
+        bmap = ((NXBitmapNode) src).get();
+        setZ(src.getChild("z").get("0"));
+        if (getZ().equals("0")) {
+            setZ(src.getChild("zM").get("0"));
+        }
 
-        bmap = bitmapNode.get();
         this.origin = new Point(src.getChild("origin"));
         dimensions = new Point(bmap.getWidth(), bmap.getHeight());
         half_dimensions_glratio = dimensions.scalarMul(0.5f).toGLRatio();
@@ -91,7 +100,7 @@ public class Texture {
         GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, bmap, 0);
 
         bitmapToTextureMap.put(bmap.hashCode(), textureHandle[0]);
-//        bmap.recycle();
+        bmap.recycle();
         return textureHandle[0];
     }
 
@@ -113,6 +122,7 @@ public class Texture {
             return;
         }
         float[] scratchMatrix = new float[16];
+
         System.arraycopy(GLState._MVPMatrix, 0, scratchMatrix, 0, 16);
 
         // Add program to OpenGL environment
@@ -131,13 +141,14 @@ public class Texture {
         GLES20.glEnableVertexAttribArray(GLState.textureCoordinateHandle);
         GLES20.glVertexAttribPointer(GLState.textureCoordinateHandle, 2, GLES20.GL_FLOAT, false, 0, GLState._textureBuffer);
 
+        float angle = _rotationZ + args.getAngle();
+//        angle = angle != 0 ? 45: 0;
         // translate the sprite to it's current position
         Matrix.translateM(scratchMatrix, 0, curPos[0] , curPos[1], 1);
-
         // rotate the sprite
-        Matrix.rotateM(scratchMatrix, 0, _rotationZ, 0, 0, 1.0f);
+        Matrix.rotateM(scratchMatrix, 0, angle, 0, 0, 1 );
         // scale the sprite
-        Matrix.scaleM(scratchMatrix, 0, dimensions.x * flip, dimensions.y , 1);
+        Matrix.scaleM(scratchMatrix, 0, dimensions.x * flip, dimensions.y, 1);
 
         // Apply the projection and view transformation
         GLES20.glUniformMatrix4fv(GLState.mvpMatrixHandle, 1, false, scratchMatrix, 0);
@@ -174,6 +185,10 @@ public class Texture {
             this.pos = pos.plus(origin);
         else
             this.pos = pos;
+    }
+
+    public Point calculateDrawingPos(Point pos)  {
+        return pos.flipY();//.plus(origin);
     }
 
     public Point getDimenstion() {

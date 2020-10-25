@@ -1,0 +1,77 @@
+package com.bapplications.maplemobile.gameplay.map.map_objects
+
+import com.bapplications.maplemobile.gameplay.map.Layer
+import com.bapplications.maplemobile.gameplay.physics.Physics
+import com.bapplications.maplemobile.gameplay.physics.PhysicsObject
+import com.bapplications.maplemobile.gameplay.player.inventory.ItemData
+import com.bapplications.maplemobile.gameplay.textures.Texture
+import com.bapplications.maplemobile.utils.Point
+
+import java.util.*
+
+class MapDrops {
+    var lootEnabled: Boolean = false
+    val drops: MapObjects<Drop> = MapObjects()
+    val spawns: Queue<DropSpawn> = LinkedList()
+
+    fun draw(layer: Layer, view: Point, alpha: Float)
+    {
+        drops.draw(layer, view, alpha);
+    }
+
+    fun update(physics: Physics, deltaTime: Int)
+    {
+        while(!spawns.isEmpty())
+        {
+            val spawn = spawns.poll();
+
+            val oid = spawn?.oid;
+            val drop = drops.get(oid)
+            if (drop != null)
+            {
+                drop.makeActive();
+            }
+            else
+            {
+                val itemid = spawn.itemId
+                val meso = spawn.isMeso()
+
+                if (meso)
+                {
+                    // todo spawn meso
+                }
+                else
+                {
+                    val itemdata: ItemData? = ItemData.get(itemid)
+                    val icon = Texture(itemdata?.icon(true))
+                    // icon is actually the "DropModel"
+                    // so it is not necessary to create new class for it
+                    icon.pos = Point(-16f, -24f)
+                    drops.add(spawn.instantiate(icon));
+                }
+            }
+        }
+
+        drops.update(physics, deltaTime);
+
+        lootEnabled = true
+    }
+
+    fun spawn(spawn: DropSpawn)
+    {
+        spawns.add(spawn)
+    }
+
+    fun remove(oid: Int, state: Drop.State, looter: PhysicsObject)
+    {
+        val drop: Drop? = drops.get(oid) as Drop
+        drop?.expire(state, looter);
+    }
+
+    fun clear()
+    {
+        drops.clear();
+    }
+
+
+}

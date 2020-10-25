@@ -1,8 +1,8 @@
 package com.bapplications.maplemobile.gameplay.map;
 
-import com.bapplications.maplemobile.opengl.utils.Range;
+import com.bapplications.maplemobile.utils.Range;
 
-import com.bapplications.maplemobile.opengl.utils.Point;
+import com.bapplications.maplemobile.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode;
 

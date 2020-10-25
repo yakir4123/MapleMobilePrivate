@@ -1,10 +1,10 @@
 package com.bapplications.maplemobile.gameplay.player.state;
 
+import com.bapplications.maplemobile.input.InputAction;
 import com.bapplications.maplemobile.gameplay.map.Ladder;
 import com.bapplications.maplemobile.gameplay.physics.PhysicsObject;
-import com.bapplications.maplemobile.gameplay.player.Char;
+import com.bapplications.maplemobile.gameplay.player.look.Char;
 import com.bapplications.maplemobile.gameplay.player.Player;
-import com.bapplications.maplemobile.views.KeyAction;
 
 public class PlayerClimbState implements PlayerState{
     @Override
@@ -14,15 +14,15 @@ public class PlayerClimbState implements PlayerState{
 
     @Override
     public void update(Player player) {
-        if (player.isPressed(KeyAction.UP_ARROW_KEY) && !player.isPressed(KeyAction.DOWN_ARROW_KEY))
+        if (player.isPressed(InputAction.UP_ARROW_KEY) && !player.isPressed(InputAction.DOWN_ARROW_KEY))
         {
             player.getPhobj().vspeed = -player.getClimbForce();
         }
-		else if (player.isPressed(KeyAction.DOWN_ARROW_KEY) && !player.isPressed(KeyAction.UP_ARROW_KEY))
+        else if (player.isPressed(InputAction.DOWN_ARROW_KEY) && !player.isPressed(InputAction.UP_ARROW_KEY))
         {
             player.getPhobj().vspeed = player.getClimbForce();
         }
-		else
+        else
         {
             player.getPhobj().vspeed = 0.0f;
         }
@@ -32,7 +32,7 @@ public class PlayerClimbState implements PlayerState{
     @Override
     public void updateState(Player player) {
         short y = (short) player.getPhobj().getPosition().y;
-        boolean downwards = player.isPressed(KeyAction.DOWN_ARROW_KEY);
+        boolean downwards = player.isPressed(InputAction.DOWN_ARROW_KEY);
         Ladder ladder = player.getLadder();
 
         if (ladder != null && ladder.fellOff(y, downwards))
@@ -41,25 +41,26 @@ public class PlayerClimbState implements PlayerState{
     }
 
     @Override
-    public void sendAction(Player player, KeyAction key) {
+    public boolean sendAction(Player player, InputAction key) {
 
         if (player.isAttacking())
-            return;
+            return false;
 
-        if (key == KeyAction.JUMP_KEY && player.hasWalkInput())
+        if (key == InputAction.JUMP_KEY && player.hasWalkInput())
         {
             player.playJumpSound();
 
             float walkforce = player.getWalkForce() * 8.0f;
 
-            player.setDirection(player.isPressed(KeyAction.LEFT_ARROW_KEY));
+            player.setLookLeft(player.isPressed(InputAction.LEFT_ARROW_KEY));
 
-            player.getPhobj().hspeed = player.isPressed(KeyAction.LEFT_ARROW_KEY) ? -walkforce : walkforce;
+            player.getPhobj().hspeed = player.isPressed(InputAction.LEFT_ARROW_KEY) ? -walkforce : walkforce;
             player.getPhobj().vspeed = -player.getJumpForce() / 1.5f;
 
             cancelLadder(player);
-
+            return true;
         }
+        return false;
     }
 
 

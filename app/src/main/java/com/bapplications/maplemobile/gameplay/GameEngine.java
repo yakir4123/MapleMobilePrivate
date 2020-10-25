@@ -1,21 +1,24 @@
 package com.bapplications.maplemobile.gameplay;
 
-import com.bapplications.maplemobile.views.KeyAction;
 import com.bapplications.maplemobile.gameplay.player.Player;
 import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.gameplay.player.CharEntry;
-import com.bapplications.maplemobile.gameplay.player.EquipSlot;
-import com.bapplications.maplemobile.views.GameActivityUIManager;
-import com.bapplications.maplemobile.views.interfaces.UIKeyListener;
+import com.bapplications.maplemobile.input.EventsQueue;
+import com.bapplications.maplemobile.input.network.NetworkHandler;
+import com.bapplications.maplemobile.ui.GameActivityUIManager;
+import com.bapplications.maplemobile.ui.GameViewController;
 
 import java.util.Map;
 import java.util.HashMap;
 
-public class GameEngine implements UIKeyListener {
+import kotlin.jvm.functions.Function1;
+
+public class GameEngine {
 
     private Player player;
     private GameMap currMap;
     private static GameEngine instance;
+    private NetworkHandler networkHandler;
     private Map<Integer, GameMap> nextMaps;
     private GameActivityUIManager controllers;
 
@@ -27,6 +30,7 @@ public class GameEngine implements UIKeyListener {
 
     private GameEngine() {
         currMap = new GameMap(new Camera());
+        networkHandler = new NetworkHandler(Configuration.HOST, Configuration.PORT);
         nextMaps = new HashMap<>();
     }
 
@@ -38,6 +42,16 @@ public class GameEngine implements UIKeyListener {
 
 
     public void update(int deltatime) {
+
+        // handle clicked buttons
+        Map<GameViewController, Function1<Player, Boolean>> clickedButtons =
+                controllers.getInputHandler().handleClick();
+        Map<GameViewController, Function1<Player, Boolean>> releasedButtons =
+                controllers.getInputHandler().handleReleased();
+        clickedButtons.values().forEach(f -> f.invoke(getPlayer()));
+        releasedButtons.values().forEach(f -> f.invoke(getPlayer()));
+
+        EventsQueue.Companion.getInstance().dequeueAll();
         currMap.update(deltatime);
     }
     public void drawFrame ()
@@ -51,18 +65,11 @@ public class GameEngine implements UIKeyListener {
 
     public void setControllers(GameActivityUIManager controllers) {
         this.controllers = controllers;
-        this.controllers.registerListener(this);
-    }
-
-    @Override
-    public void onAction(KeyAction key) {
-        player.sendAction(key);
     }
 
     public GameMap getCurrMap() {
         return currMap;
     }
-
 
     public void changeMap() {
         changeMap(currMap.getMapId(), "sp");

@@ -4,8 +4,12 @@ public class Slot {
     int slotid;
     Item item;
     short count;
+    InventoryType.Id invType;
 
-    public Slot(int slotid) { this.slotid = slotid;}
+    public Slot(InventoryType.Id invType, int slotid) {
+        this.slotid = slotid;
+        this.invType = invType;
+    }
 
     public int getItemId() {
         if(item == null)
@@ -25,5 +29,13 @@ public class Slot {
 
     public int getSlotId() {
         return slotid;
+    }
+
+    public boolean isEmpty() {
+        return count == 0;
+    }
+
+    public InventoryType.Id getInventoryType() {
+        return invType;
     }
 }

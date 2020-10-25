@@ -2,7 +2,7 @@ package com.bapplications.maplemobile.gameplay.map;
 
 import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.gameplay.physics.PhysicsObject;
-import com.bapplications.maplemobile.opengl.utils.Point;
+import com.bapplications.maplemobile.utils.Point;
 
 public class MapObject {
 
@@ -14,6 +14,7 @@ public class MapObject {
     protected MapObject(int id){
         this(id, new Point());
     }
+
     protected MapObject(int id, Point pos)
     {
         oid = id;
@@ -40,22 +41,22 @@ public class MapObject {
         setPosition(position.x, position.y);
     }
 
-    protected void makeActive()
+    public void makeActive()
     {
         active = true;
     }
 
-    protected void deActivate()
+    public void deActivate()
     {
         active = false;
     }
 
-    byte getLayer()
+    public Layer getLayer()
     {
-        return phobj.fhlayer;
+        return Layer.byValue(phobj.fhlayer);
     }
 
-    int getOid()
+    public int getOid()
     {
         return oid;
     }

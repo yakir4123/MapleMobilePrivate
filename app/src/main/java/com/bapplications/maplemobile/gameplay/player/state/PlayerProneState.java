@@ -1,9 +1,9 @@
 package com.bapplications.maplemobile.gameplay.player.state;
 
+import com.bapplications.maplemobile.input.InputAction;
 import com.bapplications.maplemobile.gameplay.physics.PhysicsObject;
-import com.bapplications.maplemobile.gameplay.player.Char;
+import com.bapplications.maplemobile.gameplay.player.look.Char;
 import com.bapplications.maplemobile.gameplay.player.Player;
-import com.bapplications.maplemobile.views.KeyAction;
 
 public class PlayerProneState implements PlayerState {
     @Override
@@ -17,18 +17,18 @@ public class PlayerProneState implements PlayerState {
         if (!player.getPhobj().enablejd)
             player.getPhobj().setFlag(PhysicsObject.Flag.CHECKBELOW);
 
-        if (player.isPressed(KeyAction.UP_ARROW_KEY) || !player.isPressed(KeyAction.DOWN_ARROW_KEY))
-        player.setState(Char.State.STAND);
+        if (player.isPressed(InputAction.UP_ARROW_KEY) || !player.isPressed(InputAction.DOWN_ARROW_KEY))
+            player.setState(Char.State.STAND);
 
-        if (player.isPressed(KeyAction.LEFT_ARROW_KEY))
+        if (player.isPressed(InputAction.LEFT_ARROW_KEY))
         {
-            player.setDirection(true);
+            player.setLookLeft(true);
             player.setState(Char.State.WALK);
         }
 
-        if (player.isPressed(KeyAction.RIGHT_ARROW_KEY))
+        if (player.isPressed(InputAction.RIGHT_ARROW_KEY))
         {
-            player.setDirection(false);
+            player.setLookLeft(false);
             player.setState(Char.State.WALK);
         }
     }
@@ -39,17 +39,19 @@ public class PlayerProneState implements PlayerState {
     }
 
     @Override
-    public void sendAction(Player player, KeyAction key) {
+    public boolean sendAction(Player player, InputAction key) {
 
-        if (key == KeyAction.JUMP_KEY
-                && player.isPressed(KeyAction.DOWN_ARROW_KEY)
+        if (key == InputAction.JUMP_KEY
+                && player.isPressed(InputAction.DOWN_ARROW_KEY)
                 && player.getPhobj().enablejd) {
 
             player.playJumpSound();
 
             player.getPhobj().y.set(player.getPhobj().groundbelow);
             player.setState(Char.State.FALL);
+            return true;
         }
+        return false;
 
     }
 }

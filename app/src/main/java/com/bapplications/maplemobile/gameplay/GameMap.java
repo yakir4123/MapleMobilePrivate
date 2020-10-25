@@ -2,26 +2,43 @@ package com.bapplications.maplemobile.gameplay;
 
 import android.util.Log;
 
-import com.bapplications.maplemobile.StaticUtils;
+import com.bapplications.maplemobile.input.EventsQueue;
+import com.bapplications.maplemobile.input.events.DropItemEvent;
+import com.bapplications.maplemobile.input.events.Event;
+import com.bapplications.maplemobile.input.events.EventListener;
+import com.bapplications.maplemobile.input.events.EventType;
+import com.bapplications.maplemobile.input.events.ItemDroppedEvent;
+import com.bapplications.maplemobile.utils.StaticUtils;
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.gameplay.audio.Sound;
+import com.bapplications.maplemobile.gameplay.map.map_objects.Drop;
+import com.bapplications.maplemobile.gameplay.map.map_objects.DropSpawn;
 import com.bapplications.maplemobile.gameplay.map.Layer;
-import com.bapplications.maplemobile.gameplay.map.MapBackgrounds;
+import com.bapplications.maplemobile.gameplay.map.map_objects.MapBackgrounds;
+import com.bapplications.maplemobile.gameplay.map.map_objects.MapDrops;
 import com.bapplications.maplemobile.gameplay.map.MapInfo;
-import com.bapplications.maplemobile.gameplay.map.MapMobs;
-import com.bapplications.maplemobile.gameplay.map.MapPortals;
-import com.bapplications.maplemobile.gameplay.map.MapTilesObjs;
+import com.bapplications.maplemobile.gameplay.map.map_objects.MapMobs;
+import com.bapplications.maplemobile.gameplay.map.map_objects.MapPortals;
+import com.bapplications.maplemobile.gameplay.map.map_objects.MapTilesObjs;
 import com.bapplications.maplemobile.gameplay.audio.Music;
 import com.bapplications.maplemobile.gameplay.map.Portal;
-import com.bapplications.maplemobile.gameplay.mobs.Attack;
-import com.bapplications.maplemobile.gameplay.mobs.MobSpawn;
+import com.bapplications.maplemobile.gameplay.map.map_objects.mobs.Attack;
+import com.bapplications.maplemobile.gameplay.map.map_objects.mobs.MobSpawn;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.gameplay.player.Player;
-import com.bapplications.maplemobile.opengl.utils.Point;
+import com.bapplications.maplemobile.gameplay.player.inventory.Item;
+import com.bapplications.maplemobile.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
-import com.bapplications.maplemobile.views.KeyAction;
+import com.bapplications.maplemobile.input.InputAction;
 
-public class GameMap{
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class GameMap implements EventListener {
 
 
     private int mapid;
@@ -29,6 +46,7 @@ public class GameMap{
     private MapMobs mobs;
     private Player player;
     private Camera camera;
+    private MapDrops drops;
     private MapInfo mapInfo;
     private Physics physics;
     private MapPortals portals;
@@ -46,12 +64,24 @@ public class GameMap{
     {
         state = State.INACTIVE;
         this.camera = camera;
+        EventsQueue.Companion.getInstance().registerListener(EventType.ItemDropped, this);
     }
 
     public void init(int mapid){
         // drops.init();
         state = State.ACTIVE;
         loadMap(mapid);
+    }
+
+    @Override
+    public void onEventReceive(@NotNull Event event) {
+        switch (event.getType()) {
+            case ItemDropped:
+                ItemDroppedEvent _event = (ItemDroppedEvent) event;
+                if(mapid == _event.getMapId()) {
+                    spawnItemDrop(_event.getOid(), _event.getId(), _event.getStart(), _event.getOwner());
+                }
+        }
     }
 
     public void spawnMobs(NXNode src) {
@@ -68,6 +98,10 @@ public class GameMap{
         }
     }
 
+    public void spawnItemDrop(int oid, int id, Point start, int owner) {
+        DropSpawn spawn = new DropSpawn(oid, id, id == 0, owner, start, Drop.State.DROPPED, true );
+        drops.spawn(spawn);
+    }
 
     void loadMap(int mapid)
     {
@@ -81,6 +115,7 @@ public class GameMap{
         if (src != null && !src.isNotExist()) {
             try {
                 mobs = new MapMobs();
+                drops = new MapDrops();
                 tilesobjs = new MapTilesObjs(src);
                 physics = new Physics(src.getChild("foothold"));
                 backgrounds = new MapBackgrounds(src.getChild("back"));
@@ -123,30 +158,30 @@ public class GameMap{
 ////        npcs.update(physics);
         mobs.update(physics, deltatime);
 //        chars.update(physics);
-////        drops.update(physics);
+        drops.update(physics, deltatime);
         player.update(physics, deltatime);
         portals.update(player.getPosition(), deltatime);
         camera.update(player.getPosition());
 
         if (!player.isClimbing()/* && !player.is_sitting()*/ && !player.isAttacking())
         {
-            if (player.isPressed(KeyAction.UP_ARROW_KEY) && !player.isPressed(KeyAction.DOWN_ARROW_KEY))
+            if (player.isPressed(InputAction.UP_ARROW_KEY) && !player.isPressed(InputAction.DOWN_ARROW_KEY))
                 checkLadders(true);
 
-            if (player.isPressed(KeyAction.DOWN_ARROW_KEY))
+            if (player.isPressed(InputAction.DOWN_ARROW_KEY))
                 checkLadders(false);
 
-            if (player.isPressed(KeyAction.UP_ARROW_KEY))
+            if (player.isPressed(InputAction.UP_ARROW_KEY))
                 checkPortals();
 
 
-//            if (player.isPressed(KeyAction.SIT))
+//            if (player.isPressed(InputAction.SIT))
 //            check_seats();
 
-//            if (player.isPressed(KeyAction.ATTACK))
+//            if (player.isPressed(InputAction.ATTACK))
 //            combat.use_move(0);
 //
-//            if (player.isPressed(KeyAction.PICKUP))
+//            if (player.isPressed(InputAction.PICKUP))
 //            check_drops();
         }
 
@@ -209,7 +244,7 @@ public class GameMap{
             mobs.draw(id, viewpos, alpha);
 //            chars.draw(id, viewx, viewy, alpha);
             player.draw(id, viewpos, alpha);
-//            drops.draw(id, viewx, viewy, alpha);
+            drops.draw(id, viewpos, alpha);
         }
 //
 //        combat.draw(viewx, viewy, alpha);
@@ -257,6 +292,7 @@ public class GameMap{
 
     public void enterMap(Player player, Portal portal) {
         this.player = player;
+        player.setMap(this);
         state = State.ACTIVE;
         respawn(portal.getSpawnPosition());
         notifyNewMaps();

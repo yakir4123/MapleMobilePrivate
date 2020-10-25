@@ -2,8 +2,8 @@ package com.bapplications.maplemobile.gameplay.textures;
 
 import android.util.Pair;
 
-import com.bapplications.maplemobile.opengl.utils.Point;
-import com.bapplications.maplemobile.opengl.utils.Rectangle;
+import com.bapplications.maplemobile.utils.Point;
+import com.bapplications.maplemobile.utils.Rectangle;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 
 public class Frame extends Texture {

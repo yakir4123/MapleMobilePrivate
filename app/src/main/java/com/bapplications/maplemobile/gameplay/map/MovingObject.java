@@ -1,7 +1,7 @@
 package com.bapplications.maplemobile.gameplay.map;
 
-import com.bapplications.maplemobile.opengl.utils.Linear;
-import com.bapplications.maplemobile.opengl.utils.Point;
+import com.bapplications.maplemobile.utils.Linear;
+import com.bapplications.maplemobile.utils.Point;
 
 public class MovingObject {
 
