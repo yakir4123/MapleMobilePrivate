@@ -114,9 +114,8 @@ public class Mob extends MapObject implements ColliderComponent {
         {
             float interopc = opacity.get(alpha);
 
-            DrawArgument dargs= new DrawArgument(absp, lookLeft && !mobModel.getNoflip(), interopc);
+            DrawArgument dargs = new DrawArgument(absp, lookLeft && !mobModel.getNoflip(), interopc);
             animations.get(stance).draw(dargs, alpha);
-//            mobModel.draw(stance, dargs, alpha);
             if (Configuration.SHOW_MOBS_RECT) {
                 getCollider().draw(view);
 

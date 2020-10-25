@@ -6,6 +6,7 @@ import com.bapplications.maplemobile.gameplay.physics.PhysicsObject
 import com.bapplications.maplemobile.gameplay.player.inventory.ItemData
 import com.bapplications.maplemobile.gameplay.textures.Texture
 import com.bapplications.maplemobile.utils.Point
+
 import java.util.*
 
 class MapDrops {
@@ -43,6 +44,8 @@ class MapDrops {
                 {
                     val itemdata: ItemData? = ItemData.get(itemid)
                     val icon = Texture(itemdata?.icon(true))
+                    // icon is actually the "DropModel"
+                    // so it is not necessary to create new class for it
                     icon.pos = Point(-16f, -24f)
                     drops.add(spawn.instantiate(icon));
                 }
