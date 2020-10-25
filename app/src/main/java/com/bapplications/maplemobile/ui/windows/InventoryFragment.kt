@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
 import com.bapplications.maplemobile.R
-import com.bapplications.maplemobile.utils.StaticUtils
 import com.bapplications.maplemobile.databinding.FragmentInventoryBinding
 import com.bapplications.maplemobile.gameplay.player.Player
 import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType
@@ -35,14 +33,12 @@ class InventoryFragment(private var player: Player) : Fragment() {
         viewModel.itemInventory.postValue(player.inventory.getInventory(viewModel.selectedInventoryType.value).items)
         viewModel.itemInventory.addSource(viewModel.selectedInventoryType) { value -> viewModel.itemInventory.postValue(player.inventory.getInventory(value).items) }
 
-        val manager = GridLayoutManager(context, 6)
-        binding.inventoryItemsRecycler.layoutManager = manager
         val adapter = InventoryAdapter()
         binding.inventoryItemsRecycler.adapter = adapter
 
         // set data
-        val spacing = StaticUtils.convertDpToPixel(8f, context).toInt()
-        binding.inventoryItemsRecycler.addItemDecoration(EqualSpacingItemDecoration(spacing, EqualSpacingItemDecoration.GRID))
+//        val spacing: Int = (context?.resources?.getDimension(R.dimen.recycler_equal_spacing) ?: 0).toInt()
+//        binding.inventoryItemsRecycler.addItemDecoration(EqualSpacingItemDecoration(spacing, EqualSpacingItemDecoration.GRID))
         viewModel.itemInventory.observe(viewLifecycleOwner, {
             loading_tv.visibility = View.GONE
             adapter.data = it
