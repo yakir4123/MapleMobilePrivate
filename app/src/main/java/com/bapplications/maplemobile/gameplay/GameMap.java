@@ -103,13 +103,6 @@ public class GameMap implements EventListener {
         drops.spawn(spawn);
     }
 
-    public void spawnItemDrop(Item item) {
-        int oid = item.getItemId(); // todo: needs a way to calculate that
-        DropSpawn spawn = new DropSpawn(oid, item.getItemId(), false,
-                0, player.getPosition(), Drop.State.DROPPED, true );
-        drops.spawn(spawn);
-    }
-
     void loadMap(int mapid)
     {
         this.mapid = mapid;
