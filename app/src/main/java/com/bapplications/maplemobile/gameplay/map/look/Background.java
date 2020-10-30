@@ -42,7 +42,7 @@ public class Background extends Animation {
         WOFFSET = VWIDTH / 2;
         HOFFSET = VHEIGHT / 2;
 
-        setAnimated(src.getChild("ani").get(0L) > 0);
+//        setAnimated(src.getChild("ani").get(0L) > 0);
         this.opacity = src.getChild("a").get(0L);
         setLookLeft(src.getChild("f").get(0L) == 0);
         cx = src.getChild("cx").get(0L).intValue();
@@ -112,7 +112,7 @@ public class Background extends Animation {
                 }
             }
         }
-        Log.d("Background", "Unknown Background::Type id: [" + id + "]");
+        Log.e("Background", "Unknown Background::Type id: [" + id + "]");
 
         return Type.NORMAL;
     }

@@ -3,7 +3,7 @@
         <shape>
             <gradient
                 android:angle="0"
-                android:startColor="@color/transparent_black"
+                android:startColor="@color/window_color"
                 android:endColor="@android:color/transparent" />
         </shape>
     </item>
@@ -12,9 +12,9 @@
         <shape>
             <gradient
                 android:angle="0"
-                android:startColor="@color/transparent_black"
+                android:startColor="@color/window_color"
                 android:endColor="@android:color/transparent"
-                android:centerColor="@color/transparent_black" />
+                android:centerColor="@color/window_color" />
         </shape>
     </item>
 </layer-list>

@@ -96,9 +96,7 @@ public class Physics {
     }
 
     public Point getYBelow(Point position) {
-        short ground = footholdtree.getYBelow(position);
-
-//        return new Point(position.x, ground - 1);
+        float ground = footholdtree.getYBelow(position);
         return new Point(position.x, ground + 1);
     }
 

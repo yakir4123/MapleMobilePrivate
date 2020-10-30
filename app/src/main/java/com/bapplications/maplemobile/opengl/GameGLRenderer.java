@@ -69,6 +69,8 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         Loaded.SCREEN_HEIGHT = height;
         Loaded.SCREEN_WIDTH = width;
         Loaded.SCREEN_RATIO = ((float)width) / height;
+        Loaded.SCREEN_SCALE = Loaded.SCREEN_RATIO / 1.2f; // divide by the resolution of 800x600 ratio
+        engine.getCamera().setCameraSize(Loaded.SCREEN_WIDTH, Loaded.SCREEN_HEIGHT);
 
         GLState.setSpriteSquareRes();
 

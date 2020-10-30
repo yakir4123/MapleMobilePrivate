@@ -5,10 +5,13 @@ import com.bapplications.maplemobile.pkgnx.NXNode
 import com.bapplications.maplemobile.utils.*
 
 open class Animation() {
-    private var pos: Point
+    protected var pos: Point = Point()
+        set(value){
+            value.y *= -1f
+            field = value
+        }
     protected var framestep = 0
     protected var lookLeft = true
-    protected var animated = false
     protected var delay: Short = 0
     protected var opacity: Linear = Linear()
     protected var xyscale: Linear = Linear()
@@ -17,7 +20,6 @@ open class Animation() {
 
     constructor(model: AnimationModel) : this() {
         this.model = model
-        animated = model.size() > 1
         reset()
     }
 
@@ -97,11 +99,6 @@ open class Animation() {
         return model[frameNumber.get().toInt()]
     }
 
-    protected fun setPos(point: Point) {
-        point.y *= -1f
-        pos = point
-    }
-
     fun getZ(): Any? {
         return model.getZ()
     }
@@ -112,8 +109,4 @@ open class Animation() {
         get() = frame.head
     val bounds: Rectangle
         get() = Rectangle(frame.bounds)
-
-    init {
-        pos = Point()
-    }
 }
