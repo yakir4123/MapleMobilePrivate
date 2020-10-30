@@ -1,10 +1,10 @@
 package com.bapplications.maplemobile.input.network
 
+import android.util.Log
+
 import com.bapplications.maplemobile.utils.Point
-import com.bapplications.maplemobile.constatns.Configuration
 import com.bapplications.maplemobile.input.EventsQueue
 import com.bapplications.maplemobile.input.events.*
-import com.bapplications.maplemobile.ui.GameActivity
 
 import io.grpc.ManagedChannel
 import io.grpc.stub.StreamObserver
@@ -31,6 +31,7 @@ class NetworkHandler(host: String, port: Int) : EventListener {
     private fun startStreaming() {
         requestStream = asyncStub.eventsStream(object : StreamObserver<ResponseEvent> {
             override fun onNext(value: ResponseEvent) {
+                Log.d("aaaaaaaaaaaa", "onNext " )
                 when (value.eventCase) {
                     ResponseEvent.EventCase.DROPITEM ->
                         EventsQueue.instance.enqueue(
@@ -45,9 +46,11 @@ class NetworkHandler(host: String, port: Int) : EventListener {
             }
 
             override fun onError(t: Throwable) {
+                Log.d("aaaaaaaaaaaa", "onError " + t.stackTrace)
             }
 
             override fun onCompleted() {
+                Log.d("aaaaaaaaaaaa", "onCompleted ")
             }
         })
     }

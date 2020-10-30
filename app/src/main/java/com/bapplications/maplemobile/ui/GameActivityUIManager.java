@@ -10,7 +10,6 @@ import com.bapplications.maplemobile.constatns.Constants;
 import com.bapplications.maplemobile.databinding.ActivityGameBinding;
 import com.bapplications.maplemobile.input.ExpressionInputAction;
 import com.bapplications.maplemobile.input.InputAction;
-import com.bapplications.maplemobile.input.InputHandler;
 import com.bapplications.maplemobile.gameplay.player.look.Expression;
 import com.bapplications.maplemobile.gameplay.player.PlayerStats;
 import com.bapplications.maplemobile.ui.interfaces.GameEngineListener;
@@ -36,7 +35,6 @@ public class GameActivityUIManager implements GameEngineListener {
     private final ActivityGameBinding binding;
     private List<UIKeyListener> listeners = new ArrayList<>();
     OvershootInterpolator interpolator = new OvershootInterpolator();
-    private InputHandler inputHandler;
     private Fragment windowFragment;
 
 
@@ -100,31 +98,12 @@ public class GameActivityUIManager implements GameEngineListener {
     }
 
     private void initInputHandler() {
-        inputHandler = new InputHandler();
-        inputHandler
-                .bindInput(
-                        new GameViewController(binding.ctrlUpArrow, InputAction.Type.CONTINUES_CLICK),
-                        player -> player.clickedButton(InputAction.UP_ARROW_KEY),
-                        player -> player.releasedButtons(InputAction.UP_ARROW_KEY));
-        inputHandler
-                .bindInput(
-                        new GameViewController(binding.ctrlLeftArrow, InputAction.Type.CONTINUES_CLICK),
-                        player -> player.clickedButton(InputAction.LEFT_ARROW_KEY),
-                        player -> player.releasedButtons(InputAction.LEFT_ARROW_KEY));
-        inputHandler
-                .bindInput(
-                        new GameViewController(binding.ctrlRightArrow, InputAction.Type.CONTINUES_CLICK),
-                        player -> player.clickedButton(InputAction.RIGHT_ARROW_KEY),
-                        player -> player.releasedButtons(InputAction.RIGHT_ARROW_KEY));
-        inputHandler
-                .bindInput(
-                        new GameViewController(binding.ctrlDownArrow, InputAction.Type.CONTINUES_CLICK),
-                        player -> player.clickedButton(InputAction.DOWN_ARROW_KEY),
-                        player -> player.releasedButtons(InputAction.DOWN_ARROW_KEY));
-        inputHandler
-                .bindInput(
-                        new GameViewController(binding.ctrlJump, InputAction.Type.SINGLE_CLICK),
-                        player -> player.clickedButton(InputAction.JUMP_KEY));
+        new GameViewController(binding.ctrlUpArrow, InputAction.UP_ARROW_KEY);
+        new GameViewController(binding.ctrlDownArrow, InputAction.DOWN_ARROW_KEY);
+        new GameViewController(binding.ctrlLeftArrow, InputAction.LEFT_ARROW_KEY);
+        new GameViewController(binding.ctrlRightArrow, InputAction.RIGHT_ARROW_KEY);
+        new GameViewController(binding.ctrlJump, InputAction.JUMP_KEY);
+
     }
 
     private void inventoryMenu(View view) {
@@ -146,10 +125,7 @@ public class GameActivityUIManager implements GameEngineListener {
                     continue;
                 FloatingActionButton expButton = (FloatingActionButton) activity.getLayoutInflater().inflate(R.layout.expression_button_layout, null);
                 expButton.setImageResource(exp.getResource());
-                inputHandler
-                        .bindInput(
-                                new GameViewController(expButton, InputAction.Type.SINGLE_CLICK),
-                                player -> player.setExpression(new ExpressionInputAction(exp)));
+                new GameViewController(expButton, new ExpressionInputAction(exp));
                 binding.expressionsBtnsLayout.addView(expButton);
                 setMargins(expButton, 5, 5, 0, 0);
             }
@@ -178,10 +154,6 @@ public class GameActivityUIManager implements GameEngineListener {
                 .getStat(PlayerStats.Id.EXP));
         viewModel.setMaxExp(Constants.getExp(activity.getGameEngine()
                 .getCurrMap().getPlayer().getStat(PlayerStats.Id.LEVEL)));
-    }
-
-    public InputHandler getInputHandler() {
-        return inputHandler;
     }
 
     public GameActivityViewModel getViewModel() {

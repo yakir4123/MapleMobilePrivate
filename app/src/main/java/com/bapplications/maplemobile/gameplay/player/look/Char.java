@@ -75,9 +75,8 @@ public class Char extends MapObject {
         return look;
     }
 
-    public Boolean setExpression(ExpressionInputAction expressionInputAction) {
-        getLook().setExpression(expressionInputAction.getExp());
-        return true;
+    public void setExpression(Expression expression) {
+        getLook().setExpression(expression);
     }
 
     // Player states which determine animation and state

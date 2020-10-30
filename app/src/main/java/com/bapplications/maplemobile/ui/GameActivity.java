@@ -1,6 +1,5 @@
 package com.bapplications.maplemobile.ui;
 
-import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,14 +14,12 @@ import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.databinding.ActivityGameBinding;
 import com.bapplications.maplemobile.gameplay.GameEngine;
 import com.bapplications.maplemobile.gameplay.audio.Music;
-import com.bapplications.maplemobile.utils.DownloadAssetsKt;
 import com.bapplications.maplemobile.utils.DrawableCircle;
 import com.bapplications.maplemobile.ui.windows.ChangeMapPopup;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -40,9 +37,10 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
     protected void onCreate (Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        Configuration.WZ_DIRECTORY = Objects.requireNonNull(getExternalFilesDir(null)).getAbsolutePath();
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+        Configuration.WZ_DIRECTORY = getExternalFilesDir(null).getAbsolutePath();
+        Configuration.CACHE_DIRECTORY = getCacheDir().getAbsolutePath();
         try {
             Loaded.loadFile(Loaded.WzFileName.MAP, Configuration.WZ_DIRECTORY + "/Map.nx");
             Loaded.loadFile(Loaded.WzFileName.MOB, Configuration.WZ_DIRECTORY + "/Mob.nx");
@@ -51,9 +49,8 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
             Loaded.loadFile(Loaded.WzFileName.STRING, Configuration.WZ_DIRECTORY + "/String.nx");
             Loaded.loadFile(Loaded.WzFileName.CHARACTER, Configuration.WZ_DIRECTORY + "/Character.nx");
         } catch (IOException e) {
-            Log.e(TAG, "error loaded file", e);
+            e.printStackTrace();
         }
-
         Log.d(TAG, "Loading files complete");
 
         ActivityGameBinding binding = ActivityGameBinding.inflate(getLayoutInflater());
