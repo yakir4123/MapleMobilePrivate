@@ -2,7 +2,11 @@ package com.bapplications.maplemobile.gameplay.player;
 
 import com.bapplications.maplemobile.input.EventsQueue;
 import com.bapplications.maplemobile.input.events.DropItemEvent;
-import com.bapplications.maplemobile.input.network.NetworkHandler;
+import com.bapplications.maplemobile.input.events.Event;
+import com.bapplications.maplemobile.input.events.EventListener;
+import com.bapplications.maplemobile.input.events.EventType;
+import com.bapplications.maplemobile.input.events.ExpressionButtonEvent;
+import com.bapplications.maplemobile.input.events.PressButtonEvent;
 import com.bapplications.maplemobile.gameplay.GameMap;
 import com.bapplications.maplemobile.gameplay.map.Layer;
 import com.bapplications.maplemobile.gameplay.map.Ladder;
@@ -35,13 +39,15 @@ import com.bapplications.maplemobile.utils.TimedBool;
 import com.bapplications.maplemobile.input.InputAction;
 import com.bapplications.maplemobile.ui.GameActivityUIManager;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Arrays;
 import java.util.TreeSet;
 import java.util.ArrayList;
 import java.util.Collection;
 
 
-public class Player extends Char implements ColliderComponent {
+public class Player extends Char implements ColliderComponent , EventListener {
 
     private GameMap map;
     private Ladder ladder;
@@ -70,6 +76,9 @@ public class Player extends Char implements ColliderComponent {
         myExpressions = new TreeSet<>();
         myExpressions.addAll(Arrays.asList(Expression.values()));
         climb_cooldown = new TimedBool();
+
+        EventsQueue.Companion.getInstance().registerListener(EventType.PressButton, this);
+        EventsQueue.Companion.getInstance().registerListener(EventType.ExpressionButton, this);
 
     }
 
@@ -411,5 +420,25 @@ public class Player extends Char implements ColliderComponent {
 
     public GameMap getMap() {
         return map;
+    }
+
+    @Override
+    public void onEventReceive(@NotNull Event event) {
+        switch(event.getType()) {
+            case PressButton: {
+                PressButtonEvent _event = (PressButtonEvent) event;
+                if (_event.getPressed()) {
+                    clickedButton(InputAction.byKey(_event.getButtonPressed()));
+                } else {
+                    releasedButtons(InputAction.byKey(_event.getButtonPressed()));
+                }
+                break;
+            }
+            case ExpressionButton: {
+                ExpressionButtonEvent _event = (ExpressionButtonEvent) event;
+                setExpression(_event.getExpression());
+            }
+
+        }
     }
 }

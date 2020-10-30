@@ -45,14 +45,6 @@ public class GameEngine {
 
     public void update(int deltatime) {
 
-        // handle clicked buttons
-        Map<GameViewController, Function1<Player, Boolean>> clickedButtons =
-                controllers.getInputHandler().handleClick();
-        Map<GameViewController, Function1<Player, Boolean>> releasedButtons =
-                controllers.getInputHandler().handleReleased();
-        clickedButtons.values().forEach(f -> f.invoke(getPlayer()));
-        releasedButtons.values().forEach(f -> f.invoke(getPlayer()));
-
         EventsQueue.Companion.getInstance().dequeueAll();
         currMap.update(deltatime);
     }

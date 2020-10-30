@@ -1,6 +1,5 @@
 package com.bapplications.maplemobile.ui.windows
 
-import EqualSpacingItemDecoration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
