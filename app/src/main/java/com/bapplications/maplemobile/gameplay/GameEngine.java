@@ -15,6 +15,7 @@ import kotlin.jvm.functions.Function1;
 
 public class GameEngine {
 
+    private Camera camera;
     private Player player;
     private GameMap currMap;
     private static GameEngine instance;
@@ -29,7 +30,8 @@ public class GameEngine {
     }
 
     private GameEngine() {
-        currMap = new GameMap(new Camera());
+        camera = new Camera();
+        currMap = new GameMap(camera);
         networkHandler = new NetworkHandler(Configuration.HOST, Configuration.PORT);
         nextMaps = new HashMap<>();
     }
@@ -83,7 +85,7 @@ public class GameEngine {
             currMap = nextMaps.get(mapId);
             return;
         } else {
-            currMap = new GameMap(currMap.getCamera());
+            currMap = new GameMap(camera);
             currMap.init(mapId);
         }
         currMap.enterMap(player, currMap.getPortalByName(portalName));
@@ -129,4 +131,7 @@ public class GameEngine {
         return player;
     }
 
+    public Camera getCamera() {
+        return camera;
+    }
 }

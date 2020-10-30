@@ -20,7 +20,6 @@ public class GLState {
     public static final String TEXTURE_COORDINATE_PARAM = "aTextureCoordinate";
 
     // Warning:: Scaling make fps lower
-    public static final float SCALE = 1.7f;
     public static int _programHandle;
     public static int positionHandle = -1;
     public static int mvpMatrixHandle = -1;
@@ -113,8 +112,8 @@ public class GLState {
 
     public static void setSpriteSquareRes() {
         for(int i = 0 ; i < SQUARE_COORDINATES.length ; i += 3){
-            SQUARE_COORDINATES[i] = SCALE * SQUARE_COORDINATES[i] / Loaded.SCREEN_WIDTH;
-            SQUARE_COORDINATES[i + 1] = SCALE * SQUARE_COORDINATES[i + 1] / Loaded.SCREEN_HEIGHT;
+            SQUARE_COORDINATES[i] = Loaded.SCREEN_SCALE * SQUARE_COORDINATES[i] / Loaded.SCREEN_WIDTH;
+            SQUARE_COORDINATES[i + 1] = Loaded.SCREEN_SCALE * SQUARE_COORDINATES[i + 1] / Loaded.SCREEN_HEIGHT;
             SQUARE_COORDINATES[i + 2] = 0;
         }
 
