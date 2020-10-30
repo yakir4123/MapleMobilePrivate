@@ -12,17 +12,17 @@ import java.util.List;
 public class FootholdTree {
 
     Foothold nullfh;
-    private Range<Short> walls;
-    private Range<Short> borders;
+    private Range walls;
+    private Range borders;
     private HashMap<Short, List<Short>> footholdsbyx;
     private HashMap<Short, Foothold> footholds;
 
     public FootholdTree(NXNode fhnode) {
 
-        int topb = 30000;
-        int leftw = 30000;
-        int botb = -30000;
-        int rightw = -30000;
+        float topb = 30000;
+        float leftw = 30000;
+        float botb = -30000;
+        float rightw = -30000;
 
         nullfh = new Foothold();
         footholds = new HashMap<>();
@@ -73,10 +73,10 @@ public class FootholdTree {
                     if (foothold.isWall())
                         continue;
 
-                    short start = foothold.l();
-                    short end = foothold.r();
+                    float start = foothold.l();
+                    float end = foothold.r();
 
-                    for (short i = start; i <= end; i++) {
+                    for (short i = (short) start; i <= end; i++) {
                         if(!footholdsbyx.containsKey(i)){
                             footholdsbyx.put(i, new ArrayList<>());
                         }
@@ -86,8 +86,8 @@ public class FootholdTree {
             }
         }
 
-        walls = new Range<>( (short)(leftw + 25),(short)( rightw - 25 ));
-        borders = new Range<>( (short)(topb - 300), (short)(botb + 100 ));
+        walls = new Range( leftw + 25,rightw - 25 );
+        borders = new Range( topb - 300, botb + 100 );
     }
 
     public Range getBorders() {
@@ -178,11 +178,9 @@ public class FootholdTree {
 
     private short getFHidBelow(float fx, float fy) {
         short ret = 0;
-        double comp = (double)borders.getLower();
+        double comp = borders.getLower();
 
-        short x = (short)(fx);
-
-        for(Short id: footholdsbyx.get(x)) {
+        for(Short id: footholdsbyx.get((short)fx)) {
 			Foothold fh = footholds.get(id);
             double ycomp = fh.groundBelow(fx);
 
@@ -233,14 +231,14 @@ public class FootholdTree {
             double crnt_y = phobj.crntY();
             double next_y = phobj.nextY();
 
-            Range<Float> ground;
+            Range ground;
             try {
-                ground = new Range<>(
+                ground = new Range(
                         getFH(phobj.fhid).groundBelow(phobj.nextX()),
                         getFH(phobj.fhid).groundBelow(phobj.crntX())
                 );
             } catch (IllegalArgumentException e) {
-                ground = new Range<>(
+                ground = new Range(
                         getFH(phobj.fhid).groundBelow(phobj.crntX()),
                         getFH(phobj.fhid).groundBelow(phobj.nextX())
                         );
@@ -302,7 +300,7 @@ public class FootholdTree {
 
     private float getWall(short curid, boolean left, float fy) {
         short shorty = (short) (fy);
-        Range<Short> vertical = new Range((short)(shorty + 1), (short)(shorty + 50));
+        Range vertical = new Range(shorty + 1, shorty + 50);
 		Foothold cur = getFH(curid);
 
         if (left) {
@@ -332,7 +330,7 @@ public class FootholdTree {
         }
     }
 
-    public short getYBelow(Point position) {
+    public float getYBelow(Point position) {
         short fhid = getFHidBelow(position.x, position.y);
         if (fhid != 0)
         {

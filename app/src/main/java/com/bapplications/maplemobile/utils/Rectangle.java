@@ -3,7 +3,9 @@ package com.bapplications.maplemobile.utils;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXPointNode;
 
-public class Rectangle {
+import org.jetbrains.annotations.NotNull;
+
+public class Rectangle implements Point.TwoDPolygon {
 
     private Point left_top;
     private Point right_bottom;
@@ -28,6 +30,12 @@ public class Rectangle {
         left_top = new Point(leftTop);
         right_bottom = new Point(rightBottom);
     }
+
+    public Rectangle(Range leftRight, Range topBottom) {
+        left_top = new Point(leftRight.getLower(), topBottom.getUpper());
+        right_bottom = new Point(leftRight.getUpper(), topBottom.getLower());
+    }
+
     public Rectangle(float left, float right, float top, float bottom){
         left_top = new Point(left, top);
         right_bottom = new Point(right, bottom);
@@ -68,6 +76,8 @@ public class Rectangle {
         return right_bottom.y;
     }
 
+    public Point center() { return new Point((left() + right()) / 2, (top() + bottom())/2);}
+
     public boolean contains(Point p)
     {
         return !straight() &&
@@ -77,8 +87,8 @@ public class Rectangle {
 
     public boolean overlaps(Rectangle ar)
     {
-            return get_horizontal().intersect(new Range<>(ar.left(), ar.right()))
-                    && get_vertical().intersect(new Range<>(ar.top(), ar.bottom()));
+            return get_horizontal().intersect(new Range(ar.left(), ar.right()))
+                    && get_vertical().intersect(new Range(ar.top(), ar.bottom()));
     }
 
     public boolean straight()
@@ -111,14 +121,14 @@ public class Rectangle {
         return new Point(left_top.x, right_bottom.y);
     }
 
-    public Range<Float> get_horizontal()
+    public Range get_horizontal()
     {
-        return new Range<Float>( left(), right() );
+        return new Range( left(), right() );
     }
 
-    public Range<Float> get_vertical()
+    public Range get_vertical()
     {
-        return new Range<Float>(top(), bottom());
+        return new Range(top(), bottom());
     }
 
     public void shift(Point v)
@@ -134,6 +144,7 @@ public class Rectangle {
     public void setRight(float val) {
         right_bottom.x = val;
     }
+
     public void draw(Point pos) {
         DrawArgument args = new DrawArgument(pos);
         DrawableCircle[] points = new DrawableCircle[4];
@@ -144,5 +155,21 @@ public class Rectangle {
         for(DrawableCircle p: points) {
             p.draw(args);
         }
+    }
+
+    public String toString(){
+        return  left_top.toString() + " -> " + right_bottom.toString();
+    }
+
+    @NotNull
+    @Override
+    public Range getWidth() {
+        return get_horizontal();
+    }
+
+    @NotNull
+    @Override
+    public Range getHeight() {
+        return get_vertical();
     }
 }

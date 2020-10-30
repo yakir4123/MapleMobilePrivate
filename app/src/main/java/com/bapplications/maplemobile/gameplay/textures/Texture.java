@@ -100,7 +100,7 @@ public class Texture {
         GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, bmap, 0);
 
         bitmapToTextureMap.put(bmap.hashCode(), textureHandle[0]);
-        bmap.recycle();
+//        bmap.recycle();
         return textureHandle[0];
     }
 

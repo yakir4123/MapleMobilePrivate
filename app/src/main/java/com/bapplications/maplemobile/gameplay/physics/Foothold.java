@@ -15,25 +15,25 @@ public class Foothold {
     private short m_next;
     private byte m_layer;
     private final short m_id;
-    private Range<Short> m_vertical;
-    private Range<Short> m_horizontal;
+    private Range m_vertical;
+    private Range m_horizontal;
 
 
     public Foothold(NXNode src, int id, int layer){
         m_prev = src.getChild("prev").get(0L).shortValue();
         m_next = src.getChild("next").get(0L).shortValue();
-        m_horizontal = new Range<>(src.getChild("x1").get(0L).shortValue(),
+        m_horizontal = new Range(src.getChild("x1").get(0L).shortValue(),
                 src.getChild("x2").get(0L).shortValue());
 
         try {
-            m_vertical = new Range<>(
-                    (short) -src.getChild("y1").get(0L).shortValue(),
-                    (short) -src.getChild("y2").get(0L).shortValue()
+            m_vertical = new Range(
+                    -src.getChild("y1").get(0L).shortValue(),
+                    -src.getChild("y2").get(0L).shortValue()
             );
         } catch (IllegalArgumentException e){
-            m_vertical = new Range<>(
-                    (short) -src.getChild("y2").get(0L).shortValue(),
-                    (short) -src.getChild("y1").get(0L).shortValue()
+            m_vertical = new Range(
+                    -src.getChild("y2").get(0L).shortValue(),
+                    -src.getChild("y1").get(0L).shortValue()
             );
         }
         m_id = (short) id;
@@ -50,29 +50,29 @@ public class Foothold {
         m_layer = 0;
         m_next = 0;
         m_prev = 0;
-        m_horizontal = new Range<>((short)0, (short)0);
-        m_vertical = new Range<>((short)0, (short)0);
+        m_horizontal = new Range(0, 0);
+        m_vertical = new Range(0, 0);
     }
 
 
-    public short l() {
+    public float l() {
         return m_horizontal.getLower();
     }
 
-    public short r() {
+    public float r() {
         return m_horizontal.getUpper();
     }
 
-    public short t() {
+    public float t() {
         return m_vertical.getLower();
     }
     
-    public short b() {
+    public float b() {
         return m_vertical.getUpper();
     }
 
     public boolean isWall() {
-        return m_id != 0 && m_horizontal.getUpper().equals(m_horizontal.getLower());
+        return m_id != 0 && m_horizontal.getUpper() == m_horizontal.getLower();
     }
 
     public short next() {
@@ -116,7 +116,7 @@ public class Foothold {
     }
 
     private boolean isFloor() {
-        return m_id != 0 && m_vertical.getUpper().equals(m_vertical.getLower());
+        return m_id != 0 && m_vertical.getUpper() == m_vertical.getLower();
     }
 
     public short id() {
@@ -127,7 +127,7 @@ public class Foothold {
         return m_layer;
     }
 
-    public boolean isBlocking(Range<Short> vertical) {
+    public boolean isBlocking(Range vertical) {
         return m_vertical.intersect(vertical) && isWall();
     }
 

@@ -11,22 +11,22 @@ import java.util.List;
 
 public class MapInfo {
     private boolean swim;
+    private Range mapWalls;
+    private Range mapBorders;
     private final String bgm;
-    private Range<Short> mapWalls;
-    private Range<Short> mapBorders;
     private final List<Ladder> ladders = new ArrayList<>();
 
-    public MapInfo(NXNode src, Range<Short> walls, Range<Short> borders) {
+    public MapInfo(NXNode src, Range walls, Range borders) {
         NXNode info = src.getChild("info");
         long lower = info.getChild("VRLeft").get(0L);
         long upper = info.getChild("VRRight").get(0L);
-        mapWalls = new Range<>((short) lower, (short) upper);
+        mapWalls = new Range(lower, upper);
         if(mapWalls.isDot() && mapWalls.getLower() == 0) {
             mapWalls = walls;
         }
         lower = info.getChild("VRTop").get(0L);
         upper = info.getChild("VRBottom").get(0L);
-        mapBorders = new Range<>((short) lower, (short) upper);
+        mapBorders = new Range(lower, upper);
         if(mapBorders.isDot() && mapBorders.getLower() == 0){
             mapBorders = borders;
         }
@@ -54,10 +54,10 @@ public class MapInfo {
 
     }
 
-    public Range<Short> getWalls() {
+    public Range getWalls() {
         return mapWalls;
     }
-    public Range<Short> getBorders() {
+    public Range getBorders() {
         return mapBorders;
     }
 

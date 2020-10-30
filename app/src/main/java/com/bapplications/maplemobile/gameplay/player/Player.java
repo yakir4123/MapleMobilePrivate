@@ -300,6 +300,8 @@ public class Player extends Char implements ColliderComponent {
         inventory.addItem(new Equip(1092045, -1L,  null, (short)0, (byte)7, (byte)0), (short)1);
         inventory.addItem(new Equip(1050087, -1L,  null, (short)0, (byte)7, (byte)0), (short)1);
         inventory.addItem(new Equip(1002575, -1L,  null, (short)0, (byte)7, (byte)0), (short)1);
+        inventory.addItem(new Equip(1002356, -1L,  null, (short)0, (byte)7, (byte)0), (short)1);
+        inventory.addItem(new Equip(1050040, -1L,  null, (short)0, (byte)7, (byte)0), (short)1);
         inventory.addItem(new Item(2000000, -1L,  null, (short)0), (short)76);
         inventory.addItem(new Item(2000001, -1L,  null, (short)0), (short)50);
         inventory.addItem(new Item(2000002, -1L,  null, (short)0), (short)100);

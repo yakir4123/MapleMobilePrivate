@@ -21,7 +21,6 @@
             android:id="@+id/inventory_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:background="@drawable/headline_window_background"
             android:paddingStart="70dp"
             android:paddingEnd="70dp"
@@ -40,9 +39,11 @@
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@+id/inventory_type_buttons_group"
             app:layout_constraintBottom_toTopOf="@id/gold_iv"
-            app:layout_constraintEnd_toEndOf="@id/inventory_type_buttons_group"
-            app:layout_constraintStart_toStartOf="@id/inventory_type_buttons_group"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginBottom="12dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginStart="2dp"
             android:background="@drawable/sub_window_background"
             />
 
@@ -60,12 +61,12 @@
             android:id="@+id/item_info_icon"
             android:layout_width="@dimen/big_icon_size"
             android:layout_height="@dimen/big_icon_size"
-            app:layout_constraintTop_toTopOf="@id/sub_window_background"
+            app:layout_constraintTop_toTopOf="@id/item_info_background"
             app:layout_constraintEnd_toEndOf="@id/sub_window_background"
             android:layout_marginStart="8dp"
-            android:layout_margin="8dp"
+            android:layout_marginEnd="8dp"
             android:padding="8dp"
-            android:background="@drawable/inventory_item_cell_background"
+            android:background="@drawable/item_info_icon_background"
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.ICON}"
             app:itemId="@{viewModel.slot.item.itemId}"
             />
@@ -76,11 +77,12 @@
             android:layout_height="wrap_content"
             android:textColor="@color/tc_window"
             android:textSize="14sp"
+            android:layout_marginTop="3dp"
             android:paddingStart="6dp"
             android:paddingEnd="6dp"
             android:background="@drawable/headline_window_background_solid_edge"
             app:layout_constraintStart_toStartOf="@id/sub_window_background"
-            app:layout_constraintTop_toTopOf="@id/item_info_icon"
+            app:layout_constraintTop_toTopOf="@id/sub_window_background"
             android:layout_marginStart="12dp"
             tools:text="Works Gloves"
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.NAME}"
@@ -115,7 +117,26 @@
             tools:visibility="gone"
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.DESC}"
             app:itemId="@{viewModel.slot.item.itemId}"/>
-        
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/req_flow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="item_info_reqlvl_tv, item_info_colon_lvl, item_info_reqlvl,
+                    item_info_reqstr_tv, item_info_colon_str, item_info_reqstr,
+                    item_info_reqdex_tv, item_info_colon_dex, item_info_reqdex,
+                    item_info_reqint_tv, item_info_colon_int, item_info_reqint,
+                    item_info_reqluk_tv, item_info_colon_luk, item_info_reqluk,
+                    item_info_reqfame_tv, item_info_colon_fame, item_info_reqfame"
+            app:layout_constraintTop_toTopOf="@id/item_info_background"
+            app:layout_constraintStart_toStartOf="@+id/item_info_background"
+            app:layout_constraintEnd_toEndOf="@id/item_info_background"
+            app:flow_verticalGap = "4dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="6dp"
+            app:flow_wrapMode="aligned"/>
+
         <TextView
             android:id="@+id/item_info_reqlvl_tv"
             android:layout_width="wrap_content"
@@ -123,10 +144,7 @@
             android:text="@string/item_info_req_lvl"
             android:textColor="@color/tc_window"
             android:textSize="@dimen/item_info_sp"
-            app:layout_constraintTop_toTopOf="@id/item_info_background"
-            app:layout_constraintStart_toStartOf="@+id/item_info_background"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="6dp"
+            tools:ignore="MissingConstraints"
             />
 
         <TextView
@@ -136,10 +154,7 @@
             android:text="@string/item_info_req_str"
             android:textColor="@color/tc_window"
             android:textSize="@dimen/item_info_sp"
-            app:layout_constraintTop_toBottomOf="@id/item_info_reqlvl_tv"
-            app:layout_constraintStart_toStartOf="@+id/item_info_reqlvl_tv"
-            android:layout_marginTop="@dimen/item_req_margin"
-            />
+            tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/item_info_reqdex_tv"
@@ -148,9 +163,7 @@
             android:text="@string/item_info_req_dex"
             android:textColor="@color/tc_window"
             android:textSize="@dimen/item_info_sp"
-            app:layout_constraintTop_toBottomOf="@id/item_info_reqstr_tv"
-            app:layout_constraintStart_toStartOf="@+id/item_info_reqlvl_tv"
-            android:layout_marginTop="@dimen/item_req_margin"
+            tools:ignore="MissingConstraints"
             />
 
 
@@ -161,9 +174,7 @@
             android:text="@string/item_info_req_int"
             android:textColor="@color/tc_window"
             android:textSize="@dimen/item_info_sp"
-            app:layout_constraintTop_toTopOf="@id/item_info_reqlvl"
-            app:layout_constraintStart_toEndOf="@+id/item_info_reqlvl"
-            android:layout_marginStart="10dp"
+            tools:ignore="MissingConstraints"
             />
 
         <TextView
@@ -173,9 +184,7 @@
             android:text="@string/item_info_req_luk"
             android:textColor="@color/tc_window"
             android:textSize="@dimen/item_info_sp"
-            app:layout_constraintTop_toBottomOf="@id/item_info_reqint_tv"
-            app:layout_constraintStart_toStartOf="@+id/item_info_reqint_tv"
-            android:layout_marginTop="@dimen/item_req_margin"
+            tools:ignore="MissingConstraints"
             />
 
 
@@ -186,9 +195,7 @@
             android:text="@string/item_info_req_fame"
             android:textColor="@color/tc_window"
             android:textSize="@dimen/item_info_sp"
-            app:layout_constraintTop_toBottomOf="@id/item_info_reqluk_tv"
-            app:layout_constraintStart_toStartOf="@+id/item_info_reqint_tv"
-            android:layout_marginTop="@dimen/item_req_margin"
+            tools:ignore="MissingConstraints"
             />
 
         <TextView
@@ -199,9 +206,7 @@
             android:textColor="@color/tc_window"
             android:textStyle="bold"
             android:textSize="@dimen/item_info_sp"
-            app:layout_constraintStart_toEndOf="@+id/item_info_reqlvl_tv"
-            app:layout_constraintTop_toTopOf="@id/item_info_reqlvl_tv"
-            android:layout_marginStart="7dp"
+            tools:ignore="MissingConstraints"
             />
 
         <TextView
@@ -212,8 +217,7 @@
             android:textColor="@color/tc_window"
             android:textStyle="bold"
             android:textSize="@dimen/item_info_sp"
-            app:layout_constraintStart_toStartOf="@+id/item_info_colon_lvl"
-            app:layout_constraintTop_toTopOf="@+id/item_info_reqstr_tv"
+            tools:ignore="MissingConstraints"
             />
 
         <TextView
@@ -224,8 +228,7 @@
             android:textColor="@color/tc_window"
             android:textStyle="bold"
             android:textSize="@dimen/item_info_sp"
-            app:layout_constraintStart_toStartOf="@+id/item_info_colon_lvl"
-            app:layout_constraintTop_toTopOf="@+id/item_info_reqdex_tv"
+            tools:ignore="MissingConstraints"
             />
 
         <TextView
@@ -236,9 +239,7 @@
             android:textColor="@color/tc_window"
             android:textStyle="bold"
             android:textSize="@dimen/item_info_sp"
-            app:layout_constraintStart_toEndOf="@+id/item_info_reqint_tv"
-            app:layout_constraintTop_toTopOf="@+id/item_info_reqint_tv"
-            android:layout_marginStart="7dp"
+            tools:ignore="MissingConstraints"
             />
 
         <TextView
@@ -249,8 +250,7 @@
             android:textColor="@color/tc_window"
             android:textStyle="bold"
             android:textSize="@dimen/item_info_sp"
-            app:layout_constraintStart_toStartOf="@+id/item_info_colon_int"
-            app:layout_constraintTop_toTopOf="@+id/item_info_reqluk_tv"
+            tools:ignore="MissingConstraints"
             />
 
         <TextView
@@ -261,17 +261,13 @@
             android:textColor="@color/tc_window"
             android:textStyle="bold"
             android:textSize="@dimen/item_info_sp"
-            app:layout_constraintStart_toStartOf="@+id/item_info_colon_int"
-            app:layout_constraintTop_toTopOf="@+id/item_info_reqfame_tv"
+            tools:ignore="MissingConstraints"
             />
 
         <TextView
             android:id="@+id/item_info_reqlvl"
             android:layout_width="30dp"
             android:layout_height="0dp"
-            app:layout_constraintStart_toEndOf="@+id/item_info_colon_lvl"
-            app:layout_constraintTop_toTopOf="@+id/item_info_reqlvl_tv"
-            app:layout_constraintBottom_toBottomOf="@+id/item_info_reqlvl_tv"
             android:layout_marginStart="7dp"
             android:background="@drawable/inventory_item_cell_background"
             android:gravity="right"
@@ -282,15 +278,12 @@
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.REQ_LVL}"
             app:itemId="@{viewModel.slot.item.itemId}"
             tools:text="120"
-            tools:ignore="RtlHardcoded,RtlSymmetry" />
+            tools:ignore="RtlHardcoded,RtlSymmetry,MissingConstraints" />
 
         <TextView
             android:id="@+id/item_info_reqstr"
             android:layout_width="30dp"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="@+id/item_info_reqlvl"
-            app:layout_constraintTop_toTopOf="@+id/item_info_reqstr_tv"
-            app:layout_constraintBottom_toBottomOf="@+id/item_info_reqstr_tv"
             android:background="@drawable/inventory_item_cell_background"
             android:gravity="right"
             android:paddingRight="2dp"
@@ -300,15 +293,12 @@
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.REQ_STR}"
             app:itemId="@{viewModel.slot.item.itemId}"
             tools:text="120"
-            tools:ignore="RtlHardcoded,RtlSymmetry" />
+            tools:ignore="RtlHardcoded,RtlSymmetry,MissingConstraints" />
 
         <TextView
             android:id="@+id/item_info_reqdex"
             android:layout_width="30dp"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="@+id/item_info_reqlvl"
-            app:layout_constraintTop_toTopOf="@+id/item_info_reqdex_tv"
-            app:layout_constraintBottom_toBottomOf="@+id/item_info_reqdex_tv"
             android:background="@drawable/inventory_item_cell_background"
             android:gravity="right"
             android:paddingRight="2dp"
@@ -318,15 +308,12 @@
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.REQ_DEX}"
             app:itemId="@{viewModel.slot.item.itemId}"
             tools:text="120"
-            tools:ignore="RtlHardcoded,RtlSymmetry" />
+            tools:ignore="RtlHardcoded,RtlSymmetry,MissingConstraints" />
 
         <TextView
             android:id="@+id/item_info_reqint"
             android:layout_width="30dp"
             android:layout_height="0dp"
-            app:layout_constraintStart_toEndOf="@+id/item_info_colon_int"
-            app:layout_constraintTop_toTopOf="@+id/item_info_reqint_tv"
-            app:layout_constraintBottom_toBottomOf="@+id/item_info_reqint_tv"
             android:layout_marginStart="7dp"
             android:background="@drawable/inventory_item_cell_background"
             android:gravity="right"
@@ -337,15 +324,12 @@
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.REQ_INT}"
             app:itemId="@{viewModel.slot.item.itemId}"
             tools:text="120"
-            tools:ignore="RtlHardcoded,RtlSymmetry" />
+            tools:ignore="RtlHardcoded,RtlSymmetry,MissingConstraints" />
 
         <TextView
             android:id="@+id/item_info_reqluk"
             android:layout_width="30dp"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="@+id/item_info_reqint"
-            app:layout_constraintTop_toTopOf="@+id/item_info_reqluk_tv"
-            app:layout_constraintBottom_toBottomOf="@+id/item_info_reqluk_tv"
             android:background="@drawable/inventory_item_cell_background"
             android:gravity="right"
             android:paddingRight="2dp"
@@ -355,15 +339,12 @@
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.REQ_LUK}"
             app:itemId="@{viewModel.slot.item.itemId}"
             tools:text="120"
-            tools:ignore="RtlHardcoded,RtlSymmetry" />
+            tools:ignore="RtlHardcoded,RtlSymmetry,MissingConstraints" />
 
         <TextView
             android:id="@+id/item_info_reqfame"
             android:layout_width="30dp"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="@+id/item_info_reqint"
-            app:layout_constraintTop_toTopOf="@+id/item_info_reqfame_tv"
-            app:layout_constraintBottom_toBottomOf="@+id/item_info_reqfame_tv"
             android:background="@drawable/inventory_item_cell_background"
             android:gravity="right"
             android:paddingRight="2dp"
@@ -373,14 +354,14 @@
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.REQ_FAME}"
             app:itemId="@{viewModel.slot.item.itemId}"
             tools:text="120"
-            tools:ignore="RtlHardcoded,RtlSymmetry" />
+            tools:ignore="RtlHardcoded,RtlSymmetry,MissingConstraints" />
         
         <View
             android:id="@+id/item_info_split_line"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:background="@color/sub_window_stroke"
-            app:layout_constraintTop_toBottomOf="@id/item_info_reqdex_tv"
+            app:layout_constraintTop_toBottomOf="@id/req_flow"
             app:layout_constraintEnd_toEndOf="@id/item_info_background"
             app:layout_constraintStart_toStartOf="@id/item_info_background"
             android:layout_marginTop="6dp"
@@ -392,10 +373,12 @@
             android:id="@+id/item_info_bonuses"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="@id/item_info_reqlvl_tv"
+            android:visibility="@{viewModel.slot.item.equip}"
             app:layout_constraintTop_toBottomOf="@id/item_info_split_line"
-            app:layout_constraintEnd_toEndOf="@id/item_info_reqint"
+            app:layout_constraintStart_toStartOf="@id/item_info_background"
+            app:layout_constraintEnd_toEndOf="@id/item_info_background"
             app:layout_constraintBottom_toBottomOf="@id/item_info_background"
+            android:layout_marginStart="3dp"
             android:layout_marginBottom="4dp">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -600,6 +583,7 @@
                     item_info_reqdex_tv, item_info_reqfame_tv, item_info_reqint_tv, item_info_reqluk_tv, item_info_reqlvl_tv, item_info_reqstr_tv,
                     item_info_reqdex, item_info_reqfame, item_info_reqint, item_info_reqluk, item_info_reqlvl, item_info_reqstr, item_info_equip_bt"
             android:visibility="@{viewModel.slot.item.equip}"
+            tools:visibility="visible"
             />
 
         <Button
@@ -609,8 +593,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/item_info_background"
             app:layout_constraintStart_toStartOf="@+id/item_info_icon"
             app:layout_constraintEnd_toEndOf="@+id/item_info_icon"
-            android:background="@drawable/neagtive_btn"
             android:text="@string/drop_action"
+            android:background="@drawable/positive_btn"
             android:textColor="@color/tc_window"
             android:textAllCaps="false"
             android:layout_marginBottom="1dp"
@@ -632,27 +616,26 @@
 
         <RadioGroup
             android:id="@+id/inventory_type_buttons_group"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:checkedButton="@={BindingUtils.inventoryTypeToButtonId(viewModel.selectedInventoryType) }"
             android:gravity="center_horizontal"
             android:orientation="horizontal"
             android:background="@android:color/transparent"
             android:paddingTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/sub_window_background"
+            app:layout_constraintStart_toStartOf="@id/sub_window_background"
             app:layout_constraintTop_toBottomOf="@id/inventory_title">
 
             <RadioButton
                 android:id="@+id/equip_btn"
-                android:layout_width="60dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:background="@drawable/inventory_selector"
                 android:button="@android:color/transparent"
                 android:gravity="center"
-                android:paddingStart="9dp"
                 android:paddingTop="3dp"
-                android:paddingEnd="9dp"
                 android:paddingBottom="1dp"
                 android:text="@string/popup_inventory_equip_btn"
                 android:textColor="@color/tc_window"
@@ -661,14 +644,13 @@
 
             <RadioButton
                 android:id="@+id/use_btn"
-                android:layout_width="60dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:background="@drawable/inventory_selector"
                 android:button="@android:color/transparent"
                 android:gravity="center"
-                android:paddingStart="9dp"
                 android:paddingTop="3dp"
-                android:paddingEnd="9dp"
                 android:paddingBottom="1dp"
                 android:text="@string/popup_inventory_use_btn"
                 android:textColor="@color/tc_window"
@@ -676,14 +658,13 @@
 
             <RadioButton
                 android:id="@+id/setup_btn"
-                android:layout_width="60dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:background="@drawable/inventory_selector"
                 android:button="@android:color/transparent"
                 android:gravity="center"
-                android:paddingStart="9dp"
                 android:paddingTop="3dp"
-                android:paddingEnd="9dp"
                 android:paddingBottom="1dp"
                 android:text="@string/popup_inventory_setup_btn"
                 android:textColor="@color/tc_window"
@@ -691,14 +672,13 @@
 
             <RadioButton
                 android:id="@+id/etc_btn"
-                android:layout_width="60dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:background="@drawable/inventory_selector"
                 android:button="@android:color/transparent"
                 android:gravity="center"
-                android:paddingStart="9dp"
                 android:paddingTop="3dp"
-                android:paddingEnd="9dp"
                 android:paddingBottom="1dp"
                 android:text="@string/popup_inventory_etc_btn"
                 android:textColor="@color/tc_window"
@@ -706,14 +686,13 @@
 
             <RadioButton
                 android:id="@+id/cash_btn"
-                android:layout_width="60dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:background="@drawable/inventory_selector"
                 android:button="@android:color/transparent"
                 android:gravity="center"
-                android:paddingStart="9dp"
                 android:paddingTop="3dp"
-                android:paddingEnd="9dp"
                 android:paddingBottom="1dp"
                 android:text="@string/popup_inventory_cash_btn"
                 android:textColor="@color/tc_window"
@@ -725,6 +704,7 @@
             android:id="@+id/inventory_items_recycler"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:columnWidth="@dimen/icon_size"
             app:layout_constraintTop_toTopOf="@id/sub_window_background"
             app:layout_constraintEnd_toEndOf="@id/sub_window_background"
             app:layout_constraintStart_toStartOf="@id/sub_window_background"

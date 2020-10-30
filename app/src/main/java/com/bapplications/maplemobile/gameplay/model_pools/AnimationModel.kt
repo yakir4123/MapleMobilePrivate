@@ -4,11 +4,14 @@ import com.bapplications.maplemobile.gameplay.textures.Frame
 import com.bapplications.maplemobile.utils.StaticUtils
 import com.bapplications.maplemobile.pkgnx.NXNode
 import com.bapplications.maplemobile.pkgnx.nodes.NXBitmapNode
+import com.bapplications.maplemobile.utils.Point
+import com.bapplications.maplemobile.utils.Rectangle
 import java.util.*
 
 open class AnimationModel {
     protected var frames: MutableList<Frame> = mutableListOf();
     var zigzag = false
+    val animated: Boolean
 
     constructor(src: NXNode, z: Any? = "0") {
         zigzag = src.getChild<NXNode>("zigzag").get(0L) > 0
@@ -30,6 +33,7 @@ open class AnimationModel {
             }
             if (frames.isEmpty()) frames.add(Frame())
         }
+        animated = size() > 1
     }
 
     operator fun get(index: Int): Frame = frames[index]
@@ -45,5 +49,7 @@ open class AnimationModel {
     fun getZ(): Any? {
         return frames[0].getZ()
     }
+
+    fun dimensions(frame: Int) : Point = frames[frame].dimenstion
 
 }

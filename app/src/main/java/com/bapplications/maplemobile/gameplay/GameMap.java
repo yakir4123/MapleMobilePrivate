@@ -3,11 +3,11 @@ package com.bapplications.maplemobile.gameplay;
 import android.util.Log;
 
 import com.bapplications.maplemobile.input.EventsQueue;
-import com.bapplications.maplemobile.input.events.DropItemEvent;
 import com.bapplications.maplemobile.input.events.Event;
 import com.bapplications.maplemobile.input.events.EventListener;
 import com.bapplications.maplemobile.input.events.EventType;
 import com.bapplications.maplemobile.input.events.ItemDroppedEvent;
+import com.bapplications.maplemobile.utils.Rectangle;
 import com.bapplications.maplemobile.utils.StaticUtils;
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.gameplay.audio.Sound;
@@ -26,17 +26,11 @@ import com.bapplications.maplemobile.gameplay.map.map_objects.mobs.Attack;
 import com.bapplications.maplemobile.gameplay.map.map_objects.mobs.MobSpawn;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.gameplay.player.Player;
-import com.bapplications.maplemobile.gameplay.player.inventory.Item;
 import com.bapplications.maplemobile.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.input.InputAction;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class GameMap implements EventListener {
 
@@ -116,14 +110,15 @@ public class GameMap implements EventListener {
             try {
                 mobs = new MapMobs();
                 drops = new MapDrops();
-                tilesobjs = new MapTilesObjs(src);
                 physics = new Physics(src.getChild("foothold"));
                 backgrounds = new MapBackgrounds(src.getChild("back"));
                 portals = new MapPortals(src.getChild("portal"), mapid);
 
-                if (state == State.ACTIVE)
+                if (state == State.ACTIVE) {
                     notifyNewMaps();
+                }
                 mapInfo = new MapInfo(src, physics.getFHT().getWalls(), physics.getFHT().getBorders());
+                tilesobjs = new MapTilesObjs(src, new Rectangle(mapInfo.getWalls(), mapInfo.getBorders()));
 
                 spawnMobs(src.getChild("life"));
             } catch (Exception e) {
@@ -237,7 +232,7 @@ public class GameMap implements EventListener {
 
         for (Layer id : Layer.values())
         {
-            tilesobjs.draw(id, viewpos, alpha);
+            tilesobjs.draw(id, camera.getPositionRect(), viewpos, alpha);
             physics.draw(viewpos);
 //            reactors.draw(id, viewx, viewy, alpha);
 //            npcs.draw(id, viewx, viewy, alpha);
@@ -251,6 +246,9 @@ public class GameMap implements EventListener {
         portals.draw(viewpos, alpha);
         backgrounds.drawForegrounds(viewpos, alpha);
 //        effect.draw();
+        // for debugging purposes
+//        camera.draw();
+
     }
 
 
