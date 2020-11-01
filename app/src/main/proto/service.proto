@@ -41,6 +41,8 @@ message ResponseOtherPlayerConnected {
   int32 hair = 2;
   int32 skin = 3;
   int32 face = 4;
+  int32 state = 5;
+  Point pos = 6;
 }
 
 message PressButton {

@@ -10,6 +10,7 @@ import com.bapplications.maplemobile.input.events.EventType;
 import com.bapplications.maplemobile.input.events.PlayerConnectEvent;
 import com.bapplications.maplemobile.input.events.PlayerConnectedEvent;
 import com.bapplications.maplemobile.input.network.NetworkHandler;
+import com.bapplications.maplemobile.input.network.NetworkHandlerDemo;
 import com.bapplications.maplemobile.ui.GameActivityUIManager;
 
 import org.jetbrains.annotations.NotNull;
@@ -37,6 +38,7 @@ public class GameEngine implements EventListener {
         camera = new Camera();
         currMap = new GameMap(camera);
         networkHandler = new NetworkHandler(Configuration.HOST, Configuration.PORT);
+//        new NetworkHandlerDemo();
         EventsQueue.Companion.getInstance().registerListener(EventType.PlayerConnected, this);
         nextMaps = new HashMap<>();
     }

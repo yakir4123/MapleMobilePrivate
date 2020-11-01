@@ -29,7 +29,7 @@ public class Face {
                 facenode = faces.getChild("default");
                 frame.setDelay((short) 2500);
                 frame.initTexture(facenode.getChild("face"));
-                Point shift = (Point) facenode.getChild("face").getChild("map")
+                Point shift = facenode.getChild("face").getChild("map")
                         .getChild("brow").get(new Point());
                 frame.shift(shift.mul(negateShift));
                 frame.setZ("face");

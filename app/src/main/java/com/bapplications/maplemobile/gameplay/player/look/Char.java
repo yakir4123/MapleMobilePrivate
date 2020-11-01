@@ -25,6 +25,7 @@ public abstract class Char extends MapObject {
     protected Ladder ladder;
     protected boolean attacking;
     private final CharLook look;
+    protected boolean underwater;
     protected TimedBool climb_cooldown;
     private final CharLook look_preview;
     private TimedBool invincible = new TimedBool();
@@ -52,32 +53,15 @@ public abstract class Char extends MapObject {
 
         look.draw(new DrawArgument(absp), alpha);
 
-//        afterimage.draw(look.get_frame(), DrawArgument(absp, facing_right), alpha);
-
-//        if (ironbody)
-//        {
-//            float ibalpha = ironbody.alpha();
-//            float scale = 1.0f + ibalpha;
-//            float opacity = 1.0f - ibalpha;
-//
-//            look.draw(DrawArgument(absp, scale, scale, opacity), alpha);
-//        }
-//
-//        for (auto& pet : pets)
-//        if (pet.get_itemid())
-//            pet.draw(viewx, viewy, alpha);
-//
-//        // If ever changing code for namelabel confirm placements with map 10000
-//        namelabel.draw(absp + Point<int16_t>(0, -4));
-//        chatballoon.draw(absp - Point<int16_t>(0, 85));
-//
-//        effects.drawabove(absp, alpha);
-//
-//        for (auto& number : damagenumbers)
-//            number.draw(viewx, viewy, alpha);
-
     }
 
+
+    public void respawn(Point pos, boolean underwater) {
+        setPosition(pos.x, pos.y);
+        this.underwater = underwater;
+        attacking = false;
+        ladder = null;
+    }
 
 
     public byte update(Physics physics, int deltaTime) {
@@ -108,7 +92,7 @@ public abstract class Char extends MapObject {
     public abstract float getStanceSpeed();
 
     public void setState(State state) {
-            this.state = state;
+        this.state = state;
 
         Stance.Id stance = Stance.byState(state);
         look.setStance(stance);

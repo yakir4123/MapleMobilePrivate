@@ -1,5 +1,7 @@
 package com.bapplications.maplemobile.input.network
 
+import com.bapplications.maplemobile.gameplay.player.Stance
+import com.bapplications.maplemobile.gameplay.player.look.Char
 import com.bapplications.maplemobile.gameplay.player.look.Expression
 import com.bapplications.maplemobile.utils.Point
 import com.bapplications.maplemobile.input.EventsQueue
@@ -25,8 +27,8 @@ class NetworkHandler(host: String, port: Int) : EventListener {
         asyncStub = MapleServiceGrpc.newStub(mChannel)
         EventsQueue.instance.registerListener(EventType.DropItem, this)
         EventsQueue.instance.registerListener(EventType.PressButton, this)
-        EventsQueue.instance.registerListener(EventType.ExpressionButton, this)
         EventsQueue.instance.registerListener(EventType.PlayerConnect, this)
+        EventsQueue.instance.registerListener(EventType.ExpressionButton, this)
         startStreaming()
     }
 
@@ -74,9 +76,12 @@ class NetworkHandler(host: String, port: Int) : EventListener {
                     ResponseEvent.EventCase.OTHERPLAYERCONNECTED ->
                         EventsQueue.instance.enqueue(
                                 OtherPlayerConnectedEvent(value.otherPlayerConnected.charid,
-                                        value.playerConnected.hair,
-                                        value.playerConnected.skin,
-                                        value.playerConnected.face)
+                                        value.otherPlayerConnected.hair,
+                                        value.otherPlayerConnected.skin,
+                                        value.otherPlayerConnected.face,
+                                        Char.State.values()[value.otherPlayerConnected.state],
+                                        Point(value.otherPlayerConnected.pos)
+                                )
                         )
 
                     else -> return
