@@ -6,7 +6,6 @@ import com.bapplications.maplemobile.gameplay.map.Layer;
 import com.bapplications.maplemobile.input.events.Event;
 import com.bapplications.maplemobile.input.events.EventType;
 import com.bapplications.maplemobile.constatns.Configuration;
-import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.gameplay.player.look.Char;
 import com.bapplications.maplemobile.input.events.DropItemEvent;
 import com.bapplications.maplemobile.input.events.EventListener;
@@ -42,7 +41,6 @@ public class Player extends Char implements ColliderComponent , EventListener {
 
     private GameMap map;
     private PlayerStats stats;
-    private boolean underwater;
     private Inventory inventory;
     private TreeSet<Expression> myExpressions;
 
@@ -94,14 +92,6 @@ public class Player extends Char implements ColliderComponent , EventListener {
             DrawableCircle origin = DrawableCircle.createCircle(getPosition(), Color.GREEN);
             origin.draw(new DrawArgument(viewpos));
         }
-    }
-
-
-    public void respawn(Point pos, boolean underwater) {
-        setPosition(pos.x, pos.y);
-        this.underwater = underwater;
-        attacking = false;
-        ladder = null;
     }
 
     public float getStanceSpeed() {

@@ -236,7 +236,7 @@ public class GameMap implements EventListener {
 //            reactors.draw(id, viewx, viewy, alpha);
 //            npcs.draw(id, viewx, viewy, alpha);
             mobs.draw(id, viewpos, alpha);
-//            characters.draw(id, viewpos, alpha);
+            characters.draw(id, viewpos, alpha);
             player.draw(id, viewpos, alpha);
             drops.draw(id, viewpos, alpha);
         }

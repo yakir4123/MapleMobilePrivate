@@ -5,6 +5,7 @@ public class Configuration {
     public static final boolean SHOW_FH = false;
     public static final boolean SHOW_MOBS_RECT = false;
     public static final boolean SHOW_PLAYER_RECT = false;
+    public static int CHAR_ID = 0;
 
     public static final String HOST = "10.147.20.164";
     public static final int PORT = 80;

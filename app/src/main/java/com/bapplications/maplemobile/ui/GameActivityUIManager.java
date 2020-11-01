@@ -5,17 +5,19 @@ import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 
 import com.bapplications.maplemobile.R;
+import com.bapplications.maplemobile.constatns.Configuration;
+import com.bapplications.maplemobile.input.EventsQueue;
+import com.bapplications.maplemobile.input.events.PlayerConnectEvent;
+import com.bapplications.maplemobile.input.events.PlayerConnectedEvent;
 import com.bapplications.maplemobile.utils.StaticUtils;
-import com.bapplications.maplemobile.constatns.Constants;
 import com.bapplications.maplemobile.databinding.ActivityGameBinding;
 import com.bapplications.maplemobile.input.ExpressionInputAction;
 import com.bapplications.maplemobile.input.InputAction;
-import com.bapplications.maplemobile.gameplay.player.look.Expression;
-import com.bapplications.maplemobile.gameplay.player.PlayerStats;
-import com.bapplications.maplemobile.ui.interfaces.GameEngineListener;
 import com.bapplications.maplemobile.ui.interfaces.UIKeyListener;
-import com.bapplications.maplemobile.ui.view_models.GameActivityViewModel;
 import com.bapplications.maplemobile.ui.windows.InventoryFragment;
+import com.bapplications.maplemobile.gameplay.player.look.Expression;
+import com.bapplications.maplemobile.ui.interfaces.GameEngineListener;
+import com.bapplications.maplemobile.ui.view_models.GameActivityViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -33,7 +35,6 @@ public class GameActivityUIManager implements GameEngineListener {
     private GameActivity activity;
     private GameActivityViewModel viewModel;
     private final ActivityGameBinding binding;
-    private List<UIKeyListener> listeners = new ArrayList<>();
     OvershootInterpolator interpolator = new OvershootInterpolator();
     private Fragment windowFragment;
 
@@ -84,6 +85,8 @@ public class GameActivityUIManager implements GameEngineListener {
                     StaticUtils.PopDirection.DOWN);
         });
         binding.inventoryBtn.setOnClickListener(this::inventoryMenu);
+        binding.equipedBtn.setOnClickListener(this::equipMenu);
+        binding.statsBtn.setOnClickListener(this::statsMenu);
 
     }
 
@@ -113,6 +116,14 @@ public class GameActivityUIManager implements GameEngineListener {
         } else {
             viewModel.setWindowState(WindowState.GONE);
         }
+    }
+
+    private void equipMenu(View view) {
+        EventsQueue.Companion.getInstance().enqueue(new PlayerConnectEvent(1));
+    }
+
+    private void statsMenu(View view) {
+        Configuration.CHAR_ID = 1 - Configuration.CHAR_ID;
     }
 
     public void setExpressions(Collection<Expression> expressions) {

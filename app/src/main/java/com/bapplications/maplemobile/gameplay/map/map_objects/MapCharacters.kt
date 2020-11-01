@@ -1,13 +1,13 @@
 package com.bapplications.maplemobile.gameplay.map.map_objects
 
+import com.bapplications.maplemobile.gameplay.map.Layer
 import com.bapplications.maplemobile.gameplay.map.MapObject
 import com.bapplications.maplemobile.gameplay.physics.Physics
 import com.bapplications.maplemobile.gameplay.player.CharEntry
 import com.bapplications.maplemobile.input.EventsQueue
-import com.bapplications.maplemobile.input.events.Event
+import com.bapplications.maplemobile.input.InputAction
+import com.bapplications.maplemobile.input.events.*
 import com.bapplications.maplemobile.input.events.EventListener
-import com.bapplications.maplemobile.input.events.EventType
-import com.bapplications.maplemobile.input.events.OtherPlayerConnectedEvent
 import com.bapplications.maplemobile.utils.Point
 import java.util.*
 
@@ -18,23 +18,33 @@ class MapCharacters : EventListener {
 
     init {
         EventsQueue.instance.registerListener(EventType.OtherPlayerConnected, this)
+        EventsQueue.instance.registerListener(EventType.PressButton, this)
+        EventsQueue.instance.registerListener(EventType.ExpressionButton, this)
     }
 
     fun update(physics: Physics, deltatime: Int) {
         while (!spawns.isEmpty()) {
             val spawn = spawns.poll()
             val cid = spawn.cid
-            val ochar: OtherChar? = getChar(cid) as OtherChar?
+            var ochar: OtherChar? = getChar(cid) as OtherChar?
 
             if (ochar == null) {
-                chars.add(spawn.instantiate())
+                ochar = spawn.instantiate()
+                chars.add(ochar)
             }
         }
         chars.update(physics, deltatime)
     }
 
+    fun draw(layer: Layer, viewpos: Point?, alpha: Float) {
+        for (ochar in chars.objects.values) {
+            ochar.draw(layer, viewpos, alpha)
+        }
+    }
+
+
     private fun getChar(cid: Int): MapObject? {
-        return chars.get(cid);
+        return chars.get(cid)
     }
 
     override fun onEventReceive(event: Event) {
@@ -44,7 +54,16 @@ class MapCharacters : EventListener {
                 look.hairid = event.hair
                 look.faceid = event.face
                 look.skin = event.skin.toByte()
-                spawns.add(CharSpawn(event.charid, look, 1, 1, "", 1, Point()))
+                spawns.add(CharSpawn(event.charid, look, 1, 1, "", event.stance, event.pos))
+            }
+            is PressButtonEvent -> {
+                if (event.charid != 0) {
+                    if (event.pressed) {
+                        (chars.get(event.charid) as OtherChar?)?.clickedButton(InputAction.byKey(event.buttonPressed))
+                    } else {
+                        (chars.get(event.charid) as OtherChar?)?.releasedButtons(InputAction.byKey(event.buttonPressed))
+                    }
+                }
             }
         }
     }

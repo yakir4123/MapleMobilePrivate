@@ -2287,6 +2287,23 @@ public final class Service {
      * @return The face.
      */
     int getFace();
+
+    /**
+     * <code>int32 state = 5;</code>
+     * @return The state.
+     */
+    int getState();
+
+    /**
+     * <code>.messaging.Point pos = 6;</code>
+     * @return Whether the pos field is set.
+     */
+    boolean hasPos();
+    /**
+     * <code>.messaging.Point pos = 6;</code>
+     * @return The pos.
+     */
+    messaging.Service.Point getPos();
   }
   /**
    * Protobuf type {@code messaging.ResponseOtherPlayerConnected}
@@ -2400,6 +2417,78 @@ public final class Service {
     private void clearFace() {
       
       face_ = 0;
+    }
+
+    public static final int STATE_FIELD_NUMBER = 5;
+    private int state_;
+    /**
+     * <code>int32 state = 5;</code>
+     * @return The state.
+     */
+    @java.lang.Override
+    public int getState() {
+      return state_;
+    }
+    /**
+     * <code>int32 state = 5;</code>
+     * @param value The state to set.
+     */
+    private void setState(int value) {
+      
+      state_ = value;
+    }
+    /**
+     * <code>int32 state = 5;</code>
+     */
+    private void clearState() {
+      
+      state_ = 0;
+    }
+
+    public static final int POS_FIELD_NUMBER = 6;
+    private messaging.Service.Point pos_;
+    /**
+     * <code>.messaging.Point pos = 6;</code>
+     */
+    @java.lang.Override
+    public boolean hasPos() {
+      return pos_ != null;
+    }
+    /**
+     * <code>.messaging.Point pos = 6;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.Point getPos() {
+      return pos_ == null ? messaging.Service.Point.getDefaultInstance() : pos_;
+    }
+    /**
+     * <code>.messaging.Point pos = 6;</code>
+     */
+    private void setPos(messaging.Service.Point value) {
+      value.getClass();
+  pos_ = value;
+      
+      }
+    /**
+     * <code>.messaging.Point pos = 6;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergePos(messaging.Service.Point value) {
+      value.getClass();
+  if (pos_ != null &&
+          pos_ != messaging.Service.Point.getDefaultInstance()) {
+        pos_ =
+          messaging.Service.Point.newBuilder(pos_).mergeFrom(value).buildPartial();
+      } else {
+        pos_ = value;
+      }
+      
+    }
+    /**
+     * <code>.messaging.Point pos = 6;</code>
+     */
+    private void clearPos() {  pos_ = null;
+      
     }
 
     public static messaging.Service.ResponseOtherPlayerConnected parseFrom(
@@ -2609,6 +2698,81 @@ public final class Service {
         return this;
       }
 
+      /**
+       * <code>int32 state = 5;</code>
+       * @return The state.
+       */
+      @java.lang.Override
+      public int getState() {
+        return instance.getState();
+      }
+      /**
+       * <code>int32 state = 5;</code>
+       * @param value The state to set.
+       * @return This builder for chaining.
+       */
+      public Builder setState(int value) {
+        copyOnWrite();
+        instance.setState(value);
+        return this;
+      }
+      /**
+       * <code>int32 state = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearState() {
+        copyOnWrite();
+        instance.clearState();
+        return this;
+      }
+
+      /**
+       * <code>.messaging.Point pos = 6;</code>
+       */
+      @java.lang.Override
+      public boolean hasPos() {
+        return instance.hasPos();
+      }
+      /**
+       * <code>.messaging.Point pos = 6;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.Point getPos() {
+        return instance.getPos();
+      }
+      /**
+       * <code>.messaging.Point pos = 6;</code>
+       */
+      public Builder setPos(messaging.Service.Point value) {
+        copyOnWrite();
+        instance.setPos(value);
+        return this;
+        }
+      /**
+       * <code>.messaging.Point pos = 6;</code>
+       */
+      public Builder setPos(
+          messaging.Service.Point.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPos(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.Point pos = 6;</code>
+       */
+      public Builder mergePos(messaging.Service.Point value) {
+        copyOnWrite();
+        instance.mergePos(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.Point pos = 6;</code>
+       */
+      public Builder clearPos() {  copyOnWrite();
+        instance.clearPos();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:messaging.ResponseOtherPlayerConnected)
     }
     @java.lang.Override
@@ -2629,10 +2793,12 @@ public final class Service {
               "hair_",
               "skin_",
               "face_",
+              "state_",
+              "pos_",
             };
             java.lang.String info =
-                "\u0000\u0004\u0000\u0000\u0001\u0004\u0004\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
-                "\u0003\u0004\u0004\u0004";
+                "\u0000\u0006\u0000\u0000\u0001\u0006\u0006\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
+                "\u0003\u0004\u0004\u0004\u0005\u0004\u0006\t";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through

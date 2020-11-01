@@ -8,13 +8,12 @@ import com.bapplications.maplemobile.gameplay.player.look.CharLook
 import com.bapplications.maplemobile.utils.*
 
 class OtherChar(cid: Int, look: CharLook, level: Byte, job: Short,
-                name: String, stance: Byte, position: Point) : Char(cid, look, name){
+                name: String, state: State, position: Point) : Char(cid, look, name){
 
-    override fun update(physics: Physics, deltatime: Int): Byte
-    {
-        return getLayer().ordinal.toByte();
+    init {
+        respawn(position, false)
+        setState(state)
     }
-
 
     fun draw(layer: Layer, viewpos: Point?, alpha: Float) {
         if (layer == getLayer()) super.draw(viewpos, alpha)

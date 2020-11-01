@@ -68,7 +68,7 @@ class IntervalTree(ranges: Collection<Range>, xrange: Range) : Collection<Range>
 
     fun getRanges(range: Range): Iterator<Range> {
         var res: ConcatIterator<Range> = ConcatIterator(listOf())
-        if (/*!isNodeEmpty() &&*/ range.intersect(minMaxNodeRange)) {
+        if (range.intersect(minMaxNodeRange)) {
             res += cutX.iterator()
         }
         if(leftTree?.minMaxTreeRange?.intersect(range) == true) {
