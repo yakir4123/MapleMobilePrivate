@@ -27,36 +27,6 @@ public final class MapleServiceGrpc {
   public static final String SERVICE_NAME = "messaging.MapleService";
 
   // Static method descriptors that strictly reflect the proto.
-  private static volatile io.grpc.MethodDescriptor<messaging.Service.connectRequest,
-      messaging.Service.connectResponse> getConnectMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "Connect",
-      requestType = messaging.Service.connectRequest.class,
-      responseType = messaging.Service.connectResponse.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<messaging.Service.connectRequest,
-      messaging.Service.connectResponse> getConnectMethod() {
-    io.grpc.MethodDescriptor<messaging.Service.connectRequest, messaging.Service.connectResponse> getConnectMethod;
-    if ((getConnectMethod = MapleServiceGrpc.getConnectMethod) == null) {
-      synchronized (MapleServiceGrpc.class) {
-        if ((getConnectMethod = MapleServiceGrpc.getConnectMethod) == null) {
-          MapleServiceGrpc.getConnectMethod = getConnectMethod =
-              io.grpc.MethodDescriptor.<messaging.Service.connectRequest, messaging.Service.connectResponse>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "Connect"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.lite.ProtoLiteUtils.marshaller(
-                  messaging.Service.connectRequest.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.lite.ProtoLiteUtils.marshaller(
-                  messaging.Service.connectResponse.getDefaultInstance()))
-              .build();
-        }
-      }
-    }
-    return getConnectMethod;
-  }
-
   private static volatile io.grpc.MethodDescriptor<messaging.Service.RequestEvent,
       messaging.Service.ResponseEvent> getEventsStreamMethod;
 
@@ -137,13 +107,6 @@ public final class MapleServiceGrpc {
 
     /**
      */
-    public void connect(messaging.Service.connectRequest request,
-        io.grpc.stub.StreamObserver<messaging.Service.connectResponse> responseObserver) {
-      asyncUnimplementedUnaryCall(getConnectMethod(), responseObserver);
-    }
-
-    /**
-     */
     public io.grpc.stub.StreamObserver<messaging.Service.RequestEvent> eventsStream(
         io.grpc.stub.StreamObserver<messaging.Service.ResponseEvent> responseObserver) {
       return asyncUnimplementedStreamingCall(getEventsStreamMethod(), responseObserver);
@@ -151,13 +114,6 @@ public final class MapleServiceGrpc {
 
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
-          .addMethod(
-            getConnectMethod(),
-            asyncUnaryCall(
-              new MethodHandlers<
-                messaging.Service.connectRequest,
-                messaging.Service.connectResponse>(
-                  this, METHODID_CONNECT)))
           .addMethod(
             getEventsStreamMethod(),
             asyncBidiStreamingCall(
@@ -185,14 +141,6 @@ public final class MapleServiceGrpc {
 
     /**
      */
-    public void connect(messaging.Service.connectRequest request,
-        io.grpc.stub.StreamObserver<messaging.Service.connectResponse> responseObserver) {
-      asyncUnaryCall(
-          getChannel().newCall(getConnectMethod(), getCallOptions()), request, responseObserver);
-    }
-
-    /**
-     */
     public io.grpc.stub.StreamObserver<messaging.Service.RequestEvent> eventsStream(
         io.grpc.stub.StreamObserver<messaging.Service.ResponseEvent> responseObserver) {
       return asyncBidiStreamingCall(
@@ -213,13 +161,6 @@ public final class MapleServiceGrpc {
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new MapleServiceBlockingStub(channel, callOptions);
     }
-
-    /**
-     */
-    public messaging.Service.connectResponse connect(messaging.Service.connectRequest request) {
-      return blockingUnaryCall(
-          getChannel(), getConnectMethod(), getCallOptions(), request);
-    }
   }
 
   /**
@@ -235,18 +176,9 @@ public final class MapleServiceGrpc {
         io.grpc.Channel channel, io.grpc.CallOptions callOptions) {
       return new MapleServiceFutureStub(channel, callOptions);
     }
-
-    /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<messaging.Service.connectResponse> connect(
-        messaging.Service.connectRequest request) {
-      return futureUnaryCall(
-          getChannel().newCall(getConnectMethod(), getCallOptions()), request);
-    }
   }
 
-  private static final int METHODID_CONNECT = 0;
-  private static final int METHODID_EVENTS_STREAM = 1;
+  private static final int METHODID_EVENTS_STREAM = 0;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -265,10 +197,6 @@ public final class MapleServiceGrpc {
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
-        case METHODID_CONNECT:
-          serviceImpl.connect((messaging.Service.connectRequest) request,
-              (io.grpc.stub.StreamObserver<messaging.Service.connectResponse>) responseObserver);
-          break;
         default:
           throw new AssertionError();
       }
@@ -297,7 +225,6 @@ public final class MapleServiceGrpc {
         result = serviceDescriptor;
         if (result == null) {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
-              .addMethod(getConnectMethod())
               .addMethod(getEventsStreamMethod())
               .build();
         }

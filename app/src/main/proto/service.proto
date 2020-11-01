@@ -3,25 +3,55 @@ syntax = "proto3";
 package messaging;
 
 service MapleService {
-  rpc Connect(connectRequest) returns (connectResponse);
   rpc EventsStream(stream RequestEvent) returns (stream ResponseEvent);
-}
-
-message ChatMessage {
-  int32 id = 1;
-  string message = 2;
 }
 
 message RequestEvent {
   oneof event {
     RequestDropItem dropItem = 1;
+    PressButton pressButton = 2;
+    ExpressionButton expressionButton = 3;
+    RequestPlayerConnect playerConnect = 4;
   }
 }
 
 message ResponseEvent {
   oneof event {
     ResponseDropItem dropItem = 1;
+    PressButton pressButton = 2;
+    ExpressionButton expressionButton = 3;
+    ResponsePlayerConnected playerConnected = 4;
+    ResponseOtherPlayerConnected otherPlayerConnected = 5;
   }
+}
+
+message RequestPlayerConnect {
+  int32 charid = 1;
+}
+
+message ResponsePlayerConnected {
+  int32 charid = 1;
+  int32 hair = 2;
+  int32 skin = 3;
+  int32 face = 4;
+}
+
+message ResponseOtherPlayerConnected {
+  int32 charid = 1;
+  int32 hair = 2;
+  int32 skin = 3;
+  int32 face = 4;
+}
+
+message PressButton {
+  int32 charid = 1;
+  int32 button = 2;
+  bool pressed = 3;
+}
+
+message ExpressionButton {
+  int32 charid = 1;
+  int32 expression = 2;
 }
 
 message RequestDropItem {
@@ -53,12 +83,3 @@ message Point {
   float y = 2;
 }
 
-message connectRequest {
-
-}
-
-message connectResponse {
-
-}
-
-message Empty {}

@@ -4,16 +4,20 @@ import com.bapplications.maplemobile.gameplay.player.Player;
 import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.gameplay.player.CharEntry;
 import com.bapplications.maplemobile.input.EventsQueue;
+import com.bapplications.maplemobile.input.events.Event;
+import com.bapplications.maplemobile.input.events.EventListener;
+import com.bapplications.maplemobile.input.events.EventType;
+import com.bapplications.maplemobile.input.events.PlayerConnectEvent;
+import com.bapplications.maplemobile.input.events.PlayerConnectedEvent;
 import com.bapplications.maplemobile.input.network.NetworkHandler;
 import com.bapplications.maplemobile.ui.GameActivityUIManager;
-import com.bapplications.maplemobile.ui.GameViewController;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.HashMap;
 
-import kotlin.jvm.functions.Function1;
-
-public class GameEngine {
+public class GameEngine implements EventListener {
 
     private Camera camera;
     private Player player;
@@ -33,6 +37,7 @@ public class GameEngine {
         camera = new Camera();
         currMap = new GameMap(camera);
         networkHandler = new NetworkHandler(Configuration.HOST, Configuration.PORT);
+        EventsQueue.Companion.getInstance().registerListener(EventType.PlayerConnected, this);
         nextMaps = new HashMap<>();
     }
 
@@ -65,33 +70,39 @@ public class GameEngine {
         return currMap;
     }
 
-    public void changeMap() {
-        changeMap(currMap.getMapId(), "sp");
+
+    public void initMap() {
+        initMap(currMap.getMapId());
     }
 
-    public void changeMap(int mapId, String portalName) {
+    public void initMap(int mapId) {
         if(mapId != currMap.getMapId()) {
             controllers.startLoadingMap();
         }
         if (nextMaps.containsKey(mapId)) {
             currMap = nextMaps.get(mapId);
-            return;
         } else {
             currMap = new GameMap(camera);
             currMap.init(mapId);
         }
+    }
+
+    public void changeMap(int mapId, String portalName) {
+        initMap(mapId);
         currMap.enterMap(player, currMap.getPortalByName(portalName));
     }
 
     public void loadPlayer(int charId) {
-        // for development this will be a new char instead from reading from a db
-        CharEntry ce = new CharEntry(charId);
-        ce.look.faceid = 20000;
-        ce.look.hairid = 30020;
 
-        ce.look.equips = new HashMap<>();
+        EventsQueue.Companion.getInstance().enqueue(new PlayerConnectEvent(charId));
 
-        // magician look
+        if(false) {
+            // for development this will be a new char instead from reading from a db
+            CharEntry ce = new CharEntry(charId);
+            ce.look.faceid = 20000;
+            ce.look.hairid = 30020;
+
+            // magician look
 //        ce.look.equips.put((byte) EquipSlot.Id.TOP.ordinal(), 1050045);
 //        ce.look.equips.put((byte) EquipSlot.Id.GLOVES.ordinal(), 1082028);
 //        ce.look.equips.put((byte) EquipSlot.Id.HAT.ordinal(), 1002017);
@@ -99,18 +110,15 @@ public class GameEngine {
 //        ce.look.equips.put((byte) EquipSlot.Id.SHOES.ordinal(), 1072024);
 //        ce.look.equips.put((byte) EquipSlot.Id.WEAPON.ordinal(), 1382009);
 
-        // thief look
+            // thief look
 //        ce.look.equips.put((byte) EquipSlot.Id.TOP.ordinal(), 1050018);
 //        ce.look.equips.put((byte) EquipSlot.Id.HAT.ordinal(), 1002357);
 //        ce.look.equips.put((byte) EquipSlot.Id.SHOES.ordinal(), 1072171);
 //        ce.look.equips.put((byte) EquipSlot.Id.GLOVES.ordinal(), 1082223);
 //        ce.look.equips.put((byte) EquipSlot.Id.WEAPON.ordinal(), 1472054);
 
-        loadPlayer(ce);
-    }
-
-    public void notifyChangedMap(GameMap to) {
-        controllers.finishLoadingMap();
+            loadPlayer(ce);
+        }
     }
 
     public void loadPlayer(CharEntry entry)
@@ -125,5 +133,20 @@ public class GameEngine {
 
     public Camera getCamera() {
         return camera;
+    }
+
+    @Override
+    public void onEventReceive(@NotNull Event event) {
+        switch (event.getType()){
+            case PlayerConnected:
+                PlayerConnectedEvent _event = (PlayerConnectedEvent) event;
+                CharEntry ce = new CharEntry(_event.getCharid());
+                ce.look.hairid = _event.getHair();
+                ce.look.faceid = _event.getFace();
+                ce.look.skin = (byte) _event.getSkin();
+                loadPlayer(ce);
+                currMap.enterMap(player, currMap.getPortalByName("sp"));
+                break;
+        }
     }
 }

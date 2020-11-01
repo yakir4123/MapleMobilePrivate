@@ -1,13 +1,13 @@
 package com.bapplications.maplemobile.gameplay.player.state;
 
-import com.bapplications.maplemobile.gameplay.player.Player;
+import com.bapplications.maplemobile.gameplay.player.look.Char;
 import com.bapplications.maplemobile.input.InputAction;
 
 public interface PlayerState {
 
-    void initialize(Player player);
-    void update(Player player);
-    void updateState(Player player);
+    void initialize(Char player);
+    void update(Char player);
+    void updateState(Char player);
 
-    boolean sendAction(Player player, InputAction key);
+    boolean sendAction(Char player, InputAction key);
 }

@@ -9,13 +9,13 @@ public class PlayerStandState implements PlayerState {
 
 
     @Override
-    public void initialize(Player player) {
+    public void initialize(Char player) {
         player.getPhobj().type = PhysicsObject.Type.NORMAL;
         player.getPhobj().vspeed = 0;
     }
 
     @Override
-    public void update(Player player) {
+    public void update(Char player) {
         if (!player.getPhobj().enablejd)
             player.getPhobj().setFlag(PhysicsObject.Flag.CHECKBELOW);
 
@@ -41,13 +41,13 @@ public class PlayerStandState implements PlayerState {
     }
 
     @Override
-    public void updateState(Player player) {
+    public void updateState(Char player) {
         if (!player.getPhobj().onground)
             player.setState(Char.State.FALL);
     }
 
     @Override
-    public boolean sendAction(Player player, InputAction key) {
+    public boolean sendAction(Char player, InputAction key) {
 
         if (player.isAttacking())
             return false;

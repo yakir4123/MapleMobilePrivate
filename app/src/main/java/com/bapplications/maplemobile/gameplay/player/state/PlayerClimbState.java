@@ -8,12 +8,12 @@ import com.bapplications.maplemobile.gameplay.player.Player;
 
 public class PlayerClimbState implements PlayerState{
     @Override
-    public void initialize(Player player) {
+    public void initialize(Char player) {
         player.getPhobj().type = PhysicsObject.Type.FIXATED;
     }
 
     @Override
-    public void update(Player player) {
+    public void update(Char player) {
         if (player.isPressed(InputAction.UP_ARROW_KEY) && !player.isPressed(InputAction.DOWN_ARROW_KEY))
         {
             player.getPhobj().vspeed = -player.getClimbForce();
@@ -30,7 +30,7 @@ public class PlayerClimbState implements PlayerState{
     }
 
     @Override
-    public void updateState(Player player) {
+    public void updateState(Char player) {
         short y = (short) player.getPhobj().getPosition().y;
         boolean downwards = player.isPressed(InputAction.DOWN_ARROW_KEY);
         Ladder ladder = player.getLadder();
@@ -41,7 +41,7 @@ public class PlayerClimbState implements PlayerState{
     }
 
     @Override
-    public boolean sendAction(Player player, InputAction key) {
+    public boolean sendAction(Char player, InputAction key) {
 
         if (player.isAttacking())
             return false;
@@ -64,7 +64,7 @@ public class PlayerClimbState implements PlayerState{
     }
 
 
-    void cancelLadder(Player player)
+    void cancelLadder(Char player)
     {
         player.setState(Char.State.FALL);
         player.setLadder(null);

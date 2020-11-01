@@ -25,14 +25,14 @@ class GameViewController(button: View, val input: InputAction) {
             if (!isPressed && motionEvent.action == MotionEvent.ACTION_DOWN) {
                 isPressed = true
                 when (input){
-                    is ExpressionInputAction -> input.exp?.let {EventsQueue.instance.enqueue( ExpressionButtonEvent(it)) }
+                    is ExpressionInputAction -> input.exp?.let {EventsQueue.instance.enqueue( ExpressionButtonEvent(0, it)) }
                     else ->
-                        EventsQueue.instance.enqueue(PressButtonEvent(input.key, true))
+                        EventsQueue.instance.enqueue(PressButtonEvent(0, input.key, true))
                 }
             } else if (motionEvent.action == MotionEvent.ACTION_UP) {
                 isPressed = false
                 isReleased = true
-                EventsQueue.instance.enqueue(PressButtonEvent(input.key, false))
+                EventsQueue.instance.enqueue(PressButtonEvent(0, input.key, false))
             } else if( input.type == InputAction.Type.SINGLE_CLICK) {
                 isPressed = false
             }

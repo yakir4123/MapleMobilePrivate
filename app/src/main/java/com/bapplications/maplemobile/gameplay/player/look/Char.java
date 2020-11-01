@@ -1,22 +1,47 @@
 package com.bapplications.maplemobile.gameplay.player.look;
 
-import com.bapplications.maplemobile.input.ExpressionInputAction;
-import com.bapplications.maplemobile.gameplay.map.Layer;
-import com.bapplications.maplemobile.gameplay.map.MapObject;
-import com.bapplications.maplemobile.gameplay.physics.Physics;
-import com.bapplications.maplemobile.gameplay.player.Stance;
-import com.bapplications.maplemobile.utils.DrawArgument;
+import com.bapplications.maplemobile.gameplay.audio.Sound;
+import com.bapplications.maplemobile.gameplay.map.Ladder;
+import com.bapplications.maplemobile.gameplay.player.state.PlayerClimbState;
+import com.bapplications.maplemobile.gameplay.player.state.PlayerFallState;
+import com.bapplications.maplemobile.gameplay.player.state.PlayerProneState;
+import com.bapplications.maplemobile.gameplay.player.state.PlayerStandState;
+import com.bapplications.maplemobile.gameplay.player.state.PlayerState;
+import com.bapplications.maplemobile.gameplay.player.state.PlayerWalkState;
+import com.bapplications.maplemobile.input.InputAction;
 import com.bapplications.maplemobile.utils.Point;
 import com.bapplications.maplemobile.utils.TimedBool;
+import com.bapplications.maplemobile.gameplay.map.Layer;
+import com.bapplications.maplemobile.utils.DrawArgument;
+import com.bapplications.maplemobile.gameplay.player.Stance;
+import com.bapplications.maplemobile.gameplay.map.MapObject;
+import com.bapplications.maplemobile.gameplay.physics.Physics;
 
-public class Char extends MapObject {
+import java.util.ArrayList;
+
+public abstract class Char extends MapObject {
 
     protected State state;
+    protected Ladder ladder;
+    protected boolean attacking;
     private final CharLook look;
+    protected TimedBool climb_cooldown;
     private final CharLook look_preview;
     private TimedBool invincible = new TimedBool();
 
+    private ArrayList<InputAction> pressedButton = new ArrayList<>();
+
     protected boolean lookLeft = true;
+
+
+    protected Char(int o, CharLook lk, String name) {
+        super(o);
+        look = lk;
+        look_preview = lk;
+        climb_cooldown = new TimedBool();
+//        namelabel(Text(Text::Font::A13M, Text::Alignment::CENTER, Color::Name::
+//        WHITE, Text::Background::NAMETAG, name));
+    }
 
     public static void init() {
         CharLook.init();
@@ -53,15 +78,81 @@ public class Char extends MapObject {
 
     }
 
-    protected void setState(State state) {
-        this.state = state;
+
+
+    public byte update(Physics physics, int deltaTime) {
+
+        PlayerState pst = getState(state);
+
+        if (pst != null) {
+            pst.update(this);
+            physics.moveObject(phobj);
+
+            short stancespeed = 0;
+            if (getStanceSpeed() >= 1.0f / deltaTime)
+                stancespeed = (short)(deltaTime * getStanceSpeed());
+            invincible.update(deltaTime);
+            boolean aniend = look.update(stancespeed);
+
+            if (aniend && attacking) {
+                attacking = false;
+            } else {
+                pst.updateState(this);
+            }
+        }
+        climb_cooldown.update(deltaTime);
+
+        return (byte) getLayer().ordinal();
+    }
+
+    public abstract float getStanceSpeed();
+
+    public void setState(State state) {
+            this.state = state;
 
         Stance.Id stance = Stance.byState(state);
         look.setStance(stance);
+        PlayerState pst = getState(state);
 
+        if (pst != null)
+            pst.initialize(this);
     }
 
-    protected void setLookLeft(boolean lookLeft) {
+    public float getWalkForce() {
+        return 0.05f + 0.32f;// * (float)(stats.get_total(EquipStat::Id::SPEED)) / 100;
+    }
+
+    public float getJumpForce() {
+        return 1.0f + 6f;// * (float)(stats.get_total(EquipStat::Id::JUMP)) / 100;
+    }
+
+    public float getClimbForce() {
+        return 1.5f;//static_cast<float>(stats.get_total(EquipStat::Id::SPEED)) / 100;
+    }
+    public Ladder getLadder() {
+        return ladder;
+    }
+
+    public void setLadder(Ladder ldr) {
+        ladder = ldr;
+
+        if (ladder != null) {
+            phobj.set_x(ldr.getX());
+
+            phobj.hspeed = 0.0f;
+            phobj.vspeed = 0.0f;
+            phobj.fhlayer = 7;
+
+            setState(ldr.isLadder() ? Char.State.LADDER : Char.State.ROPE);
+        }
+    }
+
+    public void setClimbCooldown() {
+        climb_cooldown.setFor(1000);
+    }
+
+
+    public void setLookLeft(boolean lookLeft) {
         this.lookLeft = lookLeft;
         look.setDirection(lookLeft);
     }
@@ -102,14 +193,6 @@ public class Char extends MapObject {
         public Stance.Id getStance() { return val;}
     }
 
-    protected Char(int o, CharLook lk, String name) {
-        super(o);
-        look = lk;
-        look_preview = lk;
-//        namelabel(Text(Text::Font::A13M, Text::Alignment::CENTER, Color::Name::
-//        WHITE, Text::Background::NAMETAG, name));
-    }
-
     public boolean update(Physics physics, float speed, int deltaTime){
         short stancespeed = 0;
 
@@ -139,5 +222,81 @@ public class Char extends MapObject {
 
         look.setAlerted(5000);
         invincible.setFor(2000);
+    }
+
+
+    private static PlayerProneState lying = new PlayerProneState();
+    private static PlayerWalkState walking = new PlayerWalkState();
+    private static PlayerFallState falling = new PlayerFallState();
+    private static PlayerStandState standing = new PlayerStandState();
+    private static PlayerClimbState climbing = new PlayerClimbState();
+//    private static PlayerSitState sitting = new PlayerStandState();
+//    private static PlayerFlyState flying = new PlayerStandState();
+    protected PlayerState getState(State state) {
+
+        switch (state) {
+            case STAND:
+                return standing;
+            case WALK:
+                return walking;
+            case FALL:
+                return falling;
+            case PRONE:
+                return lying;
+            case LADDER:
+            case ROPE:
+                return climbing;
+//            case Char.State.SIT:
+//                return sitting;
+//            case Char.State.SWIM:
+//                return flying;
+            default:
+                return null;
+        }
+    }
+
+    public void playJumpSound() {
+        (new Sound(Sound.Name.JUMP)).play();
+    }
+
+    public Point getPosition() {
+        return getPhobj().getPosition();
+    }
+
+    public boolean isAttacking() {
+        return attacking;
+    }
+
+    public boolean hasWalkInput() {
+        return isPressed(InputAction.LEFT_ARROW_KEY) || isPressed(InputAction.RIGHT_ARROW_KEY);
+    }
+
+    public boolean clickedButton(InputAction key) {
+        PlayerState pst = getState(state);
+
+        if (pst == null) {
+            return false;
+        }
+
+        if(pressedButton.contains(key)) {
+            return true;
+        }
+
+        if (key.getType() == InputAction.Type.CONTINUES_CLICK){
+            pressedButton.add(key);
+        }
+        return pst.sendAction(this, key);
+    }
+
+    public boolean releasedButtons(InputAction key) {
+        if (!pressedButton.contains(key)) {
+            return false;
+        }
+        pressedButton.remove(key);
+        return true;
+    }
+
+    public boolean isPressed(InputAction key) {
+        return pressedButton.contains(key);
     }
 }
