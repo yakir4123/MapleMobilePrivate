@@ -21,6 +21,7 @@ import com.bapplications.maplemobile.ui.windows.ChangeMapPopup;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -42,6 +43,7 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
 
         Configuration.WZ_DIRECTORY = getExternalFilesDir(null).getAbsolutePath();
         Configuration.CACHE_DIRECTORY = getCacheDir().getAbsolutePath();
+
         try {
             Loaded.loadFile(Loaded.WzFileName.MAP, Configuration.WZ_DIRECTORY + "/Map.nx");
             Loaded.loadFile(Loaded.WzFileName.MOB, Configuration.WZ_DIRECTORY + "/Mob.nx");
@@ -50,7 +52,7 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
             Loaded.loadFile(Loaded.WzFileName.STRING, Configuration.WZ_DIRECTORY + "/String.nx");
             Loaded.loadFile(Loaded.WzFileName.CHARACTER, Configuration.WZ_DIRECTORY + "/Character.nx");
         } catch (IOException e) {
-            e.printStackTrace();
+
         }
         Log.d(TAG, "Loading files complete");
 
