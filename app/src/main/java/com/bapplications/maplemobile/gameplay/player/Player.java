@@ -1,66 +1,53 @@
 package com.bapplications.maplemobile.gameplay.player;
 
-import com.bapplications.maplemobile.input.EventsQueue;
-import com.bapplications.maplemobile.input.events.DropItemEvent;
-import com.bapplications.maplemobile.input.events.Event;
-import com.bapplications.maplemobile.input.events.EventListener;
-import com.bapplications.maplemobile.input.events.EventType;
-import com.bapplications.maplemobile.input.events.ExpressionButtonEvent;
-import com.bapplications.maplemobile.input.events.PressButtonEvent;
 import com.bapplications.maplemobile.gameplay.GameMap;
+import com.bapplications.maplemobile.input.EventsQueue;
 import com.bapplications.maplemobile.gameplay.map.Layer;
-import com.bapplications.maplemobile.gameplay.map.Ladder;
-import com.bapplications.maplemobile.gameplay.audio.Sound;
-import com.bapplications.maplemobile.gameplay.map.map_objects.mobs.Attack;
+import com.bapplications.maplemobile.input.events.Event;
+import com.bapplications.maplemobile.input.events.EventType;
 import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.gameplay.physics.Physics;
-import com.bapplications.maplemobile.gameplay.components.ColliderComponent;
+import com.bapplications.maplemobile.gameplay.player.look.Char;
+import com.bapplications.maplemobile.input.events.DropItemEvent;
+import com.bapplications.maplemobile.input.events.EventListener;
+import com.bapplications.maplemobile.gameplay.player.look.CharLook;
+import com.bapplications.maplemobile.input.events.PressButtonEvent;
 import com.bapplications.maplemobile.gameplay.player.inventory.Item;
 import com.bapplications.maplemobile.gameplay.player.inventory.Slot;
 import com.bapplications.maplemobile.gameplay.player.inventory.Equip;
-import com.bapplications.maplemobile.gameplay.player.look.Char;
-import com.bapplications.maplemobile.gameplay.player.look.CharLook;
 import com.bapplications.maplemobile.gameplay.player.look.Expression;
 import com.bapplications.maplemobile.gameplay.player.state.PlayerState;
+import com.bapplications.maplemobile.input.events.ExpressionButtonEvent;
 import com.bapplications.maplemobile.gameplay.player.inventory.Inventory;
-import com.bapplications.maplemobile.gameplay.player.state.PlayerFallState;
-import com.bapplications.maplemobile.gameplay.player.state.PlayerClimbState;
-import com.bapplications.maplemobile.gameplay.player.state.PlayerProneState;
-import com.bapplications.maplemobile.gameplay.player.state.PlayerStandState;
+import com.bapplications.maplemobile.gameplay.map.map_objects.mobs.Attack;
+import com.bapplications.maplemobile.gameplay.components.ColliderComponent;
 import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType;
-import com.bapplications.maplemobile.gameplay.player.state.PlayerWalkState;
 
 import com.bapplications.maplemobile.utils.Color;
-import com.bapplications.maplemobile.utils.DrawArgument;
-import com.bapplications.maplemobile.utils.DrawableCircle;
 import com.bapplications.maplemobile.utils.Point;
 import com.bapplications.maplemobile.utils.Rectangle;
-import com.bapplications.maplemobile.utils.TimedBool;
 import com.bapplications.maplemobile.input.InputAction;
+import com.bapplications.maplemobile.utils.DrawArgument;
+import com.bapplications.maplemobile.utils.DrawableCircle;
 import com.bapplications.maplemobile.ui.GameActivityUIManager;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.TreeSet;
-import java.util.ArrayList;
 import java.util.Collection;
 
 
 public class Player extends Char implements ColliderComponent , EventListener {
 
     private GameMap map;
-    private Ladder ladder;
     private PlayerStats stats;
-    private boolean attacking;
     private boolean underwater;
     private Inventory inventory;
-    private TimedBool climb_cooldown;
     private TreeSet<Expression> myExpressions;
+
+    // todo:: seperate the viewmodel from here
     private final GameActivityUIManager controllers;
-
-    private ArrayList<InputAction> pressedButton = new ArrayList<>();
-
 
     public Player(CharEntry entry, GameActivityUIManager controllers) {
         super(entry.id, new CharLook(entry.look), entry.stats.name);
@@ -75,7 +62,6 @@ public class Player extends Char implements ColliderComponent , EventListener {
 
         myExpressions = new TreeSet<>();
         myExpressions.addAll(Arrays.asList(Expression.values()));
-        climb_cooldown = new TimedBool();
 
         EventsQueue.Companion.getInstance().registerListener(EventType.PressButton, this);
         EventsQueue.Companion.getInstance().registerListener(EventType.ExpressionButton, this);
@@ -95,14 +81,8 @@ public class Player extends Char implements ColliderComponent , EventListener {
     public void setState(State state) {
         if (!attacking) {
             super.setState(state);
-
-            PlayerState pst = getState(state);
-
-            if (pst != null)
-                pst.initialize(this);
         }
     }
-
 
     public void draw(Layer layer, Point viewpos, float alpha) {
         if (layer == getLayer())
@@ -122,31 +102,9 @@ public class Player extends Char implements ColliderComponent , EventListener {
         this.underwater = underwater;
         attacking = false;
         ladder = null;
-//        nullstate.update_state(*this);
     }
 
-    public byte update(Physics physics, int deltatime) {
-
-        PlayerState pst = getState(state);
-
-        if (pst != null) {
-            pst.update(this);
-            physics.moveObject(phobj);
-
-            boolean aniend = super.update(physics, getStanceSpeed(), deltatime);
-
-            if (aniend && attacking) {
-                attacking = false;
-            } else {
-                pst.updateState(this);
-            }
-        }
-        climb_cooldown.update(deltatime);
-
-        return (byte) getLayer().ordinal();
-    }
-
-    private float getStanceSpeed() {
+    public float getStanceSpeed() {
 
 //        if (attacking)
 //            return get_real_attackspeed();
@@ -162,90 +120,9 @@ public class Player extends Char implements ColliderComponent , EventListener {
         }
     }
 
-    private static PlayerProneState lying = new PlayerProneState();
-    private static PlayerWalkState walking = new PlayerWalkState();
-    private static PlayerFallState falling = new PlayerFallState();
-    private static PlayerStandState standing = new PlayerStandState();
-    private static PlayerClimbState climbing = new PlayerClimbState();
-
-    //    private static PlayerSitState sitting = new PlayerStandState();
-//    private static PlayerFlyState flying = new PlayerStandState();
-    private PlayerState getState(State state) {
-
-        switch (state) {
-            case STAND:
-                return standing;
-            case WALK:
-                return walking;
-            case FALL:
-                return falling;
-            case PRONE:
-                return lying;
-            case LADDER:
-            case ROPE:
-                return climbing;
-//            case Char.State.SIT:
-//                return sitting;
-//            case Char.State.SWIM:
-//                return flying;
-            default:
-                return null;
-        }
-
-    }
-
-    public boolean isAttacking() {
-        return attacking;
-    }
-
-    public boolean hasWalkInput() {
-        return isPressed(InputAction.LEFT_ARROW_KEY) || isPressed(InputAction.RIGHT_ARROW_KEY);
-    }
-
-    public float getWalkForce() {
-        return 0.05f + 0.32f;// * (float)(stats.get_total(EquipStat::Id::SPEED)) / 100;
-    }
-
-    public float getJumpForce() {
-        return 1.0f + 6f;// * (float)(stats.get_total(EquipStat::Id::JUMP)) / 100;
-    }
-
-    public float getClimbForce() {
-        return 1.5f;//static_cast<float>(stats.get_total(EquipStat::Id::SPEED)) / 100;
-    }
-
     public void setLookLeft(boolean lookLeft) {
         if (!attacking)
             super.setLookLeft(lookLeft);
-    }
-
-    public boolean clickedButton(InputAction key) {
-        PlayerState pst = getState(state);
-
-        if (pst == null) {
-            return false;
-        }
-
-        if(pressedButton.contains(key)) {
-            return true;
-        }
-
-        if (key.getType() == InputAction.Type.CONTINUES_CLICK){
-            pressedButton.add(key);
-        }
-        return pst.sendAction(this, key);
-    }
-
-    public boolean releasedButtons(InputAction key) {
-        if (!pressedButton.contains(key)) {
-            return false;
-        }
-        pressedButton.remove(key);
-        return true;
-    }
-
-    public boolean isPressed(InputAction key) {
-        return pressedButton.contains(key);
     }
 
     public short getStat(PlayerStats.Id id) {
@@ -325,40 +202,9 @@ public class Player extends Char implements ColliderComponent , EventListener {
         inventory.addItem(new Item(5000028, -1L,  null, (short)0), (short)1);
     }
 
-    public void playJumpSound() {
-        (new Sound(Sound.Name.JUMP)).play();
-    }
-
-    public Point getPosition() {
-        return getPhobj().getPosition();
-    }
-
     public Collection<Expression> getExpressions() {
         return myExpressions;
     }
-
-    public Ladder getLadder() {
-        return ladder;
-    }
-
-    public void setLadder(Ladder ldr) {
-        ladder = ldr;
-
-        if (ladder != null) {
-            phobj.set_x(ldr.getX());
-
-            phobj.hspeed = 0.0f;
-            phobj.vspeed = 0.0f;
-            phobj.fhlayer = 7;
-
-            setState(ldr.isLadder() ? Char.State.LADDER : Char.State.ROPE);
-        }
-    }
-
-    public void setClimbCooldown() {
-        climb_cooldown.setFor(1000);
-    }
-
 
     public boolean canClimb() {
         return !climb_cooldown.isTrue();
@@ -427,16 +273,20 @@ public class Player extends Char implements ColliderComponent , EventListener {
         switch(event.getType()) {
             case PressButton: {
                 PressButtonEvent _event = (PressButtonEvent) event;
-                if (_event.getPressed()) {
-                    clickedButton(InputAction.byKey(_event.getButtonPressed()));
-                } else {
-                    releasedButtons(InputAction.byKey(_event.getButtonPressed()));
+                if(_event.getCharid() == 0) {
+                    if (_event.getPressed()) {
+                        clickedButton(InputAction.byKey(_event.getButtonPressed()));
+                    } else {
+                        releasedButtons(InputAction.byKey(_event.getButtonPressed()));
+                    }
                 }
                 break;
             }
             case ExpressionButton: {
                 ExpressionButtonEvent _event = (ExpressionButtonEvent) event;
-                setExpression(_event.getExpression());
+                if(_event.getCharid() == 0) {
+                    setExpression(_event.getExpression());
+                }
             }
 
         }

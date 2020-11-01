@@ -142,18 +142,18 @@ public class GameActivityUIManager implements GameEngineListener {
 
     @Override
     public void onGameStarted() {
-        viewModel.setHp(activity.getGameEngine().getCurrMap().getPlayer()
-                .getStat(PlayerStats.Id.HP));
-        viewModel.setMaxHp(activity.getGameEngine().getCurrMap()
-                .getPlayer().getStat(PlayerStats.Id.MAX_HP));
-        viewModel.setMp(activity.getGameEngine().getCurrMap().getPlayer()
-                .getStat(PlayerStats.Id.MP));
-        viewModel.setMaxMp(activity.getGameEngine().getCurrMap()
-                .getPlayer().getStat(PlayerStats.Id.MAX_MP));
-        viewModel.setExp(activity.getGameEngine().getCurrMap().getPlayer()
-                .getStat(PlayerStats.Id.EXP));
-        viewModel.setMaxExp(Constants.getExp(activity.getGameEngine()
-                .getCurrMap().getPlayer().getStat(PlayerStats.Id.LEVEL)));
+//        viewModel.setHp(activity.getGameEngine().getCurrMap().getPlayer()
+//                .getStat(PlayerStats.Id.HP));
+//        viewModel.setMaxHp(activity.getGameEngine().getCurrMap()
+//                .getPlayer().getStat(PlayerStats.Id.MAX_HP));
+//        viewModel.setMp(activity.getGameEngine().getCurrMap().getPlayer()
+//                .getStat(PlayerStats.Id.MP));
+//        viewModel.setMaxMp(activity.getGameEngine().getCurrMap()
+//                .getPlayer().getStat(PlayerStats.Id.MAX_MP));
+//        viewModel.setExp(activity.getGameEngine().getCurrMap().getPlayer()
+//                .getStat(PlayerStats.Id.EXP));
+//        viewModel.setMaxExp(Constants.getExp(activity.getGameEngine()
+//                .getCurrMap().getPlayer().getStat(PlayerStats.Id.LEVEL)));
     }
 
     public GameActivityViewModel getViewModel() {

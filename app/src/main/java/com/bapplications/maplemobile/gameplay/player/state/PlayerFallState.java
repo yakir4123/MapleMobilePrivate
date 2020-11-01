@@ -8,12 +8,12 @@ import com.bapplications.maplemobile.gameplay.player.Player;
 public class PlayerFallState implements PlayerState {
 
     @Override
-    public void initialize(Player player) {
+    public void initialize(Char player) {
         player.getPhobj().type = PhysicsObject.Type.NORMAL;
     }
 
     @Override
-    public void update(Player player) {
+    public void update(Char player) {
         if (player.isAttacking())
             return;
 
@@ -32,7 +32,7 @@ public class PlayerFallState implements PlayerState {
     }
 
     @Override
-    public void updateState(Player player) {
+    public void updateState(Char player) {
         if (player.getPhobj().onground)
         {
 //            if (player.is_key_down(InputAction::Id::DOWN) && !haswalkinput(player)){
@@ -48,7 +48,7 @@ public class PlayerFallState implements PlayerState {
     }
 
     @Override
-    public boolean sendAction(Player player, InputAction key) {
+    public boolean sendAction(Char player, InputAction key) {
         return false;
     }
 }

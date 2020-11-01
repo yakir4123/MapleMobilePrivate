@@ -2,6 +2,7 @@ package com.bapplications.maplemobile.gameplay;
 
 import android.util.Log;
 
+import com.bapplications.maplemobile.gameplay.map.map_objects.MapCharacters;
 import com.bapplications.maplemobile.input.EventsQueue;
 import com.bapplications.maplemobile.input.events.Event;
 import com.bapplications.maplemobile.input.events.EventListener;
@@ -45,6 +46,7 @@ public class GameMap implements EventListener {
     private Physics physics;
     private MapPortals portals;
     private MapTilesObjs tilesobjs;
+    private MapCharacters characters;
     private MapBackgrounds backgrounds;
 
     public enum State
@@ -63,7 +65,6 @@ public class GameMap implements EventListener {
 
     public void init(int mapid){
         // drops.init();
-        state = State.ACTIVE;
         loadMap(mapid);
     }
 
@@ -75,6 +76,7 @@ public class GameMap implements EventListener {
                 if(mapid == _event.getMapId()) {
                     spawnItemDrop(_event.getOid(), _event.getId(), _event.getStart(), _event.getOwner());
                 }
+                break;
         }
     }
 
@@ -110,16 +112,13 @@ public class GameMap implements EventListener {
             try {
                 mobs = new MapMobs();
                 drops = new MapDrops();
+                characters = new MapCharacters();
                 physics = new Physics(src.getChild("foothold"));
                 backgrounds = new MapBackgrounds(src.getChild("back"));
                 portals = new MapPortals(src.getChild("portal"), mapid);
 
-                if (state == State.ACTIVE) {
-                    notifyNewMaps();
-                }
                 mapInfo = new MapInfo(src, physics.getFHT().getWalls(), physics.getFHT().getBorders());
                 tilesobjs = new MapTilesObjs(src, new Rectangle(mapInfo.getWalls(), mapInfo.getBorders()));
-
                 spawnMobs(src.getChild("life"));
             } catch (Exception e) {
                 Log.e("GameMap", "Error loading map " + mapid);
@@ -152,7 +151,7 @@ public class GameMap implements EventListener {
 ////        reactors.update(physics);
 ////        npcs.update(physics);
         mobs.update(physics, deltatime);
-//        chars.update(physics);
+        characters.update(physics, deltatime);
         drops.update(physics, deltatime);
         player.update(physics, deltatime);
         portals.update(player.getPosition(), deltatime);
@@ -237,7 +236,7 @@ public class GameMap implements EventListener {
 //            reactors.draw(id, viewx, viewy, alpha);
 //            npcs.draw(id, viewx, viewy, alpha);
             mobs.draw(id, viewpos, alpha);
-//            chars.draw(id, viewx, viewy, alpha);
+//            characters.draw(id, viewpos, alpha);
             player.draw(id, viewpos, alpha);
             drops.draw(id, viewpos, alpha);
         }
@@ -293,11 +292,6 @@ public class GameMap implements EventListener {
         player.setMap(this);
         state = State.ACTIVE;
         respawn(portal.getSpawnPosition());
-        notifyNewMaps();
-    }
-
-    public void notifyNewMaps() {
-        GameEngine.getInstance().notifyChangedMap(this);
     }
 
 }

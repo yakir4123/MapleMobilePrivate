@@ -82,7 +82,6 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         // Calculate the projection and view transformation
         Matrix.multiplyMM(GLState._MVPMatrix, 0, GLState._projectionMatrix, 0, GLState._viewMatrix, 0);
 
-
         long start = System.currentTimeMillis();
         Char.init();
         Sound.init();
@@ -97,11 +96,7 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
     public void startGame() {
         engine.startGame();
         engine.loadPlayer(0);
-        engine.changeMap();
-//        engine.changeMap(50000);
-//        engine.changeMap(100000000);
-//        diff = System.currentTimeMillis() - start;
-//        Log.d(TAG, "diff load map: "  + diff); // 8 s
+        engine.initMap();
     }
 
     @Override
