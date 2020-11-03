@@ -1,12 +1,13 @@
 package com.bapplications.maplemobile.input.network
 
-import com.bapplications.maplemobile.gameplay.player.Stance
-import com.bapplications.maplemobile.gameplay.player.look.Char
-import com.bapplications.maplemobile.gameplay.player.look.Expression
+import android.util.Log
+
 import com.bapplications.maplemobile.utils.Point
+import com.bapplications.maplemobile.input.events.*
 import com.bapplications.maplemobile.input.EventsQueue
 import com.bapplications.maplemobile.input.InputAction
-import com.bapplications.maplemobile.input.events.*
+import com.bapplications.maplemobile.gameplay.player.look.Char
+import com.bapplications.maplemobile.gameplay.player.look.Expression
 
 import io.grpc.ManagedChannel
 import io.grpc.stub.StreamObserver
@@ -26,9 +27,12 @@ class NetworkHandler(host: String, port: Int) : EventListener {
     init {
         asyncStub = MapleServiceGrpc.newStub(mChannel)
         EventsQueue.instance.registerListener(EventType.DropItem, this)
+
         EventsQueue.instance.registerListener(EventType.PressButton, this)
-        EventsQueue.instance.registerListener(EventType.PlayerConnect, this)
         EventsQueue.instance.registerListener(EventType.ExpressionButton, this)
+
+        EventsQueue.instance.registerListener(EventType.PlayerConnect, this)
+        EventsQueue.instance.registerListener(EventType.PlayerStateUpdate, this)
         startStreaming()
     }
 
@@ -38,6 +42,7 @@ class NetworkHandler(host: String, port: Int) : EventListener {
             is PressButtonEvent -> handlePressButtonEvent(event)
             is ExpressionButtonEvent -> handleExpressionButtonEvent(event)
             is PlayerConnectEvent -> handlePlayerConnectEvent(event)
+            is PlayerStateUpdateEvent -> handlePlayerStateUpdateEvent(event)
             else -> return
         }
     }
@@ -83,7 +88,12 @@ class NetworkHandler(host: String, port: Int) : EventListener {
                                         Point(value.otherPlayerConnected.pos)
                                 )
                         )
-
+                    ResponseEvent.EventCase.OTHERPLAYERSTATEUPDATED ->
+                        EventsQueue.instance.enqueue(
+                                PlayerStateUpdateEvent(value.otherPlayerStateUpdated.charid,
+                                        Char.State.values()[value.otherPlayerStateUpdated.state],
+                                        Point(value.otherPlayerStateUpdated.pos))
+                        )
                     else -> return
                 }
             }
@@ -107,15 +117,41 @@ class NetworkHandler(host: String, port: Int) : EventListener {
         }.start()
     }
 
+    private fun handlePlayerStateUpdateEvent(event: PlayerStateUpdateEvent) {
+        if(event.charid == 0) {
+            Thread {
+                requestStream?.onNext(
+                        RequestEvent.newBuilder().setPlayerStateUpdated(Service.UpdatePlayerState
+                                .newBuilder()
+                                .setState(event.state.ordinal)
+                                .setPos(Service.Point.newBuilder()
+                                        .setX(event.pos.x)
+                                        .setY(event.pos.y))
+                        ).build()
+                )
+            }.start()
+        }
+    }
+
     private fun handlePressButtonEvent(event: PressButtonEvent) {
         if(event.charid == 0){
             Thread {
                 requestStream?.onNext(
-                        RequestEvent.newBuilder().setPressButton(Service.PressButton
-                                .newBuilder()
-                                .setButton(event.buttonPressed.ordinal)
-                                .setPressed(event.pressed)
-                        ).build()
+                        try {
+                            RequestEvent.newBuilder().setPressButton(Service.PressButton
+                                    .newBuilder()
+                                    .setButton(event.buttonPressed.ordinal)
+                                    .setPressed(event.pressed)
+                            ).build()
+                        } catch (e: KotlinNullPointerException) {
+                            // to do:: check this out why it happend
+                            Log.e("error", "nullPointer")
+                            RequestEvent.newBuilder().setPressButton(Service.PressButton
+                                    .newBuilder()
+                                    .setButton(event.buttonPressed.ordinal)
+                                    .setPressed(event.pressed)
+                            ).build()
+                        }
                 )
             }.start()
         }

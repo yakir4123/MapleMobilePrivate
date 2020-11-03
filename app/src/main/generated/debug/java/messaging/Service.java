@@ -154,6 +154,17 @@ public final class Service {
      */
     messaging.Service.RequestPlayerConnect getPlayerConnect();
 
+    /**
+     * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+     * @return Whether the playerStateUpdated field is set.
+     */
+    boolean hasPlayerStateUpdated();
+    /**
+     * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+     * @return The playerStateUpdated.
+     */
+    messaging.Service.UpdatePlayerState getPlayerStateUpdated();
+
     public messaging.Service.RequestEvent.EventCase getEventCase();
   }
   /**
@@ -173,6 +184,7 @@ public final class Service {
       PRESSBUTTON(2),
       EXPRESSIONBUTTON(3),
       PLAYERCONNECT(4),
+      PLAYERSTATEUPDATED(5),
       EVENT_NOT_SET(0);
       private final int value;
       private EventCase(int value) {
@@ -192,6 +204,7 @@ public final class Service {
           case 2: return PRESSBUTTON;
           case 3: return EXPRESSIONBUTTON;
           case 4: return PLAYERCONNECT;
+          case 5: return PLAYERSTATEUPDATED;
           case 0: return EVENT_NOT_SET;
           default: return null;
         }
@@ -408,6 +421,56 @@ public final class Service {
      */
     private void clearPlayerConnect() {
       if (eventCase_ == 4) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int PLAYERSTATEUPDATED_FIELD_NUMBER = 5;
+    /**
+     * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+     */
+    @java.lang.Override
+    public boolean hasPlayerStateUpdated() {
+      return eventCase_ == 5;
+    }
+    /**
+     * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.UpdatePlayerState getPlayerStateUpdated() {
+      if (eventCase_ == 5) {
+         return (messaging.Service.UpdatePlayerState) event_;
+      }
+      return messaging.Service.UpdatePlayerState.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+     */
+    private void setPlayerStateUpdated(messaging.Service.UpdatePlayerState value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 5;
+    }
+    /**
+     * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+     */
+    private void mergePlayerStateUpdated(messaging.Service.UpdatePlayerState value) {
+      value.getClass();
+  if (eventCase_ == 5 &&
+          event_ != messaging.Service.UpdatePlayerState.getDefaultInstance()) {
+        event_ = messaging.Service.UpdatePlayerState.newBuilder((messaging.Service.UpdatePlayerState) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 5;
+    }
+    /**
+     * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+     */
+    private void clearPlayerStateUpdated() {
+      if (eventCase_ == 5) {
         eventCase_ = 0;
         event_ = null;
       }
@@ -712,6 +775,54 @@ public final class Service {
         return this;
       }
 
+      /**
+       * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+       */
+      @java.lang.Override
+      public boolean hasPlayerStateUpdated() {
+        return instance.hasPlayerStateUpdated();
+      }
+      /**
+       * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.UpdatePlayerState getPlayerStateUpdated() {
+        return instance.getPlayerStateUpdated();
+      }
+      /**
+       * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+       */
+      public Builder setPlayerStateUpdated(messaging.Service.UpdatePlayerState value) {
+        copyOnWrite();
+        instance.setPlayerStateUpdated(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+       */
+      public Builder setPlayerStateUpdated(
+          messaging.Service.UpdatePlayerState.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPlayerStateUpdated(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+       */
+      public Builder mergePlayerStateUpdated(messaging.Service.UpdatePlayerState value) {
+        copyOnWrite();
+        instance.mergePlayerStateUpdated(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+       */
+      public Builder clearPlayerStateUpdated() {
+        copyOnWrite();
+        instance.clearPlayerStateUpdated();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:messaging.RequestEvent)
     }
     @java.lang.Override
@@ -734,10 +845,11 @@ public final class Service {
               messaging.Service.PressButton.class,
               messaging.Service.ExpressionButton.class,
               messaging.Service.RequestPlayerConnect.class,
+              messaging.Service.UpdatePlayerState.class,
             };
             java.lang.String info =
-                "\u0000\u0004\u0001\u0000\u0001\u0004\u0004\u0000\u0000\u0000\u0001<\u0000\u0002<" +
-                "\u0000\u0003<\u0000\u0004<\u0000";
+                "\u0000\u0005\u0001\u0000\u0001\u0005\u0005\u0000\u0000\u0000\u0001<\u0000\u0002<" +
+                "\u0000\u0003<\u0000\u0004<\u0000\u0005<\u0000";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through
@@ -851,6 +963,17 @@ public final class Service {
      */
     messaging.Service.ResponseOtherPlayerConnected getOtherPlayerConnected();
 
+    /**
+     * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+     * @return Whether the otherPlayerStateUpdated field is set.
+     */
+    boolean hasOtherPlayerStateUpdated();
+    /**
+     * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+     * @return The otherPlayerStateUpdated.
+     */
+    messaging.Service.UpdatePlayerState getOtherPlayerStateUpdated();
+
     public messaging.Service.ResponseEvent.EventCase getEventCase();
   }
   /**
@@ -871,6 +994,7 @@ public final class Service {
       EXPRESSIONBUTTON(3),
       PLAYERCONNECTED(4),
       OTHERPLAYERCONNECTED(5),
+      OTHERPLAYERSTATEUPDATED(6),
       EVENT_NOT_SET(0);
       private final int value;
       private EventCase(int value) {
@@ -891,6 +1015,7 @@ public final class Service {
           case 3: return EXPRESSIONBUTTON;
           case 4: return PLAYERCONNECTED;
           case 5: return OTHERPLAYERCONNECTED;
+          case 6: return OTHERPLAYERSTATEUPDATED;
           case 0: return EVENT_NOT_SET;
           default: return null;
         }
@@ -1157,6 +1282,56 @@ public final class Service {
      */
     private void clearOtherPlayerConnected() {
       if (eventCase_ == 5) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int OTHERPLAYERSTATEUPDATED_FIELD_NUMBER = 6;
+    /**
+     * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+     */
+    @java.lang.Override
+    public boolean hasOtherPlayerStateUpdated() {
+      return eventCase_ == 6;
+    }
+    /**
+     * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.UpdatePlayerState getOtherPlayerStateUpdated() {
+      if (eventCase_ == 6) {
+         return (messaging.Service.UpdatePlayerState) event_;
+      }
+      return messaging.Service.UpdatePlayerState.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+     */
+    private void setOtherPlayerStateUpdated(messaging.Service.UpdatePlayerState value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 6;
+    }
+    /**
+     * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+     */
+    private void mergeOtherPlayerStateUpdated(messaging.Service.UpdatePlayerState value) {
+      value.getClass();
+  if (eventCase_ == 6 &&
+          event_ != messaging.Service.UpdatePlayerState.getDefaultInstance()) {
+        event_ = messaging.Service.UpdatePlayerState.newBuilder((messaging.Service.UpdatePlayerState) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 6;
+    }
+    /**
+     * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+     */
+    private void clearOtherPlayerStateUpdated() {
+      if (eventCase_ == 6) {
         eventCase_ = 0;
         event_ = null;
       }
@@ -1509,6 +1684,54 @@ public final class Service {
         return this;
       }
 
+      /**
+       * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+       */
+      @java.lang.Override
+      public boolean hasOtherPlayerStateUpdated() {
+        return instance.hasOtherPlayerStateUpdated();
+      }
+      /**
+       * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.UpdatePlayerState getOtherPlayerStateUpdated() {
+        return instance.getOtherPlayerStateUpdated();
+      }
+      /**
+       * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+       */
+      public Builder setOtherPlayerStateUpdated(messaging.Service.UpdatePlayerState value) {
+        copyOnWrite();
+        instance.setOtherPlayerStateUpdated(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+       */
+      public Builder setOtherPlayerStateUpdated(
+          messaging.Service.UpdatePlayerState.Builder builderForValue) {
+        copyOnWrite();
+        instance.setOtherPlayerStateUpdated(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+       */
+      public Builder mergeOtherPlayerStateUpdated(messaging.Service.UpdatePlayerState value) {
+        copyOnWrite();
+        instance.mergeOtherPlayerStateUpdated(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+       */
+      public Builder clearOtherPlayerStateUpdated() {
+        copyOnWrite();
+        instance.clearOtherPlayerStateUpdated();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:messaging.ResponseEvent)
     }
     @java.lang.Override
@@ -1532,10 +1755,11 @@ public final class Service {
               messaging.Service.ExpressionButton.class,
               messaging.Service.ResponsePlayerConnected.class,
               messaging.Service.ResponseOtherPlayerConnected.class,
+              messaging.Service.UpdatePlayerState.class,
             };
             java.lang.String info =
-                "\u0000\u0005\u0001\u0000\u0001\u0005\u0005\u0000\u0000\u0000\u0001<\u0000\u0002<" +
-                "\u0000\u0003<\u0000\u0004<\u0000\u0005<\u0000";
+                "\u0000\u0006\u0001\u0000\u0001\u0006\u0006\u0000\u0000\u0000\u0001<\u0000\u0002<" +
+                "\u0000\u0003<\u0000\u0004<\u0000\u0005<\u0000\u0006<\u0000";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through
@@ -2849,6 +3073,416 @@ public final class Service {
     private static volatile com.google.protobuf.Parser<ResponseOtherPlayerConnected> PARSER;
 
     public static com.google.protobuf.Parser<ResponseOtherPlayerConnected> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface UpdatePlayerStateOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:messaging.UpdatePlayerState)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int32 charid = 1;</code>
+     * @return The charid.
+     */
+    int getCharid();
+
+    /**
+     * <code>int32 state = 2;</code>
+     * @return The state.
+     */
+    int getState();
+
+    /**
+     * <code>.messaging.Point pos = 3;</code>
+     * @return Whether the pos field is set.
+     */
+    boolean hasPos();
+    /**
+     * <code>.messaging.Point pos = 3;</code>
+     * @return The pos.
+     */
+    messaging.Service.Point getPos();
+  }
+  /**
+   * Protobuf type {@code messaging.UpdatePlayerState}
+   */
+  public  static final class UpdatePlayerState extends
+      com.google.protobuf.GeneratedMessageLite<
+          UpdatePlayerState, UpdatePlayerState.Builder> implements
+      // @@protoc_insertion_point(message_implements:messaging.UpdatePlayerState)
+      UpdatePlayerStateOrBuilder {
+    private UpdatePlayerState() {
+    }
+    public static final int CHARID_FIELD_NUMBER = 1;
+    private int charid_;
+    /**
+     * <code>int32 charid = 1;</code>
+     * @return The charid.
+     */
+    @java.lang.Override
+    public int getCharid() {
+      return charid_;
+    }
+    /**
+     * <code>int32 charid = 1;</code>
+     * @param value The charid to set.
+     */
+    private void setCharid(int value) {
+      
+      charid_ = value;
+    }
+    /**
+     * <code>int32 charid = 1;</code>
+     */
+    private void clearCharid() {
+      
+      charid_ = 0;
+    }
+
+    public static final int STATE_FIELD_NUMBER = 2;
+    private int state_;
+    /**
+     * <code>int32 state = 2;</code>
+     * @return The state.
+     */
+    @java.lang.Override
+    public int getState() {
+      return state_;
+    }
+    /**
+     * <code>int32 state = 2;</code>
+     * @param value The state to set.
+     */
+    private void setState(int value) {
+      
+      state_ = value;
+    }
+    /**
+     * <code>int32 state = 2;</code>
+     */
+    private void clearState() {
+      
+      state_ = 0;
+    }
+
+    public static final int POS_FIELD_NUMBER = 3;
+    private messaging.Service.Point pos_;
+    /**
+     * <code>.messaging.Point pos = 3;</code>
+     */
+    @java.lang.Override
+    public boolean hasPos() {
+      return pos_ != null;
+    }
+    /**
+     * <code>.messaging.Point pos = 3;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.Point getPos() {
+      return pos_ == null ? messaging.Service.Point.getDefaultInstance() : pos_;
+    }
+    /**
+     * <code>.messaging.Point pos = 3;</code>
+     */
+    private void setPos(messaging.Service.Point value) {
+      value.getClass();
+  pos_ = value;
+      
+      }
+    /**
+     * <code>.messaging.Point pos = 3;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergePos(messaging.Service.Point value) {
+      value.getClass();
+  if (pos_ != null &&
+          pos_ != messaging.Service.Point.getDefaultInstance()) {
+        pos_ =
+          messaging.Service.Point.newBuilder(pos_).mergeFrom(value).buildPartial();
+      } else {
+        pos_ = value;
+      }
+      
+    }
+    /**
+     * <code>.messaging.Point pos = 3;</code>
+     */
+    private void clearPos() {  pos_ = null;
+      
+    }
+
+    public static messaging.Service.UpdatePlayerState parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.UpdatePlayerState parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.UpdatePlayerState parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.UpdatePlayerState parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.UpdatePlayerState parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.UpdatePlayerState parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.UpdatePlayerState parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.UpdatePlayerState parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.UpdatePlayerState parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.UpdatePlayerState parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.UpdatePlayerState parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.UpdatePlayerState parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(messaging.Service.UpdatePlayerState prototype) {
+      return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code messaging.UpdatePlayerState}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          messaging.Service.UpdatePlayerState, Builder> implements
+        // @@protoc_insertion_point(builder_implements:messaging.UpdatePlayerState)
+        messaging.Service.UpdatePlayerStateOrBuilder {
+      // Construct using messaging.Service.UpdatePlayerState.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>int32 charid = 1;</code>
+       * @return The charid.
+       */
+      @java.lang.Override
+      public int getCharid() {
+        return instance.getCharid();
+      }
+      /**
+       * <code>int32 charid = 1;</code>
+       * @param value The charid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCharid(int value) {
+        copyOnWrite();
+        instance.setCharid(value);
+        return this;
+      }
+      /**
+       * <code>int32 charid = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCharid() {
+        copyOnWrite();
+        instance.clearCharid();
+        return this;
+      }
+
+      /**
+       * <code>int32 state = 2;</code>
+       * @return The state.
+       */
+      @java.lang.Override
+      public int getState() {
+        return instance.getState();
+      }
+      /**
+       * <code>int32 state = 2;</code>
+       * @param value The state to set.
+       * @return This builder for chaining.
+       */
+      public Builder setState(int value) {
+        copyOnWrite();
+        instance.setState(value);
+        return this;
+      }
+      /**
+       * <code>int32 state = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearState() {
+        copyOnWrite();
+        instance.clearState();
+        return this;
+      }
+
+      /**
+       * <code>.messaging.Point pos = 3;</code>
+       */
+      @java.lang.Override
+      public boolean hasPos() {
+        return instance.hasPos();
+      }
+      /**
+       * <code>.messaging.Point pos = 3;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.Point getPos() {
+        return instance.getPos();
+      }
+      /**
+       * <code>.messaging.Point pos = 3;</code>
+       */
+      public Builder setPos(messaging.Service.Point value) {
+        copyOnWrite();
+        instance.setPos(value);
+        return this;
+        }
+      /**
+       * <code>.messaging.Point pos = 3;</code>
+       */
+      public Builder setPos(
+          messaging.Service.Point.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPos(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.Point pos = 3;</code>
+       */
+      public Builder mergePos(messaging.Service.Point value) {
+        copyOnWrite();
+        instance.mergePos(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.Point pos = 3;</code>
+       */
+      public Builder clearPos() {  copyOnWrite();
+        instance.clearPos();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:messaging.UpdatePlayerState)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new messaging.Service.UpdatePlayerState();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "charid_",
+              "state_",
+              "pos_",
+            };
+            java.lang.String info =
+                "\u0000\u0003\u0000\u0000\u0001\u0003\u0003\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
+                "\u0003\t";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<messaging.Service.UpdatePlayerState> parser = PARSER;
+          if (parser == null) {
+            synchronized (messaging.Service.UpdatePlayerState.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<messaging.Service.UpdatePlayerState>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:messaging.UpdatePlayerState)
+    private static final messaging.Service.UpdatePlayerState DEFAULT_INSTANCE;
+    static {
+      UpdatePlayerState defaultInstance = new UpdatePlayerState();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        UpdatePlayerState.class, defaultInstance);
+    }
+
+    public static messaging.Service.UpdatePlayerState getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<UpdatePlayerState> PARSER;
+
+    public static com.google.protobuf.Parser<UpdatePlayerState> parser() {
       return DEFAULT_INSTANCE.getParserForType();
     }
   }

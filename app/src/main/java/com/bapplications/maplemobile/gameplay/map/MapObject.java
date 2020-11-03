@@ -36,7 +36,7 @@ public class MapObject {
         phobj.set_y((int) y);
     }
 
-    protected void setPosition(Point position)
+    public void setPosition(Point position)
     {
         setPosition(position.x, position.y);
     }
