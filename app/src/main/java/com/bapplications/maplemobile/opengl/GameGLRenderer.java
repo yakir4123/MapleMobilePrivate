@@ -5,6 +5,7 @@ import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.Log;
 
+import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.gameplay.GameEngine;
 import com.bapplications.maplemobile.gameplay.audio.Sound;
@@ -28,6 +29,7 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
     private long fpsTime = System.currentTimeMillis();
     private int frames;
     private long before;
+    private byte lag;
 
     public static GameGLRenderer createInstance(){
         instance = new GameGLRenderer();
@@ -106,9 +108,19 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
         long now = System.currentTimeMillis();
+        double elapsed = now - before;
+        before = now;
+        lag += elapsed;
+        while(lag >= Configuration.MS_PER_UPDATE) {
+            engine.update(Configuration.MS_PER_UPDATE);
+            Log.d("onDrawFrame", "lag = " + lag);
+            lag -= Configuration.MS_PER_UPDATE;
+        }
+        Log.d("onDrawFrame", "draw, lag = " + lag);
 //        engine.update((int) (now - before));
         // 1000 / 6 to  make it look like its 60fps all the time.. may look slow if the fps is slower than that
-        engine.update(16);
+
+//        engine.update(Configuration.MS_PER_FRAME);
         engine.drawFrame();
         before = now;
 

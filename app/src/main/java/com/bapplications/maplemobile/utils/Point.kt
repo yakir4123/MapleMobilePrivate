@@ -4,6 +4,8 @@ import com.bapplications.maplemobile.pkgnx.NXNode
 import com.bapplications.maplemobile.constatns.Loaded
 import com.bapplications.maplemobile.pkgnx.nodes.NXPointNode
 import messaging.Service
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 class Point {
     @JvmField
@@ -113,6 +115,8 @@ class Point {
         x *= -1f
         return this
     }
+
+    fun dist(position: Point): Float = sqrt((x - position.x).pow(2) + (y - position.y).pow(2))
 
     interface TwoDPolygon {
         val width: Range

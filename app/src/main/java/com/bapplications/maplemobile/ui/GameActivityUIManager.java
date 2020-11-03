@@ -123,7 +123,6 @@ public class GameActivityUIManager implements GameEngineListener {
     }
 
     private void statsMenu(View view) {
-        Configuration.CHAR_ID = 1 - Configuration.CHAR_ID;
     }
 
     public void setExpressions(Collection<Expression> expressions) {

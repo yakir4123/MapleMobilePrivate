@@ -76,7 +76,7 @@ public abstract class Char extends MapObject {
             if (getStanceSpeed() >= 1.0f / deltaTime)
                 stancespeed = (short)(deltaTime * getStanceSpeed());
             invincible.update(deltaTime);
-            boolean aniend = look.update(stancespeed);
+            boolean aniend = look.update((short) (stancespeed / 2));
 
             if (aniend && attacking) {
                 attacking = false;
@@ -100,6 +100,10 @@ public abstract class Char extends MapObject {
 
         if (pst != null)
             pst.initialize(this);
+    }
+
+    public State getState() {
+        return state;
     }
 
     public float getWalkForce() {

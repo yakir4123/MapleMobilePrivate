@@ -1,6 +1,7 @@
 package com.bapplications.maplemobile.gameplay.player;
 
 import com.bapplications.maplemobile.gameplay.GameMap;
+import com.bapplications.maplemobile.gameplay.physics.Physics;
 import com.bapplications.maplemobile.input.EventsQueue;
 import com.bapplications.maplemobile.gameplay.map.Layer;
 import com.bapplications.maplemobile.input.events.Event;
@@ -10,12 +11,12 @@ import com.bapplications.maplemobile.gameplay.player.look.Char;
 import com.bapplications.maplemobile.input.events.DropItemEvent;
 import com.bapplications.maplemobile.input.events.EventListener;
 import com.bapplications.maplemobile.gameplay.player.look.CharLook;
+import com.bapplications.maplemobile.input.events.PlayerStateUpdateEvent;
 import com.bapplications.maplemobile.input.events.PressButtonEvent;
 import com.bapplications.maplemobile.gameplay.player.inventory.Item;
 import com.bapplications.maplemobile.gameplay.player.inventory.Slot;
 import com.bapplications.maplemobile.gameplay.player.inventory.Equip;
 import com.bapplications.maplemobile.gameplay.player.look.Expression;
-import com.bapplications.maplemobile.gameplay.player.state.PlayerState;
 import com.bapplications.maplemobile.input.events.ExpressionButtonEvent;
 import com.bapplications.maplemobile.gameplay.player.inventory.Inventory;
 import com.bapplications.maplemobile.gameplay.map.map_objects.mobs.Attack;
@@ -43,6 +44,7 @@ public class Player extends Char implements ColliderComponent , EventListener {
     private PlayerStats stats;
     private Inventory inventory;
     private TreeSet<Expression> myExpressions;
+    private short lastUpdate = 0;
 
     // todo:: seperate the viewmodel from here
     private final GameActivityUIManager controllers;
@@ -80,6 +82,17 @@ public class Player extends Char implements ColliderComponent , EventListener {
         if (!attacking) {
             super.setState(state);
         }
+    }
+
+    @Override
+    public byte update(Physics physics, int deltaTime) {
+        byte res = super.update(physics, deltaTime);
+        lastUpdate += deltaTime;
+        if(lastUpdate > Configuration.UPDATE_DIFF_TIME) {
+            lastUpdate -= Configuration.UPDATE_DIFF_TIME;
+            EventsQueue.Companion.getInstance().enqueue(new PlayerStateUpdateEvent(0, getState(), getPosition()));
+        }
+        return res;
     }
 
     public void draw(Layer layer, Point viewpos, float alpha) {
