@@ -192,22 +192,23 @@ class GameMap(camera: Camera) : EventListener {
     fun draw(alpha: Float) {
         if (state != State.ACTIVE) return
         val viewpos = camera.position(alpha)
-//        backgrounds!!.drawBackgrounds(viewpos, alpha)
+        backgrounds!!.drawBackgrounds(viewpos, alpha)
         for (id in Layer.values()) {
             tilesobjs!!.draw(id, camera.getPositionRect(), viewpos, alpha)
-//            physics!!.draw(viewpos)
-            //            reactors.draw(id, viewx, viewy, alpha);
+            physics!!.draw(viewpos)
+//            reactors.draw(id, viewx, viewy, alpha);
 //            npcs.draw(id, viewx, viewy, alpha);
-//            mobs!!.draw(id, viewpos, alpha)
-//            characters!!.draw(id, viewpos, alpha)
+            mobs!!.draw(id, viewpos, alpha)
+            characters!!.draw(id, viewpos, alpha)
             player!!.draw(id, viewpos, alpha)
-//            drops!!.draw(id, viewpos, alpha)
+            drops!!.draw(id, viewpos, alpha)
         }
         //
 //        combat.draw(viewx, viewy, alpha);
-//        portals!!.draw(viewpos, alpha)
-//        backgrounds!!.drawForegrounds(viewpos, alpha)
+        portals!!.draw(viewpos, alpha)
+        backgrounds!!.drawForegrounds(viewpos, alpha)
         //        effect.draw();
+
         // for debugging purposes
 //        camera.draw();
     }
