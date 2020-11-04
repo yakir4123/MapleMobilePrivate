@@ -20,8 +20,7 @@ class GameFragment : Fragment() {
     }
 
     fun setUIManager(uiManager: GameActivityUIManager) {
-        gameGLSurfaceView?.gameEngine?.setControllers(uiManager)
-        gameGLSurfaceView?.renderer?.registerListener(uiManager)
+        gameGLSurfaceView?.gameEngine?.registerListener(uiManager)
     }
 
     fun changeMap(mapId: Int) = gameGLSurfaceView!!.queueEvent { gameGLSurfaceView?.gameEngine?.changeMap(mapId, "sp") }

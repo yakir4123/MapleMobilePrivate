@@ -92,12 +92,11 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         Log.d(TAG, "diff init: "  + diff); // 0.3 ~ 1 s
         start = System.currentTimeMillis();
         startGame();
-        listeners.forEach(listener -> listener.onGameStarted());
     }
 
     public void startGame() {
         engine.startGame();
-        engine.loadPlayer(0);
+        engine.loadPlayer();
         engine.initMap();
     }
 
@@ -140,16 +139,6 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
 
     public GameEngine getGameEngine() {
         return engine;
-    }
-
-    public List<GameEngineListener> listeners = new ArrayList<>();
-
-    public void registerListener(GameEngineListener listener) {
-        listeners.add(listener);
-    }
-
-    public void removeListener(GameEngineListener listener) {
-        listeners.remove(listener);
     }
 
 }

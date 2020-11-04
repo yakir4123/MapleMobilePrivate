@@ -23,13 +23,13 @@ import com.bapplications.maplemobile.gameplay.map.map_objects.mobs.Attack;
 import com.bapplications.maplemobile.gameplay.components.ColliderComponent;
 import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType;
 
+import com.bapplications.maplemobile.ui.view_models.GameActivityViewModel;
 import com.bapplications.maplemobile.utils.Color;
 import com.bapplications.maplemobile.utils.Point;
 import com.bapplications.maplemobile.utils.Rectangle;
 import com.bapplications.maplemobile.input.InputAction;
 import com.bapplications.maplemobile.utils.DrawArgument;
 import com.bapplications.maplemobile.utils.DrawableCircle;
-import com.bapplications.maplemobile.ui.GameActivityUIManager;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -37,25 +37,22 @@ import java.util.Arrays;
 import java.util.TreeSet;
 import java.util.Collection;
 
+import androidx.lifecycle.LiveData;
+
 
 public class Player extends Char implements ColliderComponent , EventListener {
 
     private GameMap map;
-    private PlayerStats stats;
+    private PlayerStatsViewModel stats;
     private Inventory inventory;
     private TreeSet<Expression> myExpressions;
     private short lastUpdate = 0;
 
-    // todo:: seperate the viewmodel from here
-    private final GameActivityUIManager controllers;
-
-    public Player(CharEntry entry, GameActivityUIManager controllers) {
+    public Player(CharEntry entry) {
         super(entry.id, new CharLook(entry.look), entry.stats.name);
         attacking = false;
         underwater = false;
-        this.controllers = controllers;
 
-        loadStats();
         setState(State.STAND);
         inventory = new Inventory();
         addItem();
@@ -65,16 +62,18 @@ public class Player extends Char implements ColliderComponent , EventListener {
 
         EventsQueue.Companion.getInstance().registerListener(EventType.PressButton, this);
         EventsQueue.Companion.getInstance().registerListener(EventType.ExpressionButton, this);
-
     }
 
-    private void loadStats() {
-        stats = new PlayerStats();
-        stats.setStat(PlayerStats.Id.MAX_HP, (short) 100);
-        stats.setStat(PlayerStats.Id.MAX_MP, (short) 50);
-        stats.setStat(PlayerStats.Id.HP, (short) 32);
-        stats.setStat(PlayerStats.Id.MP, (short) 42);
-        stats.setStat(PlayerStats.Id.EXP, (short) 10);
+    public void setStats(PlayerStatsViewModel stats) {
+        this.stats = stats;
+        stats.setStat(PlayerStatsViewModel.Id.MAX_HP, (short) 100);
+        stats.setStat(PlayerStatsViewModel.Id.MAX_MP, (short) 50);
+        stats.setStat(PlayerStatsViewModel.Id.HP, (short) 32);
+        stats.setStat(PlayerStatsViewModel.Id.MP, (short) 42);
+        stats.setStat(PlayerStatsViewModel.Id.EXP, (short) 113);
+        stats.setStat(PlayerStatsViewModel.Id.LEVEL, (short) 12);
+        stats.setStat(PlayerStatsViewModel.Id.JOB, (short) 220);
+        stats.getName().postValue("LapLap");
     }
 
     @Override
@@ -128,33 +127,16 @@ public class Player extends Char implements ColliderComponent , EventListener {
             super.setLookLeft(lookLeft);
     }
 
-    public short getStat(PlayerStats.Id id) {
+    public PlayerStatsViewModel getStats() {
+        return stats;
+    }
+
+    public LiveData<Short> getStat(PlayerStatsViewModel.Id id) {
         return stats.getStat(id);
     }
 
-    public PlayerStats addStat(PlayerStats.Id id, short val) {
-        stats.addStat(id, val);
-        switch (id){
-            case MAX_MP:
-                controllers.getViewModel().setHp(getStat(PlayerStats.Id.MAX_MP));
-                break;
-            case MAX_HP:
-                controllers.getViewModel().setHp(getStat(PlayerStats.Id.MAX_HP));
-                break;
-            case HP:
-                controllers.getViewModel().setHp(getStat(PlayerStats.Id.HP));
-                break;
-            case MP:
-                controllers.getViewModel().setMp(getStat(PlayerStats.Id.MP));
-                break;
-            case EXP:
-                controllers.getViewModel().setExp(getStat(PlayerStats.Id.EXP));
-                break;
-            case LEVEL:
-//                controllers.getViewModel().setLevel(getStat(PlayerStats.Id.LEVEL));
-                break;
-        }
-        return stats;
+    public PlayerStatsViewModel addStat(PlayerStatsViewModel.Id id, short val) {
+        return stats.addStat(id, val);
     }
 
     public boolean changeEquip(Slot to)
@@ -215,7 +197,7 @@ public class Player extends Char implements ColliderComponent , EventListener {
 
     public Attack.MobAttackResult damage(Attack.MobAttack attack) {
         int damage = 1; //stats.calculate_damage(attack.watk);
-        addStat(PlayerStats.Id.HP, (short) -damage);
+        addStat(PlayerStatsViewModel.Id.HP, (short) -damage);
         showDamage(damage);
         boolean fromleft = attack.origin.x > phobj.getX();
 
