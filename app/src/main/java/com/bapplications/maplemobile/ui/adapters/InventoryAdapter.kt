@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bapplications.maplemobile.R
 import com.bapplications.maplemobile.gameplay.player.inventory.Slot
-import com.bapplications.maplemobile.ui.BindingUtils
+import com.bapplications.maplemobile.utils.BindingUtils
 import com.bapplications.maplemobile.ui.adapters.holders.ImageItemViewHolder
-import com.bapplications.maplemobile.ui.setViewByItemId
+import com.bapplications.maplemobile.utils.setViewByItemId
 
 class InventoryAdapter: RecyclerView.Adapter<ImageItemViewHolder>() {
     var data =  mutableListOf<Slot>()

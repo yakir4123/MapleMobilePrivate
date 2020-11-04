@@ -84,4 +84,8 @@ public class DrawArgument {
     public void setDirection(boolean lookLeft) {
         xscale = lookLeft ? xscale : -xscale;
     }
+
+    public float getXScale() {
+        return xscale;
+    }
 }

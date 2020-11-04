@@ -5,6 +5,7 @@ import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.Log;
 
+import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.gameplay.GameEngine;
 import com.bapplications.maplemobile.gameplay.audio.Sound;
@@ -28,6 +29,7 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
     private long fpsTime = System.currentTimeMillis();
     private int frames;
     private long before;
+    private byte lag;
 
     public static GameGLRenderer createInstance(){
         instance = new GameGLRenderer();
@@ -82,7 +84,6 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         // Calculate the projection and view transformation
         Matrix.multiplyMM(GLState._MVPMatrix, 0, GLState._projectionMatrix, 0, GLState._viewMatrix, 0);
 
-
         long start = System.currentTimeMillis();
         Char.init();
         Sound.init();
@@ -91,17 +92,12 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         Log.d(TAG, "diff init: "  + diff); // 0.3 ~ 1 s
         start = System.currentTimeMillis();
         startGame();
-        listeners.forEach(listener -> listener.onGameStarted());
     }
 
     public void startGame() {
         engine.startGame();
-        engine.loadPlayer(0);
-        engine.changeMap();
-//        engine.changeMap(50000);
-//        engine.changeMap(100000000);
-//        diff = System.currentTimeMillis() - start;
-//        Log.d(TAG, "diff load map: "  + diff); // 8 s
+        engine.loadPlayer();
+        engine.initMap();
     }
 
     @Override
@@ -111,9 +107,19 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
         long now = System.currentTimeMillis();
+        double elapsed = now - before;
+        before = now;
+        lag += elapsed;
+        while(lag >= Configuration.MS_PER_UPDATE) {
+            engine.update(Configuration.MS_PER_UPDATE);
+            Log.d("onDrawFrame", "lag = " + lag);
+            lag -= Configuration.MS_PER_UPDATE;
+        }
+        Log.d("onDrawFrame", "draw, lag = " + lag);
 //        engine.update((int) (now - before));
         // 1000 / 6 to  make it look like its 60fps all the time.. may look slow if the fps is slower than that
-        engine.update(16);
+
+//        engine.update(Configuration.MS_PER_FRAME);
         engine.drawFrame();
         before = now;
 
@@ -133,16 +139,6 @@ public class GameGLRenderer implements GLSurfaceView.Renderer {
 
     public GameEngine getGameEngine() {
         return engine;
-    }
-
-    public List<GameEngineListener> listeners = new ArrayList<>();
-
-    public void registerListener(GameEngineListener listener) {
-        listeners.add(listener);
-    }
-
-    public void removeListener(GameEngineListener listener) {
-        listeners.remove(listener);
     }
 
 }

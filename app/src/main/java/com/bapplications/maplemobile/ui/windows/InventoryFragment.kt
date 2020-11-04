@@ -1,6 +1,5 @@
 package com.bapplications.maplemobile.ui.windows
 
-import EqualSpacingItemDecoration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,7 @@ import com.bapplications.maplemobile.databinding.FragmentInventoryBinding
 import com.bapplications.maplemobile.gameplay.player.Player
 import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType
 import com.bapplications.maplemobile.gameplay.player.inventory.Slot
-import com.bapplications.maplemobile.ui.BindingUtils
+import com.bapplications.maplemobile.utils.BindingUtils
 import com.bapplications.maplemobile.ui.GameActivity
 import com.bapplications.maplemobile.ui.adapters.InventoryAdapter
 import com.bapplications.maplemobile.ui.view_models.InventoryViewModel

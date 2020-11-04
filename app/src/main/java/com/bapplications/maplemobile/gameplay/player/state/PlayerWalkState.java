@@ -7,12 +7,12 @@ import com.bapplications.maplemobile.gameplay.player.Player;
 
 public class PlayerWalkState implements PlayerState {
     @Override
-    public void initialize(Player player) {
+    public void initialize(Char player) {
 
     }
 
     @Override
-    public void update(Player player) {
+    public void update(Char player) {
 
         if (!player.getPhobj().enablejd)
             player.getPhobj().setFlag(PhysicsObject.Flag.CHECKBELOW);
@@ -42,7 +42,7 @@ public class PlayerWalkState implements PlayerState {
     }
 
     @Override
-    public void updateState(Player player) {
+    public void updateState(Char player) {
 
         if (player.getPhobj().onground)
         {
@@ -56,7 +56,7 @@ public class PlayerWalkState implements PlayerState {
     }
 
     @Override
-    public boolean sendAction(Player player, InputAction key) {
+    public boolean sendAction(Char player, InputAction key) {
 
         if (player.isAttacking())
             return false;
