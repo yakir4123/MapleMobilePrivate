@@ -1,4 +1,4 @@
-package com.bapplications.maplemobile.ui
+package com.bapplications.maplemobile.utils
 
 import android.graphics.Bitmap
 import android.view.View
@@ -8,7 +8,7 @@ import androidx.annotation.StringRes
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseMethod
 import com.bapplications.maplemobile.R
-import com.bapplications.maplemobile.gameplay.player.PlayerStats
+import com.bapplications.maplemobile.gameplay.player.PlayerStatsViewModel
 import com.bapplications.maplemobile.gameplay.player.inventory.EquipData
 import com.bapplications.maplemobile.gameplay.player.inventory.EquipStat
 import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType
@@ -40,12 +40,62 @@ object BindingUtils {
     enum class ItemTypeStat {
         NAME, DESC, ICON, REQ_LVL, REQ_STR, REQ_DEX, REQ_INT, REQ_LUK, REQ_FAME, CATEGORY, STR, DEX, INT, LUK, HP, MP, WATK, MAGIC, WDEF, MDEF, ACC, AVOID, HANDS, SPEED, JUMP
     }
+
+
+    @JvmStatic fun jobIdToName(jobId: Int) : String{
+        return when(jobId) {
+            0   -> "Beginner"
+            100 -> "Warrior"
+            110 -> "Fighter"
+            120 -> "Page"
+            130 -> "Spearman"
+            111 -> "Crusader"
+            121 -> "White Knight"
+            131 -> "Dragon Knight"
+            112 -> "Hero"
+            122 -> "Paladin"
+            132 -> "Dark Knight"
+            200 -> "Magician"
+            210 -> "Fire/Poison Wizard"
+            220 -> "Ice/Lightning Wizard"
+            230 -> "Cleric"
+            211 -> "Fire/Poison Mage"
+            221 -> "Ice/Lightning Mage"
+            231 -> "Priest"
+            212 -> "Fire/Poison Arch Mage"
+            222 -> "Ice/Lightning Arch Mage"
+            232 -> "Bishop"
+            300 -> "Bowman"
+            310 -> "Hunter"
+            320 -> "Crossbowman"
+            311 -> "Ranger"
+            321 -> "Sniper"
+            312 -> "Bow Master"
+            322 -> "Crossbow Master"
+            400 -> "Thief"
+            410 -> "Assassin"
+            420 -> "Bandit"
+            411 -> "Hermit"
+            421 -> "Chief Bandit"
+            412 -> "Nights Lord"
+            422 -> "Shadower"
+            500 -> "Pirate"
+            510 -> "Brawler"
+            520 -> "Gunslinger"
+            511 -> "Marauder"
+            521 -> "Outlaw"
+            512 -> "Buccaneer"
+            522 -> "Corsair"
+            else -> "Whaaat?!"
+        }
+    }
 }
 
 @BindingAdapter("android:visibility")
 fun setVisibility(view: View, visible: Boolean) {
     view.visibility = if (visible) View.VISIBLE else View.GONE
 }
+
 
 @BindingAdapter(value = ["itemTypeStat", "itemId"])
 fun setViewByItemId(view: View, itemTypeStat: BindingUtils.ItemTypeStat, itemId: Int) {
@@ -54,12 +104,12 @@ fun setViewByItemId(view: View, itemTypeStat: BindingUtils.ItemTypeStat, itemId:
         BindingUtils.ItemTypeStat.NAME -> ItemData.get(itemId)?.name
         BindingUtils.ItemTypeStat.DESC -> ItemData.get(itemId)?.desc
         BindingUtils.ItemTypeStat.ICON -> ItemData.get(itemId)?.icon(false)
-        BindingUtils.ItemTypeStat.REQ_LVL -> EquipData.get(itemId)?.getRequirment(PlayerStats.Id.LEVEL)
-        BindingUtils.ItemTypeStat.REQ_STR -> EquipData.get(itemId)?.getRequirment(PlayerStats.Id.STR)
-        BindingUtils.ItemTypeStat.REQ_DEX -> EquipData.get(itemId)?.getRequirment(PlayerStats.Id.DEX)
-        BindingUtils.ItemTypeStat.REQ_INT -> EquipData.get(itemId)?.getRequirment(PlayerStats.Id.INT)
-        BindingUtils.ItemTypeStat.REQ_LUK -> EquipData.get(itemId)?.getRequirment(PlayerStats.Id.LUK)
-        BindingUtils.ItemTypeStat.REQ_FAME -> EquipData.get(itemId)?.getRequirment(PlayerStats.Id.FAME)
+        BindingUtils.ItemTypeStat.REQ_LVL -> EquipData.get(itemId)?.getRequirment(PlayerStatsViewModel.Id.LEVEL)
+        BindingUtils.ItemTypeStat.REQ_STR -> EquipData.get(itemId)?.getRequirment(PlayerStatsViewModel.Id.STR)
+        BindingUtils.ItemTypeStat.REQ_DEX -> EquipData.get(itemId)?.getRequirment(PlayerStatsViewModel.Id.DEX)
+        BindingUtils.ItemTypeStat.REQ_INT -> EquipData.get(itemId)?.getRequirment(PlayerStatsViewModel.Id.INT)
+        BindingUtils.ItemTypeStat.REQ_LUK -> EquipData.get(itemId)?.getRequirment(PlayerStatsViewModel.Id.LUK)
+        BindingUtils.ItemTypeStat.REQ_FAME -> EquipData.get(itemId)?.getRequirment(PlayerStatsViewModel.Id.FAME)
         BindingUtils.ItemTypeStat.CATEGORY -> view.context.resources.getString(R.string.item_info_category) + EquipData.get(itemId)?.category
         else -> setItemBonus(view, itemId, when(itemTypeStat) {
             BindingUtils.ItemTypeStat.STR -> R.string.item_info_str

@@ -1,20 +1,23 @@
 package com.bapplications.maplemobile.gameplay;
 
-import com.bapplications.maplemobile.gameplay.player.Player;
-import com.bapplications.maplemobile.constatns.Configuration;
-import com.bapplications.maplemobile.gameplay.player.CharEntry;
 import com.bapplications.maplemobile.input.EventsQueue;
 import com.bapplications.maplemobile.input.events.Event;
-import com.bapplications.maplemobile.input.events.EventListener;
+import com.bapplications.maplemobile.gameplay.player.Player;
 import com.bapplications.maplemobile.input.events.EventType;
-import com.bapplications.maplemobile.input.events.PlayerConnectEvent;
-import com.bapplications.maplemobile.input.events.PlayerConnectedEvent;
-import com.bapplications.maplemobile.input.network.NetworkHandler;
-import com.bapplications.maplemobile.input.network.NetworkHandlerDemo;
+import com.bapplications.maplemobile.constatns.Configuration;
 import com.bapplications.maplemobile.ui.GameActivityUIManager;
+import com.bapplications.maplemobile.gameplay.player.CharEntry;
+import com.bapplications.maplemobile.input.events.EventListener;
+import com.bapplications.maplemobile.input.network.NetworkHandler;
+import com.bapplications.maplemobile.input.events.PlayerConnectEvent;
+import com.bapplications.maplemobile.input.network.NetworkHandlerDemo;
+import com.bapplications.maplemobile.input.events.PlayerConnectedEvent;
+import com.bapplications.maplemobile.ui.interfaces.GameEngineListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -47,6 +50,7 @@ public class GameEngine implements EventListener {
     public void startGame()
     {
         currMap.init(Configuration.START_MAP);
+        listeners.forEach(listener -> listener.onGameStarted());
     }
 
 
@@ -64,14 +68,9 @@ public class GameEngine implements EventListener {
 
     }
 
-    public void setControllers(GameActivityUIManager controllers) {
-        this.controllers = controllers;
-    }
-
     public GameMap getCurrMap() {
         return currMap;
     }
-
 
     public void initMap() {
         initMap(currMap.getMapId());
@@ -79,7 +78,7 @@ public class GameEngine implements EventListener {
 
     public void initMap(int mapId) {
         if(mapId != currMap.getMapId()) {
-            controllers.startLoadingMap();
+            listeners.forEach(listener -> listener.onChangedMap(mapId));
         }
         if (nextMaps.containsKey(mapId)) {
             currMap = nextMaps.get(mapId);
@@ -94,13 +93,13 @@ public class GameEngine implements EventListener {
         currMap.enterMap(player, currMap.getPortalByName(portalName));
     }
 
-    public void loadPlayer(int charId) {
+    public void loadPlayer() {
 
-        EventsQueue.Companion.getInstance().enqueue(new PlayerConnectEvent(charId));
+        EventsQueue.Companion.getInstance().enqueue(new PlayerConnectEvent(0));
 
         if(false) {
             // for development this will be a new char instead from reading from a db
-            CharEntry ce = new CharEntry(charId);
+            CharEntry ce = new CharEntry(0);
             ce.look.faceid = 20000;
             ce.look.hairid = 30020;
 
@@ -125,8 +124,7 @@ public class GameEngine implements EventListener {
 
     public void loadPlayer(CharEntry entry)
     {
-        player = new Player(entry, controllers);
-        controllers.setExpressions(player.getExpressions());
+        player = new Player(entry);
     }
 
     public Player getPlayer(){
@@ -147,8 +145,20 @@ public class GameEngine implements EventListener {
                 ce.look.faceid = _event.getFace();
                 ce.look.skin = (byte) _event.getSkin();
                 loadPlayer(ce);
+                listeners.forEach(listener -> listener.onPlayerLoaded(player));
                 currMap.enterMap(player, currMap.getPortalByName("sp"));
                 break;
         }
     }
+
+    public List<GameEngineListener> listeners = new ArrayList<>();
+
+    public void registerListener(GameEngineListener listener) {
+        listeners.add(listener);
+    }
+
+    public void removeListener(GameEngineListener listener) {
+        listeners.remove(listener);
+    }
+
 }
