@@ -21,6 +21,8 @@ import com.bapplications.maplemobile.pkgnx.NXNode
 import com.bapplications.maplemobile.utils.Point
 import com.bapplications.maplemobile.utils.Rectangle
 import com.bapplications.maplemobile.utils.StaticUtils
+import kotlinx.coroutines.*
+import kotlin.system.*
 
 class GameMap(camera: Camera) : EventListener {
     var mapId = 0
@@ -115,19 +117,35 @@ class GameMap(camera: Camera) : EventListener {
     fun update(deltatime: Int) {
         if (state != State.ACTIVE) return
 
+        runBlocking {
 ////        combat.update();
-        backgrounds!!.update(deltatime)
-        ////        effect.update();
-        tilesobjs!!.update(deltatime)
-        //
+            async {
+                backgrounds!!.update(deltatime)
+            }
+            ////        effect.update();
+
+            async {
+                tilesobjs!!.update(deltatime)
+            }
 ////        reactors.update(physics);
 ////        npcs.update(physics);
-        mobs!!.update(physics, deltatime)
-        characters!!.update(physics!!, deltatime)
-        drops!!.update(physics!!, deltatime)
-        player!!.update(physics, deltatime)
-        portals!!.update(player!!.position, deltatime)
-        camera.update(player!!.position)
+            async {
+                characters!!.update(physics!!, deltatime)
+            }
+            async {
+                drops!!.update(physics!!, deltatime)
+            }
+            async {
+                mobs!!.update(physics, deltatime)
+                player!!.update(physics, deltatime)
+            }
+            async {
+                portals!!.update(player!!.position, deltatime)
+            }
+            async {
+                camera.update(player!!.position)
+            }
+        }
         if (!player!!.isClimbing /* && !player.is_sitting()*/ && !player!!.isAttacking) {
             if (player!!.isPressed(InputAction.UP_ARROW_KEY) && !player!!.isPressed(InputAction.DOWN_ARROW_KEY)) checkLadders(true)
             if (player!!.isPressed(InputAction.DOWN_ARROW_KEY)) checkLadders(false)
@@ -167,28 +185,28 @@ class GameMap(camera: Camera) : EventListener {
             player!!.respawn(startpos, mapInfo!!.isUnderwater)
         } else if (warpinfo.valid) {
             Sound(Sound.Name.PORTAL).play()
-            GameEngine.getInstance().changeMap(warpinfo.mapid, warpinfo.toname)
+            GameEngine.instance?.changeMap(warpinfo.mapid, warpinfo.toname)
         }
     }
 
     fun draw(alpha: Float) {
         if (state != State.ACTIVE) return
         val viewpos = camera.position(alpha)
-        backgrounds!!.drawBackgrounds(viewpos, alpha)
+//        backgrounds!!.drawBackgrounds(viewpos, alpha)
         for (id in Layer.values()) {
             tilesobjs!!.draw(id, camera.getPositionRect(), viewpos, alpha)
-            physics!!.draw(viewpos)
+//            physics!!.draw(viewpos)
             //            reactors.draw(id, viewx, viewy, alpha);
 //            npcs.draw(id, viewx, viewy, alpha);
-            mobs!!.draw(id, viewpos, alpha)
-            characters!!.draw(id, viewpos, alpha)
+//            mobs!!.draw(id, viewpos, alpha)
+//            characters!!.draw(id, viewpos, alpha)
             player!!.draw(id, viewpos, alpha)
-            drops!!.draw(id, viewpos, alpha)
+//            drops!!.draw(id, viewpos, alpha)
         }
         //
 //        combat.draw(viewx, viewy, alpha);
-        portals!!.draw(viewpos, alpha)
-        backgrounds!!.drawForegrounds(viewpos, alpha)
+//        portals!!.draw(viewpos, alpha)
+//        backgrounds!!.drawForegrounds(viewpos, alpha)
         //        effect.draw();
         // for debugging purposes
 //        camera.draw();
