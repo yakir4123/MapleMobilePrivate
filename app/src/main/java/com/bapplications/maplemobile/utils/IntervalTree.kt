@@ -66,16 +66,16 @@ class IntervalTree(ranges: Collection<Range>, xrange: Range) : Collection<Range>
         rightTree?.shrinkTree()
     }
 
-    fun getRanges(range: Range): Iterator<Range> {
-        var res: ConcatIterator<Range> = ConcatIterator(listOf())
+    fun getRanges(range: Range): List<Range> {
+        val res: MutableList<Range> = ArrayList()
         if (range.intersect(minMaxNodeRange)) {
-            res += cutX.iterator()
+            res.addAll(cutX)
         }
         if(leftTree?.minMaxTreeRange?.intersect(range) == true) {
-            res += leftTree?.getRanges(range) ?: listOf<Range>().iterator()
+            leftTree?.let { res.addAll(it.getRanges(range)) }
         }
         if(rightTree?.minMaxTreeRange?.intersect(range) == true) {
-            res += rightTree?.getRanges(range) ?: listOf<Range>().iterator()
+            rightTree?.let { res.addAll(it.getRanges(range)) }
         }
         return res
     }
