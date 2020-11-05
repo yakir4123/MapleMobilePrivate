@@ -35,10 +35,11 @@ public class PlayerFallState implements PlayerState {
     public void updateState(Char player) {
         if (player.getPhobj().onground)
         {
-//            if (player.is_key_down(InputAction::Id::DOWN) && !haswalkinput(player)){
-//                player.set_state(Char.State.PRONE);
-//            } else {
-            player.setState(Char.State.STAND);
+            if (player.isPressed(InputAction.DOWN_ARROW_KEY) && !player.hasWalkInput()){
+                player.setState(Char.State.PRONE);
+            } else {
+                player.setState(Char.State.STAND);
+            }
         }
 //        else if (player.isUnderwater())
 //        {

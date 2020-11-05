@@ -5,7 +5,7 @@
 
     <data>
         <import type="com.bapplications.maplemobile.utils.BindingUtils"/>
-        <import type="com.bapplications.maplemobile.gameplay.player.PlayerStatsViewModel"/>
+        <import type="com.bapplications.maplemobile.gameplay.player.PlayerViewModel"/>
         <import type="com.bapplications.maplemobile.gameplay.player.inventory.InventoryType.Id"/>
         <variable
             name="viewModel"

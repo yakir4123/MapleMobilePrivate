@@ -22,7 +22,6 @@ import com.bapplications.maplemobile.utils.Point
 import com.bapplications.maplemobile.utils.Rectangle
 import com.bapplications.maplemobile.utils.StaticUtils
 import kotlinx.coroutines.*
-import kotlin.system.*
 
 class GameMap(camera: Camera) : EventListener {
     var mapId = 0
@@ -137,7 +136,7 @@ class GameMap(camera: Camera) : EventListener {
             }
             async {
                 mobs!!.update(physics, deltatime)
-                player!!.update(physics, deltatime)
+                player!!.update(physics!!, deltatime)
             }
             async {
                 portals!!.update(player!!.position, deltatime)
@@ -146,10 +145,12 @@ class GameMap(camera: Camera) : EventListener {
                 camera.update(player!!.position)
             }
         }
+        player?.stats?.canUseUpArrow?.postValue(portals?.collidePortal(player!!)!!
+                || player!!.isClimbing || mapInfo!!.findLadder(player!!.position, true) != null)
         if (!player!!.isClimbing /* && !player.is_sitting()*/ && !player!!.isAttacking) {
-            if (player!!.isPressed(InputAction.UP_ARROW_KEY) && !player!!.isPressed(InputAction.DOWN_ARROW_KEY)) checkLadders(true)
             if (player!!.isPressed(InputAction.DOWN_ARROW_KEY)) checkLadders(false)
-            if (player!!.isPressed(InputAction.UP_ARROW_KEY)) checkPortals()
+            else if (player!!.isPressed(InputAction.UP_ARROW_KEY)) checkLadders(true)
+            if (player!!.isPressed(InputAction.UP_ARROW_KEY)) enterPortal()
 
 
 //            if (player.isPressed(InputAction.SIT))
@@ -161,7 +162,7 @@ class GameMap(camera: Camera) : EventListener {
 //            if (player.isPressed(InputAction.PICKUP))
 //            check_drops();
         }
-        if (player!!.isInvincible) return
+        if (player!!.isInvincible()) return
         val oid = mobs!!.findColliding(player)
         if (oid != 0) {
             val attack = mobs!!.createAttack(oid)
@@ -171,14 +172,13 @@ class GameMap(camera: Camera) : EventListener {
         }
     }
 
-    fun getPortalByName(portalName: String?): Portal {
+    fun getPortalByName(portalName: String): Portal {
         return portals!!.getPortalByName(portalName)
     }
 
-    private fun checkPortals() {
+    private fun enterPortal() {
         if (player!!.isAttacking) return
-        val playerpos = player!!.position
-        val warpinfo = portals!!.findWarpAt(playerpos)
+        val warpinfo = portals!!.findWarpAt(player!!)
         if (warpinfo.intramap) {
             val spawnpoint = portals!!.getPortalByName(warpinfo.toname)
             val startpos = physics!!.getYBelow(spawnpoint.spawnPosition)

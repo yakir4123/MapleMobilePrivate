@@ -49,7 +49,7 @@ class GameEngine private constructor() : EventListener {
         }
     }
 
-    fun changeMap(mapId: Int, portalName: String?) {
+    fun changeMap(mapId: Int, portalName: String) {
         initMap(mapId)
         currMap!!.enterMap(player!!, currMap!!.getPortalByName(portalName))
     }
@@ -80,7 +80,7 @@ class GameEngine private constructor() : EventListener {
         }
     }
 
-    fun loadPlayer(entry: CharEntry?) {
+    fun loadPlayer(entry: CharEntry) {
         player = Player(entry)
     }
 

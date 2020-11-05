@@ -1,11 +1,12 @@
 package com.bapplications.maplemobile.gameplay.map;
 
+import com.bapplications.maplemobile.gameplay.components.ColliderComponent;
 import com.bapplications.maplemobile.gameplay.textures.Animation;
 import com.bapplications.maplemobile.utils.DrawArgument;
 import com.bapplications.maplemobile.utils.Point;
 import com.bapplications.maplemobile.utils.Rectangle;
 
-public class Portal {
+public class Portal implements ColliderComponent {
 
     private final Type type;
     private boolean touched;
@@ -28,7 +29,7 @@ public class Portal {
 
     public void update(Point playerpos)
     {
-        touched = bounds().contains(playerpos);
+        touched = getCollider().contains(playerpos);
     }
 
     public void draw(Point viewpos, float inter)
@@ -59,18 +60,19 @@ public class Portal {
         return spawnPosition;
     }
 
-    public Rectangle bounds()
+    public WarpInfo getWarpInfo()
     {
+        return warpInfo;
+    }
+
+    @Override
+    public Rectangle getCollider() {
         Point lt = position.plus( new Point(-25, 100));
         Point rb = position.plus(new Point(25, -25));
 
         return new Rectangle(lt, rb);
     }
 
-    public WarpInfo getWarpInfo()
-    {
-        return warpInfo;
-    }
     public enum Type
     {
         SPAWN,

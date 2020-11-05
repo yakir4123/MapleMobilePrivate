@@ -1,5 +1,6 @@
 package com.bapplications.maplemobile.gameplay.map.map_objects
 
+import com.bapplications.maplemobile.gameplay.components.ColliderComponent
 import com.bapplications.maplemobile.gameplay.map.Layer
 import com.bapplications.maplemobile.gameplay.physics.Physics
 import com.bapplications.maplemobile.gameplay.physics.PhysicsObject
@@ -46,7 +47,7 @@ class MapDrops {
                     val icon = Texture(itemdata?.icon(true))
                     // icon is actually the "DropModel"
                     // so it is not necessary to create new class for it
-                    icon.pos = Point(-16f, -24f)
+                    icon.pos = icon.dimenstion.scalarMul(-0.5f)//Point(-16f, -24f)
                     drops.add(spawn.instantiate(icon));
                 }
             }
@@ -62,7 +63,7 @@ class MapDrops {
         spawns.add(spawn)
     }
 
-    fun remove(oid: Int, state: Drop.State, looter: PhysicsObject)
+    fun remove(oid: Int, state: Drop.State, looter: ColliderComponent)
     {
         val drop: Drop? = drops.get(oid) as Drop
         drop?.expire(state, looter);

@@ -8,7 +8,7 @@ import com.bapplications.maplemobile.R;
 import com.bapplications.maplemobile.databinding.ActivityGameBinding;
 import com.bapplications.maplemobile.gameplay.GameMap;
 import com.bapplications.maplemobile.gameplay.player.Player;
-import com.bapplications.maplemobile.gameplay.player.PlayerStatsViewModel;
+import com.bapplications.maplemobile.gameplay.player.PlayerViewModel;
 import com.bapplications.maplemobile.input.EventsQueue;
 import com.bapplications.maplemobile.utils.StaticUtils;
 import com.bapplications.maplemobile.input.InputAction;
@@ -34,7 +34,7 @@ public class GameActivityUIManager implements GameEngineListener {
     private Fragment windowFragment;
     private final ActivityGameBinding binding;
     private GameActivityViewModel gameViewModel;
-    private PlayerStatsViewModel playerStatViewModel;
+    private PlayerViewModel playerStatViewModel;
 
     OvershootInterpolator interpolator = new OvershootInterpolator();
 
@@ -44,7 +44,7 @@ public class GameActivityUIManager implements GameEngineListener {
         gameViewModel = new ViewModelProvider(activity)
                 .get(GameActivityViewModel.class);
         playerStatViewModel = new ViewModelProvider(activity)
-                .get(PlayerStatsViewModel.class);
+                .get(PlayerViewModel.class);
 
         this.binding = binding;
         binding.setGameViewModel(gameViewModel);
