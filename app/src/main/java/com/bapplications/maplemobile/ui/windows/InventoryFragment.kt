@@ -35,9 +35,6 @@ class InventoryFragment(private var player: Player) : Fragment() {
         val adapter = InventoryAdapter()
         binding.inventoryItemsRecycler.adapter = adapter
 
-        // set data
-//        val spacing: Int = (context?.resources?.getDimension(R.dimen.recycler_equal_spacing) ?: 0).toInt()
-//        binding.inventoryItemsRecycler.addItemDecoration(EqualSpacingItemDecoration(spacing, EqualSpacingItemDecoration.GRID))
         viewModel.itemInventory.observe(viewLifecycleOwner, {
             loading_tv.visibility = View.GONE
             adapter.data = it
@@ -57,7 +54,7 @@ class InventoryFragment(private var player: Player) : Fragment() {
 
         binding.itemInfoEquipBt.setOnClickListener{
             (activity as GameActivity).runOnGLThread {
-                if(player.changeEquip(viewModel.slot.value)) {
+                if(player.changeEquip(viewModel.slot.value!!)) {
                     (activity as GameActivity).runOnUiThread {
                         adapter.notifyDataSetChanged()
                         returnToInventory(binding)
@@ -68,7 +65,7 @@ class InventoryFragment(private var player: Player) : Fragment() {
 
         binding.itemInfoDropBt.setOnClickListener {
             (activity as GameActivity).runOnGLThread {
-                if(player.dropItem(viewModel.slot.value)) {
+                if(player.dropItem(viewModel.slot.value!!)) {
                     (activity as GameActivity).runOnUiThread {
                         adapter.notifyDataSetChanged()
                         returnToInventory(binding)

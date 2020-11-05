@@ -39,7 +39,7 @@ class MapCharacters : EventListener {
         chars.update(physics, deltatime)
     }
 
-    fun draw(layer: Layer, viewpos: Point?, alpha: Float) {
+    fun draw(layer: Layer, viewpos: Point, alpha: Float) {
         for (ochar in chars.objects.values) {
             ochar.draw(layer, viewpos, alpha)
         }

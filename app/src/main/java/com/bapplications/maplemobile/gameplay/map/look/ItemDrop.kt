@@ -16,6 +16,7 @@ class ItemDrop(oid: Int, owner: Int,
             return;
 
         val absp = phobj.getAbsolute(view, alpha)
-        icon.draw(DrawArgument(angle.get(alpha), absp, opacity.get(alpha)));
+        icon.draw(DrawArgument(angle.get(alpha), absp, opacity.get(alpha)))
+        super.draw(view, alpha)
     }
 }

@@ -6,7 +6,7 @@
     tools:context="com.bapplications.maplemobile.ui.GameActivity">
 
     <data>
-        <import type="com.bapplications.maplemobile.gameplay.player.PlayerStatsViewModel"/>
+        <import type="com.bapplications.maplemobile.gameplay.player.PlayerViewModel"/>
         <import type="com.bapplications.maplemobile.constatns.Constants"/>
         <import type="com.bapplications.maplemobile.utils.BindingUtils"/>
         <variable
@@ -14,7 +14,7 @@
             type="com.bapplications.maplemobile.ui.view_models.GameActivityViewModel"/>
         <variable
             name="playerViewModel"
-            type="com.bapplications.maplemobile.gameplay.player.PlayerStatsViewModel"/>
+            type="com.bapplications.maplemobile.gameplay.player.PlayerViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -70,7 +70,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/hp_progress_layout"
                 android:layout_marginStart="15dp"
-                android:text="@{`Lv. ` + playerViewModel.getStat(PlayerStatsViewModel.Id.LEVEL)}"
+                android:text="@{`Lv. ` + playerViewModel.getStat(PlayerViewModel.Id.LEVEL)}"
                 android:textSize="@dimen/toolbar_text_size"
                 android:textColor="@color/dirty_white"
                 />
@@ -82,7 +82,7 @@
                 app:layout_constraintStart_toStartOf="@id/level_tv"
                 app:layout_constraintBottom_toBottomOf="@id/exp_progress_layout"
                 android:textSize="@dimen/toolbar_text_size"
-                android:text="@{BindingUtils.jobIdToName(playerViewModel.getStat(PlayerStatsViewModel.Id.JOB))}"
+                android:text="@{BindingUtils.jobIdToName(playerViewModel.getStat(PlayerViewModel.Id.JOB))}"
                 android:textColor="@color/dirty_white"
                 />
 
@@ -98,8 +98,8 @@
                 app:layout_constraintEnd_toStartOf="@id/mp_progress_layout"
                 app:layout_constraintStart_toEndOf="@id/job_tv"
                 app:layout_constraintTop_toTopOf="parent"
-                app:maxProgress="@{playerViewModel.getStat(PlayerStatsViewModel.Id.MAX_HP)}"
-                app:progress="@{playerViewModel.getStat(PlayerStatsViewModel.Id.HP)}"
+                app:maxProgress="@{playerViewModel.getStat(PlayerViewModel.Id.MAX_HP)}"
+                app:progress="@{playerViewModel.getStat(PlayerViewModel.Id.HP)}"
                 app:title="@{`HP:`}" />
 
             <include
@@ -114,8 +114,8 @@
                 app:layout_constraintEnd_toStartOf="@id/wifi_btn"
                 app:layout_constraintStart_toEndOf="@id/hp_progress_layout"
                 app:layout_constraintTop_toTopOf="parent"
-                app:maxProgress="@{playerViewModel.getStat(PlayerStatsViewModel.Id.MAX_MP)}"
-                app:progress="@{playerViewModel.getStat(PlayerStatsViewModel.Id.MP)}"
+                app:maxProgress="@{playerViewModel.getStat(PlayerViewModel.Id.MAX_MP)}"
+                app:progress="@{playerViewModel.getStat(PlayerViewModel.Id.MP)}"
                 app:title="@{`MP:`}" />
 
             <include
@@ -127,8 +127,8 @@
                 app:layout_constraintEnd_toEndOf="@id/mp_progress_layout"
                 app:layout_constraintStart_toStartOf="@id/hp_progress_layout"
                 app:layout_constraintBottom_toBottomOf="@id/tools_btn"
-                app:maxProgress="@{Constants.getExp(playerViewModel.getStat(PlayerStatsViewModel.Id.LEVEL))}"
-                app:progress="@{playerViewModel.getStat(PlayerStatsViewModel.Id.EXP)}"
+                app:maxProgress="@{Constants.getExp(playerViewModel.getStat(PlayerViewModel.Id.LEVEL))}"
+                app:progress="@{playerViewModel.getStat(PlayerViewModel.Id.EXP)}"
                 app:title="@{`Exp:`}" />
 
             <TextView
@@ -308,6 +308,15 @@
                 android:rotation="180"
                 android:layout_marginTop="30dp"/>
 
+
+            <androidx.constraintlayout.helper.widget.Layer
+                android:id="@+id/up_arrow_layer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="ctrl_up_arrow, up_arrow_iv"
+                android:visibility="@{playerViewModel.canUseUpArrow}"
+                tools:ignore="MissingConstraints" />
+
             <ImageView
                 android:id="@+id/ctrl_up_arrow"
                 android:layout_width="60dp"
@@ -318,6 +327,7 @@
                 app:layout_constraintBottom_toTopOf="@id/ctrl_down_arrow"
                 app:layout_constraintStart_toEndOf="@id/ctrl_left_arrow" />
             <ImageView
+                android:id="@+id/up_arrow_iv"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:background="@drawable/arrow_key"

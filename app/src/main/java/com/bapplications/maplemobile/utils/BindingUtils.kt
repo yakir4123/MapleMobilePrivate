@@ -8,7 +8,7 @@ import androidx.annotation.StringRes
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseMethod
 import com.bapplications.maplemobile.R
-import com.bapplications.maplemobile.gameplay.player.PlayerStatsViewModel
+import com.bapplications.maplemobile.gameplay.player.PlayerViewModel
 import com.bapplications.maplemobile.gameplay.player.inventory.EquipData
 import com.bapplications.maplemobile.gameplay.player.inventory.EquipStat
 import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType
@@ -104,12 +104,12 @@ fun setViewByItemId(view: View, itemTypeStat: BindingUtils.ItemTypeStat, itemId:
         BindingUtils.ItemTypeStat.NAME -> ItemData.get(itemId)?.name
         BindingUtils.ItemTypeStat.DESC -> ItemData.get(itemId)?.desc
         BindingUtils.ItemTypeStat.ICON -> ItemData.get(itemId)?.icon(false)
-        BindingUtils.ItemTypeStat.REQ_LVL -> EquipData.get(itemId)?.getRequirment(PlayerStatsViewModel.Id.LEVEL)
-        BindingUtils.ItemTypeStat.REQ_STR -> EquipData.get(itemId)?.getRequirment(PlayerStatsViewModel.Id.STR)
-        BindingUtils.ItemTypeStat.REQ_DEX -> EquipData.get(itemId)?.getRequirment(PlayerStatsViewModel.Id.DEX)
-        BindingUtils.ItemTypeStat.REQ_INT -> EquipData.get(itemId)?.getRequirment(PlayerStatsViewModel.Id.INT)
-        BindingUtils.ItemTypeStat.REQ_LUK -> EquipData.get(itemId)?.getRequirment(PlayerStatsViewModel.Id.LUK)
-        BindingUtils.ItemTypeStat.REQ_FAME -> EquipData.get(itemId)?.getRequirment(PlayerStatsViewModel.Id.FAME)
+        BindingUtils.ItemTypeStat.REQ_LVL -> EquipData.get(itemId)?.getRequirment(PlayerViewModel.Id.LEVEL)
+        BindingUtils.ItemTypeStat.REQ_STR -> EquipData.get(itemId)?.getRequirment(PlayerViewModel.Id.STR)
+        BindingUtils.ItemTypeStat.REQ_DEX -> EquipData.get(itemId)?.getRequirment(PlayerViewModel.Id.DEX)
+        BindingUtils.ItemTypeStat.REQ_INT -> EquipData.get(itemId)?.getRequirment(PlayerViewModel.Id.INT)
+        BindingUtils.ItemTypeStat.REQ_LUK -> EquipData.get(itemId)?.getRequirment(PlayerViewModel.Id.LUK)
+        BindingUtils.ItemTypeStat.REQ_FAME -> EquipData.get(itemId)?.getRequirment(PlayerViewModel.Id.FAME)
         BindingUtils.ItemTypeStat.CATEGORY -> view.context.resources.getString(R.string.item_info_category) + EquipData.get(itemId)?.category
         else -> setItemBonus(view, itemId, when(itemTypeStat) {
             BindingUtils.ItemTypeStat.STR -> R.string.item_info_str
