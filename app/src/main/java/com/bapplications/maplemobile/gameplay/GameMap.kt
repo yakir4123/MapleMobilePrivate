@@ -147,6 +147,9 @@ class GameMap(camera: Camera) : EventListener {
         }
         player?.stats?.canUseUpArrow?.postValue(portals?.collidePortal(player!!)!!
                 || player!!.isClimbing || mapInfo!!.findLadder(player!!.position, true) != null)
+
+        checkDrops()
+
         if (!player!!.isClimbing /* && !player.is_sitting()*/ && !player!!.isAttacking) {
             if (player!!.isPressed(InputAction.DOWN_ARROW_KEY)) checkLadders(false)
             else if (player!!.isPressed(InputAction.UP_ARROW_KEY)) checkLadders(true)
@@ -169,6 +172,18 @@ class GameMap(camera: Camera) : EventListener {
             if (attack.isValid) {
                 val result = player!!.damage(attack)
             }
+        }
+    }
+
+    private fun checkDrops() {
+        val drop = drops!!.inRange(player!!)
+        if((drop != null || player!!.isPressed(InputAction.LOOT_KEY))
+                != player?.stats?.canLoot?.value) {
+            player?.stats?.canLoot?.postValue(drop != null)
+        }
+        if(drop != null && !drop.isPicked() && player!!.isPressed(InputAction.LOOT_KEY)) {
+            player!!.pickupDrop(drop)
+            drop.expire(Drop.State.PICKEDUP, player!!)
         }
     }
 

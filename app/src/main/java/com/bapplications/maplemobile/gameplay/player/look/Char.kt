@@ -8,10 +8,9 @@ import com.bapplications.maplemobile.gameplay.physics.Physics
 import com.bapplications.maplemobile.gameplay.player.Stance
 import com.bapplications.maplemobile.gameplay.player.state.*
 import com.bapplications.maplemobile.input.InputAction
-import com.bapplications.maplemobile.utils.DrawArgument
-import com.bapplications.maplemobile.utils.Point
-import com.bapplications.maplemobile.utils.TimedBool
+import com.bapplications.maplemobile.utils.*
 import java.util.*
+import kotlin.collections.HashMap
 
 abstract class Char protected constructor(o: Int, val look: CharLook, name: String?) : MapObject(o) {
     abstract val stanceSpeed: Float
@@ -43,13 +42,15 @@ abstract class Char protected constructor(o: Int, val look: CharLook, name: Stri
     protected var climb_cooldown: TimedBool = TimedBool()
     private val invincible = TimedBool()
     private val pressedButton = ArrayList<InputAction>()
+    private val timedPressedButton = TimedBoolList<InputAction>()
     open var lookLeft = true
         set(value) {
             field = value
             look.setDirection(field)
         }
-    override fun draw(viewpos: Point, alpha: Float) {
-        val absp = phobj.getAbsolute(viewpos, alpha)
+
+    override fun draw(view: Point, alpha: Float) {
+        val absp = phobj.getAbsolute(view, alpha)
         look.draw(DrawArgument(absp), alpha)
     }
 
@@ -62,6 +63,8 @@ abstract class Char protected constructor(o: Int, val look: CharLook, name: Stri
 
     override fun update(physics: Physics, deltaTime: Int): Byte {
         val pst = getState(state)
+        timedPressedButton.update(deltaTime)
+        climb_cooldown.update(deltaTime)
         if (pst != null) {
             pst.update(this)
             physics.moveObject(phobj)
@@ -75,7 +78,6 @@ abstract class Char protected constructor(o: Int, val look: CharLook, name: Stri
                 pst.updateState(this)
             }
         }
-        climb_cooldown.update(deltaTime)
         return layer.ordinal.toByte()
     }
 
@@ -103,20 +105,12 @@ abstract class Char protected constructor(o: Int, val look: CharLook, name: Stri
         WALK(Stance.Id.WALK1), STAND(Stance.Id.STAND1), FALL(Stance.Id.JUMP), ALERT(Stance.Id.ALERT), PRONE(Stance.Id.PRONE), SWIM(Stance.Id.FLY), LADDER(Stance.Id.LADDER), ROPE(Stance.Id.ROPE), DIED(Stance.Id.DEAD), SIT(Stance.Id.SIT);
     }
 
-    fun update(physics: Physics?, speed: Float, deltaTime: Int): Boolean {
-        var stancespeed: Short = 0
-        if (speed >= 1.0f / deltaTime) stancespeed = (deltaTime * speed).toShort()
-        invincible.update(deltaTime)
-        return look.update(stancespeed)
-    }
-
     fun isInvincible(): Boolean {
         return invincible.isTrue
     }
 
-    override fun getLayer(): Layer {
-        return Layer.byValue(if (isClimbing) 7 else phobj.fhlayer.toInt())
-    }
+    override val layer: Layer
+        get() = Layer.byValue(if (isClimbing) 7 else phobj.fhlayer.toInt())
 
     val isClimbing: Boolean
         get() = state == State.LADDER || state == State.ROPE
@@ -143,10 +137,6 @@ abstract class Char protected constructor(o: Int, val look: CharLook, name: Stri
         Sound(Sound.Name.JUMP).play()
     }
 
-    public override fun getPosition(): Point {
-        return getPhobj().position
-    }
-
     fun hasWalkInput(): Boolean {
         return isPressed(InputAction.LEFT_ARROW_KEY) || isPressed(InputAction.RIGHT_ARROW_KEY)
     }
@@ -156,9 +146,10 @@ abstract class Char protected constructor(o: Int, val look: CharLook, name: Stri
         if (pressedButton.contains(key)) {
             return true
         }
-        if (key.type == InputAction.Type.CONTINUES_CLICK) {
-            pressedButton.add(key)
-        }
+       when(key.type) {
+           InputAction.Type.CONTINUES_CLICK -> pressedButton.add(key)
+           InputAction.Type.TIMED_CLICK -> timedPressedButton[key] = TimedBool().setFor(key.time)
+       }
         return pst.sendAction(this, key)
     }
 
@@ -171,7 +162,7 @@ abstract class Char protected constructor(o: Int, val look: CharLook, name: Stri
     }
 
     fun isPressed(key: InputAction): Boolean {
-        return pressedButton.contains(key)
+        return pressedButton.contains(key) || timedPressedButton.containsKey(key)
     }
 
     companion object {
@@ -186,6 +177,34 @@ abstract class Char protected constructor(o: Int, val look: CharLook, name: Stri
         private val climbing = PlayerClimbState()
         //    private static PlayerSitState sitting = new PlayerStandState();
         //    private static PlayerFlyState flying = new PlayerStandState();
+    }
+
+
+    override fun getCollider(): Rectangle {
+        var left: Int
+        var right: Int
+        val bottom: Int
+        val top: Int
+        if (state === State.PRONE) {
+            left = 10
+            right = -50
+            bottom = 0
+            top = 30
+        } else {
+            left = -15
+            right = 12
+            bottom = 0
+            top = 55
+        }
+        if (!lookLeft) {
+            left *= -1
+            right *= -1
+        }
+        return Rectangle(
+                (phobj.lastX + left).toFloat(),
+                (phobj.getX() + right).toFloat(),
+                (phobj.lastY + bottom).toFloat(),
+                (phobj.getY() + top).toFloat())
     }
 
 }

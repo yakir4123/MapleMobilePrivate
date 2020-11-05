@@ -13,6 +13,7 @@ class PlayerViewModel : ViewModel() {
 
     val name = MutableLiveData<String>()
     val canUseUpArrow = MutableLiveData(false)
+    val canLoot = MutableLiveData(false)
     private val stats: MutableMap<Id, MutableLiveData<Short>> = EnumMap(Id::class.java)
 
     init {

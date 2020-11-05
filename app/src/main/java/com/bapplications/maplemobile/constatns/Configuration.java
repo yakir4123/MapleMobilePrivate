@@ -4,7 +4,7 @@ public class Configuration {
 
     public static final boolean SHOW_FH = false;
     public static final boolean SHOW_MOBS_RECT = false;
-    public static final boolean SHOW_DROPS_RECT = true;
+    public static final boolean SHOW_DROPS_RECT = false;
     public static final boolean SHOW_PLAYER_RECT = false;
 
     //    public static final String HOST = "10.147.20.164";

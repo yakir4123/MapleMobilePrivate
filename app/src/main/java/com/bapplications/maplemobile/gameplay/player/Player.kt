@@ -1,10 +1,12 @@
 package com.bapplications.maplemobile.gameplay.player
 
 import androidx.lifecycle.LiveData
+import androidx.fragment.app.viewModels
 import com.bapplications.maplemobile.constatns.Configuration
 import com.bapplications.maplemobile.gameplay.GameMap
-import com.bapplications.maplemobile.gameplay.components.ColliderComponent
 import com.bapplications.maplemobile.gameplay.map.Layer
+import com.bapplications.maplemobile.gameplay.map.look.ItemDrop
+import com.bapplications.maplemobile.gameplay.map.map_objects.Drop
 import com.bapplications.maplemobile.gameplay.map.map_objects.mobs.Attack.MobAttack
 import com.bapplications.maplemobile.gameplay.map.map_objects.mobs.Attack.MobAttackResult
 import com.bapplications.maplemobile.gameplay.physics.Physics
@@ -12,22 +14,25 @@ import com.bapplications.maplemobile.gameplay.player.inventory.*
 import com.bapplications.maplemobile.gameplay.player.look.Char
 import com.bapplications.maplemobile.gameplay.player.look.CharLook
 import com.bapplications.maplemobile.gameplay.player.look.Expression
-import com.bapplications.maplemobile.gameplay.player.state.PlayerState
 import com.bapplications.maplemobile.input.EventsQueue.Companion.instance
 import com.bapplications.maplemobile.input.InputAction
 import com.bapplications.maplemobile.input.events.*
 import com.bapplications.maplemobile.input.events.EventListener
+import com.bapplications.maplemobile.ui.view_models.InventoryViewModel
 import com.bapplications.maplemobile.utils.*
 import java.util.*
 
 class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stats.name),
-        ColliderComponent, EventListener {
+        EventListener {
+    var inventoryViewModel: InventoryViewModel? = null
     var map: GameMap? = null
-    var stats: PlayerViewModel? = null
+    lateinit var stats: PlayerViewModel
         private set
     val inventory: Inventory
+
     private val myExpressions: TreeSet<Expression>
     private var lastUpdate: Int = 0
+
     fun setStats(stats: PlayerViewModel) {
         this.stats = stats
         stats.setStat(PlayerViewModel.Id.MAX_HP, 100.toShort())
@@ -51,7 +56,7 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
     }
 
     fun draw(layer: Layer, viewpos: Point, alpha: Float) {
-        if (layer == getLayer()) super.draw(viewpos, alpha)
+        if (layer == this.layer) super.draw(viewpos, alpha)
         if (Configuration.SHOW_PLAYER_RECT) {
             collider.draw(viewpos)
             val origin = DrawableCircle.createCircle(position, Color.GREEN)
@@ -157,42 +162,15 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
         return MobAttackResult(attack, damage, direction.toShort())
     }
 
-    override fun getCollider(): Rectangle {
-        var left: Int
-        var right: Int
-        val bottom: Int
-        val top: Int
-        if (state === State.PRONE) {
-            left = 10
-            right = -50
-            bottom = 0
-            top = 30
-        } else {
-            left = -15
-            right = 12
-            bottom = 0
-            top = 55
-        }
-        if (!lookLeft) {
-            left *= -1
-            right *= -1
-        }
-        return Rectangle(
-                (phobj.lastX + left).toFloat(),
-                (phobj.getX() + right).toFloat(),
-                (phobj.lastY + bottom).toFloat(),
-                (phobj.getY() + top).toFloat())
-    }
-
     override fun onEventReceive(event: Event) {
         when (event.type) {
             EventType.PressButton -> {
                 val (charid, buttonPressed, pressed) = event as PressButtonEvent
                 if (charid == 0) {
                     if (pressed) {
-                        clickedButton(InputAction.byKey(buttonPressed))
+                        clickedButton(InputAction.byKey(buttonPressed)!!)
                     } else {
-                        releasedButtons(InputAction.byKey(buttonPressed))
+                        releasedButtons(InputAction.byKey(buttonPressed)!!)
                     }
                 }
             }
@@ -205,6 +183,23 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
         }
     }
 
+    fun pickupDrop(drop: Drop) {
+        when(drop) {
+            // should ask from the server  to pick with oid
+            is ItemDrop -> {
+                if(EquipData.isEquip(drop.itemId)){
+                    inventory.addItem(Equip(drop.itemId, -1L, null, 0, 7, 0), 1)
+                } else {
+                    inventory.addItem(Item(drop.itemId, -1, null, 0), 1)
+                }
+                if(inventoryViewModel?.selectedInventoryType?.value == InventoryType.by_item_id(drop.itemId)) {
+                    inventoryViewModel?.itemInventory?.postValue(inventoryViewModel?.itemInventory?.value)
+                }
+            }
+
+        }
+    }
+
     init {
         isAttacking = false
         underwater = false
@@ -212,7 +207,7 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
         inventory = Inventory()
         addItem()
         myExpressions = TreeSet()
-        myExpressions.addAll(Arrays.asList(*Expression.values()))
+        myExpressions.addAll(listOf(*Expression.values()))
         instance.registerListener(EventType.PressButton, this)
         instance.registerListener(EventType.ExpressionButton, this)
     }

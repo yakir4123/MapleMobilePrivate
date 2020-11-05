@@ -25,6 +25,7 @@ import java.util.Collection;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 
@@ -49,10 +50,15 @@ public class GameActivityUIManager implements GameEngineListener {
         this.binding = binding;
         binding.setGameViewModel(gameViewModel);
         binding.setPlayerViewModel(playerStatViewModel);
+        viewModelsObservers();
         initToolsWindow();
         setClickListeners();
         initInputHandler();
 
+    }
+
+    private void viewModelsObservers() {
+        playerStatViewModel.getCanLoot().observe(activity, this::popLootButton);
     }
 
     private void initToolsWindow() {
@@ -90,7 +96,10 @@ public class GameActivityUIManager implements GameEngineListener {
         binding.inventoryBtn.setOnClickListener(this::inventoryMenu);
         binding.equipedBtn.setOnClickListener(this::equipMenu);
         binding.statsBtn.setOnClickListener(this::statsMenu);
+    }
 
+    public void popLootButton(boolean canLoot) {
+        StaticUtils.popViews(null, binding.ctrlLoot, StaticUtils.PopDirection.RIGHT, canLoot);
     }
 
     public void startLoadingMap() {
@@ -109,7 +118,7 @@ public class GameActivityUIManager implements GameEngineListener {
         new GameViewController(binding.ctrlLeftArrow, InputAction.LEFT_ARROW_KEY);
         new GameViewController(binding.ctrlRightArrow, InputAction.RIGHT_ARROW_KEY);
         new GameViewController(binding.ctrlJump, InputAction.JUMP_KEY);
-
+        new GameViewController(binding.ctrlLoot, InputAction.LOOT_KEY);
     }
 
     private void inventoryMenu(View view) {
@@ -122,7 +131,6 @@ public class GameActivityUIManager implements GameEngineListener {
     }
 
     private void equipMenu(View view) {
-        EventsQueue.Companion.getInstance().enqueue(new PlayerConnectEvent(1));
     }
 
     private void statsMenu(View view) {

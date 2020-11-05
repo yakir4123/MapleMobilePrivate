@@ -12,7 +12,7 @@ class ItemDrop(oid: Int, owner: Int,
 
     override fun draw(view: Point, alpha: Float)
     {
-        if (!active)
+        if (!isActive)
             return;
 
         val absp = phobj.getAbsolute(view, alpha)

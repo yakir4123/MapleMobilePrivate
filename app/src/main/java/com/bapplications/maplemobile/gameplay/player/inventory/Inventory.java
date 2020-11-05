@@ -10,6 +10,7 @@ public class Inventory {
 
     private EnumMap<InventoryType.Id, InventoryType> inventories = new EnumMap<>(InventoryType.Id.class);
 
+
     public Inventory() {
         gold = 0;
         inventories.put(InventoryType.Id.EQUIP, new InventoryType(InventoryType.Id.EQUIP, Configuration.INVENTORY_MAX_SLOTS));
