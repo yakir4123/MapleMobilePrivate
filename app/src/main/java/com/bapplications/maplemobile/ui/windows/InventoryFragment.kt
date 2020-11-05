@@ -1,23 +1,25 @@
 package com.bapplications.maplemobile.ui.windows
 
+import onItemClick
+import android.util.Log
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.bapplications.maplemobile.R
-import com.bapplications.maplemobile.databinding.FragmentInventoryBinding
-import com.bapplications.maplemobile.gameplay.player.Player
-import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType
-import com.bapplications.maplemobile.gameplay.player.inventory.Slot
-import com.bapplications.maplemobile.utils.BindingUtils
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
+import androidx.databinding.DataBindingUtil
 import com.bapplications.maplemobile.ui.GameActivity
-import com.bapplications.maplemobile.ui.adapters.InventoryAdapter
-import com.bapplications.maplemobile.ui.view_models.InventoryViewModel
+import com.bapplications.maplemobile.utils.BindingUtils
 import kotlinx.android.synthetic.main.fragment_inventory.*
-import onItemClick
+import com.bapplications.maplemobile.gameplay.player.Player
+import com.bapplications.maplemobile.ui.adapters.InventoryAdapter
+import com.bapplications.maplemobile.gameplay.player.inventory.Slot
+import com.bapplications.maplemobile.databinding.FragmentInventoryBinding
+import com.bapplications.maplemobile.ui.view_models.InventoryViewModel
+import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType
 
 class InventoryFragment(private var player: Player) : Fragment() {
 
@@ -28,9 +30,12 @@ class InventoryFragment(private var player: Player) : Fragment() {
         val binding : FragmentInventoryBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_inventory, container, false)
         binding.viewModel = viewModel
         binding.setLifecycleOwner { lifecycle }
-
+        player.inventoryViewModel = viewModel
         viewModel.itemInventory.postValue(player.inventory.getInventory(viewModel.selectedInventoryType.value).items)
-        viewModel.itemInventory.addSource(viewModel.selectedInventoryType) { value -> viewModel.itemInventory.postValue(player.inventory.getInventory(value).items) }
+        viewModel.itemInventory.addSource(viewModel.selectedInventoryType) {
+            value -> viewModel.itemInventory.postValue(player.inventory.getInventory(value).items)
+        }
+        viewModel.itemInventory
 
         val adapter = InventoryAdapter()
         binding.inventoryItemsRecycler.adapter = adapter
@@ -92,7 +97,6 @@ class InventoryFragment(private var player: Player) : Fragment() {
         binding.viewModel?.setSlot(slot)
     }
 
-
     private fun closeItem(binding: FragmentInventoryBinding) {
         binding.viewModel?.setSlot(null)
     }
@@ -104,6 +108,11 @@ class InventoryFragment(private var player: Player) : Fragment() {
             InventoryType.Id.EQUIPPED -> InventoryType.Id.EQUIP
             else -> nextType
         })
+    }
+
+    override fun onDetach() {
+        player.inventoryViewModel = null
+        super.onDetach()
     }
 
     companion object {

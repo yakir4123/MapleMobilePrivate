@@ -55,10 +55,18 @@ public class StaticUtils {
         popViews(poper, Collections.singletonList(pops), direc);
     }
 
+    public static void popViews(View poper, View pops, PopDirection direc, boolean popin) {
+        popViews(poper, Collections.singletonList(pops), direc, popin);
+    }
 
     public static void popViews(View poper, List<View> pops, PopDirection direc) {
-        StaticUtils.rotateViewAnimation(poper,
-                pops.get(0).getVisibility() == View.GONE).start();
+        popViews(poper, pops, direc, pops.get(0).getVisibility() == View.GONE);
+    }
+
+    public static void popViews(View poper, List<View> pops, PopDirection direc, boolean popin) {
+        if(poper != null) {
+            StaticUtils.rotateViewAnimation(poper, popin).start();
+        }
         for (View pop : pops)
             StaticUtils.popUpView(pop, direc).start();
     }

@@ -19,7 +19,7 @@ open class Drop(id: Int, val owner: Int,
         DROPPED, FLOATING, PICKEDUP
     }
     private var collider = Rectangle()
-    val PICKUP_TIME = 48
+    val PICKUP_TIME = 24
     val FLOAT_PIXELS = 8
     val SPIN_STEP: Float = 20F
     val OPC_STEP = 1.0f / PICKUP_TIME
@@ -28,7 +28,7 @@ open class Drop(id: Int, val owner: Int,
     var angle: Linear = Linear()
     var moved: Double = 180.0
     var baseY: Float = 0.0f
-    var looter: ColliderComponent? = null
+    var looter: MapObject? = null
 
     init {
         this.setPosition(start.x, start.y + FLOAT_PIXELS)
@@ -86,27 +86,24 @@ open class Drop(id: Int, val owner: Int,
         if (state == State.PICKEDUP)
         {
 
-            if (looter != null)
-            {
-                val hdelta = looter?.collider?.center()?.x?.minus(phobj.x.get());
-                phobj.hspeed = /*((looter?.hspeed?.div(2.0) ?: 0.0)
-                        +*/ ((hdelta?.minus(16.0))?.div(PICKUP_TIME) ?: 0.0).toFloat()
-            }
+            val hdelta = looter?.phobj?.x?.minus(phobj.x.get())
+            phobj.hspeed = ((looter?.phobj?.hspeed?.div(2.0) ?: 0.0)
+                    + ((hdelta?.minus(16.0))?.div(PICKUP_TIME) ?: 0.0)).toFloat()
 
             opacity.setMinus(OPC_STEP)
 
             if (opacity.last() <= OPC_STEP)
             {
                 opacity.set(1.0f);
+                deActivate()
 
-                deActivate();
                 return -1;
             }
         }
         return phobj.fhlayer;
     }
 
-    fun expire(newState: State, lt: ColliderComponent)
+    fun expire(newState: State, lt: MapObject)
     {
         when (newState)
         {
@@ -116,7 +113,7 @@ open class Drop(id: Int, val owner: Int,
                 angle.set(0.0f);
                 state = State.PICKEDUP;
                 looter = lt;
-                phobj.vspeed = -4.5f;
+                phobj.vspeed = -5.5f;
                 phobj.type = PhysicsObject.Type.NORMAL;
             }
         }
@@ -126,8 +123,9 @@ open class Drop(id: Int, val owner: Int,
         return collider
     }
 
+    fun isPicked(): Boolean = state == State.PICKEDUP
+
     override fun draw(view: Point, alpha: Float) {
-        super.draw(view, alpha)
         if(Configuration.SHOW_DROPS_RECT) {
             collider.draw(view)
         }

@@ -2,6 +2,7 @@ package com.bapplications.maplemobile.gameplay.map.map_objects
 
 import com.bapplications.maplemobile.gameplay.components.ColliderComponent
 import com.bapplications.maplemobile.gameplay.map.Layer
+import com.bapplications.maplemobile.gameplay.map.MapObject
 import com.bapplications.maplemobile.gameplay.physics.Physics
 import com.bapplications.maplemobile.gameplay.physics.PhysicsObject
 import com.bapplications.maplemobile.gameplay.player.inventory.ItemData
@@ -24,13 +25,13 @@ class MapDrops {
     {
         while(!spawns.isEmpty())
         {
-            val spawn = spawns.poll();
+            val spawn = spawns.poll()
 
-            val oid = spawn?.oid;
-            val drop = drops.get(oid)
+            val oid = spawn.oid
+            val drop = drops[oid]
             if (drop != null)
             {
-                drop.makeActive();
+                drop.makeActive()
             }
             else
             {
@@ -63,9 +64,9 @@ class MapDrops {
         spawns.add(spawn)
     }
 
-    fun remove(oid: Int, state: Drop.State, looter: ColliderComponent)
+    fun remove(oid: Int, state: Drop.State, looter: MapObject)
     {
-        val drop: Drop? = drops.get(oid) as Drop
+        val drop: Drop? = drops[oid] as Drop
         drop?.expire(state, looter);
     }
 
@@ -74,5 +75,13 @@ class MapDrops {
         drops.clear();
     }
 
+    fun inRange(collider: ColliderComponent): Drop? {
+        for(drop in drops.objects.values){
+            if(drop.isActive && drop.collider.overlaps(collider.collider)){
+                return drop
+            }
+        }
+        return null
+    }
 
 }

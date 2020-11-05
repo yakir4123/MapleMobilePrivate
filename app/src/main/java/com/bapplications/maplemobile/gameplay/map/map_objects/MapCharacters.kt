@@ -62,9 +62,9 @@ class MapCharacters : EventListener {
             is PressButtonEvent -> {
                 if (event.charid != 0) {
                     if (event.pressed) {
-                        (chars.get(event.charid) as OtherChar?)?.clickedButton(InputAction.byKey(event.buttonPressed))
+                        (chars[event.charid] as OtherChar?)?.clickedButton(InputAction.byKey(event.buttonPressed)!!)
                     } else {
-                        (chars.get(event.charid) as OtherChar?)?.releasedButtons(InputAction.byKey(event.buttonPressed))
+                        (chars[event.charid] as OtherChar?)?.releasedButtons(InputAction.byKey(event.buttonPressed)!!)
                     }
                 }
             }

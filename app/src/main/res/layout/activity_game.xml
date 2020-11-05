@@ -248,11 +248,10 @@
                 tools:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@id/ui_toolbar"
                 app:layout_constraintBottom_toBottomOf="@id/ctrl_left_arrow"
-                app:layout_constraintEnd_toStartOf="@id/tools_btn"
+                app:layout_constraintEnd_toEndOf="@id/wifi_btn"
                 app:layout_constraintStart_toStartOf="@id/mp_progress_layout"
                 android:layout_marginTop="2dp"
                 android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
                 />
             <ImageView
                 android:id="@+id/set_map"
@@ -315,8 +314,8 @@
                 android:layout_height="wrap_content"
                 app:constraint_referenced_ids="ctrl_up_arrow, up_arrow_iv"
                 android:visibility="@{playerViewModel.canUseUpArrow}"
+                tools:visibility="gone"
                 tools:ignore="MissingConstraints" />
-
             <ImageView
                 android:id="@+id/ctrl_up_arrow"
                 android:layout_width="60dp"
@@ -360,8 +359,8 @@
 
             <ImageView
                 android:id="@+id/ctrl_jump"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="@dimen/big_btn"
+                android:layout_height="@dimen/big_btn"
                 android:layout_marginEnd="30dp"
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/ui_btn_background"
@@ -379,7 +378,8 @@
                 android:rowCount="3"
                 android:visibility="gone"
                 android:translationY="@dimen/pops_up_or_right_translation"
-                app:layout_constraintBottom_toTopOf="@id/ctrl_up_arrow"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toTopOf="@id/expressions_btns"
                 app:layout_constraintStart_toStartOf="@id/expressions_btns" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -396,6 +396,21 @@
                 android:layout_marginBottom="25dp"
                 app:layout_constraintBottom_toTopOf="@id/ctrl_left_arrow"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/ctrl_loot"
+                android:layout_width="@dimen/big_btn"
+                android:layout_height="@dimen/big_btn"
+                android:background="@drawable/ui_btn_background"
+                android:padding="15dp"
+                android:src="@drawable/loot"
+                android:translationX="@dimen/pops_up_or_right_translation"
+                android:visibility="visible"
+                app:layout_constraintStart_toStartOf="@id/ctrl_jump"
+                app:layout_constraintEnd_toEndOf="@id/ctrl_jump"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

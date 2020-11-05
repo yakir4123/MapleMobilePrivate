@@ -21,7 +21,7 @@ class OtherChar(cid: Int, look: CharLook, level: Byte, job: Short,
         }
 
     fun draw(layer: Layer, viewpos: Point, alpha: Float) {
-        if (layer == getLayer()) super.draw(viewpos, alpha)
+        if (layer == this.layer) super.draw(viewpos, alpha)
     }
 
     fun updateState(state: State, pos: Point) {
