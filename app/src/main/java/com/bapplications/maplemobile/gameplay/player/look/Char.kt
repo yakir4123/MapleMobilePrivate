@@ -42,7 +42,7 @@ abstract class Char protected constructor(o: Int, val look: CharLook, name: Stri
     protected var climb_cooldown: TimedBool = TimedBool()
     private val invincible = TimedBool()
     private val pressedButton = ArrayList<InputAction>()
-    private val timedPressedButton = TimedBoolList<InputAction>()
+    protected val timedPressedButton = TimedBoolList<InputAction>()
     open var lookLeft = true
         set(value) {
             field = value
@@ -141,7 +141,7 @@ abstract class Char protected constructor(o: Int, val look: CharLook, name: Stri
         return isPressed(InputAction.LEFT_ARROW_KEY) || isPressed(InputAction.RIGHT_ARROW_KEY)
     }
 
-    fun clickedButton(key: InputAction): Boolean {
+    open fun clickedButton(key: InputAction): Boolean {
         val pst = getState(state) ?: return false
         if (pressedButton.contains(key)) {
             return true
@@ -164,6 +164,7 @@ abstract class Char protected constructor(o: Int, val look: CharLook, name: Stri
     fun isPressed(key: InputAction): Boolean {
         return pressedButton.contains(key) || timedPressedButton.containsKey(key)
     }
+
 
     companion object {
         fun init() {

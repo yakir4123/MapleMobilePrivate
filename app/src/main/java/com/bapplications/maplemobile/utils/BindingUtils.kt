@@ -13,6 +13,7 @@ import com.bapplications.maplemobile.gameplay.player.inventory.EquipData
 import com.bapplications.maplemobile.gameplay.player.inventory.EquipStat
 import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType
 import com.bapplications.maplemobile.gameplay.player.inventory.ItemData
+import info.abdolahi.CircularMusicProgressBar
 
 object BindingUtils {
     @InverseMethod("buttonIdToInventoryType")
@@ -95,6 +96,11 @@ object BindingUtils {
 fun setVisibility(view: View, visible: Boolean) {
     view.visibility = if (visible) View.VISIBLE else View.GONE
 }
+
+//@BindingAdapter("progress")
+//fun setProgress(pb :CircularMusicProgressBar, progress : Float) {
+//    pb.setValue(progress)
+//}
 
 
 @BindingAdapter(value = ["itemTypeStat", "itemId"])

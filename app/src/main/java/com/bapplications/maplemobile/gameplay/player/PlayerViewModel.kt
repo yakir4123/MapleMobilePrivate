@@ -3,6 +3,7 @@ package com.bapplications.maplemobile.gameplay.player
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.MutableLiveData
+import com.bapplications.maplemobile.utils.TimedBool
 
 import java.util.*
 
@@ -14,6 +15,7 @@ class PlayerViewModel : ViewModel() {
     val name = MutableLiveData<String>()
     val canUseUpArrow = MutableLiveData(false)
     val canLoot = MutableLiveData(false)
+    val lootPercent = MutableLiveData(0f)
     private val stats: MutableMap<Id, MutableLiveData<Short>> = EnumMap(Id::class.java)
 
     init {
