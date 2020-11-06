@@ -397,15 +397,22 @@
                 app:layout_constraintBottom_toTopOf="@id/ctrl_left_arrow"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <ImageView
+            <info.abdolahi.CircularMusicProgressBar
                 android:id="@+id/ctrl_loot"
                 android:layout_width="@dimen/big_btn"
                 android:layout_height="@dimen/big_btn"
-                android:background="@drawable/ui_btn_background"
-                android:padding="15dp"
                 android:src="@drawable/loot"
+                android:background="@drawable/ui_btn_background"
                 android:translationX="@dimen/pops_up_or_right_translation"
                 android:visibility="visible"
+                app:progressAnimationState="@{false}"
+                app:value="@{playerViewModel.lootPercent}"
+                app:border_width="5dp"
+                app:centercircle_diammterer="1"
+                app:progress_color="@color/tc_window"
+                app:border_color="@color/window_color"
+                app:progress_startAngle="-90"
+                app:draw_anticlockwise="false"
                 app:layout_constraintStart_toStartOf="@id/ctrl_jump"
                 app:layout_constraintEnd_toEndOf="@id/ctrl_jump"
                 app:layout_constraintTop_toTopOf="parent"

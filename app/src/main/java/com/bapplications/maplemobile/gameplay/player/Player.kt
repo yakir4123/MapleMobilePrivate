@@ -1,7 +1,7 @@
 package com.bapplications.maplemobile.gameplay.player
 
+import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.fragment.app.viewModels
 import com.bapplications.maplemobile.constatns.Configuration
 import com.bapplications.maplemobile.gameplay.GameMap
 import com.bapplications.maplemobile.gameplay.map.Layer
@@ -50,7 +50,7 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
         lastUpdate += deltaTime
         if (lastUpdate > Configuration.UPDATE_DIFF_TIME) {
             lastUpdate -= Configuration.UPDATE_DIFF_TIME
-            instance.enqueue(PlayerStateUpdateEvent(0, state!!, position))
+            instance.enqueue(PlayerStateUpdateEvent(0, state, position))
         }
         return res
     }
@@ -184,6 +184,8 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
     }
 
     fun pickupDrop(drop: Drop) {
+        resetPickupTimer()
+
         when(drop) {
             // should ask from the server  to pick with oid
             is ItemDrop -> {
@@ -196,8 +198,11 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
                     inventoryViewModel?.itemInventory?.postValue(inventoryViewModel?.itemInventory?.value)
                 }
             }
-
         }
+    }
+
+    private fun resetPickupTimer() {
+        timedPressedButton[InputAction.LOOT_KEY]?.reset()
     }
 
     init {
@@ -210,5 +215,15 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
         myExpressions.addAll(listOf(*Expression.values()))
         instance.registerListener(EventType.PressButton, this)
         instance.registerListener(EventType.ExpressionButton, this)
+    }
+
+    override fun clickedButton(key: InputAction): Boolean {
+        val res =  super.clickedButton(key)
+        if(key.key == InputAction.Key.LOOT) {
+            timedPressedButton[key]?.setOnUpdate {
+                stats.lootPercent.postValue(it.getPercent())
+            }
+        }
+        return res
     }
 }

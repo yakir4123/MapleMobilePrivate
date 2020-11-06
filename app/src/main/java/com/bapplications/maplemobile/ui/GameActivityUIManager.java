@@ -10,6 +10,7 @@ import com.bapplications.maplemobile.gameplay.GameMap;
 import com.bapplications.maplemobile.gameplay.player.Player;
 import com.bapplications.maplemobile.gameplay.player.PlayerViewModel;
 import com.bapplications.maplemobile.input.EventsQueue;
+import com.bapplications.maplemobile.utils.Randomizer;
 import com.bapplications.maplemobile.utils.StaticUtils;
 import com.bapplications.maplemobile.input.InputAction;
 import com.bapplications.maplemobile.input.ExpressionInputAction;
