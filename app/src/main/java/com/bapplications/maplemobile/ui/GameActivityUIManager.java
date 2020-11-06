@@ -185,7 +185,7 @@ public class GameActivityUIManager implements GameEngineListener {
 
     @Override
     public void onMapLoaded(GameMap map) {
-
+        finishLoadingMap();
     }
 
     @Override
