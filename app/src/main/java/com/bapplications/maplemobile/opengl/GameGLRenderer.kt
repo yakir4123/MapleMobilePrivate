@@ -20,6 +20,8 @@ class GameGLRenderer private constructor() : GLSurfaceView.Renderer {
     private var frames = 0
     private var before: Long = 0
     private var lag: Double = 0.0
+    var start = System.currentTimeMillis()
+
     override fun onSurfaceCreated(gl10: GL10, eglConfig: EGLConfig) {
         Log.d(TAG, "surface CREATED")
         GLES20.glClearColor(0.09019f, 0.10588f, 0.13333f, 0.0f)
@@ -46,26 +48,23 @@ class GameGLRenderer private constructor() : GLSurfaceView.Renderer {
 
         // Set the camera position (View matrix)
         Matrix.setLookAtM(GLState._viewMatrix, 0, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1.0f, 0.0f)
-
+        start = System.currentTimeMillis()
         // Calculate the projection and view transformation
         Matrix.multiplyMM(GLState._MVPMatrix, 0, GLState._projectionMatrix, 0, GLState._viewMatrix, 0)
-        var start = System.currentTimeMillis()
         Char.init()
         Sound.init()
         MapPortals.init()
-        val diff = System.currentTimeMillis() - start
-        Log.d(TAG, "diff init: $diff") // 0.3 ~ 1 s
         startGame()
     }
 
-    fun startGame() {
+    private fun startGame() {
         gameEngine!!.startGame()
         gameEngine.loadPlayer()
-        gameEngine.initMap()
+        val diff = System.currentTimeMillis() - start
+        Log.d(TAG, "diff init: $diff")
     }
 
     override fun onDrawFrame(gl10: GL10) {
-
         // Draw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
         val now = System.currentTimeMillis()

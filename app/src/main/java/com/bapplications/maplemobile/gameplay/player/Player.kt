@@ -205,6 +205,16 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
         timedPressedButton[InputAction.LOOT_KEY]?.reset()
     }
 
+    override fun clickedButton(key: InputAction): Boolean {
+        val res =  super.clickedButton(key)
+        if(key.key == InputAction.Key.LOOT) {
+            timedPressedButton[key]?.setOnUpdate {
+                stats.lootPercent.postValue(it.getPercent())
+            }
+        }
+        return res
+    }
+
     init {
         isAttacking = false
         underwater = false
@@ -215,15 +225,5 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
         myExpressions.addAll(listOf(*Expression.values()))
         instance.registerListener(EventType.PressButton, this)
         instance.registerListener(EventType.ExpressionButton, this)
-    }
-
-    override fun clickedButton(key: InputAction): Boolean {
-        val res =  super.clickedButton(key)
-        if(key.key == InputAction.Key.LOOT) {
-            timedPressedButton[key]?.setOnUpdate {
-                stats.lootPercent.postValue(it.getPercent())
-            }
-        }
-        return res
     }
 }

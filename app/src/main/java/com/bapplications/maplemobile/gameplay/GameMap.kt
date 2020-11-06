@@ -29,7 +29,7 @@ class GameMap(camera: Camera) : EventListener {
     var state: State
         private set
     private var mobs: MapMobs? = null
-    var player: Player? = null
+    lateinit var player: Player
         private set
     val camera: Camera
     private var drops: MapDrops? = null
@@ -60,7 +60,7 @@ class GameMap(camera: Camera) : EventListener {
         }
     }
 
-    fun spawnMobs(src: NXNode) {
+    private fun spawnMobs(src: NXNode) {
         var oid = 100 // todo: needs a way to calculate that
         for (spawnNode in src) {
             if (spawnNode.getChild<NXNode>("type").get("") != "m") {
@@ -108,9 +108,9 @@ class GameMap(camera: Camera) : EventListener {
         Music.play(mapInfo!!.bgm)
 
         val startpos = physics!!.getYBelow(position)
-        player!!.respawn(startpos, mapInfo!!.isUnderwater)
+        player.respawn(startpos, mapInfo!!.isUnderwater)
         camera.setView(mapInfo!!.walls, mapInfo!!.borders)
-        camera.update(player!!.position.negateSign())
+        camera.update(player.position.negateSign())
     }
 
     fun update(deltatime: Int) {
@@ -136,24 +136,24 @@ class GameMap(camera: Camera) : EventListener {
             }
             async {
                 mobs!!.update(physics, deltatime)
-                player!!.update(physics!!, deltatime)
+                player.update(physics!!, deltatime)
             }
             async {
-                portals!!.update(player!!.position, deltatime)
+                portals!!.update(player.position, deltatime)
             }
             async {
-                camera.update(player!!.position)
+                camera.update(player.position)
             }
         }
-        player?.stats?.canUseUpArrow?.postValue(portals?.collidePortal(player!!)!!
-                || player!!.isClimbing || mapInfo!!.findLadder(player!!.position, true) != null)
+        player?.stats?.canUseUpArrow?.postValue(portals?.collidePortal(player)!!
+                || player.isClimbing || mapInfo!!.findLadder(player.position, true) != null)
 
         checkDrops()
 
-        if (!player!!.isClimbing /* && !player.is_sitting()*/ && !player!!.isAttacking) {
-            if (player!!.isPressed(InputAction.DOWN_ARROW_KEY)) checkLadders(false)
-            else if (player!!.isPressed(InputAction.UP_ARROW_KEY)) checkLadders(true)
-            if (player!!.isPressed(InputAction.UP_ARROW_KEY)) enterPortal()
+        if (!player.isClimbing /* && !player.is_sitting()*/ && !player.isAttacking) {
+            if (player.isPressed(InputAction.DOWN_ARROW_KEY)) checkLadders(false)
+            else if (player.isPressed(InputAction.UP_ARROW_KEY)) checkLadders(true)
+            if (player.isPressed(InputAction.UP_ARROW_KEY)) enterPortal()
 
 
 //            if (player.isPressed(InputAction.SIT))
@@ -165,25 +165,25 @@ class GameMap(camera: Camera) : EventListener {
 //            if (player.isPressed(InputAction.PICKUP))
 //            check_drops();
         }
-        if (player!!.isInvincible()) return
+        if (player.isInvincible()) return
         val oid = mobs!!.findColliding(player)
         if (oid != 0) {
             val attack = mobs!!.createAttack(oid)
             if (attack.isValid) {
-                val result = player!!.damage(attack)
+                val result = player.damage(attack)
             }
         }
     }
 
     private fun checkDrops() {
-        val drop = drops!!.inRange(player!!)
-        if((drop != null || player!!.isPressed(InputAction.LOOT_KEY))
+        val drop = drops!!.inRange(player)
+        if((drop != null || player.isPressed(InputAction.LOOT_KEY))
                 != player?.stats?.canLoot?.value) {
             player?.stats?.canLoot?.postValue(drop != null)
         }
-        if(drop != null && !drop.isPicked() && player!!.isPressed(InputAction.LOOT_KEY)) {
-            player!!.pickupDrop(drop)
-            drop.expire(Drop.State.PICKEDUP, player!!)
+        if(drop != null && !drop.isPicked() && player.isPressed(InputAction.LOOT_KEY)) {
+            player.pickupDrop(drop)
+            drop.expire(Drop.State.PICKEDUP, player)
         }
     }
 
@@ -192,12 +192,12 @@ class GameMap(camera: Camera) : EventListener {
     }
 
     private fun enterPortal() {
-        if (player!!.isAttacking) return
-        val warpinfo = portals!!.findWarpAt(player!!)
+        if (player.isAttacking) return
+        val warpinfo = portals!!.findWarpAt(player)
         if (warpinfo.intramap) {
             val spawnpoint = portals!!.getPortalByName(warpinfo.toname)
             val startpos = physics!!.getYBelow(spawnpoint.spawnPosition)
-            player!!.respawn(startpos, mapInfo!!.isUnderwater)
+            player.respawn(startpos, mapInfo!!.isUnderwater)
         } else if (warpinfo.valid) {
             Sound(Sound.Name.PORTAL).play()
             GameEngine.instance?.changeMap(warpinfo.mapid, warpinfo.toname)
@@ -215,7 +215,7 @@ class GameMap(camera: Camera) : EventListener {
 //            npcs.draw(id, viewx, viewy, alpha);
             mobs!!.draw(id, viewpos, alpha)
             characters!!.draw(id, viewpos, alpha)
-            player!!.draw(id, viewpos, alpha)
+            player.draw(id, viewpos, alpha)
             drops!!.draw(id, viewpos, alpha)
         }
         //
@@ -239,8 +239,8 @@ class GameMap(camera: Camera) : EventListener {
     }
 
     fun checkLadders(up: Boolean) {
-        if (!player!!.canClimb() || player!!.isClimbing || player!!.isAttacking) return
-        player!!.ladder = mapInfo!!.findLadder(player!!.position, up)
+        if (!player.canClimb() || player.isClimbing || player.isAttacking) return
+        player.ladder = mapInfo!!.findLadder(player.position, up)
     }
 
     fun enterMap(player: Player, portal: Portal) {
