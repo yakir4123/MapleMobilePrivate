@@ -5,13 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bapplications.maplemobile.R
-import com.bapplications.maplemobile.gameplay.player.inventory.Slot
+import com.bapplications.maplemobile.gameplay.player.inventory.InventorySlot
 import com.bapplications.maplemobile.utils.BindingUtils
 import com.bapplications.maplemobile.ui.adapters.holders.ImageItemViewHolder
 import com.bapplications.maplemobile.utils.setViewByItemId
 
 class InventoryAdapter: RecyclerView.Adapter<ImageItemViewHolder>() {
-    var data =  mutableListOf<Slot>()
+    var data =  mutableListOf<InventorySlot>()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -22,11 +22,11 @@ class InventoryAdapter: RecyclerView.Adapter<ImageItemViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ImageItemViewHolder, position: Int) {
-        val slot : Slot = data[position]
-        if (slot.itemId != 0) {
-            setViewByItemId(holder.itemImage, BindingUtils.ItemTypeStat.ICON, slot.itemId)
-            holder.itemCountText.text = slot.count.toString()
-            holder.isCashIcon.visibility = if(slot.isCash) View.VISIBLE else View.GONE
+        val inventorySlot : InventorySlot = data[position]
+        if (inventorySlot.itemId != 0) {
+            setViewByItemId(holder.itemImage, BindingUtils.ItemTypeStat.ICON, inventorySlot.itemId)
+            holder.itemCountText.text = inventorySlot.count.toString()
+            holder.isCashIcon.visibility = if(inventorySlot.isCash) View.VISIBLE else View.GONE
         } else {
             holder.itemImage.setImageBitmap(null)
             holder.itemCountText.text = ""
@@ -51,7 +51,7 @@ class InventoryAdapter: RecyclerView.Adapter<ImageItemViewHolder>() {
         return position
     }
 
-    fun getSlot(position: Int): Slot {
+    fun getSlot(position: Int): InventorySlot {
         return data[position]
     }
 

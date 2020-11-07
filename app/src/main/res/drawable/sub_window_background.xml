@@ -12,7 +12,7 @@
         <gradient
             android:type="linear"
             android:startColor="@color/sub_window_color_main"
-            android:endColor="@color/sub_window_color_secondary"
+            android:endColor="@color/sub_window_color_light"
             android:angle="270"
             android:centerY="0.2"
             />

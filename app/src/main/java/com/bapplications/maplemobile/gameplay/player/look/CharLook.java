@@ -195,7 +195,7 @@ public class CharLook {
 
         body.draw(interstance, Body.Layer.ARM_BELOW_HEAD_OVER_MAIL, interframe, args);
         equips.draw(EquipSlot.Id.SHIELD, interstance, Clothing.Layer.SHIELD_OVER_HAIR, interframe, args);
-        equips.draw(EquipSlot.Id.EARACC, interstance, Clothing.Layer.EARRINGS, interframe, args);
+        equips.draw(EquipSlot.Id.EARRINGS, interstance, Clothing.Layer.EARRINGS, interframe, args);
         body.draw(interstance, Body.Layer.HEAD, interframe, args);
         hair.draw(interstance, Hair.Layer.SHADE, interframe, args);
         hair.draw(interstance, Hair.Layer.DEFAULT, interframe, args);
@@ -282,7 +282,7 @@ public class CharLook {
         equips.draw(EquipSlot.Id.TOP, interstance, Clothing.Layer.MAIL, interframe, args);
         equips.draw(EquipSlot.Id.CAPE, interstance, Clothing.Layer.CAPE, interframe, args);
         body.draw(interstance, Body.Layer.HEAD, interframe, args);
-        equips.draw(EquipSlot.Id.EARACC, interstance, Clothing.Layer.EARRINGS, interframe, args);
+        equips.draw(EquipSlot.Id.EARRINGS, interstance, Clothing.Layer.EARRINGS, interframe, args);
 
         switch (equips.getCapType())
         {

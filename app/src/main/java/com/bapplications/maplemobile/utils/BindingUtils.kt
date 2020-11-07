@@ -1,10 +1,14 @@
 package com.bapplications.maplemobile.utils
 
+import android.content.res.Resources
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.StringRes
+import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseMethod
 import com.bapplications.maplemobile.R
@@ -97,19 +101,17 @@ fun setVisibility(view: View, visible: Boolean) {
     view.visibility = if (visible) View.VISIBLE else View.GONE
 }
 
-//@BindingAdapter("progress")
-//fun setProgress(pb :CircularMusicProgressBar, progress : Float) {
-//    pb.setValue(progress)
-//}
-
-
-@BindingAdapter(value = ["itemTypeStat", "itemId"])
-fun setViewByItemId(view: View, itemTypeStat: BindingUtils.ItemTypeStat, itemId: Int) {
-//    val itemTypeStat = BindingUtils.ItemTypeStat.values()[itemTypeStatOrdinal]
+@BindingAdapter("itemTypeStat", "itemId", "itemDataDefault", requireAll = false)
+fun setViewByItemId(view: View, itemTypeStat: BindingUtils.ItemTypeStat, itemId: Int, default: Any? = null) {
     val raw: Any? = when(itemTypeStat) {
         BindingUtils.ItemTypeStat.NAME -> ItemData.get(itemId)?.name
         BindingUtils.ItemTypeStat.DESC -> ItemData.get(itemId)?.desc
-        BindingUtils.ItemTypeStat.ICON -> ItemData.get(itemId)?.icon(false)
+        BindingUtils.ItemTypeStat.ICON -> {
+            if (itemId != 0)
+                ItemData.get(itemId)?.icon(false)
+            else
+                (default as Drawable?)?.toBitmap()
+        }
         BindingUtils.ItemTypeStat.REQ_LVL -> EquipData.get(itemId)?.getRequirment(PlayerViewModel.Id.LEVEL)
         BindingUtils.ItemTypeStat.REQ_STR -> EquipData.get(itemId)?.getRequirment(PlayerViewModel.Id.STR)
         BindingUtils.ItemTypeStat.REQ_DEX -> EquipData.get(itemId)?.getRequirment(PlayerViewModel.Id.DEX)

@@ -1,7 +1,6 @@
 package com.bapplications.maplemobile.ui.windows
 
 import onItemClick
-import android.util.Log
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -9,14 +8,13 @@ import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import com.bapplications.maplemobile.R
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
 import androidx.databinding.DataBindingUtil
 import com.bapplications.maplemobile.ui.GameActivity
 import com.bapplications.maplemobile.utils.BindingUtils
 import kotlinx.android.synthetic.main.fragment_inventory.*
 import com.bapplications.maplemobile.gameplay.player.Player
 import com.bapplications.maplemobile.ui.adapters.InventoryAdapter
-import com.bapplications.maplemobile.gameplay.player.inventory.Slot
+import com.bapplications.maplemobile.gameplay.player.inventory.InventorySlot
 import com.bapplications.maplemobile.databinding.FragmentInventoryBinding
 import com.bapplications.maplemobile.ui.view_models.InventoryViewModel
 import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType
@@ -30,6 +28,8 @@ class InventoryFragment(private var player: Player) : Fragment() {
         val binding : FragmentInventoryBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_inventory, container, false)
         binding.viewModel = viewModel
         binding.setLifecycleOwner { lifecycle }
+        
+        // for updates  in case i pick items and the inventory is open
         player.inventoryViewModel = viewModel
         viewModel.itemInventory.postValue(player.inventory.getInventory(viewModel.selectedInventoryType.value).items)
         viewModel.itemInventory.addSource(viewModel.selectedInventoryType) {
@@ -59,7 +59,7 @@ class InventoryFragment(private var player: Player) : Fragment() {
 
         binding.itemInfoEquipBt.setOnClickListener{
             (activity as GameActivity).runOnGLThread {
-                if(player.changeEquip(viewModel.slot.value!!)) {
+                if(player.changeEquip(viewModel.inventorySlot.value!!)) {
                     (activity as GameActivity).runOnUiThread {
                         adapter.notifyDataSetChanged()
                         returnToInventory(binding)
@@ -70,7 +70,7 @@ class InventoryFragment(private var player: Player) : Fragment() {
 
         binding.itemInfoDropBt.setOnClickListener {
             (activity as GameActivity).runOnGLThread {
-                if(player.dropItem(viewModel.slot.value!!)) {
+                if(player.dropItem(viewModel.inventorySlot.value!!)) {
                     (activity as GameActivity).runOnUiThread {
                         adapter.notifyDataSetChanged()
                         returnToInventory(binding)
@@ -93,12 +93,12 @@ class InventoryFragment(private var player: Player) : Fragment() {
         closeItem(binding)
     }
 
-    private fun openItem(binding: FragmentInventoryBinding, slot: Slot) {
-        binding.viewModel?.setSlot(slot)
+    private fun openItem(binding: FragmentInventoryBinding, inventorySlot: InventorySlot) {
+        binding.viewModel?.setInventorySlot(inventorySlot)
     }
 
     private fun closeItem(binding: FragmentInventoryBinding) {
-        binding.viewModel?.setSlot(null)
+        binding.viewModel?.setInventorySlot(null)
     }
 
     private fun inventorySwipe(isLeft : Boolean) {

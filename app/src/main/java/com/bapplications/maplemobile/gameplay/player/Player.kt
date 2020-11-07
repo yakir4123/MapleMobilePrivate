@@ -1,6 +1,5 @@
 package com.bapplications.maplemobile.gameplay.player
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.bapplications.maplemobile.constatns.Configuration
 import com.bapplications.maplemobile.gameplay.GameMap
@@ -86,14 +85,14 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
             }
         }
     fun getStat(id: PlayerViewModel.Id?): LiveData<Short> {
-        return stats!!.getStat(id!!)
+        return stats.getStat(id!!)
     }
 
     fun addStat(id: PlayerViewModel.Id?, `val`: Short): PlayerViewModel {
-        return stats!!.addStat(id!!, `val`)
+        return stats.addStat(id!!, `val`)
     }
 
-    fun changeEquip(to: Slot): Boolean {
+    fun changeEquip(to: InventorySlot): Boolean {
         val changed = inventory.equipItem(to.item as Equip)
         if (changed) {
             look.addEquip(to.itemId)
@@ -102,29 +101,31 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
         return changed
     }
 
-    fun dropItem(slot: Slot): Boolean {
-        val invType = slot.inventoryType
+    fun getEquippedInventory(): EquippedInventory {
+        return inventory.equippedInventory
+    }
+
+    fun dropItem(inventorySlot: InventorySlot): Boolean {
+        val invType = inventorySlot.inventoryType
         // it actually just like slot
-        val dropped = inventory.getInventory(invType).popItem(slot.slotId)
+        val dropped = inventory.getInventory(invType).popItem(inventorySlot.slotId)
         if (dropped.isEmpty) {
             return false
         }
         instance
                 .enqueue(DropItemEvent(dropped.itemId, position,
-                        0, invType.ordinal, slot.slotId, map!!.mapId))
+                        0, invType.ordinal, inventorySlot.slotId, map!!.mapId))
         return true
     }
 
     // todo change signature
     fun addItem() {
-        inventory.addItem(Equip(1002357, -1L, null, 0.toShort(), 7.toByte(), 0.toByte()), 1.toShort())
-        inventory.addItem(Equip(1050045, -1L, null, 0.toShort(), 7.toByte(), 0.toByte()), 1.toShort())
-        inventory.addItem(Equip(1002017, -1L, null, 0.toShort(), 7.toByte(), 0.toByte()), 1.toShort())
-        inventory.addItem(Equip(1092045, -1L, null, 0.toShort(), 7.toByte(), 0.toByte()), 1.toShort())
-        inventory.addItem(Equip(1050087, -1L, null, 0.toShort(), 7.toByte(), 0.toByte()), 1.toShort())
-        inventory.addItem(Equip(1002575, -1L, null, 0.toShort(), 7.toByte(), 0.toByte()), 1.toShort())
-        inventory.addItem(Equip(1002356, -1L, null, 0.toShort(), 7.toByte(), 0.toByte()), 1.toShort())
-        inventory.addItem(Equip(1050040, -1L, null, 0.toShort(), 7.toByte(), 0.toByte()), 1.toShort())
+        val equips = listOf(1050045, 1082028, 1002017, 1092045, 1072024, 1382009, 1050018, 1002357,
+                1072171, 1082223, 1472054, 1050087, 1002575, 1002356, 1050040)
+        for(item in equips) {
+            inventory.addItem(Equip(item, -1L, null, 0.toShort(),
+                    7.toByte(), 0.toByte()), 1.toShort())
+        }
         inventory.addItem(Item(2000000, -1L, null, 0.toShort()), 76.toShort())
         inventory.addItem(Item(2000001, -1L, null, 0.toShort()), 50.toShort())
         inventory.addItem(Item(2000002, -1L, null, 0.toShort()), 100.toShort())

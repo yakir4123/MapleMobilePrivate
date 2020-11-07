@@ -152,6 +152,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/ui_btn_background"
                 app:backgroundTint="@color/sub_window_color_secondary"
+                android:src="@drawable/bars"
                 app:elevation="0dp"
                 app:fabSize="mini"
                 app:pressedTranslationZ="0dp"
@@ -181,6 +182,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/ui_btn_background"
                 app:backgroundTint="@color/window_color"
+                android:src="@drawable/bag"
                 app:elevation="0dp"
                 app:fabSize="mini"
                 android:translationY="@dimen/pops_down_or_left_translation"
@@ -197,6 +199,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/ui_btn_background"
                 app:backgroundTint="@color/window_color"
+                android:src="@drawable/armor_button"
                 app:elevation="0dp"
                 app:fabSize="mini"
                 android:translationY="@dimen/pops_down_or_left_translation"
@@ -213,6 +216,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/ui_btn_background"
                 app:backgroundTint="@color/window_color"
+                android:src="@drawable/skillbook"
                 app:elevation="0dp"
                 app:fabSize="mini"
                 android:translationY="@dimen/pops_down_or_left_translation"
@@ -229,6 +233,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/ui_btn_background"
                 app:backgroundTint="@color/window_color"
+                android:src="@drawable/stats"
                 app:elevation="0dp"
                 app:fabSize="mini"
                 android:translationY="@dimen/pops_down_or_left_translation"
@@ -358,16 +363,31 @@
                 android:layout_marginStart="30dp"/>
 
             <ImageView
-                android:id="@+id/ctrl_jump"
+                android:id="@+id/ctrl_simple_attack"
                 android:layout_width="@dimen/big_btn"
                 android:layout_height="@dimen/big_btn"
+                android:background="@drawable/ui_btn_background"
+                android:padding="15dp"
+                android:src="@drawable/weapon_button"
+                android:rotation="180"
                 android:layout_marginEnd="30dp"
                 android:layout_marginBottom="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <ImageView
+                android:id="@+id/ctrl_jump"
+                android:layout_width="@dimen/medium_btn"
+                android:layout_height="@dimen/medium_btn"
                 android:background="@drawable/ui_btn_background"
                 android:src="@drawable/ic_jump"
                 android:padding="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintCircle="@id/ctrl_simple_attack"
+                app:layout_constraintCircleRadius="@dimen/ctrls_first_ring"
+                app:layout_constraintCircleAngle="250"
+                tools:ignore="MissingConstraints" />
+
 
             <GridLayout
                 android:id="@+id/expressions_btns_layout"
@@ -413,8 +433,8 @@
                 app:border_color="@color/window_color"
                 app:progress_startAngle="-90"
                 app:draw_anticlockwise="false"
-                app:layout_constraintStart_toStartOf="@id/ctrl_jump"
-                app:layout_constraintEnd_toEndOf="@id/ctrl_jump"
+                app:layout_constraintStart_toStartOf="@id/ctrl_simple_attack"
+                app:layout_constraintEnd_toEndOf="@id/ctrl_simple_attack"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 />

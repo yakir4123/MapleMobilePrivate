@@ -1,12 +1,12 @@
 package com.bapplications.maplemobile.gameplay.player.inventory;
 
-public class Slot {
+public class InventorySlot {
     int slotid;
     Item item;
     short count;
     InventoryType.Id invType;
 
-    public Slot(InventoryType.Id invType, int slotid) {
+    public InventorySlot(InventoryType.Id invType, int slotid) {
         this.slotid = slotid;
         this.invType = invType;
     }

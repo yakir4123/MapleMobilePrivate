@@ -170,7 +170,7 @@ public class Clothing {
                             shift = drawInfo.getBodyPosition(stance, (byte) frame).minus(parentpos);
                             break;
                         case HAT:
-                        case EARACC:
+                        case EARRINGS:
                         case EYEACC:
 //                            shift = drawInfo.getFacePos(stance, (byte) frame).minus(parentpos);
                             shift = drawInfo.getHairPos(stance, (byte) frame).minus(parentpos);
