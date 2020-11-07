@@ -23,7 +23,7 @@ public class Music {
             mediaPlayer.reset();
             try {
                 mediaPlayer.prepare();
-            } catch (IOException e) {
+            } catch (IOException | IllegalStateException e) {
                 e.printStackTrace();
             }
             mediaPlayer.start();

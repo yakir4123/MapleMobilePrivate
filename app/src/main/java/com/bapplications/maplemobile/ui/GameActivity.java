@@ -1,5 +1,6 @@
 package com.bapplications.maplemobile.ui;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,14 +15,13 @@ import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.databinding.ActivityGameBinding;
 import com.bapplications.maplemobile.gameplay.GameEngine;
 import com.bapplications.maplemobile.gameplay.audio.Music;
-import com.bapplications.maplemobile.input.network.NetworkHandler;
+import com.bapplications.maplemobile.utils.DownloadAssetsKt;
 import com.bapplications.maplemobile.utils.DrawableCircle;
 import com.bapplications.maplemobile.ui.windows.ChangeMapPopup;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -52,6 +52,9 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
             Loaded.loadFile(Loaded.WzFileName.STRING, Configuration.WZ_DIRECTORY + "/String.nx");
             Loaded.loadFile(Loaded.WzFileName.CHARACTER, Configuration.WZ_DIRECTORY + "/Character.nx");
         } catch (IOException e) {
+            DownloadAssetsKt.downloadAssets(this);
+            Intent downloadActivityIntent = new Intent(this, DownloadActivity.class);
+            startActivity(downloadActivityIntent);
 
         }
         Log.d(TAG, "Loading files complete");
