@@ -5,8 +5,6 @@
 
     <data>
         <import type="com.bapplications.maplemobile.utils.BindingUtils"/>
-        <import type="com.bapplications.maplemobile.gameplay.player.PlayerViewModel"/>
-        <import type="com.bapplications.maplemobile.gameplay.player.inventory.InventoryType.Id"/>
         <variable
             name="viewModel"
             type="com.bapplications.maplemobile.ui.view_models.InventoryViewModel"/>
@@ -68,7 +66,7 @@
             android:padding="8dp"
             android:background="@drawable/item_info_icon_background"
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.ICON}"
-            app:itemId="@{viewModel.slot.item.itemId}"
+            app:itemId="@{viewModel.inventorySlot.item.itemId}"
             />
 
         <TextView
@@ -86,7 +84,7 @@
             android:layout_marginStart="12dp"
             tools:text="Works Gloves"
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.NAME}"
-            app:itemId="@{viewModel.slot.item.itemId}"/>
+            app:itemId="@{viewModel.inventorySlot.item.itemId}"/>
 
         <ImageView
             android:id="@+id/item_info_background"
@@ -113,10 +111,10 @@
             android:padding="5dp"
             android:textSize="@dimen/item_info_sp"
             android:textColor="@color/tc_window"
-            android:visibility="@{!viewModel.slot.item.equip}"
+            android:visibility="@{!viewModel.inventorySlot.item.equip}"
             tools:visibility="gone"
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.DESC}"
-            app:itemId="@{viewModel.slot.item.itemId}"/>
+            app:itemId="@{viewModel.inventorySlot.item.itemId}"/>
 
         <androidx.constraintlayout.helper.widget.Flow
             android:id="@+id/req_flow"
@@ -276,7 +274,7 @@
             android:paddingEnd="3dp"
             android:textSize="10sp"
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.REQ_LVL}"
-            app:itemId="@{viewModel.slot.item.itemId}"
+            app:itemId="@{viewModel.inventorySlot.item.itemId}"
             tools:text="120"
             tools:ignore="RtlHardcoded,RtlSymmetry,MissingConstraints" />
 
@@ -291,7 +289,7 @@
             android:paddingEnd="3dp"
             android:textSize="10sp"
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.REQ_STR}"
-            app:itemId="@{viewModel.slot.item.itemId}"
+            app:itemId="@{viewModel.inventorySlot.item.itemId}"
             tools:text="120"
             tools:ignore="RtlHardcoded,RtlSymmetry,MissingConstraints" />
 
@@ -306,7 +304,7 @@
             android:paddingEnd="3dp"
             android:textSize="10sp"
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.REQ_DEX}"
-            app:itemId="@{viewModel.slot.item.itemId}"
+            app:itemId="@{viewModel.inventorySlot.item.itemId}"
             tools:text="120"
             tools:ignore="RtlHardcoded,RtlSymmetry,MissingConstraints" />
 
@@ -322,7 +320,7 @@
             android:paddingEnd="3dp"
             android:textSize="10sp"
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.REQ_INT}"
-            app:itemId="@{viewModel.slot.item.itemId}"
+            app:itemId="@{viewModel.inventorySlot.item.itemId}"
             tools:text="120"
             tools:ignore="RtlHardcoded,RtlSymmetry,MissingConstraints" />
 
@@ -337,7 +335,7 @@
             android:paddingEnd="3dp"
             android:textSize="10sp"
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.REQ_LUK}"
-            app:itemId="@{viewModel.slot.item.itemId}"
+            app:itemId="@{viewModel.inventorySlot.item.itemId}"
             tools:text="120"
             tools:ignore="RtlHardcoded,RtlSymmetry,MissingConstraints" />
 
@@ -352,7 +350,7 @@
             android:paddingEnd="3dp"
             android:textSize="10sp"
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.REQ_FAME}"
-            app:itemId="@{viewModel.slot.item.itemId}"
+            app:itemId="@{viewModel.inventorySlot.item.itemId}"
             tools:text="120"
             tools:ignore="RtlHardcoded,RtlSymmetry,MissingConstraints" />
         
@@ -373,7 +371,7 @@
             android:id="@+id/item_info_bonuses"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibility="@{viewModel.slot.item.equip}"
+            android:visibility="@{viewModel.inventorySlot.item.equip}"
             app:layout_constraintTop_toBottomOf="@id/item_info_split_line"
             app:layout_constraintStart_toStartOf="@id/item_info_background"
             app:layout_constraintEnd_toEndOf="@id/item_info_background"
@@ -392,7 +390,7 @@
                     android:textSize="@dimen/item_info_sp"
                     android:layout_marginTop="3dp"
                     app:itemTypeStat="@{BindingUtils.ItemTypeStat.CATEGORY}"
-                    app:itemId="@{viewModel.slot.item.itemId}"
+                    app:itemId="@{viewModel.inventorySlot.item.itemId}"
                     />
         
                 <TextView
@@ -403,7 +401,7 @@
                     android:textColor="@color/tc_window"
                     android:layout_marginTop="3dp"
                     app:itemTypeStat="@{BindingUtils.ItemTypeStat.STR}"
-                    app:itemId="@{viewModel.slot.item.itemId}"
+                    app:itemId="@{viewModel.inventorySlot.item.itemId}"
                     />
         
                 <TextView
@@ -414,7 +412,7 @@
                     android:textColor="@color/tc_window"
                     android:layout_marginTop="3dp"
                     app:itemTypeStat="@{BindingUtils.ItemTypeStat.DEX}"
-                    app:itemId="@{viewModel.slot.item.itemId}"
+                    app:itemId="@{viewModel.inventorySlot.item.itemId}"
                     />
         
                 <TextView
@@ -425,7 +423,7 @@
                     android:textColor="@color/tc_window"
                     android:layout_marginTop="3dp"
                     app:itemTypeStat="@{BindingUtils.ItemTypeStat.INT}"
-                    app:itemId="@{viewModel.slot.item.itemId}"
+                    app:itemId="@{viewModel.inventorySlot.item.itemId}"
                     />
         
                 <TextView
@@ -436,7 +434,7 @@
                     android:textColor="@color/tc_window"
                     android:layout_marginTop="3dp"
                     app:itemTypeStat="@{BindingUtils.ItemTypeStat.LUK}"
-                    app:itemId="@{viewModel.slot.item.itemId}"
+                    app:itemId="@{viewModel.inventorySlot.item.itemId}"
                     />
         
                 <TextView
@@ -447,7 +445,7 @@
                     android:textColor="@color/tc_window"
                     android:layout_marginTop="3dp"
                     app:itemTypeStat="@{BindingUtils.ItemTypeStat.HP}"
-                    app:itemId="@{viewModel.slot.item.itemId}"
+                    app:itemId="@{viewModel.inventorySlot.item.itemId}"
                     />
         
                 <TextView
@@ -458,7 +456,7 @@
                     android:textColor="@color/tc_window"
                     android:layout_marginTop="3dp"
                     app:itemTypeStat="@{BindingUtils.ItemTypeStat.MP}"
-                    app:itemId="@{viewModel.slot.item.itemId}"
+                    app:itemId="@{viewModel.inventorySlot.item.itemId}"
                     />
         
                 <TextView
@@ -469,7 +467,7 @@
                     android:textColor="@color/tc_window"
                     android:layout_marginTop="3dp"
                     app:itemTypeStat="@{BindingUtils.ItemTypeStat.WATK}"
-                    app:itemId="@{viewModel.slot.item.itemId}"
+                    app:itemId="@{viewModel.inventorySlot.item.itemId}"
                     />
         
                 <TextView
@@ -480,7 +478,7 @@
                     android:textColor="@color/tc_window"
                     android:layout_marginTop="3dp"
                     app:itemTypeStat="@{BindingUtils.ItemTypeStat.MAGIC}"
-                    app:itemId="@{viewModel.slot.item.itemId}"
+                    app:itemId="@{viewModel.inventorySlot.item.itemId}"
                     />
         
                 <TextView
@@ -491,7 +489,7 @@
                     android:textColor="@color/tc_window"
                     android:layout_marginTop="3dp"
                     app:itemTypeStat="@{BindingUtils.ItemTypeStat.WDEF}"
-                    app:itemId="@{viewModel.slot.item.itemId}"
+                    app:itemId="@{viewModel.inventorySlot.item.itemId}"
                     />
         
                 <TextView
@@ -502,7 +500,7 @@
                     android:textColor="@color/tc_window"
                     android:layout_marginTop="3dp"
                     app:itemTypeStat="@{BindingUtils.ItemTypeStat.MDEF}"
-                    app:itemId="@{viewModel.slot.item.itemId}"
+                    app:itemId="@{viewModel.inventorySlot.item.itemId}"
                     />
         
                 <TextView
@@ -513,7 +511,7 @@
                     android:textColor="@color/tc_window"
                     android:layout_marginTop="3dp"
                     app:itemTypeStat="@{BindingUtils.ItemTypeStat.ACC}"
-                    app:itemId="@{viewModel.slot.item.itemId}"
+                    app:itemId="@{viewModel.inventorySlot.item.itemId}"
                     />
         
                 <TextView
@@ -524,7 +522,7 @@
                     android:textColor="@color/tc_window"
                     android:layout_marginTop="3dp"
                     app:itemTypeStat="@{BindingUtils.ItemTypeStat.AVOID}"
-                    app:itemId="@{viewModel.slot.item.itemId}"
+                    app:itemId="@{viewModel.inventorySlot.item.itemId}"
                     />
         
                 <TextView
@@ -535,7 +533,7 @@
                     android:textColor="@color/tc_window"
                     android:layout_marginTop="3dp"
                     app:itemTypeStat="@{BindingUtils.ItemTypeStat.HANDS}"
-                    app:itemId="@{viewModel.slot.item.itemId}"
+                    app:itemId="@{viewModel.inventorySlot.item.itemId}"
                     />
         
                 <TextView
@@ -546,7 +544,7 @@
                     android:textColor="@color/tc_window"
                     android:layout_marginTop="3dp"
                     app:itemTypeStat="@{BindingUtils.ItemTypeStat.SPEED}"
-                    app:itemId="@{viewModel.slot.item.itemId}"
+                    app:itemId="@{viewModel.inventorySlot.item.itemId}"
                     />
         
                 <TextView
@@ -557,7 +555,7 @@
                     android:textColor="@color/tc_window"
                     android:layout_marginTop="3dp"
                     app:itemTypeStat="@{BindingUtils.ItemTypeStat.JUMP}"
-                    app:itemId="@{viewModel.slot.item.itemId}"
+                    app:itemId="@{viewModel.inventorySlot.item.itemId}"
                     />
 
             </LinearLayout>
@@ -582,7 +580,7 @@
                     item_info_colon_dex, item_info_colon_fame, item_info_colon_int, item_info_colon_luk, item_info_colon_lvl, item_info_colon_str,
                     item_info_reqdex_tv, item_info_reqfame_tv, item_info_reqint_tv, item_info_reqluk_tv, item_info_reqlvl_tv, item_info_reqstr_tv,
                     item_info_reqdex, item_info_reqfame, item_info_reqint, item_info_reqluk, item_info_reqlvl, item_info_reqstr, item_info_equip_bt"
-            android:visibility="@{viewModel.slot.item.equip}"
+            android:visibility="@{viewModel.inventorySlot.item.equip}"
             tools:visibility="visible"
             />
 

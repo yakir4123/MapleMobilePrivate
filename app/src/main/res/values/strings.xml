@@ -42,4 +42,5 @@
 
     <string name="drop_action">Drop</string>
     <string name="equip_action">Equip</string>
+    <string name="popup_equipped_title">Equipped</string>
 </resources>

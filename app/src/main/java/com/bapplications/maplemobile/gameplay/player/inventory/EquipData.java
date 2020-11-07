@@ -92,7 +92,7 @@ public class EquipData extends ItemData {
                 EquipSlot.Id.HAT,
                 EquipSlot.Id.FACE,
                 EquipSlot.Id.EYEACC,
-                EquipSlot.Id.EARACC,
+                EquipSlot.Id.EARRINGS,
                 EquipSlot.Id.TOP,
                 EquipSlot.Id.TOP,
                 EquipSlot.Id.BOTTOM,

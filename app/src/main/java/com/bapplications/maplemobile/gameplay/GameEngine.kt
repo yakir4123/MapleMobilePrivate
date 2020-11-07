@@ -16,7 +16,7 @@ class GameEngine private constructor() : EventListener {
     val camera: Camera = Camera()
     var player: Player? = null
         private set
-    var currMap: GameMap
+    private var currMap: GameMap
     private val networkHandler: NetworkHandler
     
     fun startGame() {
@@ -41,7 +41,7 @@ class GameEngine private constructor() : EventListener {
         }
         currMap = GameMap(camera)
         currMap.init(mapId)
-        listeners.forEach(Consumer { listener: GameEngineListener -> listener.onMapLoaded(currMap) })
+        listeners.forEach(Consumer { listener: GameEngineListener  -> listener.onMapLoaded(currMap) })
     }
 
     fun changeMap(mapId: Int, portalName: String) {
@@ -56,21 +56,6 @@ class GameEngine private constructor() : EventListener {
             val ce = CharEntry(0)
             ce.look.faceid = 20000
             ce.look.hairid = 30020
-
-            // magician look
-//        ce.look.equips.put((byte) EquipSlot.Id.TOP.ordinal(), 1050045);
-//        ce.look.equips.put((byte) EquipSlot.Id.GLOVES.ordinal(), 1082028);
-//        ce.look.equips.put((byte) EquipSlot.Id.HAT.ordinal(), 1002017);
-//        ce.look.equips.put((byte) EquipSlot.Id.SHIELD.ordinal(), 1092045);
-//        ce.look.equips.put((byte) EquipSlot.Id.SHOES.ordinal(), 1072024);
-//        ce.look.equips.put((byte) EquipSlot.Id.WEAPON.ordinal(), 1382009);
-
-            // thief look
-//        ce.look.equips.put((byte) EquipSlot.Id.TOP.ordinal(), 1050018);
-//        ce.look.equips.put((byte) EquipSlot.Id.HAT.ordinal(), 1002357);
-//        ce.look.equips.put((byte) EquipSlot.Id.SHOES.ordinal(), 1072171);
-//        ce.look.equips.put((byte) EquipSlot.Id.GLOVES.ordinal(), 1082223);
-//        ce.look.equips.put((byte) EquipSlot.Id.WEAPON.ordinal(), 1472054);
             loadPlayer(ce)
         }
     }
