@@ -1,24 +1,21 @@
 package com.bapplications.maplemobile.ui
 
-import android.app.DownloadManager
-import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.bapplications.maplemobile.R
-import com.bapplications.maplemobile.constatns.Configuration
+import okhttp3.Call
+import okhttp3.Callback
 import okhttp3.Response
+import okio.Buffer
 import okio.BufferedSink
-import okio.Okio
-import okio.`-DeprecatedOkio`.sink
 import okio.buffer
 import okio.sink
 import java.io.File
 import java.io.IOException
 import kotlin.concurrent.thread
-import kotlin.jvm.Throws
+
 
 val files = arrayOf(
         "Map.nx",
@@ -29,9 +26,12 @@ val files = arrayOf(
         "Item.nx"
 )
 
+val TAG = "DownloadManager"
 
 
 class DownloadActivity : AppCompatActivity() {
+
+    private val  CHUNK_SIZE : Long = 8192
 //    private lateinit var downloadManager: DownloadManager
     private var keepToNextActivity = true
 
@@ -78,15 +78,39 @@ class DownloadActivity : AppCompatActivity() {
         val request: okhttp3.Request = okhttp3.Request.Builder()
                 .url(url)
                 .build()
-        val response: okhttp3.Response = client.newCall(request).execute()
-        saveFileFromOkHttp(response, path)
+
+        client.newCall(request).enqueue(
+                object :Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        Log.d(TAG, "onFail: " + e)
+                    }
+
+                    override fun onResponse(call: Call, response: Response) {
+                        Log.d(TAG, "onResponse: ")
+                        saveFile(response, path)
+                    }
+                }
+        )
+//        val response: okhttp3.Response = client.newCall(request).execute()
 
     }
 
-    private fun saveFileFromOkHttp(response: Response, path : File) {
+    private fun saveFile(response: Response, path : File) {
         val sink: BufferedSink = path.sink().buffer()
-        Log.d("DownloadingManager", "saveFileFromOkHttp:")
-        sink.writeAll(response.body!!.source())
+        var byteCount : Long
+
+        val source = response.body!!.source()
+        val buffer = Buffer()
+
+        while (source.read
+                (buffer, CHUNK_SIZE).also {
+                    byteCount = it
+                    Log.d(TAG, "bytecount: " + byteCount)
+                } != -1L) {
+                sink.write(buffer, byteCount)
+                sink.flush()
+            }
+
         sink.close()
     }
 }
