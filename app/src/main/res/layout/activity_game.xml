@@ -185,7 +185,6 @@
                 android:src="@drawable/bag"
                 app:elevation="0dp"
                 app:fabSize="mini"
-                android:translationY="@dimen/pops_down_or_left_translation"
                 android:visibility="gone"
                 tools:visibility="visible"
                 app:pressedTranslationZ="0dp"
@@ -194,7 +193,7 @@
                 app:layout_constraintEnd_toEndOf="@id/tools_btn" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/equiped_btn"
+                android:id="@+id/equipped_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ui_btn_background"
@@ -202,13 +201,12 @@
                 android:src="@drawable/armor_button"
                 app:elevation="0dp"
                 app:fabSize="mini"
-                android:translationY="@dimen/pops_down_or_left_translation"
                 android:visibility="gone"
                 tools:visibility="visible"
                 app:pressedTranslationZ="0dp"
-                android:layout_marginTop="2dp"
-                app:layout_constraintTop_toBottomOf="@id/inventory_btn"
-                app:layout_constraintEnd_toEndOf="@id/tools_btn" />
+                android:layout_marginEnd="2dp"
+                app:layout_constraintTop_toTopOf="@id/inventory_btn"
+                app:layout_constraintEnd_toStartOf="@id/inventory_btn" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/skills_btn"
@@ -219,13 +217,12 @@
                 android:src="@drawable/skillbook"
                 app:elevation="0dp"
                 app:fabSize="mini"
-                android:translationY="@dimen/pops_down_or_left_translation"
                 android:visibility="gone"
                 tools:visibility="visible"
                 app:pressedTranslationZ="0dp"
-                android:layout_marginTop="2dp"
-                app:layout_constraintTop_toBottomOf="@id/equiped_btn"
-                app:layout_constraintEnd_toEndOf="@id/tools_btn" />
+                android:layout_marginEnd="2dp"
+                app:layout_constraintTop_toTopOf="@id/equipped_btn"
+                app:layout_constraintEnd_toStartOf="@id/equipped_btn" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/stats_btn"
@@ -236,24 +233,23 @@
                 android:src="@drawable/stats"
                 app:elevation="0dp"
                 app:fabSize="mini"
-                android:translationY="@dimen/pops_down_or_left_translation"
                 android:visibility="gone"
                 tools:visibility="visible"
                 app:pressedTranslationZ="0dp"
-                android:layout_marginTop="2dp"
-                app:layout_constraintTop_toBottomOf="@id/skills_btn"
-                app:layout_constraintEnd_toEndOf="@id/tools_btn" />
+                android:layout_marginEnd="2dp"
+                app:layout_constraintTop_toTopOf="@id/skills_btn"
+                app:layout_constraintEnd_toStartOf="@id/skills_btn" />
 
 
-            <FrameLayout
+            <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/tools_window"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:visibility="gone"
                 tools:visibility="visible"
-                app:layout_constraintTop_toBottomOf="@id/ui_toolbar"
+                app:layout_constraintTop_toBottomOf="@id/inventory_btn"
                 app:layout_constraintBottom_toBottomOf="@id/ctrl_left_arrow"
-                app:layout_constraintEnd_toEndOf="@id/wifi_btn"
+                app:layout_constraintEnd_toEndOf="@id/inventory_btn"
                 app:layout_constraintStart_toStartOf="@id/mp_progress_layout"
                 android:layout_marginTop="2dp"
                 android:layout_marginStart="30dp"
