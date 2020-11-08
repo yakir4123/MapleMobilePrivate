@@ -21,7 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class GameActivityUIManager(private var activity: GameActivity?, private val binding: ActivityGameBinding) : GameEngineListener {
     private var windowFragment: Fragment? = null
-    private val toolsButtons = listOf<View>(binding.inventoryBtn, binding.equipedBtn,
+    private val toolsButtons = listOf<View>(binding.inventoryBtn, binding.equippedBtn,
                     binding.statsBtn, binding.skillsBtn)
     private val gameViewModel: GameActivityViewModel = ViewModelProvider(activity!!)
             .get(GameActivityViewModel::class.java)
@@ -50,7 +50,7 @@ class GameActivityUIManager(private var activity: GameActivity?, private val bin
                     transaction.replace(R.id.tools_window, windowFragment!!)
                 }
                 WindowState.EQUIPPED -> {
-                    rotateToolsButtons(binding.equipedBtn)
+                    rotateToolsButtons(binding.equippedBtn)
                     windowFragment = EquippedFragment.newInstance(activity!!.gameEngine.player!!)
                     transaction.replace(R.id.tools_window, windowFragment!!)
                 }
@@ -68,7 +68,7 @@ class GameActivityUIManager(private var activity: GameActivity?, private val bin
         }
         binding.inventoryBtn.setOnClickListener {
             switchMenu(WindowState.INVENTORY) }
-        binding.equipedBtn.setOnClickListener {
+        binding.equippedBtn.setOnClickListener {
             switchMenu(WindowState.EQUIPPED) }
         binding.statsBtn.setOnClickListener {
             switchMenu(WindowState.STATS) }

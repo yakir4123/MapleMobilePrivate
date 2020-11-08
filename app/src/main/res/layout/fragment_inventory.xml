@@ -35,123 +35,43 @@
             android:id="@+id/sub_window_background"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/inventory_type_buttons_group"
+            app:layout_constraintTop_toBottomOf="@+id/inventory_title"
             app:layout_constraintBottom_toTopOf="@id/gold_iv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginBottom="12dp"
             android:layout_marginEnd="2dp"
             android:layout_marginStart="2dp"
-            android:background="@drawable/sub_window_background"
             />
 
-        <RadioGroup
-            android:id="@+id/inventory_type_buttons_group"
+        <com.bapplications.maplemobile.ui.custom_views.InventoryTabLayout
+            android:id="@+id/selected_inventory_tab"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:checkedButton="@={BindingUtils.inventoryTypeToButtonId(viewModel.selectedInventoryType) }"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:background="@android:color/transparent"
-            android:paddingTop="8dp"
-            app:layout_constraintEnd_toEndOf="@id/sub_window_background"
-            app:layout_constraintStart_toStartOf="@id/sub_window_background"
-            app:layout_constraintTop_toBottomOf="@id/inventory_title">
+            app:tabIndicatorHeight="0dp"
+            app:tabTextAppearance="@style/InventoryTabTextAppearance"
+            app:tabMaxWidth="0dp"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
 
-            <RadioButton
-                android:id="@+id/equip_btn"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:background="@drawable/inventory_selector"
-                android:button="@android:color/transparent"
-                android:gravity="center"
-                android:paddingTop="3dp"
-                android:paddingBottom="1dp"
-                android:text="@string/popup_inventory_equip_btn"
-                android:textColor="@color/tc_window"
-                android:textSize="10sp"
-                tools:checked="true" />
+            app:tabBackground="@drawable/inventory_selector"
+            app:layout_constraintTop_toBottomOf="@id/inventory_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginHorizontal="4dp"
+            />
 
-            <RadioButton
-                android:id="@+id/use_btn"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:background="@drawable/inventory_selector"
-                android:button="@android:color/transparent"
-                android:gravity="center"
-                android:paddingTop="3dp"
-                android:paddingBottom="1dp"
-                android:text="@string/popup_inventory_use_btn"
-                android:textColor="@color/tc_window"
-                android:textSize="10sp" />
-
-            <RadioButton
-                android:id="@+id/setup_btn"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:background="@drawable/inventory_selector"
-                android:button="@android:color/transparent"
-                android:gravity="center"
-                android:paddingTop="3dp"
-                android:paddingBottom="1dp"
-                android:text="@string/popup_inventory_setup_btn"
-                android:textColor="@color/tc_window"
-                android:textSize="10sp" />
-
-            <RadioButton
-                android:id="@+id/etc_btn"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:background="@drawable/inventory_selector"
-                android:button="@android:color/transparent"
-                android:gravity="center"
-                android:paddingTop="3dp"
-                android:paddingBottom="1dp"
-                android:text="@string/popup_inventory_etc_btn"
-                android:textColor="@color/tc_window"
-                android:textSize="10sp" />
-
-            <RadioButton
-                android:id="@+id/cash_btn"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:background="@drawable/inventory_selector"
-                android:button="@android:color/transparent"
-                android:gravity="center"
-                android:paddingTop="3dp"
-                android:paddingBottom="1dp"
-                android:text="@string/popup_inventory_cash_btn"
-                android:textColor="@color/tc_window"
-                android:textSize="10sp" />
-
-        </RadioGroup>
-
-        <com.bapplications.maplemobile.ui.custom_views.InventoryView
-            android:id="@+id/inventory_items_recycler"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/inventory_pager"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:columnWidth="@dimen/icon_size"
-            app:layout_constraintTop_toTopOf="@id/sub_window_background"
-            app:layout_constraintEnd_toEndOf="@id/sub_window_background"
-            app:layout_constraintStart_toStartOf="@id/sub_window_background"
-            app:layout_constraintBottom_toBottomOf="@id/sub_window_background" />
-
-        <TextView
-            android:id="@+id/loading_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@id/inventory_items_recycler"
-            app:layout_constraintEnd_toEndOf="@+id/inventory_items_recycler"
-            app:layout_constraintStart_toStartOf="@id/inventory_items_recycler"
-            app:layout_constraintBottom_toBottomOf="@id/inventory_items_recycler"
-            android:text="@string/loading_screen"
-            android:textSize="18sp"
-            tools:visibility="gone"
+            android:background="@drawable/sub_window_background"
+            app:layout_constraintTop_toBottomOf="@id/selected_inventory_tab"
+            app:layout_constraintBottom_toTopOf="@id/gold_amount_tv"
+            app:layout_constraintStart_toStartOf="@id/selected_inventory_tab"
+            app:layout_constraintEnd_toEndOf="@id/selected_inventory_tab"
+            android:paddingBottom="2dp"
+            android:layout_marginBottom="4dp"
             />
 
         <ImageView

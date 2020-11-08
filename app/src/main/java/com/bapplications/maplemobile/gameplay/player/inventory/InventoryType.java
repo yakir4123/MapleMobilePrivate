@@ -69,6 +69,8 @@ public class InventoryType {
         // do not change the order!
 
         // I repeat DO NOT change the order
+        // it is necessary for determine
+        // the item type  if its id prefix with 1 its equip 2 for use and etc..
         NONE,
         EQUIP,
         USE,

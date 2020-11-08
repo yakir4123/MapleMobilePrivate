@@ -10,7 +10,7 @@ import com.bapplications.maplemobile.utils.BindingUtils
 import com.bapplications.maplemobile.ui.adapters.holders.ImageItemViewHolder
 import com.bapplications.maplemobile.utils.setViewByItemId
 
-class InventoryAdapter: RecyclerView.Adapter<ImageItemViewHolder>() {
+class RecyclerInventoryAdapter: RecyclerView.Adapter<ImageItemViewHolder>() {
     var data =  mutableListOf<InventorySlot>()
         set(value) {
             field = value

@@ -22,23 +22,25 @@ import info.abdolahi.CircularMusicProgressBar
 object BindingUtils {
     @InverseMethod("buttonIdToInventoryType")
     @JvmStatic fun inventoryTypeToButtonId(typeId: InventoryType.Id?): Int {
-        return when (typeId) {
-            InventoryType.Id.USE -> R.id.use_btn
-            InventoryType.Id.ETC -> R.id.etc_btn
-            InventoryType.Id.CASH -> R.id.cash_btn
-            InventoryType.Id.SETUP -> R.id.setup_btn
-            else -> R.id.equip_btn
-        }
+//        return when (typeId) {
+//            InventoryType.Id.USE -> R.id.use_btn
+//            InventoryType.Id.ETC -> R.id.etc_btn
+//            InventoryType.Id.CASH -> R.id.cash_btn
+//            InventoryType.Id.SETUP -> R.id.setup_btn
+//            else -> R.id.equip_btn
+//        }
+        return 0
     }
 
     @JvmStatic fun buttonIdToInventoryType(selectedButtonId: Int): InventoryType.Id {
-        return when (selectedButtonId) {
-            R.id.use_btn -> InventoryType.Id.USE
-            R.id.etc_btn -> InventoryType.Id.ETC
-            R.id.cash_btn -> InventoryType.Id.CASH
-            R.id.setup_btn -> InventoryType.Id.SETUP
-            else -> InventoryType.Id.EQUIP
-        }
+//        return when (selectedButtonId) {
+//            R.id.use_btn -> InventoryType.Id.USE
+//            R.id.etc_btn -> InventoryType.Id.ETC
+//            R.id.cash_btn -> InventoryType.Id.CASH
+//            R.id.setup_btn -> InventoryType.Id.SETUP
+//            else -> InventoryType.Id.EQUIP
+//        }
+        return InventoryType.Id.EQUIP
     }
 
 
