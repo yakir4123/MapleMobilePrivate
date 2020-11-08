@@ -1,5 +1,6 @@
 package com.bapplications.maplemobile.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ProgressBar
@@ -21,10 +22,10 @@ import kotlin.concurrent.thread
 
 
 val files = arrayOf(
+        "String.nx",
         "Map.nx",
         "Sound.nx",
         "Character.nx",
-        "String.nx",
         "Mob.nx",
         "Item.nx"
 )
@@ -37,6 +38,7 @@ class DownloadActivity : AppCompatActivity() {
     private val CHUNK_SIZE: Long = 8192
     private var keepToNextActivity = true
 
+    private lateinit var currentFileTv: TextView
     private lateinit var downloadingTv: TextView
     private lateinit var progressBar: ProgressBar
     private var fileSize: Long = 1L
@@ -45,7 +47,7 @@ class DownloadActivity : AppCompatActivity() {
 
     val progress = MutableLiveData<Long>()
     val textProgress = MutableLiveData<Long>()
-//    private var prograss : Observable<Float>
+    val currentFile = MutableLiveData<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,26 +55,21 @@ class DownloadActivity : AppCompatActivity() {
 
         downloadingTv = findViewById(R.id.downloadingTv)
         progressBar = findViewById(R.id.progressBar)
+        currentFileTv = findViewById(R.id.file_name_tv)
 
 
         // set value for the view model
         progress.value = 0L
         textProgress.value = 0L
 
-//        progress.observe(this, Observer { newProgress ->
-//            val progressValue = (newProgress / fileSize).toInt()
-//            Log.d(TAG, "progress : " + progressValue)
-//            progressBar.setProgress((newProgress / fileSize).toInt())
-//        })
-
-
         textProgress.observe(this, Observer { newProgress ->
-            downloadingTv.setText(newProgress.toString())
-            progressBar.setProgress((newProgress * 1000 / fileSize).toInt())
-            Log.d(TAG, "progress:  " + (newProgress * 1000 / fileSize).toInt())
+            downloadingTv.setText("$newProgress / $fileSize")
+            progressBar.setProgress((newProgress * 100 / fileSize).toInt())
 
         })
-//        progressBar.setProgress(100)
+
+        currentFile.observe(this, Observer { file -> currentFileTv.setText(file)})
+
         downloadFiles()
 
 //        files.forEach {
@@ -90,7 +87,10 @@ class DownloadActivity : AppCompatActivity() {
 
     fun downloadFiles() {
         thread(start = true) {
-            downloadFile("http://137.135.90.47/Charecter.nx", File(getExternalFilesDir(null)!!, "Charecter.nx"))
+//            downloadFile("http://137.135.90.47/Charecter.nx", File(getExternalFilesDir(null)!!, "Charecter.nx"))
+            files.forEach {
+                downloadFile("http://137.135.90.47/$it", File(getExternalFilesDir(null)!!, it))
+            }
         }
 //        downloadManager = this.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
 //        com.bapplications.maplemobile.utils.files.forEach {
@@ -109,6 +109,7 @@ class DownloadActivity : AppCompatActivity() {
     }
 
     fun downloadFile(url: String, path: File) {
+        currentFile.postValue(url)
         val request: okhttp3.Request = okhttp3.Request.Builder()
                 .url(url)
                 .build()
@@ -142,9 +143,7 @@ class DownloadActivity : AppCompatActivity() {
                 (buffer, CHUNK_SIZE).also {
                     byteCount = it
                     progress.value!!.plus(byteCount)
-//                    textProgress.value!!.plus(byteCount)
                     textProgress.postValue(textProgress.value!! + byteCount)
-                    Log.d(TAG, "text progress value : " + textProgress.value)
                 } != -1L) {
             sink.write(buffer, byteCount)
             sink.flush()
