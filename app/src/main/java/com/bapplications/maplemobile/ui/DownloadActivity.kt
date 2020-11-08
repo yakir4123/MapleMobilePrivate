@@ -1,9 +1,12 @@
 package com.bapplications.maplemobile.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.bapplications.maplemobile.R
 import okhttp3.Call
 import okhttp3.Callback
@@ -31,31 +34,62 @@ val TAG = "DownloadManager"
 
 class DownloadActivity : AppCompatActivity() {
 
-    private val  CHUNK_SIZE : Long = 8192
-//    private lateinit var downloadManager: DownloadManager
+    private val CHUNK_SIZE: Long = 8192
     private var keepToNextActivity = true
 
+    private lateinit var downloadingTv: TextView
+    private lateinit var progressBar: ProgressBar
+    private var fileSize: Long = 1L
+
     private val client = okhttp3.OkHttpClient()
+
+    val progress = MutableLiveData<Long>()
+    val textProgress = MutableLiveData<Long>()
+//    private var prograss : Observable<Float>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_download)
 
-        files.forEach {
-            if (!File("${this.getExternalFilesDir(null)}/$it").exists()) {
-                keepToNextActivity = false
-            }
-        }
+        downloadingTv = findViewById(R.id.downloadingTv)
+        progressBar = findViewById(R.id.progressBar)
 
-        if (keepToNextActivity) {
-            startActivity(Intent(this, GameActivity::class.java))
-        } else {
-            downloadFiles()
-        }
+
+        // set value for the view model
+        progress.value = 0L
+        textProgress.value = 0L
+
+//        progress.observe(this, Observer { newProgress ->
+//            val progressValue = (newProgress / fileSize).toInt()
+//            Log.d(TAG, "progress : " + progressValue)
+//            progressBar.setProgress((newProgress / fileSize).toInt())
+//        })
+
+
+        textProgress.observe(this, Observer { newProgress ->
+            downloadingTv.setText(newProgress.toString())
+            progressBar.setProgress((newProgress * 1000 / fileSize).toInt())
+            Log.d(TAG, "progress:  " + (newProgress * 1000 / fileSize).toInt())
+
+        })
+//        progressBar.setProgress(100)
+        downloadFiles()
+
+//        files.forEach {
+//            if (!File("${this.getExternalFilesDir(null)}/$it").exists()) {
+//                keepToNextActivity = false
+//            }
+//        }
+//
+//        if (keepToNextActivity) {
+//            startActivity(Intent(this, GameActivity::class.java))
+//        } else {
+//            downloadFiles()
+//        }
     }
 
     fun downloadFiles() {
-        thread (start=true){
+        thread(start = true) {
             downloadFile("http://137.135.90.47/Charecter.nx", File(getExternalFilesDir(null)!!, "Charecter.nx"))
         }
 //        downloadManager = this.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
@@ -80,7 +114,7 @@ class DownloadActivity : AppCompatActivity() {
                 .build()
 
         client.newCall(request).enqueue(
-                object :Callback {
+                object : Callback {
                     override fun onFailure(call: Call, e: IOException) {
                         Log.d(TAG, "onFail: " + e)
                     }
@@ -95,21 +129,26 @@ class DownloadActivity : AppCompatActivity() {
 
     }
 
-    private fun saveFile(response: Response, path : File) {
+    private fun saveFile(response: Response, path: File) {
         val sink: BufferedSink = path.sink().buffer()
-        var byteCount : Long
+        var byteCount: Long
 
         val source = response.body!!.source()
+        fileSize = response.body!!.contentLength()
+        Log.d(TAG, "file size " + fileSize)
         val buffer = Buffer()
 
         while (source.read
                 (buffer, CHUNK_SIZE).also {
                     byteCount = it
-                    Log.d(TAG, "bytecount: " + byteCount)
+                    progress.value!!.plus(byteCount)
+//                    textProgress.value!!.plus(byteCount)
+                    textProgress.postValue(textProgress.value!! + byteCount)
+                    Log.d(TAG, "text progress value : " + textProgress.value)
                 } != -1L) {
-                sink.write(buffer, byteCount)
-                sink.flush()
-            }
+            sink.write(buffer, byteCount)
+            sink.flush()
+        }
 
         sink.close()
     }
