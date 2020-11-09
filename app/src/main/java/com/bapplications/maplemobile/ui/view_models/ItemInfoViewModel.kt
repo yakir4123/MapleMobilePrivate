@@ -7,6 +7,5 @@ import com.bapplications.maplemobile.gameplay.player.inventory.InventorySlot
 class ItemInfoViewModel : ViewModel() {
 
     var inventorySlot =  MutableLiveData<InventorySlot>()
-    fun setInventorySlot(value : InventorySlot?) = inventorySlot.postValue(value)
 
 }

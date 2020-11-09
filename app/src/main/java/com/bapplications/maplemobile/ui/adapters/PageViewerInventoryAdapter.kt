@@ -4,12 +4,18 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.get
+import androidx.fragment.app.findFragment
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.bapplications.maplemobile.R
 import com.bapplications.maplemobile.gameplay.player.inventory.Inventory
 import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType
 import com.bapplications.maplemobile.ui.adapters.holders.InventoryRecyclerHolder
+import com.bapplications.maplemobile.ui.windows.InventoryFragment
+import com.bapplications.maplemobile.ui.windows.ItemInfoFragment
 import kotlinx.android.synthetic.main.inventory_recyclerview.view.*
+import onItemClick
 
 
 class PageViewerInventoryAdapter( val inventory: Inventory) : RecyclerView.Adapter<InventoryRecyclerHolder>() {
@@ -17,9 +23,22 @@ class PageViewerInventoryAdapter( val inventory: Inventory) : RecyclerView.Adapt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InventoryRecyclerHolder {
         context = parent.context
+        val activity = parent.findFragment<InventoryFragment>().activity
+
         val view = LayoutInflater.from(parent.context).inflate(R.layout.inventory_recyclerview, parent, false)
         view.inventory_items_recycler.apply {
             adapter = RecyclerInventoryAdapter()
+        }.also{
+            // switch fragment and choose the item
+            it.onItemClick { recview, position, v ->
+                val slot = (recview.adapter as RecyclerInventoryAdapter).getSlot(position)
+                if(slot.item != null) {
+                    (activity?.supportFragmentManager
+                            ?.findFragmentByTag("f" + 2) as ItemInfoFragment)
+                            .setItem(slot)
+                    activity.findViewById<ViewPager2>(R.id.tools_window).currentItem = 2
+                }
+            }
         }
         return InventoryRecyclerHolder(view)
     }

@@ -73,60 +73,59 @@ public class StaticUtils {
 
     public static ViewPropertyAnimator rotateViewAnimation(final View view, boolean popIn) {
         OvershootInterpolator interpolator = new OvershootInterpolator();
-        return rotateViewAnimation(view, interpolator, popIn ? 45 : 0, 300);
+        return rotateViewAnimation(view, interpolator, popIn ? 45 : -45, 300);
     }
 
     public static ViewPropertyAnimator rotateViewAnimation(final View view, TimeInterpolator interpolator,
                                                            int rotation, int duration) {
         return view.animate()
                 .setInterpolator(interpolator)
-                .rotation(rotation)
+                .rotationBy(rotation)
                 .setDuration(duration);
     }
 
     public static ViewPropertyAnimator popUpView(final View view, PopDirection direc) {
         float translation = 0;
-        if(view.getVisibility() != View.GONE) {
-            switch (direc) {
-                case UP:
-                case RIGHT:
-                    translation = view.getContext().getResources()
-                            .getDimension(R.dimen.pops_up_or_right_translation);
-                    break;
-                case DOWN:
-                case LEFT:
-                    translation = view.getContext().getResources()
-                            .getDimension(R.dimen.pops_down_or_left_translation);
-                    break;
-            }
+        switch (direc) {
+            case UP:
+            case RIGHT:
+                translation = view.getContext().getResources()
+                        .getDimension(R.dimen.pops_up_or_right_translation);
+                break;
+            case DOWN:
+            case LEFT:
+                translation = view.getContext().getResources()
+                        .getDimension(R.dimen.pops_down_or_left_translation);
+                break;
         }
+        translation = view.getVisibility() != View.GONE ? translation : -translation;
         OvershootInterpolator interpolator = new OvershootInterpolator();
         return popUpView(view, interpolator, direc, translation, 300);
     }
 
     public static ViewPropertyAnimator popUpView(final View view, TimeInterpolator interpolator,
-                                                 PopDirection direc, float translation_in_dp, int duration) {
+                                                 PopDirection direc, float translation, int duration) {
         boolean visibleBeforeAnimation = view.getVisibility() == View.VISIBLE;
         if (!visibleBeforeAnimation) {
             view.setVisibility(View.VISIBLE);
         }
 
         float translationX, translationY;
-        translationX = translationY = 0;
+        translationY = translationX = 0;
         switch (direc){
             case DOWN:
             case UP:
-                translationY = convertDpToPixel(translation_in_dp, view.getContext());
+                translationY = translation;
                 break;
             case RIGHT:
             case LEFT:
-                translationX = convertDpToPixel(translation_in_dp, view.getContext());
+                translationX = translation;
                 break;
         }
 
         return view.animate()
-                    .translationY(translationY)
-                    .translationX(translationX)
+                    .translationYBy(translationY)
+                    .translationXBy(translationX)
                     .setInterpolator(interpolator)
                     .alpha(visibleBeforeAnimation ? 0 : 1)
                     .setDuration(duration)
