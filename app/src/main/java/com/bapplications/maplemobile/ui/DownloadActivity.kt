@@ -124,5 +124,8 @@ class DownloadActivity : AppCompatActivity() {
         }
 
         sink.close()
+
+        // reset the progress bar and the download information
+        textProgress.postValue(0)
     }
 }
