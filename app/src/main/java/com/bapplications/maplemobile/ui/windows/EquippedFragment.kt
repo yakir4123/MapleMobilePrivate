@@ -8,11 +8,13 @@ import androidx.fragment.app.Fragment
 import com.bapplications.maplemobile.R
 import androidx.fragment.app.viewModels
 import androidx.databinding.DataBindingUtil
-import com.bapplications.maplemobile.gameplay.player.Player
 import com.bapplications.maplemobile.ui.view_models.EquippedViewModel
 import com.bapplications.maplemobile.databinding.FragmentEquippedBinding
+import com.bapplications.maplemobile.gameplay.player.inventory.EquippedInventory
+import com.bapplications.maplemobile.input.EventsQueue
+import com.bapplications.maplemobile.input.events.*
 
-class EquippedFragment(val player: Player) : Fragment() {
+class EquippedFragment(val inventory: EquippedInventory) : Fragment(), EventListener {
 
     private val viewModel: EquippedViewModel by viewModels()
 
@@ -20,15 +22,33 @@ class EquippedFragment(val player: Player) : Fragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val binding : FragmentEquippedBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_equipped, container, false)
+
+        EventsQueue.instance.registerListener(EventType.ItemDropped, this)
+        EventsQueue.instance.registerListener(EventType.EquipItem, this)
+        EventsQueue.instance.registerListener(EventType.UnequipItem, this)
+
         binding.viewModel = viewModel
         binding.setLifecycleOwner { lifecycle }
 
-        viewModel.setEquippedInventory(player.getEquippedInventory())
+        viewModel.setEquippedInventory(inventory)
         return binding.root
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(player: Player) = EquippedFragment(player)
+    override fun onDestroyView() {
+        EventsQueue.instance.unregisterListener(EventType.ItemDropped, this)
+        EventsQueue.instance.unregisterListener(EventType.EquipItem, this)
+        EventsQueue.instance.unregisterListener(EventType.UnequipItem, this)
+        super.onDestroyView()
     }
+
+    override fun onEventReceive(event: Event) {
+        activity?.runOnUiThread {
+            when (event) {
+                is ItemDroppedEvent, is EquipItemEvent,  is UnequipItemEvent -> {
+                    viewModel.setEquippedInventory(inventory)}
+            }
+        }
+    }
+
+
 }

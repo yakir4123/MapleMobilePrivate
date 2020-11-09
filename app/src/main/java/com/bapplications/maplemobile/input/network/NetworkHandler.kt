@@ -180,7 +180,6 @@ class NetworkHandler(host: String, port: Int) : EventListener {
                                     .setX(event.startDropPos.x)
                                     .setY(event.startDropPos.y))
                             .setOwner(event.owner)
-                            .setInvtype(event.invType)
                             .setSlotid(event.slotId)
                             .setMapid(event.mapId)
                     ).build()

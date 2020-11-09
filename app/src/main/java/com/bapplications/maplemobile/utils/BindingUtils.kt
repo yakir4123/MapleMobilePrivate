@@ -1,8 +1,6 @@
 package com.bapplications.maplemobile.utils
 
-import android.content.res.Resources
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
@@ -10,39 +8,13 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.BindingAdapter
-import androidx.databinding.InverseMethod
 import com.bapplications.maplemobile.R
 import com.bapplications.maplemobile.gameplay.player.PlayerViewModel
 import com.bapplications.maplemobile.gameplay.player.inventory.EquipData
 import com.bapplications.maplemobile.gameplay.player.inventory.EquipStat
-import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType
 import com.bapplications.maplemobile.gameplay.player.inventory.ItemData
-import info.abdolahi.CircularMusicProgressBar
 
 object BindingUtils {
-    @InverseMethod("buttonIdToInventoryType")
-    @JvmStatic fun inventoryTypeToButtonId(typeId: InventoryType.Id?): Int {
-//        return when (typeId) {
-//            InventoryType.Id.USE -> R.id.use_btn
-//            InventoryType.Id.ETC -> R.id.etc_btn
-//            InventoryType.Id.CASH -> R.id.cash_btn
-//            InventoryType.Id.SETUP -> R.id.setup_btn
-//            else -> R.id.equip_btn
-//        }
-        return 0
-    }
-
-    @JvmStatic fun buttonIdToInventoryType(selectedButtonId: Int): InventoryType.Id {
-//        return when (selectedButtonId) {
-//            R.id.use_btn -> InventoryType.Id.USE
-//            R.id.etc_btn -> InventoryType.Id.ETC
-//            R.id.cash_btn -> InventoryType.Id.CASH
-//            R.id.setup_btn -> InventoryType.Id.SETUP
-//            else -> InventoryType.Id.EQUIP
-//        }
-        return InventoryType.Id.EQUIP
-    }
-
 
     enum class ItemTypeStat {
         NAME, DESC, ICON, REQ_LVL, REQ_STR, REQ_DEX, REQ_INT, REQ_LUK, REQ_FAME, CATEGORY, STR, DEX, INT, LUK, HP, MP, WATK, MAGIC, WDEF, MDEF, ACC, AVOID, HANDS, SPEED, JUMP

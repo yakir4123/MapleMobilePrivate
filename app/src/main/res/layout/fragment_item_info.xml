@@ -13,6 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="@{viewModel.inventorySlot != null}"
         android:background="@drawable/window_background">
 
         <TextView
@@ -35,12 +36,12 @@
 
         <ImageView
             android:id="@+id/return_bt"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:src="@drawable/ic_arrow_point_to_right"
             app:layout_constraintBottom_toTopOf="@id/sub_window_background"
-            app:layout_constraintStart_toStartOf="@id/item_info_icon"
             app:layout_constraintEnd_toEndOf="@id/item_info_icon"
+            app:layout_constraintStart_toStartOf="@id/item_info_icon"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_margin="2dp"/>
 
@@ -70,6 +71,15 @@
             android:background="@drawable/item_info_icon_background"
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.ICON}"
             app:itemId="@{viewModel.inventorySlot.item.itemId}"
+            />
+
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="req_flow, item_info_equip_bt, item_info_bonuses,
+                            req_window_background, item_bonuses_background"
+            android:visibility="@{viewModel.inventorySlot.item.equip}"
+            tools:visibility="gone"
             />
 
         <androidx.constraintlayout.helper.widget.Flow
@@ -324,7 +334,7 @@
             tools:ignore="RtlHardcoded,RtlSymmetry,MissingConstraints" />
 
         <ImageView
-            android:id="@+id/item_info_background"
+            android:id="@+id/item_bonuses_background"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/window_background"
@@ -340,10 +350,10 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="@{viewModel.inventorySlot.item.equip}"
-            app:layout_constraintTop_toTopOf="@id/item_info_background"
+            app:layout_constraintTop_toTopOf="@id/item_bonuses_background"
             app:layout_constraintStart_toStartOf="@id/item_info_reqlvl_tv"
-            app:layout_constraintEnd_toEndOf="@id/item_info_background"
-            app:layout_constraintBottom_toBottomOf="@id/item_info_background"
+            app:layout_constraintEnd_toEndOf="@id/item_bonuses_background"
+            app:layout_constraintBottom_toBottomOf="@id/item_bonuses_background"
             android:layout_marginBottom="5dp">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -528,29 +538,30 @@
             </LinearLayout>
         </ScrollView>
 
-
         <TextView
             android:id="@+id/item_info_description"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintTop_toTopOf="@id/item_info_background"
-            app:layout_constraintStart_toStartOf="@id/item_info_background"
-            app:layout_constraintBottom_toBottomOf="@id/item_info_background"
-            app:layout_constraintEnd_toEndOf="@id/item_info_background"
+            app:layout_constraintTop_toTopOf="@id/item_info_icon"
+            app:layout_constraintBottom_toBottomOf="@id/sub_window_background"
+            app:layout_constraintStart_toStartOf="@id/sub_window_background"
+            app:layout_constraintEnd_toStartOf="@id/item_info_icon"
+            android:background="@drawable/window_background"
             android:padding="5dp"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginBottom="4dp"
             android:textSize="@dimen/item_info_sp"
             android:textColor="@color/tc_window"
             android:visibility="@{!viewModel.inventorySlot.item.equip}"
-            tools:visibility="gone"
+            tools:visibility="visible"
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.DESC}"
             app:itemId="@{viewModel.inventorySlot.item.itemId}"/>
-
 
         <Button
             android:id="@+id/item_info_drop_bt"
             android:layout_width="0dp"
             android:layout_height="@dimen/btn_size"
-            app:layout_constraintTop_toTopOf="@+id/item_info_background"
+            app:layout_constraintTop_toBottomOf="@+id/item_info_icon"
             app:layout_constraintStart_toStartOf="@+id/item_info_icon"
             app:layout_constraintEnd_toEndOf="@+id/item_info_icon"
             android:text="@string/drop_action"
@@ -558,6 +569,7 @@
             android:textColor="@color/tc_window"
             android:textAllCaps="false"
             android:layout_marginBottom="1dp"
+            android:layout_marginTop="4dp"
             />
 
         <Button

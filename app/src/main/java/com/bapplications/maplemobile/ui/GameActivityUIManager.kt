@@ -1,30 +1,32 @@
 package com.bapplications.maplemobile.ui
 
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup.MarginLayoutParams
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import android.view.LayoutInflater
+import androidx.core.view.doOnLayout
 import com.bapplications.maplemobile.R
-import com.bapplications.maplemobile.databinding.ActivityGameBinding
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
+import android.view.ViewGroup.MarginLayoutParams
 import com.bapplications.maplemobile.gameplay.GameMap
 import com.bapplications.maplemobile.gameplay.player.Player
+import com.bapplications.maplemobile.databinding.ActivityGameBinding
 import com.bapplications.maplemobile.gameplay.player.PlayerViewModel
 import com.bapplications.maplemobile.gameplay.player.look.Expression
+import com.bapplications.maplemobile.input.EventsQueue
 import com.bapplications.maplemobile.input.ExpressionInputAction
 import com.bapplications.maplemobile.input.InputAction
+import com.bapplications.maplemobile.input.events.*
+import com.bapplications.maplemobile.ui.adapters.PageViewerToolsAdapter
+import com.bapplications.maplemobile.ui.adapters.PageViewerToolsAdapter.WindowTool
 import com.bapplications.maplemobile.ui.interfaces.GameEngineListener
-import com.bapplications.maplemobile.ui.view_models.GameActivityViewModel
-import com.bapplications.maplemobile.ui.windows.EquippedFragment
-import com.bapplications.maplemobile.ui.windows.InventoryFragment
 import com.bapplications.maplemobile.utils.StaticUtils
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 
-class GameActivityUIManager(private var activity: GameActivity?, private val binding: ActivityGameBinding) : GameEngineListener {
-    private var windowFragment: Fragment? = null
-    private val toolsButtons = listOf<View>(binding.inventoryBtn, binding.equippedBtn,
-                    binding.statsBtn, binding.skillsBtn)
-    private val gameViewModel: GameActivityViewModel = ViewModelProvider(activity!!)
-            .get(GameActivityViewModel::class.java)
+
+class GameActivityUIManager(private var activity: GameActivity?, private val binding: ActivityGameBinding) : GameEngineListener, EventListener {
     private val playerStatViewModel: PlayerViewModel = ViewModelProvider(activity!!)
             .get(PlayerViewModel::class.java)
 
@@ -32,48 +34,70 @@ class GameActivityUIManager(private var activity: GameActivity?, private val bin
         playerStatViewModel.canLoot.observe(activity!!, { canLoot: Boolean -> popLootButton(canLoot) })
     }
 
-    private fun initToolsWindow() {
-        // it is just for initialization to avoid fail on first time on transaction.remove(null)
-        windowFragment = Fragment()
-        gameViewModel.windowState.observe(activity!!, { windowState: WindowState? ->
-            val transaction = activity!!.supportFragmentManager.beginTransaction()
-            binding.toolsWindow.visibility = if(windowState == WindowState.GONE) View.GONE else View.VISIBLE
-            when (windowState) {
-                WindowState.GONE -> {
-                    rotateToolsButtons(null)
-                    transaction.remove(windowFragment!!)
-                    windowFragment = null
-                }
-                WindowState.INVENTORY -> {
-                    rotateToolsButtons(binding.inventoryBtn)
-                    windowFragment = InventoryFragment.newInstance(activity!!.gameEngine.player!!)
-                    transaction.replace(R.id.tools_window, windowFragment!!)
-                }
-                WindowState.EQUIPPED -> {
-                    rotateToolsButtons(binding.equippedBtn)
-                    windowFragment = EquippedFragment.newInstance(activity!!.gameEngine.player!!)
-                    transaction.replace(R.id.tools_window, windowFragment!!)
-                }
-            }
-            transaction.commit()
-        })
-    }
+    private fun setTools() {
 
-    private fun setClickListeners() {
-        binding.expressionsBtns.setOnClickListener { StaticUtils.popViews(binding.expressionsBtns, binding.expressionsBtnsLayout, StaticUtils.PopDirection.UP) }
+        binding.toolsWindow.isUserInputEnabled = false
         binding.toolsBtn.setOnClickListener {
-            gameViewModel.setWindowState(WindowState.GONE)
-            StaticUtils.popViews(binding.toolsBtn, toolsButtons,
-                    StaticUtils.PopDirection.DOWN)
+            if(binding.toolsWindow.adapter == null) {
+                binding.toolsWindow.apply {
+                    adapter = PageViewerToolsAdapter(activity!!, activity!!.gameEngine.player!!)
+                }
+
+                TabLayoutMediator(binding.toolsTab, binding.toolsWindow) { _, _ -> }.attach()
+
+                // TabLayout cant be horizontal so I need to rotate and translate it.
+                // doOnLayout activate only if the view is visible so on the xml its already
+                // visible but without children views
+                // so when it knows how to layout it I turn the visibility off and than pop it in
+                binding.toolsTab.doOnLayout {
+                    it.rotation = -90f
+                    it.translationY = (binding.toolsTab.width - binding.toolsTab.height) / 2f +
+                            it.context.resources.getDimension(R.dimen.pops_down_or_left_translation)
+                    it.visibility = View.GONE
+                    StaticUtils.popViews(binding.toolsBtn, binding.toolsTab,
+                            StaticUtils.PopDirection.DOWN)
+                }
+
+                // null mean i dont want to have view in null cases
+                // the order is made that way because those inventoryItemInfo need to be already
+                // instantiated when its on the inventory screen.
+                // the same with the equipped
+                val iconList = listOf(null, R.drawable.bag, null, R.drawable.armor_button, null, R.drawable.skillbook, R.drawable.stats)
+                for (i in iconList.indices) {
+                    iconList[i]?.let {
+                        binding.toolsTab.getTabAt(i)?.customView = LayoutInflater.from(activity)
+                                .inflate(R.layout.tools_tab, binding.toolsWindow, false).apply {
+                                    (this as FloatingActionButton).setImageDrawable(ContextCompat.getDrawable(this.context, it))
+                                }
+                    }
+                }
+            } else {
+                StaticUtils.popViews(binding.toolsBtn, binding.toolsTab,
+                        StaticUtils.PopDirection.DOWN)
+            }
+            binding.toolsWindow.visibility = if(binding.toolsWindow.visibility == View.GONE) {
+                View.VISIBLE
+            } else {
+                binding.toolsWindow.currentItem = 0
+                View.GONE
+            }
         }
-        binding.inventoryBtn.setOnClickListener {
-            switchMenu(WindowState.INVENTORY) }
-        binding.equippedBtn.setOnClickListener {
-            switchMenu(WindowState.EQUIPPED) }
-        binding.statsBtn.setOnClickListener {
-            switchMenu(WindowState.STATS) }
-        binding.skillsBtn.setOnClickListener {
-            switchMenu(WindowState.SKILLS) }
+
+        binding.toolsTab.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                tab.customView?.let { StaticUtils.rotateViewAnimation(it, true) }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                tab?.customView?.let { StaticUtils.rotateViewAnimation(it, false) }
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+
+        })
+
     }
 
     private fun popLootButton(canLoot: Boolean) {
@@ -97,15 +121,14 @@ class GameActivityUIManager(private var activity: GameActivity?, private val bin
         GameViewController(binding.ctrlLoot, InputAction.LOOT_KEY)
     }
 
-    private fun switchMenu(to: WindowState) {
-        if (gameViewModel.windowState.value != to) {
-            gameViewModel.windowState.value = to
-        } else {
-            gameViewModel.windowState.value = WindowState.GONE
-        }
+    private fun setListeners() {
+        EventsQueue.instance.registerListener(EventType.ItemDropped, this)
+        EventsQueue.instance.registerListener(EventType.EquipItem, this)
+        EventsQueue.instance.registerListener(EventType.UnequipItem, this)
     }
 
     private fun setExpressions(expressions: Collection<Expression>?) {
+        binding.expressionsBtns.setOnClickListener { StaticUtils.popViews(binding.expressionsBtns, binding.expressionsBtnsLayout, StaticUtils.PopDirection.UP) }
         if (expressions == null) return
         activity!!.runOnUiThread {
             binding.expressionsBtnsLayout.removeAllViews()
@@ -150,22 +173,27 @@ class GameActivityUIManager(private var activity: GameActivity?, private val bin
         startLoadingMap()
     }
 
-    enum class WindowState {
-        GONE, INVENTORY, EQUIPPED, STATS, SKILLS, ITEM_INFO
-    }
-
-    private fun rotateToolsButtons(clickedView: View?) {
-        toolsButtons.forEach{ StaticUtils.rotateViewAnimation(it, it == clickedView)}
-    }
-
     init {
-        binding.gameViewModel = gameViewModel
         binding.playerViewModel = playerStatViewModel
 
         viewModelsObservers()
-
-        initToolsWindow()
-        setClickListeners()
+        setTools()
         initInputHandler()
+        setListeners()
     }
+
+    override fun onEventReceive(event: Event) {
+        activity?.runOnUiThread {
+            when (event) {
+                is ItemDroppedEvent, is EquipItemEvent, is UnequipItemEvent -> {
+                    binding.toolsWindow.currentItem = when (WindowTool
+                            .values()[binding.toolsWindow.currentItem]) {
+                        WindowTool.EQUIPPED_ITEM_INFO -> WindowTool.EQUIPPED
+                        else -> WindowTool.INVENTORY
+                    }.ordinal
+                }
+            }
+        }
+    }
+
 }

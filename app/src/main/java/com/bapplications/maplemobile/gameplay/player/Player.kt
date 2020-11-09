@@ -17,13 +17,11 @@ import com.bapplications.maplemobile.input.EventsQueue.Companion.instance
 import com.bapplications.maplemobile.input.InputAction
 import com.bapplications.maplemobile.input.events.*
 import com.bapplications.maplemobile.input.events.EventListener
-import com.bapplications.maplemobile.ui.view_models.InventoryViewModel
 import com.bapplications.maplemobile.utils.*
 import java.util.*
 
 class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stats.name),
         EventListener {
-    var inventoryViewModel: InventoryViewModel? = null
     var map: GameMap? = null
     lateinit var stats: PlayerViewModel
         private set
@@ -92,30 +90,8 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
         return stats.addStat(id!!, `val`)
     }
 
-    fun changeEquip(to: InventorySlot): Boolean {
-        val changed = inventory.equipItem(to.item as Equip)
-        if (changed) {
-            look.addEquip(to.itemId)
-            inventory.getInventory(InventoryType.Id.EQUIP).popItem(to.slotId)
-        }
-        return changed
-    }
-
     fun getEquippedInventory(): EquippedInventory {
         return inventory.equippedInventory
-    }
-
-    fun dropItem(inventorySlot: InventorySlot): Boolean {
-        val invType = inventorySlot.inventoryType
-        // it actually just like slot
-        val dropped = inventory.getInventory(invType).popItem(inventorySlot.slotId)
-        if (dropped.isEmpty) {
-            return false
-        }
-        instance
-                .enqueue(DropItemEvent(dropped.itemId, position,
-                        0, invType.ordinal, inventorySlot.slotId, map!!.mapId))
-        return true
     }
 
     // todo change signature
@@ -181,6 +157,21 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
                     setExpression(expression)
                 }
             }
+            EventType.EquipItem -> {
+                val (charid, slotid) = event as EquipItemEvent
+                if(charid == 0) {
+                    val slot = inventory.getInventory(InventoryType.Id.EQUIP).items[slotid]
+                    val changed = inventory.equipItem(slot.item as Equip)
+                    if (changed) {
+                        look.addEquip(slot.itemId)
+                        inventory.getInventory(InventoryType.Id.EQUIP).popItem(slot.slotId)
+                    }
+                }
+
+            }
+            EventType.UnequipItem -> {
+
+            }
         }
     }
 
@@ -194,9 +185,6 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
                     inventory.addItem(Equip(drop.itemId, -1L, null, 0, 7, 0), 1)
                 } else {
                     inventory.addItem(Item(drop.itemId, -1, null, 0), 1)
-                }
-                if(inventoryViewModel?.selectedInventoryType?.value == InventoryType.by_item_id(drop.itemId)) {
-                    inventoryViewModel?.itemInventory?.postValue(inventoryViewModel?.itemInventory?.value)
                 }
             }
         }
@@ -217,14 +205,18 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
     }
 
     init {
-        isAttacking = false
         underwater = false
+        isAttacking = false
         state = State.STAND
+
         inventory = Inventory()
         addItem()
+
         myExpressions = TreeSet()
         myExpressions.addAll(listOf(*Expression.values()))
         instance.registerListener(EventType.PressButton, this)
         instance.registerListener(EventType.ExpressionButton, this)
+        instance.registerListener(EventType.EquipItem, this)
+        instance.registerListener(EventType.UnequipItem, this)
     }
 }

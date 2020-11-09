@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.ViewGroup
 import com.google.android.material.tabs.TabLayout
 
-class InventoryTabLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : TabLayout(context, attrs, defStyleAttr) {
+class WrapHeightTabLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : TabLayout(context, attrs, defStyleAttr) {
     private var tabStrip: ViewGroup = getChildAt(0) as ViewGroup
 
     init {
@@ -13,7 +13,6 @@ class InventoryTabLayout @JvmOverloads constructor(context: Context, attrs: Attr
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-//        setPadding(0, -6, 0, -20)
         super.onMeasure(widthMeasureSpec, tabStrip.measuredHeight)
         // Force the height of this ViewGroup to be the same height of the tabStrip
         setMeasuredDimension(measuredWidth, tabStrip.measuredHeight)
