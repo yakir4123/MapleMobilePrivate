@@ -95,10 +95,9 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
         return inventory.equippedInventory
     }
 
-    // todo change signature
-    fun addItem() {
+    fun addItems() {
         val equips = listOf(1050045, 1082028, 1002017, 1092045, 1072024, 1382009, 1050018, 1002357,
-                1072171, 1082223, 1472054, 1050087, 1002575, 1002356, 1050040)
+                1072171, 1082223, 1472054, 1050087, 1002575, 1002356, 1050040, 1092000)
         for(item in equips) {
             inventory.addItem(Equip(item, -1L, null, 0.toShort(),
                     7.toByte(), 0.toByte()), 1.toShort())
@@ -217,7 +216,7 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
         state = State.STAND
 
         inventory = Inventory()
-        addItem()
+        addItems()
 
         myExpressions = TreeSet()
         myExpressions.addAll(listOf(*Expression.values()))
