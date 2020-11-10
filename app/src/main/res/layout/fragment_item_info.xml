@@ -5,6 +5,7 @@
 
     <data>
         <import type="com.bapplications.maplemobile.utils.BindingUtils"/>
+        <import type="com.bapplications.maplemobile.gameplay.player.inventory.InventoryType"/>
         <variable
             name="viewModel"
             type="com.bapplications.maplemobile.ui.view_models.ItemInfoViewModel"/>
@@ -33,17 +34,6 @@
             tools:text="Works Gloves"
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.NAME}"
             app:itemId="@{viewModel.inventorySlot.item.itemId}" />
-
-        <ImageView
-            android:id="@+id/return_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:src="@drawable/ic_arrow_point_to_right"
-            app:layout_constraintBottom_toTopOf="@id/sub_window_background"
-            app:layout_constraintEnd_toEndOf="@id/item_info_icon"
-            app:layout_constraintStart_toStartOf="@id/item_info_icon"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_margin="2dp"/>
 
         <ImageView
             android:id="@+id/sub_window_background"
@@ -79,7 +69,7 @@
             app:constraint_referenced_ids="req_flow, item_info_equip_bt, item_info_bonuses,
                             req_window_background, item_bonuses_background"
             android:visibility="@{viewModel.inventorySlot.item.equip}"
-            tools:visibility="gone"
+            tools:visibility="visible"
             />
 
         <androidx.constraintlayout.helper.widget.Flow
@@ -349,7 +339,6 @@
             android:id="@+id/item_info_bonuses"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibility="@{viewModel.inventorySlot.item.equip}"
             app:layout_constraintTop_toTopOf="@id/item_bonuses_background"
             app:layout_constraintStart_toStartOf="@id/item_info_reqlvl_tv"
             app:layout_constraintEnd_toEndOf="@id/item_bonuses_background"
@@ -553,19 +542,19 @@
             android:textSize="@dimen/item_info_sp"
             android:textColor="@color/tc_window"
             android:visibility="@{!viewModel.inventorySlot.item.equip}"
-            tools:visibility="visible"
+            tools:visibility="gone"
             app:itemTypeStat="@{BindingUtils.ItemTypeStat.DESC}"
             app:itemId="@{viewModel.inventorySlot.item.itemId}"/>
 
         <Button
-            android:id="@+id/item_info_drop_bt"
+            android:id="@+id/item_info_equip_bt"
             android:layout_width="0dp"
             android:layout_height="@dimen/btn_size"
             app:layout_constraintTop_toBottomOf="@+id/item_info_icon"
             app:layout_constraintStart_toStartOf="@+id/item_info_icon"
             app:layout_constraintEnd_toEndOf="@+id/item_info_icon"
-            android:text="@string/drop_action"
             android:background="@drawable/positive_btn"
+            android:text="@{viewModel.inventorySlot.inventoryType == InventoryType.Id.EQUIPPED ? `Unequip` : `Equip`}"
             android:textColor="@color/tc_window"
             android:textAllCaps="false"
             android:layout_marginBottom="1dp"
@@ -573,15 +562,15 @@
             />
 
         <Button
-            android:id="@+id/item_info_equip_bt"
+            android:id="@+id/item_info_drop_bt"
             android:layout_width="0dp"
             android:layout_height="@dimen/btn_size"
-            app:layout_constraintTop_toBottomOf="@+id/item_info_drop_bt"
-            app:layout_constraintStart_toStartOf="@+id/item_info_drop_bt"
-            app:layout_constraintEnd_toEndOf="@+id/item_info_drop_bt"
+            android:text="@string/drop_action"
+            android:visibility="@{viewModel.inventorySlot.inventoryType != InventoryType.Id.EQUIPPED}"
+            app:layout_constraintTop_toBottomOf="@+id/item_info_equip_bt"
+            app:layout_constraintStart_toStartOf="@+id/item_info_equip_bt"
+            app:layout_constraintEnd_toEndOf="@+id/item_info_equip_bt"
             android:background="@drawable/positive_btn"
-            android:text="@string/equip_action"
-            android:layout_marginBottom="8dp"
             android:textColor="@color/tc_window"
             android:textAllCaps="false"
             />

@@ -44,16 +44,16 @@ class InventoryFragment(inventory: Inventory) : Fragment(), EventListener {
     }
 
     override fun onDestroyView() {
+        super.onDestroyView()
         EventsQueue.instance.unregisterListener(EventType.ItemDropped, this)
         EventsQueue.instance.unregisterListener(EventType.EquipItem, this)
         EventsQueue.instance.unregisterListener(EventType.UnequipItem, this)
-        super.onDestroyView()
     }
 
     override fun onEventReceive(event: Event) {
         activity?.runOnUiThread {
             when (event) {
-                is ItemDroppedEvent, is EquipItemEvent -> inventoryPagerAdapter.notifyDataSetChanged()
+                is ItemDroppedEvent, is EquipItemEvent, is UnequipItemEvent -> inventoryPagerAdapter.notifyDataSetChanged()
             }
         }
     }

@@ -1,16 +1,15 @@
 package com.bapplications.maplemobile.gameplay
 
-import com.bapplications.maplemobile.constatns.Configuration
-import com.bapplications.maplemobile.gameplay.player.CharEntry
-import com.bapplications.maplemobile.gameplay.player.Player
-import com.bapplications.maplemobile.input.EventsQueue
-import com.bapplications.maplemobile.input.events.*
-import com.bapplications.maplemobile.input.events.EventListener
-import com.bapplications.maplemobile.input.network.NetworkHandler
-import com.bapplications.maplemobile.ui.GameActivityUIManager
-import com.bapplications.maplemobile.ui.interfaces.GameEngineListener
 import java.util.*
 import java.util.function.Consumer
+import com.bapplications.maplemobile.input.events.*
+import com.bapplications.maplemobile.input.EventsQueue
+import com.bapplications.maplemobile.gameplay.player.Player
+import com.bapplications.maplemobile.constatns.Configuration
+import com.bapplications.maplemobile.gameplay.player.CharEntry
+import com.bapplications.maplemobile.input.events.EventListener
+import com.bapplications.maplemobile.input.network.NetworkHandler
+import com.bapplications.maplemobile.ui.interfaces.GameEngineListener
 
 class GameEngine private constructor() : EventListener {
     val camera: Camera = Camera()
@@ -101,7 +100,6 @@ class GameEngine private constructor() : EventListener {
     init {
         currMap = GameMap(camera)
         networkHandler = NetworkHandler(Configuration.HOST, Configuration.PORT)
-        //        new NetworkHandlerDemo();
         EventsQueue.instance.registerListener(EventType.PlayerConnected, this)
     }
 }
