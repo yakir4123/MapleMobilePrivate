@@ -93,7 +93,7 @@ class GameActivityUIManager(private var activity: GameActivity?, private val bin
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-
+                binding.toolsWindow.currentItem = 0
             }
 
         })
@@ -101,7 +101,7 @@ class GameActivityUIManager(private var activity: GameActivity?, private val bin
     }
 
     private fun popLootButton(canLoot: Boolean) {
-        StaticUtils.popViews(null, binding.ctrlLoot, StaticUtils.PopDirection.RIGHT, canLoot)
+        StaticUtils.popViews(null, binding.ctrlLoot, StaticUtils.PopDirection.UP, canLoot)
     }
 
     fun startLoadingMap() {

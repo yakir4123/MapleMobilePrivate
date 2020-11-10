@@ -6,6 +6,7 @@ import com.bapplications.maplemobile.gameplay.audio.Music
 import com.bapplications.maplemobile.gameplay.audio.Sound
 import com.bapplications.maplemobile.gameplay.map.Layer
 import com.bapplications.maplemobile.gameplay.map.MapInfo
+import com.bapplications.maplemobile.gameplay.map.MapObject
 import com.bapplications.maplemobile.gameplay.map.Portal
 import com.bapplications.maplemobile.gameplay.map.map_objects.*
 import com.bapplications.maplemobile.gameplay.map.map_objects.mobs.MobSpawn
@@ -13,10 +14,7 @@ import com.bapplications.maplemobile.gameplay.physics.Physics
 import com.bapplications.maplemobile.gameplay.player.Player
 import com.bapplications.maplemobile.input.EventsQueue.Companion.instance
 import com.bapplications.maplemobile.input.InputAction
-import com.bapplications.maplemobile.input.events.Event
-import com.bapplications.maplemobile.input.events.EventListener
-import com.bapplications.maplemobile.input.events.EventType
-import com.bapplications.maplemobile.input.events.ItemDroppedEvent
+import com.bapplications.maplemobile.input.events.*
 import com.bapplications.maplemobile.pkgnx.NXNode
 import com.bapplications.maplemobile.utils.Point
 import com.bapplications.maplemobile.utils.Rectangle
@@ -52,9 +50,21 @@ class GameMap(camera: Camera) : EventListener {
     override fun onEventReceive(event: Event) {
         when (event.type) {
             EventType.ItemDropped -> {
-                val (oid, id, start, owner, mapId1) = event as ItemDroppedEvent
-                if (mapId == mapId1) {
+                val (oid, id, start, owner, _mapId) = event as ItemDroppedEvent
+                if (mapId == _mapId) {
                     spawnItemDrop(oid, id, start, owner)
+                }
+            }
+            EventType.PickupItem -> {
+                val (cid, oid, _mapId) = event as PickupItemEvent
+                val drop = drops?.drops?.get(oid) as Drop
+                val char: MapObject? = if(cid == player.oid) {
+                    player
+                } else {
+                    characters?.getChar(cid)
+                }
+                if (mapId == _mapId) {
+                    char?.let{drop.expire(Drop.State.PICKEDUP, it)}
                 }
             }
         }
@@ -161,9 +171,6 @@ class GameMap(camera: Camera) : EventListener {
 
 //            if (player.isPressed(InputAction.ATTACK))
 //            combat.use_move(0);
-//
-//            if (player.isPressed(InputAction.PICKUP))
-//            check_drops();
         }
         if (player.isInvincible()) return
         val oid = mobs!!.findColliding(player)
@@ -178,8 +185,8 @@ class GameMap(camera: Camera) : EventListener {
     private fun checkDrops() {
         val drop = drops!!.inRange(player)
         if((drop != null || player.isPressed(InputAction.LOOT_KEY))
-                != player?.stats?.canLoot?.value) {
-            player?.stats?.canLoot?.postValue(drop != null)
+                != player.stats.canLoot.value) {
+            player.stats.canLoot.postValue(drop != null)
         }
         if(drop != null && !drop.isPicked() && player.isPressed(InputAction.LOOT_KEY)) {
             player.pickupDrop(drop)
@@ -254,5 +261,6 @@ class GameMap(camera: Camera) : EventListener {
         state = State.INACTIVE
         this.camera = camera
         instance.registerListener(EventType.ItemDropped, this)
+        instance.registerListener(EventType.PickupItem, this)
     }
 }

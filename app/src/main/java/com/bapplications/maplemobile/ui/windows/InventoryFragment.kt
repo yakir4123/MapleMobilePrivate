@@ -25,6 +25,7 @@ class InventoryFragment(inventory: Inventory) : Fragment(), EventListener {
         EventsQueue.instance.registerListener(EventType.ItemDropped, this)
         EventsQueue.instance.registerListener(EventType.EquipItem, this)
         EventsQueue.instance.registerListener(EventType.UnequipItem, this)
+        EventsQueue.instance.registerListener(EventType.PickupItem, this)
 
         binding.inventoryPager.apply {
             adapter = inventoryPagerAdapter
@@ -48,13 +49,13 @@ class InventoryFragment(inventory: Inventory) : Fragment(), EventListener {
         EventsQueue.instance.unregisterListener(EventType.ItemDropped, this)
         EventsQueue.instance.unregisterListener(EventType.EquipItem, this)
         EventsQueue.instance.unregisterListener(EventType.UnequipItem, this)
+        EventsQueue.instance.unregisterListener(EventType.PickupItem, this)
     }
 
     override fun onEventReceive(event: Event) {
         activity?.runOnUiThread {
-            when (event) {
-                is ItemDroppedEvent, is EquipItemEvent, is UnequipItemEvent -> inventoryPagerAdapter.notifyDataSetChanged()
-            }
+            // no matter what event is it just update the list
+            inventoryPagerAdapter.notifyDataSetChanged()
         }
     }
 }

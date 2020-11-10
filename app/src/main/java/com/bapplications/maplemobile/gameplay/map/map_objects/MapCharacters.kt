@@ -46,8 +46,8 @@ class MapCharacters : EventListener {
     }
 
 
-    private fun getChar(cid: Int): MapObject? {
-        return chars.get(cid)
+    fun getChar(cid: Int): MapObject? {
+        return chars[cid]
     }
 
     override fun onEventReceive(event: Event) {
