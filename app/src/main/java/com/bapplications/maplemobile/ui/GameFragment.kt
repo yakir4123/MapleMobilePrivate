@@ -23,8 +23,7 @@ class GameFragment : Fragment() {
         gameGLSurfaceView?.gameEngine?.registerListener(uiManager)
     }
 
-    fun changeMap(mapId: Int) = gameGLSurfaceView!!.queueEvent { gameGLSurfaceView?.gameEngine?.changeMap(mapId, "sp") }
-    fun getGameEngine() = gameGLSurfaceView!!.getGameEngine()
+    fun getGameEngine() = gameGLSurfaceView!!.gameEngine
 
     fun runOnGLThread(run: Runnable) = gameGLSurfaceView!!.queueEvent(run);
 

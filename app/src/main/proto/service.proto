@@ -69,9 +69,8 @@ message RequestDropItem {
   int32 count = 2;
   int32 owner = 3;
   Point start = 4;
-  int32 invtype = 6; // todo refactor to enum later
-  int32 slotid = 7;
-  int32 mapid = 8;
+  int32 slotid = 5;
+  int32 mapid = 6;
 }
 
 message ResponseDropItem {

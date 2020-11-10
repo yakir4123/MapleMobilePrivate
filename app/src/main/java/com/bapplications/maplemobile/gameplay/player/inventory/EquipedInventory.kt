@@ -14,7 +14,7 @@ class EquippedInventory : InventoryType(Id.EQUIPPED, EquipSlot.Id.values().size)
     }
 
     fun unequipItem(equipSlot : EquipSlot.Id): Equip? {
-        if(!isEmptyFull(equipSlot.ordinal))
+        if(!isEmptySlot(equipSlot.ordinal))
             return popItem(equipSlot.ordinal).item as Equip
         return null
     }
@@ -24,6 +24,10 @@ class EquippedInventory : InventoryType(Id.EQUIPPED, EquipSlot.Id.values().size)
             throw IllegalAccessException("Not allowing Use add() In EquippedInventory")
         }
         return super.add(item, count)
+    }
+
+    operator fun get(equipSlot : EquipSlot.Id): InventorySlot? {
+        return inventory[equipSlot.ordinal]
     }
 
 }

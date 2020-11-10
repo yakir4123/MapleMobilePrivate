@@ -9,6 +9,9 @@ import com.bapplications.maplemobile.utils.Point
 enum class EventType {
     DropItem,
     ItemDropped,
+    EquipItem,
+    UnequipItem,
+    PickupItem,
 
     PressButton,
     ExpressionButton,
@@ -39,13 +42,16 @@ data class OtherPlayerConnectedEvent(val charid: Int, val hair: Int,
 data class PlayerStateUpdateEvent(val charid: Int, val state: Char.State,
                                   val pos: Point) : Event(EventType.PlayerStateUpdate)
 
-data class DropItemEvent (val itemid: Int, val startDropPos: Point, val owner: Int,
-               val invType: Int, val slotId: Int, val mapId: Int) : Event(EventType.DropItem)
-data class ItemDroppedEvent (val oid: Int, val id: Int, val start: Point,
-                             val owner: Int, val mapId: Int): Event(EventType.ItemDropped)
-
-
 data class PressButtonEvent (val charid: Int, val buttonPressed: InputAction.Key,
                              val pressed: Boolean): Event(EventType.PressButton)
 data class ExpressionButtonEvent (val charid: Int, val expression: Expression): Event(EventType.ExpressionButton)
 
+data class DropItemEvent (val itemid: Int, val startDropPos: Point, val owner: Int,
+               val slotId: Int, val mapId: Int) : Event(EventType.DropItem)
+data class ItemDroppedEvent (val oid: Int, val id: Int, val start: Point,
+                             val owner: Int, val mapId: Int): Event(EventType.ItemDropped)
+data class EquipItemEvent (val charid: Int, val slotId: Int): Event(EventType.EquipItem)
+data class UnequipItemEvent (val charid: Int, val slotId: Int): Event(EventType.UnequipItem)
+
+// to-do :: split this event to 2 one to ask the server and 1 for response from the client
+data class PickupItemEvent(val charid: Int, val oid: Int, val mapId: Int) : Event(EventType.PickupItem)

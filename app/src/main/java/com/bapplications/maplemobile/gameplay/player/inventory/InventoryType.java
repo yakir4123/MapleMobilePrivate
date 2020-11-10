@@ -7,7 +7,7 @@ public class InventoryType {
 
     protected int maxSlots;
     protected InventoryType.Id type;
-    protected ArrayList<Slot> inventory;
+    protected ArrayList<InventorySlot> inventory;
 
 
     public InventoryType(InventoryType.Id type, int maxSlots) {
@@ -18,7 +18,7 @@ public class InventoryType {
 
     public void addSlots(int add) {
         for(int i = 0; i < add ; i++){
-            inventory.add(maxSlots + i, new Slot(type, i));
+            inventory.add(maxSlots + i, new InventorySlot(type, i));
         }
         this.maxSlots += add;
     }
@@ -36,32 +36,32 @@ public class InventoryType {
         if(slotid == -1 || count < 1) {
             return slotid;
         }
-        Slot slot = inventory.get(slotid);
-        slot.item = item;
-        slot.count = count;
+        InventorySlot inventorySlot = inventory.get(slotid);
+        inventorySlot.item = item;
+        inventorySlot.count = count;
         return slotid;
     }
 
-    public ArrayList<Slot> getItems() {
+    public ArrayList<InventorySlot> getItems() {
         return inventory;
     }
 
     public int getEmptySlot() {
         for(int i = 0; i < inventory.size() ; i++) {
-            if (isEmptyFull(i)) {
+            if (isEmptySlot(i)) {
                 return i;
             }
         }
         return -1;
     }
 
-    public boolean isEmptyFull(int slot){
+    public boolean isEmptySlot(int slot){
         return inventory.get(slot).item == null;
     }
 
-    public Slot popItem(int slot) {
-        Slot res = inventory.get(slot);
-        inventory.set(slot, new Slot(type, res.slotid));
+    public InventorySlot popItem(int slot) {
+        InventorySlot res = inventory.get(slot);
+        inventory.set(slot, new InventorySlot(type, res.slotid));
         return res;
     }
 
@@ -69,6 +69,8 @@ public class InventoryType {
         // do not change the order!
 
         // I repeat DO NOT change the order
+        // it is necessary for determine
+        // the item type  if its id prefix with 1 its equip 2 for use and etc..
         NONE,
         EQUIP,
         USE,
@@ -92,14 +94,4 @@ public class InventoryType {
         return Id.values()[value];
     }
 
-    class  InventoryPosition
-    {
-        InventoryType.Id type;
-        short slot;
-
-        public InventoryPosition(InventoryType.Id type, short slot){
-            this.type = type;
-            this.slot = slot;
-        }
-    }
 }

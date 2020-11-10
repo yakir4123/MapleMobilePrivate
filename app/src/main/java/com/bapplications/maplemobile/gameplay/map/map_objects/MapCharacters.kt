@@ -39,15 +39,15 @@ class MapCharacters : EventListener {
         chars.update(physics, deltatime)
     }
 
-    fun draw(layer: Layer, viewpos: Point?, alpha: Float) {
+    fun draw(layer: Layer, viewpos: Point, alpha: Float) {
         for (ochar in chars.objects.values) {
             ochar.draw(layer, viewpos, alpha)
         }
     }
 
 
-    private fun getChar(cid: Int): MapObject? {
-        return chars.get(cid)
+    fun getChar(cid: Int): MapObject? {
+        return chars[cid]
     }
 
     override fun onEventReceive(event: Event) {
@@ -62,9 +62,9 @@ class MapCharacters : EventListener {
             is PressButtonEvent -> {
                 if (event.charid != 0) {
                     if (event.pressed) {
-                        (chars.get(event.charid) as OtherChar?)?.clickedButton(InputAction.byKey(event.buttonPressed))
+                        (chars[event.charid] as OtherChar?)?.clickedButton(InputAction.byKey(event.buttonPressed)!!)
                     } else {
-                        (chars.get(event.charid) as OtherChar?)?.releasedButtons(InputAction.byKey(event.buttonPressed))
+                        (chars[event.charid] as OtherChar?)?.releasedButtons(InputAction.byKey(event.buttonPressed)!!)
                     }
                 }
             }

@@ -10,25 +10,22 @@ class OtherChar(cid: Int, look: CharLook, level: Byte, job: Short,
 
     init {
         respawn(position, false)
-        setState(state)
+        super.state = state
     }
 
-    fun draw(layer: Layer, viewpos: Point?, alpha: Float) {
-        if (layer == getLayer()) super.draw(viewpos, alpha)
-    }
-
-    override fun getStanceSpeed(): Float {
-
-        return when (state) {
+    override val stanceSpeed: Float
+        get() = when (state) {
             State.WALK -> Math.abs(phobj.hspeed)
             State.LADDER, State.ROPE -> Math.abs(phobj.vspeed)
             else -> 1.0f
         }
-//        return 1f
+
+    fun draw(layer: Layer, viewpos: Point, alpha: Float) {
+        if (layer == this.layer) super.draw(viewpos, alpha)
     }
 
     fun updateState(state: State, pos: Point) {
         position = pos
-        setState(state)
+        super.state = state
     }
 }

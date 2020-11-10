@@ -8,4 +8,25 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+    <style name="InventoryTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabMaxWidth">0dp</item>
+        <item name="android:gravity">fill</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabIndicatorColor">@color/window_color</item>
+        <item name="tabIndicatorHeight">0dp</item>
+        <item name="tabPaddingStart">0dp</item>
+        <item name="tabPaddingEnd">0dp</item>
+        <item name="tabPaddingBottom">0dp</item>
+        <item name="tabPaddingTop">0dp</item>
+        <item name="tabBackground">@drawable/inventory_selector</item>
+        <item name="tabTextAppearance">@style/InventoryTabTextAppearance</item>
+    </style>
+
+    <!-- for text -->
+    <style name="InventoryTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="tabPadding">0dp</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/tc_window</item>
+        <item name="textAllCaps">false</item>
+    </style>
 </resources>

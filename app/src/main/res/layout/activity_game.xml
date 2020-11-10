@@ -6,15 +6,12 @@
     tools:context="com.bapplications.maplemobile.ui.GameActivity">
 
     <data>
-        <import type="com.bapplications.maplemobile.gameplay.player.PlayerStatsViewModel"/>
+        <import type="com.bapplications.maplemobile.gameplay.player.PlayerViewModel"/>
         <import type="com.bapplications.maplemobile.constatns.Constants"/>
         <import type="com.bapplications.maplemobile.utils.BindingUtils"/>
         <variable
-            name="gameViewModel"
-            type="com.bapplications.maplemobile.ui.view_models.GameActivityViewModel"/>
-        <variable
             name="playerViewModel"
-            type="com.bapplications.maplemobile.gameplay.player.PlayerStatsViewModel"/>
+            type="com.bapplications.maplemobile.gameplay.player.PlayerViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -70,7 +67,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/hp_progress_layout"
                 android:layout_marginStart="15dp"
-                android:text="@{`Lv. ` + playerViewModel.getStat(PlayerStatsViewModel.Id.LEVEL)}"
+                android:text="@{`Lv. ` + playerViewModel.getStat(PlayerViewModel.Id.LEVEL)}"
                 android:textSize="@dimen/toolbar_text_size"
                 android:textColor="@color/dirty_white"
                 />
@@ -82,7 +79,7 @@
                 app:layout_constraintStart_toStartOf="@id/level_tv"
                 app:layout_constraintBottom_toBottomOf="@id/exp_progress_layout"
                 android:textSize="@dimen/toolbar_text_size"
-                android:text="@{BindingUtils.jobIdToName(playerViewModel.getStat(PlayerStatsViewModel.Id.JOB))}"
+                android:text="@{BindingUtils.jobIdToName(playerViewModel.getStat(PlayerViewModel.Id.JOB))}"
                 android:textColor="@color/dirty_white"
                 />
 
@@ -98,8 +95,8 @@
                 app:layout_constraintEnd_toStartOf="@id/mp_progress_layout"
                 app:layout_constraintStart_toEndOf="@id/job_tv"
                 app:layout_constraintTop_toTopOf="parent"
-                app:maxProgress="@{playerViewModel.getStat(PlayerStatsViewModel.Id.MAX_HP)}"
-                app:progress="@{playerViewModel.getStat(PlayerStatsViewModel.Id.HP)}"
+                app:maxProgress="@{playerViewModel.getStat(PlayerViewModel.Id.MAX_HP)}"
+                app:progress="@{playerViewModel.getStat(PlayerViewModel.Id.HP)}"
                 app:title="@{`HP:`}" />
 
             <include
@@ -114,8 +111,8 @@
                 app:layout_constraintEnd_toStartOf="@id/wifi_btn"
                 app:layout_constraintStart_toEndOf="@id/hp_progress_layout"
                 app:layout_constraintTop_toTopOf="parent"
-                app:maxProgress="@{playerViewModel.getStat(PlayerStatsViewModel.Id.MAX_MP)}"
-                app:progress="@{playerViewModel.getStat(PlayerStatsViewModel.Id.MP)}"
+                app:maxProgress="@{playerViewModel.getStat(PlayerViewModel.Id.MAX_MP)}"
+                app:progress="@{playerViewModel.getStat(PlayerViewModel.Id.MP)}"
                 app:title="@{`MP:`}" />
 
             <include
@@ -127,8 +124,8 @@
                 app:layout_constraintEnd_toEndOf="@id/mp_progress_layout"
                 app:layout_constraintStart_toStartOf="@id/hp_progress_layout"
                 app:layout_constraintBottom_toBottomOf="@id/tools_btn"
-                app:maxProgress="@{Constants.getExp(playerViewModel.getStat(PlayerStatsViewModel.Id.LEVEL))}"
-                app:progress="@{playerViewModel.getStat(PlayerStatsViewModel.Id.EXP)}"
+                app:maxProgress="@{Constants.getExp(playerViewModel.getStat(PlayerViewModel.Id.LEVEL))}"
+                app:progress="@{playerViewModel.getStat(PlayerViewModel.Id.EXP)}"
                 app:title="@{`Exp:`}" />
 
             <TextView
@@ -145,13 +142,13 @@
                 android:paddingStart="20dp"
                 />
 
-
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/tools_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ui_btn_background"
                 app:backgroundTint="@color/sub_window_color_secondary"
+                android:src="@drawable/bars"
                 app:elevation="0dp"
                 app:fabSize="mini"
                 app:pressedTranslationZ="0dp"
@@ -175,99 +172,33 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/tools_btn" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/inventory_btn"
+            <com.bapplications.maplemobile.ui.custom_views.WrapHeightTabLayout
+                android:id="@+id/tools_tab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ui_btn_background"
-                app:backgroundTint="@color/window_color"
-                app:elevation="0dp"
-                app:fabSize="mini"
-                android:translationY="@dimen/pops_down_or_left_translation"
-                android:visibility="gone"
-                tools:visibility="visible"
-                app:pressedTranslationZ="0dp"
-                android:layout_marginTop="2dp"
-                app:layout_constraintTop_toBottomOf="@id/ui_toolbar"
-                app:layout_constraintEnd_toEndOf="@id/tools_btn" />
+                android:clipToPadding="true"
+                android:visibility="visible"
+                android:padding="0dp"
+                android:rotationX="180"
+                app:layout_constraintEnd_toEndOf="@id/tools_btn"
+                app:layout_constraintStart_toStartOf="@id/tools_btn"
+                app:layout_constraintTop_toBottomOf="@+id/ui_toolbar"
+                app:tabIndicatorHeight="0dp"
+                app:tabPaddingEnd="1dp"
+                app:tabPaddingStart="1dp" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/equiped_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ui_btn_background"
-                app:backgroundTint="@color/window_color"
-                app:elevation="0dp"
-                app:fabSize="mini"
-                android:translationY="@dimen/pops_down_or_left_translation"
-                android:visibility="gone"
-                tools:visibility="visible"
-                app:pressedTranslationZ="0dp"
-                android:layout_marginTop="2dp"
-                app:layout_constraintTop_toBottomOf="@id/inventory_btn"
-                app:layout_constraintEnd_toEndOf="@id/tools_btn" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/skills_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ui_btn_background"
-                app:backgroundTint="@color/window_color"
-                app:elevation="0dp"
-                app:fabSize="mini"
-                android:translationY="@dimen/pops_down_or_left_translation"
-                android:visibility="gone"
-                tools:visibility="visible"
-                app:pressedTranslationZ="0dp"
-                android:layout_marginTop="2dp"
-                app:layout_constraintTop_toBottomOf="@id/equiped_btn"
-                app:layout_constraintEnd_toEndOf="@id/tools_btn" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/stats_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ui_btn_background"
-                app:backgroundTint="@color/window_color"
-                app:elevation="0dp"
-                app:fabSize="mini"
-                android:translationY="@dimen/pops_down_or_left_translation"
-                android:visibility="gone"
-                tools:visibility="visible"
-                app:pressedTranslationZ="0dp"
-                android:layout_marginTop="2dp"
-                app:layout_constraintTop_toBottomOf="@id/skills_btn"
-                app:layout_constraintEnd_toEndOf="@id/tools_btn" />
-
-
-            <FrameLayout
+            <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/tools_window"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:visibility="gone"
-                tools:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@id/ui_toolbar"
+                app:layout_constraintEnd_toEndOf="@id/wifi_btn"
                 app:layout_constraintBottom_toBottomOf="@id/ctrl_left_arrow"
-                app:layout_constraintEnd_toStartOf="@id/tools_btn"
                 app:layout_constraintStart_toStartOf="@id/mp_progress_layout"
                 android:layout_marginTop="2dp"
                 android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp"
                 />
-            <ImageView
-                android:id="@+id/set_map"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="2dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="Debugging button to change maps"
-                android:maxWidth="84dp"
-                android:maxHeight="84dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/treasure_map_64"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/name_tv" />
 
             <ImageView
                 android:id="@+id/ctrl_left_arrow"
@@ -278,6 +209,7 @@
                 android:src="@drawable/window_background"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+
             <ImageView
                 android:layout_width="36dp"
                 android:layout_height="36dp"
@@ -308,6 +240,15 @@
                 android:rotation="180"
                 android:layout_marginTop="30dp"/>
 
+
+            <androidx.constraintlayout.helper.widget.Layer
+                android:id="@+id/up_arrow_layer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="ctrl_up_arrow, up_arrow_iv"
+                android:visibility="@{playerViewModel.canUseUpArrow}"
+                tools:visibility="gone"
+                tools:ignore="MissingConstraints" />
             <ImageView
                 android:id="@+id/ctrl_up_arrow"
                 android:layout_width="60dp"
@@ -318,6 +259,7 @@
                 app:layout_constraintBottom_toTopOf="@id/ctrl_down_arrow"
                 app:layout_constraintStart_toEndOf="@id/ctrl_left_arrow" />
             <ImageView
+                android:id="@+id/up_arrow_iv"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:background="@drawable/arrow_key"
@@ -349,16 +291,31 @@
                 android:layout_marginStart="30dp"/>
 
             <ImageView
-                android:id="@+id/ctrl_jump"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:id="@+id/ctrl_simple_attack"
+                android:layout_width="@dimen/big_btn"
+                android:layout_height="@dimen/big_btn"
+                android:background="@drawable/ui_btn_background"
+                android:padding="15dp"
+                android:src="@drawable/weapon_button"
+                android:rotation="180"
                 android:layout_marginEnd="30dp"
                 android:layout_marginBottom="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <ImageView
+                android:id="@+id/ctrl_jump"
+                android:layout_width="@dimen/medium_btn"
+                android:layout_height="@dimen/medium_btn"
                 android:background="@drawable/ui_btn_background"
                 android:src="@drawable/ic_jump"
                 android:padding="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintCircle="@id/ctrl_simple_attack"
+                app:layout_constraintCircleRadius="@dimen/ctrls_first_ring"
+                app:layout_constraintCircleAngle="250"
+                tools:ignore="MissingConstraints" />
+
 
             <GridLayout
                 android:id="@+id/expressions_btns_layout"
@@ -369,7 +326,8 @@
                 android:rowCount="3"
                 android:visibility="gone"
                 android:translationY="@dimen/pops_up_or_right_translation"
-                app:layout_constraintBottom_toTopOf="@id/ctrl_up_arrow"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toTopOf="@id/expressions_btns"
                 app:layout_constraintStart_toStartOf="@id/expressions_btns" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -386,6 +344,26 @@
                 android:layout_marginBottom="25dp"
                 app:layout_constraintBottom_toTopOf="@id/ctrl_left_arrow"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <info.abdolahi.CircularMusicProgressBar
+                android:id="@+id/ctrl_loot"
+                android:layout_width="@dimen/big_btn"
+                android:layout_height="@dimen/big_btn"
+                android:src="@drawable/loot"
+                android:background="@drawable/ui_btn_background"
+                android:translationX="@dimen/pops_up_or_right_translation"
+                android:visibility="visible"
+                app:progressAnimationState="@{false}"
+                app:value="@{playerViewModel.lootPercent}"
+                app:border_width="5dp"
+                app:centercircle_diammterer="1"
+                app:progress_color="@color/tc_window"
+                app:border_color="@color/window_color"
+                app:progress_startAngle="-90"
+                app:draw_anticlockwise="false"
+                app:layout_constraintStart_toEndOf="@+id/ctrl_right_arrow"
+                app:layout_constraintTop_toTopOf="@id/ctrl_right_arrow"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

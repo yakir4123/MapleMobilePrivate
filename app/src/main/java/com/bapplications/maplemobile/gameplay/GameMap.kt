@@ -6,6 +6,7 @@ import com.bapplications.maplemobile.gameplay.audio.Music
 import com.bapplications.maplemobile.gameplay.audio.Sound
 import com.bapplications.maplemobile.gameplay.map.Layer
 import com.bapplications.maplemobile.gameplay.map.MapInfo
+import com.bapplications.maplemobile.gameplay.map.MapObject
 import com.bapplications.maplemobile.gameplay.map.Portal
 import com.bapplications.maplemobile.gameplay.map.map_objects.*
 import com.bapplications.maplemobile.gameplay.map.map_objects.mobs.MobSpawn
@@ -13,16 +14,12 @@ import com.bapplications.maplemobile.gameplay.physics.Physics
 import com.bapplications.maplemobile.gameplay.player.Player
 import com.bapplications.maplemobile.input.EventsQueue.Companion.instance
 import com.bapplications.maplemobile.input.InputAction
-import com.bapplications.maplemobile.input.events.Event
-import com.bapplications.maplemobile.input.events.EventListener
-import com.bapplications.maplemobile.input.events.EventType
-import com.bapplications.maplemobile.input.events.ItemDroppedEvent
+import com.bapplications.maplemobile.input.events.*
 import com.bapplications.maplemobile.pkgnx.NXNode
 import com.bapplications.maplemobile.utils.Point
 import com.bapplications.maplemobile.utils.Rectangle
 import com.bapplications.maplemobile.utils.StaticUtils
 import kotlinx.coroutines.*
-import kotlin.system.*
 
 class GameMap(camera: Camera) : EventListener {
     var mapId = 0
@@ -30,7 +27,7 @@ class GameMap(camera: Camera) : EventListener {
     var state: State
         private set
     private var mobs: MapMobs? = null
-    var player: Player? = null
+    lateinit var player: Player
         private set
     val camera: Camera
     private var drops: MapDrops? = null
@@ -53,15 +50,27 @@ class GameMap(camera: Camera) : EventListener {
     override fun onEventReceive(event: Event) {
         when (event.type) {
             EventType.ItemDropped -> {
-                val (oid, id, start, owner, mapId1) = event as ItemDroppedEvent
-                if (mapId == mapId1) {
+                val (oid, id, start, owner, _mapId) = event as ItemDroppedEvent
+                if (mapId == _mapId) {
                     spawnItemDrop(oid, id, start, owner)
+                }
+            }
+            EventType.PickupItem -> {
+                val (cid, oid, _mapId) = event as PickupItemEvent
+                val drop = drops?.drops?.get(oid) as Drop
+                val char: MapObject? = if(cid == player.oid) {
+                    player
+                } else {
+                    characters?.getChar(cid)
+                }
+                if (mapId == _mapId) {
+                    char?.let{drop.expire(Drop.State.PICKEDUP, it)}
                 }
             }
         }
     }
 
-    fun spawnMobs(src: NXNode) {
+    private fun spawnMobs(src: NXNode) {
         var oid = 100 // todo: needs a way to calculate that
         for (spawnNode in src) {
             if (spawnNode.getChild<NXNode>("type").get("") != "m") {
@@ -109,9 +118,9 @@ class GameMap(camera: Camera) : EventListener {
         Music.play(mapInfo!!.bgm)
 
         val startpos = physics!!.getYBelow(position)
-        player!!.respawn(startpos, mapInfo!!.isUnderwater)
+        player.respawn(startpos, mapInfo!!.isUnderwater)
         camera.setView(mapInfo!!.walls, mapInfo!!.borders)
-        camera.update(player!!.position.negateSign())
+        camera.update(player.position.negateSign())
     }
 
     fun update(deltatime: Int) {
@@ -137,19 +146,24 @@ class GameMap(camera: Camera) : EventListener {
             }
             async {
                 mobs!!.update(physics, deltatime)
-                player!!.update(physics, deltatime)
+                player.update(physics!!, deltatime)
             }
             async {
-                portals!!.update(player!!.position, deltatime)
+                portals!!.update(player.position, deltatime)
             }
             async {
-                camera.update(player!!.position)
+                camera.update(player.position)
             }
         }
-        if (!player!!.isClimbing /* && !player.is_sitting()*/ && !player!!.isAttacking) {
-            if (player!!.isPressed(InputAction.UP_ARROW_KEY) && !player!!.isPressed(InputAction.DOWN_ARROW_KEY)) checkLadders(true)
-            if (player!!.isPressed(InputAction.DOWN_ARROW_KEY)) checkLadders(false)
-            if (player!!.isPressed(InputAction.UP_ARROW_KEY)) checkPortals()
+        player?.stats?.canUseUpArrow?.postValue(portals?.collidePortal(player)!!
+                || player.isClimbing || mapInfo!!.findLadder(player.position, true) != null)
+
+        checkDrops()
+
+        if (!player.isClimbing /* && !player.is_sitting()*/ && !player.isAttacking) {
+            if (player.isPressed(InputAction.DOWN_ARROW_KEY)) checkLadders(false)
+            else if (player.isPressed(InputAction.UP_ARROW_KEY)) checkLadders(true)
+            if (player.isPressed(InputAction.UP_ARROW_KEY)) enterPortal()
 
 
 //            if (player.isPressed(InputAction.SIT))
@@ -157,32 +171,40 @@ class GameMap(camera: Camera) : EventListener {
 
 //            if (player.isPressed(InputAction.ATTACK))
 //            combat.use_move(0);
-//
-//            if (player.isPressed(InputAction.PICKUP))
-//            check_drops();
         }
-        if (player!!.isInvincible) return
+        if (player.isInvincible()) return
         val oid = mobs!!.findColliding(player)
         if (oid != 0) {
             val attack = mobs!!.createAttack(oid)
             if (attack.isValid) {
-                val result = player!!.damage(attack)
+                val result = player.damage(attack)
             }
         }
     }
 
-    fun getPortalByName(portalName: String?): Portal {
+    private fun checkDrops() {
+        val drop = drops!!.inRange(player)
+        if((drop != null || player.isPressed(InputAction.LOOT_KEY))
+                != player.stats.canLoot.value) {
+            player.stats.canLoot.postValue(drop != null)
+        }
+        if(drop != null && !drop.isPicked() && player.isPressed(InputAction.LOOT_KEY)) {
+            player.pickupDrop(drop)
+            drop.expire(Drop.State.PICKEDUP, player)
+        }
+    }
+
+    fun getPortalByName(portalName: String): Portal {
         return portals!!.getPortalByName(portalName)
     }
 
-    private fun checkPortals() {
-        if (player!!.isAttacking) return
-        val playerpos = player!!.position
-        val warpinfo = portals!!.findWarpAt(playerpos)
+    private fun enterPortal() {
+        if (player.isAttacking) return
+        val warpinfo = portals!!.findWarpAt(player)
         if (warpinfo.intramap) {
             val spawnpoint = portals!!.getPortalByName(warpinfo.toname)
             val startpos = physics!!.getYBelow(spawnpoint.spawnPosition)
-            player!!.respawn(startpos, mapInfo!!.isUnderwater)
+            player.respawn(startpos, mapInfo!!.isUnderwater)
         } else if (warpinfo.valid) {
             Sound(Sound.Name.PORTAL).play()
             GameEngine.instance?.changeMap(warpinfo.mapid, warpinfo.toname)
@@ -200,7 +222,7 @@ class GameMap(camera: Camera) : EventListener {
 //            npcs.draw(id, viewx, viewy, alpha);
             mobs!!.draw(id, viewpos, alpha)
             characters!!.draw(id, viewpos, alpha)
-            player!!.draw(id, viewpos, alpha)
+            player.draw(id, viewpos, alpha)
             drops!!.draw(id, viewpos, alpha)
         }
         //
@@ -224,8 +246,8 @@ class GameMap(camera: Camera) : EventListener {
     }
 
     fun checkLadders(up: Boolean) {
-        if (!player!!.canClimb() || player!!.isClimbing || player!!.isAttacking) return
-        player!!.ladder = mapInfo!!.findLadder(player!!.position, up)
+        if (!player.canClimb() || player.isClimbing || player.isAttacking) return
+        player.ladder = mapInfo!!.findLadder(player.position, up)
     }
 
     fun enterMap(player: Player, portal: Portal) {
@@ -239,5 +261,6 @@ class GameMap(camera: Camera) : EventListener {
         state = State.INACTIVE
         this.camera = camera
         instance.registerListener(EventType.ItemDropped, this)
+        instance.registerListener(EventType.PickupItem, this)
     }
 }

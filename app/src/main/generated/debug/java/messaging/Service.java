@@ -4196,23 +4196,13 @@ public final class Service {
     messaging.Service.Point getStart();
 
     /**
-     * <pre>
-     * todo refactor to enum later
-     * </pre>
-     *
-     * <code>int32 invtype = 6;</code>
-     * @return The invtype.
-     */
-    int getInvtype();
-
-    /**
-     * <code>int32 slotid = 7;</code>
+     * <code>int32 slotid = 5;</code>
      * @return The slotid.
      */
     int getSlotid();
 
     /**
-     * <code>int32 mapid = 8;</code>
+     * <code>int32 mapid = 6;</code>
      * @return The mapid.
      */
     int getMapid();
@@ -4363,48 +4353,10 @@ public final class Service {
       
     }
 
-    public static final int INVTYPE_FIELD_NUMBER = 6;
-    private int invtype_;
-    /**
-     * <pre>
-     * todo refactor to enum later
-     * </pre>
-     *
-     * <code>int32 invtype = 6;</code>
-     * @return The invtype.
-     */
-    @java.lang.Override
-    public int getInvtype() {
-      return invtype_;
-    }
-    /**
-     * <pre>
-     * todo refactor to enum later
-     * </pre>
-     *
-     * <code>int32 invtype = 6;</code>
-     * @param value The invtype to set.
-     */
-    private void setInvtype(int value) {
-      
-      invtype_ = value;
-    }
-    /**
-     * <pre>
-     * todo refactor to enum later
-     * </pre>
-     *
-     * <code>int32 invtype = 6;</code>
-     */
-    private void clearInvtype() {
-      
-      invtype_ = 0;
-    }
-
-    public static final int SLOTID_FIELD_NUMBER = 7;
+    public static final int SLOTID_FIELD_NUMBER = 5;
     private int slotid_;
     /**
-     * <code>int32 slotid = 7;</code>
+     * <code>int32 slotid = 5;</code>
      * @return The slotid.
      */
     @java.lang.Override
@@ -4412,7 +4364,7 @@ public final class Service {
       return slotid_;
     }
     /**
-     * <code>int32 slotid = 7;</code>
+     * <code>int32 slotid = 5;</code>
      * @param value The slotid to set.
      */
     private void setSlotid(int value) {
@@ -4420,17 +4372,17 @@ public final class Service {
       slotid_ = value;
     }
     /**
-     * <code>int32 slotid = 7;</code>
+     * <code>int32 slotid = 5;</code>
      */
     private void clearSlotid() {
       
       slotid_ = 0;
     }
 
-    public static final int MAPID_FIELD_NUMBER = 8;
+    public static final int MAPID_FIELD_NUMBER = 6;
     private int mapid_;
     /**
-     * <code>int32 mapid = 8;</code>
+     * <code>int32 mapid = 6;</code>
      * @return The mapid.
      */
     @java.lang.Override
@@ -4438,7 +4390,7 @@ public final class Service {
       return mapid_;
     }
     /**
-     * <code>int32 mapid = 8;</code>
+     * <code>int32 mapid = 6;</code>
      * @param value The mapid to set.
      */
     private void setMapid(int value) {
@@ -4446,7 +4398,7 @@ public final class Service {
       mapid_ = value;
     }
     /**
-     * <code>int32 mapid = 8;</code>
+     * <code>int32 mapid = 6;</code>
      */
     private void clearMapid() {
       
@@ -4692,47 +4644,7 @@ public final class Service {
       }
 
       /**
-       * <pre>
-       * todo refactor to enum later
-       * </pre>
-       *
-       * <code>int32 invtype = 6;</code>
-       * @return The invtype.
-       */
-      @java.lang.Override
-      public int getInvtype() {
-        return instance.getInvtype();
-      }
-      /**
-       * <pre>
-       * todo refactor to enum later
-       * </pre>
-       *
-       * <code>int32 invtype = 6;</code>
-       * @param value The invtype to set.
-       * @return This builder for chaining.
-       */
-      public Builder setInvtype(int value) {
-        copyOnWrite();
-        instance.setInvtype(value);
-        return this;
-      }
-      /**
-       * <pre>
-       * todo refactor to enum later
-       * </pre>
-       *
-       * <code>int32 invtype = 6;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearInvtype() {
-        copyOnWrite();
-        instance.clearInvtype();
-        return this;
-      }
-
-      /**
-       * <code>int32 slotid = 7;</code>
+       * <code>int32 slotid = 5;</code>
        * @return The slotid.
        */
       @java.lang.Override
@@ -4740,7 +4652,7 @@ public final class Service {
         return instance.getSlotid();
       }
       /**
-       * <code>int32 slotid = 7;</code>
+       * <code>int32 slotid = 5;</code>
        * @param value The slotid to set.
        * @return This builder for chaining.
        */
@@ -4750,7 +4662,7 @@ public final class Service {
         return this;
       }
       /**
-       * <code>int32 slotid = 7;</code>
+       * <code>int32 slotid = 5;</code>
        * @return This builder for chaining.
        */
       public Builder clearSlotid() {
@@ -4760,7 +4672,7 @@ public final class Service {
       }
 
       /**
-       * <code>int32 mapid = 8;</code>
+       * <code>int32 mapid = 6;</code>
        * @return The mapid.
        */
       @java.lang.Override
@@ -4768,7 +4680,7 @@ public final class Service {
         return instance.getMapid();
       }
       /**
-       * <code>int32 mapid = 8;</code>
+       * <code>int32 mapid = 6;</code>
        * @param value The mapid to set.
        * @return This builder for chaining.
        */
@@ -4778,7 +4690,7 @@ public final class Service {
         return this;
       }
       /**
-       * <code>int32 mapid = 8;</code>
+       * <code>int32 mapid = 6;</code>
        * @return This builder for chaining.
        */
       public Builder clearMapid() {
@@ -4807,13 +4719,12 @@ public final class Service {
               "count_",
               "owner_",
               "start_",
-              "invtype_",
               "slotid_",
               "mapid_",
             };
             java.lang.String info =
-                "\u0000\u0007\u0000\u0000\u0001\b\u0007\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
-                "\u0003\u0004\u0004\t\u0006\u0004\u0007\u0004\b\u0004";
+                "\u0000\u0006\u0000\u0000\u0001\u0006\u0006\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
+                "\u0003\u0004\u0004\t\u0005\u0004\u0006\u0004";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through
