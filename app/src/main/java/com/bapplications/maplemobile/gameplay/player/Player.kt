@@ -119,10 +119,6 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
     val expressions: Collection<Expression>
         get() = myExpressions
 
-    fun canClimb(): Boolean {
-        return !climb_cooldown.isTrue
-    }
-
     fun damage(attack: MobAttack): MobAttackResult {
         val damage = 1 //stats.calculate_damage(attack.watk);
         addStat(PlayerViewModel.Id.HP, (-damage).toShort())

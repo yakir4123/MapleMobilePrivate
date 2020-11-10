@@ -237,6 +237,9 @@ class GameMap(camera: Camera) : EventListener {
 
     fun clear() {
         state = State.INACTIVE
+        instance.unregisterListener(EventType.ItemDropped, this)
+        instance.unregisterListener(EventType.PickupItem, this)
+
         //        Texture.clear();
 //        chars.clear();
 //        npcs.clear();
@@ -246,7 +249,7 @@ class GameMap(camera: Camera) : EventListener {
     }
 
     fun checkLadders(up: Boolean) {
-        if (!player.canClimb() || player.isClimbing || player.isAttacking) return
+        if (player.isClimbing || player.isAttacking) return
         player.ladder = mapInfo!!.findLadder(player.position, up)
     }
 
