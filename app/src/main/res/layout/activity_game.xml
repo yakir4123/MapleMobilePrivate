@@ -361,10 +361,8 @@
                 app:border_color="@color/window_color"
                 app:progress_startAngle="-90"
                 app:draw_anticlockwise="false"
-                app:layout_constraintStart_toStartOf="@id/ctrl_simple_attack"
-                app:layout_constraintEnd_toEndOf="@id/ctrl_simple_attack"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/ctrl_right_arrow"
+                app:layout_constraintTop_toTopOf="@id/ctrl_right_arrow"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,7 @@ import com.bapplications.maplemobile.gameplay.player.inventory.*
 import com.bapplications.maplemobile.gameplay.player.look.Char
 import com.bapplications.maplemobile.gameplay.player.look.CharLook
 import com.bapplications.maplemobile.gameplay.player.look.Expression
-import com.bapplications.maplemobile.input.EventsQueue.Companion.instance
+import com.bapplications.maplemobile.input.EventsQueue
 import com.bapplications.maplemobile.input.InputAction
 import com.bapplications.maplemobile.input.events.*
 import com.bapplications.maplemobile.input.events.EventListener
@@ -22,7 +22,7 @@ import java.util.*
 
 class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stats.name),
         EventListener {
-    var map: GameMap? = null
+    lateinit var map: GameMap
     lateinit var stats: PlayerViewModel
         private set
     val inventory: Inventory
@@ -47,7 +47,7 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
         lastUpdate += deltaTime
         if (lastUpdate > Configuration.UPDATE_DIFF_TIME) {
             lastUpdate -= Configuration.UPDATE_DIFF_TIME
-            instance.enqueue(PlayerStateUpdateEvent(0, state, position))
+            EventsQueue.instance.enqueue(PlayerStateUpdateEvent(0, state, position))
         }
         return res
     }
@@ -182,6 +182,7 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
     }
 
     fun pickupDrop(drop: Drop) {
+        EventsQueue.instance.enqueue(PickupItemEvent(0, drop.oid, map.mapId))
         resetPickupTimer()
 
         when(drop) {
@@ -220,10 +221,10 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
 
         myExpressions = TreeSet()
         myExpressions.addAll(listOf(*Expression.values()))
-        instance.registerListener(EventType.PressButton, this)
-        instance.registerListener(EventType.ExpressionButton, this)
-        instance.registerListener(EventType.DropItem, this)
-        instance.registerListener(EventType.EquipItem, this)
-        instance.registerListener(EventType.UnequipItem, this)
+        EventsQueue.instance.registerListener(EventType.PressButton, this)
+        EventsQueue.instance.registerListener(EventType.ExpressionButton, this)
+        EventsQueue.instance.registerListener(EventType.DropItem, this)
+        EventsQueue.instance.registerListener(EventType.EquipItem, this)
+        EventsQueue.instance.registerListener(EventType.UnequipItem, this)
     }
 }
