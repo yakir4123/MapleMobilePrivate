@@ -38,6 +38,7 @@ class GameEngine private constructor() : EventListener {
         if (mapId != currMap.mapId) {
             listeners.forEach(Consumer { listener: GameEngineListener -> listener.onChangedMap(mapId) })
         }
+        currMap.clear()
         currMap = GameMap(camera)
         currMap.init(mapId)
         listeners.forEach(Consumer { listener: GameEngineListener  -> listener.onMapLoaded(currMap) })

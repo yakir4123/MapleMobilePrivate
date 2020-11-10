@@ -38,8 +38,6 @@ abstract class Char protected constructor(o: Int, val look: CharLook, name: Stri
     open var isAttacking = false
     @JvmField
     protected var underwater = false
-    @JvmField
-    protected var climb_cooldown: TimedBool = TimedBool()
     private val invincible = TimedBool()
     private val pressedButton = ArrayList<InputAction>()
     protected val timedPressedButton = TimedBoolList<InputAction>()
@@ -64,7 +62,6 @@ abstract class Char protected constructor(o: Int, val look: CharLook, name: Stri
     override fun update(physics: Physics, deltaTime: Int): Byte {
         val pst = getState(state)
         timedPressedButton.update(deltaTime)
-        climb_cooldown.update(deltaTime)
         if (pst != null) {
             pst.update(this)
             physics.moveObject(phobj)
@@ -90,10 +87,6 @@ abstract class Char protected constructor(o: Int, val look: CharLook, name: Stri
     val climbForce: Float
         get() = 1.5f //static_cast<float>(stats.get_total(EquipStat::Id::SPEED)) / 100;
 
-
-    fun setClimbCooldown() {
-        climb_cooldown.setFor(1000)
-    }
 
     fun setExpression(expression: Expression?) {
         look.setExpression(expression)

@@ -40,9 +40,8 @@ class PlayerClimbState : PlayerState {
         return super.sendAction(player, key)
     }
 
-    fun cancelLadder(player: Char) {
+    private fun cancelLadder(player: Char) {
         player.state = Char.State.FALL
         player.ladder = null
-        player.setClimbCooldown()
     }
 }
