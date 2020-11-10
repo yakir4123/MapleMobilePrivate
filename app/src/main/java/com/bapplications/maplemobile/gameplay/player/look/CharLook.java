@@ -129,6 +129,11 @@ public class CharLook {
 //        updatetwohanded();
     }
 
+    public void removeEquip(Integer itemid) {
+        equips.removeEquip(itemid, drawInfo);
+        //        updatetwohanded();
+    }
+
     public void draw(DrawArgument args, float alpha) {
         if(body == null || hair == null || face == null)
             return;

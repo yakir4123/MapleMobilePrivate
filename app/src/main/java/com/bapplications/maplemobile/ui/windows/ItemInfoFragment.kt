@@ -1,23 +1,21 @@
 package com.bapplications.maplemobile.ui.windows
 
+import android.util.Log
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
+import android.view.LayoutInflater
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.bapplications.maplemobile.R
-import com.bapplications.maplemobile.databinding.FragmentInventoryBinding
-import com.bapplications.maplemobile.databinding.FragmentItemInfoBinding
-import com.bapplications.maplemobile.gameplay.player.Player
-import com.bapplications.maplemobile.gameplay.player.inventory.InventorySlot
-import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType
 import com.bapplications.maplemobile.input.EventsQueue
+import com.bapplications.maplemobile.gameplay.player.Player
 import com.bapplications.maplemobile.input.events.DropItemEvent
 import com.bapplications.maplemobile.input.events.EquipItemEvent
-import com.bapplications.maplemobile.ui.GameActivity
 import com.bapplications.maplemobile.ui.view_models.ItemInfoViewModel
+import com.bapplications.maplemobile.databinding.FragmentItemInfoBinding
+import com.bapplications.maplemobile.gameplay.player.inventory.InventorySlot
+import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType
+import com.bapplications.maplemobile.input.events.UnequipItemEvent
 
 class ItemInfoFragment(val player: Player) : Fragment() {
 
@@ -29,7 +27,6 @@ class ItemInfoFragment(val player: Player) : Fragment() {
         binding.setLifecycleOwner { lifecycle }
         binding.viewModel = viewModel
         viewModel.inventorySlot.postValue(null)
-        binding.returnBt.setOnClickListener{parentFragmentManager.popBackStack()}
 
         binding.itemInfoDropBt.setOnClickListener {
             val dropped = player.inventory
@@ -41,9 +38,14 @@ class ItemInfoFragment(val player: Player) : Fragment() {
                             player.map?.mapId!!))
         }
 
-        binding.itemInfoEquipBt.setOnClickListener{
-            EventsQueue.instance
-                    .enqueue(EquipItemEvent(0, viewModel.inventorySlot.value?.slotId!!))
+        binding.itemInfoEquipBt.setOnClickListener {
+            if(viewModel.inventorySlot.value?.inventoryType == InventoryType.Id.EQUIP) {
+                EventsQueue.instance
+                        .enqueue(EquipItemEvent(0, viewModel.inventorySlot.value?.slotId!!))
+            } else { // Equipped inventory
+                EventsQueue.instance
+                        .enqueue(UnequipItemEvent(0, viewModel.inventorySlot.value?.slotId!!))
+            }
         }
 
         return binding.root

@@ -15,7 +15,6 @@ import com.bapplications.maplemobile.databinding.ActivityGameBinding;
 import com.bapplications.maplemobile.gameplay.GameEngine;
 import com.bapplications.maplemobile.gameplay.audio.Music;
 import com.bapplications.maplemobile.utils.DrawableCircle;
-import com.bapplications.maplemobile.ui.windows.ChangeMapPopup;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -75,16 +74,6 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
         setContentView(root);
         DrawableCircle.init(BitmapFactory.decodeResource(getResources(),
                         R.drawable.red_circle));
-
-        binding.setMap.setOnClickListener(view -> {
-            ChangeMapPopup popUpClass = new ChangeMapPopup();
-            popUpClass.showPopupWindow(view);
-            popUpClass.setOnClickListener(v -> {
-
-                // change map
-                popUpClass.dismiss();
-            });
-        });
     }
 
 
@@ -117,6 +106,7 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
     protected void onDestroy ()
     {
 //        gameGLSurfaceView.exitGame();
+        gameFragment = null;
         super.onDestroy();
     }
 

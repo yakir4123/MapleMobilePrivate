@@ -1,5 +1,6 @@
 package com.bapplications.maplemobile.gameplay.player.look;
 
+import com.bapplications.maplemobile.gameplay.player.inventory.EquipData;
 import com.bapplications.maplemobile.gameplay.player.inventory.EquipSlot;
 import com.bapplications.maplemobile.gameplay.player.Stance;
 import com.bapplications.maplemobile.utils.DrawArgument;
@@ -50,6 +51,15 @@ public class CharEquips {
 
         EquipSlot.Id slot = cloth.getEqSlot();
         clothes.put(slot, cloth);
+    }
+
+    public void removeEquip(Integer itemid, BodyDrawInfo drawInfo) {
+        if (itemid <= 0)
+            return;
+
+        EquipSlot.Id slot = EquipData.get(itemid).getEqSlot();
+        clothes.remove(slot);
+
     }
 
 

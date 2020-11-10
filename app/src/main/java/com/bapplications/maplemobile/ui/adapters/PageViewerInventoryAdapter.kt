@@ -2,9 +2,7 @@ package com.bapplications.maplemobile.ui.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.get
 import androidx.fragment.app.findFragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -36,7 +34,7 @@ class PageViewerInventoryAdapter( val inventory: Inventory) : RecyclerView.Adapt
                     (activity?.supportFragmentManager
                             ?.findFragmentByTag("f" + 2) as ItemInfoFragment)
                             .setItem(slot)
-                    activity.findViewById<ViewPager2>(R.id.tools_window).currentItem = 2
+                    activity.findViewById<ViewPager2>(R.id.tools_window).currentItem = PageViewerToolsAdapter.WindowTool.ITEM_INFO.ordinal
                 }
             }
         }

@@ -44,5 +44,11 @@ public class Inventory {
         return true;
     }
 
+    public boolean unequipItem(Equip item) {
+        Equip equip = getEquippedInventory().unequipItem(EquipData.get(item.getItemId()).getEqSlot());
+        inventories.get(InventoryType.Id.EQUIP).add(equip);
+        return true;
+    }
+
 
 }

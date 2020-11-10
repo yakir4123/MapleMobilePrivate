@@ -62,7 +62,7 @@ class GameActivityUIManager(private var activity: GameActivity?, private val bin
                 // the order is made that way because those inventoryItemInfo need to be already
                 // instantiated when its on the inventory screen.
                 // the same with the equipped
-                val iconList = listOf(null, R.drawable.bag, null, R.drawable.armor_button, null, R.drawable.skillbook, R.drawable.stats)
+                val iconList = listOf(null, R.drawable.bag, null, R.drawable.armor_button, R.drawable.skillbook, R.drawable.stats)
                 for (i in iconList.indices) {
                     iconList[i]?.let {
                         binding.toolsTab.getTabAt(i)?.customView = LayoutInflater.from(activity)
@@ -78,7 +78,7 @@ class GameActivityUIManager(private var activity: GameActivity?, private val bin
             binding.toolsWindow.visibility = if(binding.toolsWindow.visibility == View.GONE) {
                 View.VISIBLE
             } else {
-                binding.toolsWindow.currentItem = 0
+                binding.toolsWindow.currentItem = WindowTool.NONE.ordinal
                 View.GONE
             }
         }
@@ -185,13 +185,13 @@ class GameActivityUIManager(private var activity: GameActivity?, private val bin
     override fun onEventReceive(event: Event) {
         activity?.runOnUiThread {
             when (event) {
-                is ItemDroppedEvent, is EquipItemEvent, is UnequipItemEvent -> {
-                    binding.toolsWindow.currentItem = when (WindowTool
-                            .values()[binding.toolsWindow.currentItem]) {
-                        WindowTool.EQUIPPED_ITEM_INFO -> WindowTool.EQUIPPED
-                        else -> WindowTool.INVENTORY
-                    }.ordinal
+                is ItemDroppedEvent, is EquipItemEvent -> {
+                    binding.toolsWindow.currentItem = WindowTool.INVENTORY.ordinal
                 }
+                is UnequipItemEvent -> {
+                    binding.toolsWindow.currentItem = WindowTool.EQUIPPED.ordinal
+                }
+
             }
         }
     }

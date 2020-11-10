@@ -82,6 +82,7 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
                 super.state = value
             }
         }
+
     fun getStat(id: PlayerViewModel.Id?): LiveData<Short> {
         return stats.getStat(id!!)
     }
@@ -167,10 +168,16 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
                         inventory.getInventory(InventoryType.Id.EQUIP).popItem(slot.slotId)
                     }
                 }
-
             }
             EventType.UnequipItem -> {
-
+                val (charid, slotid) = event as UnequipItemEvent
+                if(charid == 0) {
+                    val slot = inventory.getInventory(InventoryType.Id.EQUIPPED).items[slotid]
+                    val changed = inventory.unequipItem(slot.item as Equip)
+                    if (changed) {
+                        look.removeEquip(slot.itemId)
+                    }
+                }
             }
         }
     }
@@ -216,6 +223,7 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
         myExpressions.addAll(listOf(*Expression.values()))
         instance.registerListener(EventType.PressButton, this)
         instance.registerListener(EventType.ExpressionButton, this)
+        instance.registerListener(EventType.DropItem, this)
         instance.registerListener(EventType.EquipItem, this)
         instance.registerListener(EventType.UnequipItem, this)
     }

@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.core.graphics.drawable.toBitmap
 import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
+import androidx.viewpager.widget.ViewPager
 import com.bapplications.maplemobile.R
 import com.bapplications.maplemobile.gameplay.player.PlayerViewModel
 import com.bapplications.maplemobile.gameplay.player.inventory.EquipData
