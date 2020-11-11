@@ -11,7 +11,7 @@ import com.bapplications.maplemobile.gameplay.textures.Animation
 import com.bapplications.maplemobile.utils.*
 import java.util.*
 
-class Mob(oi: Int, var mobModel: MobModel, mode: Byte, st: Int, fh: Short, newspawn: Boolean, val team: Byte, pos: Point) : MapObject(oi) {
+class Mob(oid: Int, var mobModel: MobModel, mode: Byte, st: Int, fh: Short, newspawn: Boolean, val team: Byte, pos: Point) : MapObject(oid) {
     enum class Stance {
         MOVE, STAND, JUMP, HIT, DIE
     }

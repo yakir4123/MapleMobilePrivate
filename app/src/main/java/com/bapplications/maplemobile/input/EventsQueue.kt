@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
 import com.bapplications.maplemobile.input.events.Event
 import com.bapplications.maplemobile.input.events.EventType
 import com.bapplications.maplemobile.input.events.EventListener
+import java.lang.ref.WeakReference
 
 
 class EventsQueue {
@@ -20,7 +21,7 @@ class EventsQueue {
 
 
     val queue = ConcurrentLinkedQueue<Event>()
-    var listeners = EnumMap<EventType, MutableList<EventListener>>(EventType::class.java)
+    var listeners = EnumMap<EventType, MutableList<WeakReference<EventListener>>>(EventType::class.java)
 
     fun enqueue(event: Event) {
         queue.add(event)
@@ -29,7 +30,7 @@ class EventsQueue {
     fun dequeue() {
         val event = queue.poll()
         event?.type?.let {
-            listeners[event.type]?.forEach { eventListener -> eventListener.onEventReceive(event) }
+            listeners[event.type]?.forEach { eventListener -> eventListener.get()?.onEventReceive(event) }
         }
     }
 
@@ -37,11 +38,7 @@ class EventsQueue {
         if(!listeners.containsKey(to)){
             listeners[to] = mutableListOf()
         }
-        listeners[to]?.add(listener)
-    }
-
-    fun unregisterListener(from: EventType, listener: EventListener) {
-        listeners[from]?.remove(listener);
+        listeners[to]?.add(WeakReference(listener))
     }
 
     fun dequeueAll() {

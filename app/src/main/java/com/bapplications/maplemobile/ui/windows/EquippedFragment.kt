@@ -72,13 +72,6 @@ class EquippedFragment(val inventory: EquippedInventory) : Fragment(), EventList
         }
     }
 
-    override fun onDestroyView() {
-        EventsQueue.instance.unregisterListener(EventType.ItemDropped, this)
-        EventsQueue.instance.unregisterListener(EventType.EquipItem, this)
-        EventsQueue.instance.unregisterListener(EventType.UnequipItem, this)
-        super.onDestroyView()
-    }
-
     override fun onEventReceive(event: Event) {
         activity?.runOnUiThread {
             when (event) {

@@ -3,8 +3,8 @@ package com.bapplications.maplemobile.gameplay.map.map_objects
 import com.bapplications.maplemobile.gameplay.components.ColliderComponent
 import com.bapplications.maplemobile.gameplay.map.Layer
 import com.bapplications.maplemobile.gameplay.map.MapObject
+import com.bapplications.maplemobile.gameplay.map.map_objects.spawns.DropSpawn
 import com.bapplications.maplemobile.gameplay.physics.Physics
-import com.bapplications.maplemobile.gameplay.physics.PhysicsObject
 import com.bapplications.maplemobile.gameplay.player.inventory.ItemData
 import com.bapplications.maplemobile.gameplay.textures.Texture
 import com.bapplications.maplemobile.utils.Point
