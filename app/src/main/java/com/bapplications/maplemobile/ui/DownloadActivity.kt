@@ -1,5 +1,6 @@
 package com.bapplications.maplemobile.ui
 
+import android.app.DownloadManager
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -17,12 +18,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bapplications.maplemobile.R
 import com.bapplications.maplemobile.constatns.Configuration
 import com.bapplications.maplemobile.ui.adapters.DownloaderAdapter
+import okhttp3.Call
+import okhttp3.Callback
 import okhttp3.Response
 import okio.Buffer
 import okio.BufferedSink
 import okio.buffer
 import okio.sink
 import java.io.File
+import java.io.IOException
+import java.lang.reflect.Field
 import kotlin.concurrent.thread
 
 
@@ -32,7 +37,8 @@ val files = arrayOf(
         "Sound.nx",
         "Character.nx",
         "Mob.nx",
-        "Item.nx"
+        "Item.nx",
+//        "np"
 )
 
 val TAG = "DownloadManager"
@@ -59,16 +65,12 @@ class DownloadActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // CR:: I move this constants to here from GameActivity
-        // so you can use it for your cases
-        // I didnt change it yet, let you do that to help you
-        // remember that I'm using this constatns
         Configuration.WZ_DIRECTORY = getExternalFilesDir(null)!!.absolutePath
         Configuration.CACHE_DIRECTORY = cacheDir.absolutePath
 
-        // CR:: check if the it has the file AND
         files.forEach {
-            if (!File("${this.getExternalFilesDir(null)}/$it").exists()) {
+            var md5 : String = File(Configuration.WZ_DIRECTORY, "$it.md5").readText()
+            if (!File("${Configuration.WZ_DIRECTORY}/$it").exists() && md5) {
                 keepToNextActivity = false
             }
         }
@@ -125,6 +127,29 @@ class DownloadActivity : AppCompatActivity() {
 
         val adapter = DownloaderAdapter()
         findViewById<RecyclerView>(R.id.downloader_recycler).adapter = adapter
+
+
+    }
+
+    private fun getMd5(url : String) : String{
+        Log.d(TAG, "get md5 from url: $url")
+        val request: okhttp3.Request = okhttp3.Request.Builder().url(url).build()
+
+        client.newCall(request).enqueue(
+                object :Callback {
+                    override fun onFailure(call: Call, e: IOException) {
+                        Log.d(TAG, "onFail: " + e)
+                    }
+
+                    override fun onResponse(call: Call, response: Response) {
+                        Log.d(TAG, "onResponse: ")
+
+                        if (response.code != 200) {
+                            return response.body.source.readAll()
+                        }
+                    }
+                }
+        )
 
 
     }
