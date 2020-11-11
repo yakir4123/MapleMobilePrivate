@@ -27,6 +27,10 @@ class NetworkHandler(host: String, port: Int) : EventListener {
     init {
         asyncStub = MapleServiceGrpc.newStub(mChannel)
         EventsQueue.instance.registerListener(EventType.DropItem, this)
+        EventsQueue.instance.registerListener(EventType.PickupItem, this)
+
+        EventsQueue.instance.registerListener(EventType.EquipItem, this)
+        EventsQueue.instance.registerListener(EventType.UnequipItem, this)
 
         EventsQueue.instance.registerListener(EventType.PressButton, this)
         EventsQueue.instance.registerListener(EventType.ExpressionButton, this)
@@ -43,6 +47,9 @@ class NetworkHandler(host: String, port: Int) : EventListener {
             is ExpressionButtonEvent -> handleExpressionButtonEvent(event)
             is PlayerConnectEvent -> handlePlayerConnectEvent(event)
             is PlayerStateUpdateEvent -> handlePlayerStateUpdateEvent(event)
+            is EquipItemEvent -> handleEquipItem(event)
+            is UnequipItemEvent -> handleUnequipItem(event)
+            is PickupItemEvent -> handlePickupItem(event)
             else -> return
         }
     }
@@ -94,6 +101,24 @@ class NetworkHandler(host: String, port: Int) : EventListener {
                                         Char.State.values()[value.otherPlayerStateUpdated.state],
                                         Point(value.otherPlayerStateUpdated.pos))
                         )
+                    ResponseEvent.EventCase.EQUIPITEM ->
+                        EventsQueue.instance.enqueue(
+                                EquipItemEvent(value.equipItem.cid,
+                                        value.equipItem.slotid,
+                                        value.equipItem.itemid)
+                        )
+                    ResponseEvent.EventCase.UNEQUIPITEM ->
+                        EventsQueue.instance.enqueue(
+                                UnequipItemEvent(value.unequipItem.cid,
+                                        value.unequipItem.slotid,
+                                        value.unequipItem.itemid)
+                        )
+                    ResponseEvent.EventCase.PICKUPITEM ->
+                        EventsQueue.instance.enqueue(
+                                PickupItemEvent(value.pickupItem.charid,
+                                        value.pickupItem.oid,
+                                        value.pickupItem.mapid)
+                        )
                     else -> return
                 }
             }
@@ -118,56 +143,58 @@ class NetworkHandler(host: String, port: Int) : EventListener {
     }
 
     private fun handlePlayerStateUpdateEvent(event: PlayerStateUpdateEvent) {
-        if(event.charid == 0) {
-            Thread {
-                requestStream?.onNext(
-                        RequestEvent.newBuilder().setPlayerStateUpdated(Service.UpdatePlayerState
-                                .newBuilder()
-                                .setState(event.state.ordinal)
-                                .setPos(Service.Point.newBuilder()
-                                        .setX(event.pos.x)
-                                        .setY(event.pos.y))
-                        ).build()
-                )
-            }.start()
-        }
+        if(event.charid != 0)
+            return
+        Thread {
+            requestStream?.onNext(
+                    RequestEvent.newBuilder().setPlayerStateUpdated(Service.UpdatePlayerState
+                            .newBuilder()
+                            .setState(event.state.ordinal)
+                            .setPos(Service.Point.newBuilder()
+                                    .setX(event.pos.x)
+                                    .setY(event.pos.y))
+                    ).build()
+            )
+        }.start()
     }
 
     private fun handlePressButtonEvent(event: PressButtonEvent) {
-        if(event.charid == 0){
-            Thread {
-                requestStream?.onNext(
-                        try {
-                            RequestEvent.newBuilder().setPressButton(Service.PressButton
-                                    .newBuilder()
-                                    .setButton(event.buttonPressed.ordinal)
-                                    .setPressed(event.pressed)
-                            ).build()
-                        } catch (e: KotlinNullPointerException) {
-                            // to do:: check this out why it happend
-                            Log.e("error", "nullPointer")
-                            RequestEvent.newBuilder().setPressButton(Service.PressButton
-                                    .newBuilder()
-                                    .setButton(event.buttonPressed.ordinal)
-                                    .setPressed(event.pressed)
-                            ).build()
-                        }
-                )
-            }.start()
+        if(event.charid != 0){
+            return
         }
+        Thread {
+            requestStream?.onNext(
+                    try {
+                        RequestEvent.newBuilder().setPressButton(Service.PressButton
+                                .newBuilder()
+                                .setButton(event.buttonPressed.ordinal)
+                                .setPressed(event.pressed)
+                        ).build()
+                    } catch (e: KotlinNullPointerException) {
+                        // to do:: check this out why it happend
+                        Log.e("error", "nullPointer")
+                        RequestEvent.newBuilder().setPressButton(Service.PressButton
+                                .newBuilder()
+                                .setButton(event.buttonPressed.ordinal)
+                                .setPressed(event.pressed)
+                        ).build()
+                    }
+            )
+        }.start()
     }
 
     private fun handleExpressionButtonEvent(event: ExpressionButtonEvent) {
-        if(event.charid == 0){
-            Thread {
-                requestStream?.onNext(
-                        RequestEvent.newBuilder().setExpressionButton(Service.ExpressionButton
-                                .newBuilder()
-                                .setExpression(event.expression.ordinal)
-                        ).build()
-                )
-            }.start()
+        if(event.charid != 0) {
+            return
         }
+        Thread {
+            requestStream?.onNext(
+                    RequestEvent.newBuilder().setExpressionButton(Service.ExpressionButton
+                            .newBuilder()
+                            .setExpression(event.expression.ordinal)
+                    ).build()
+            )
+        }.start()
     }
 
     private fun handleDropItem(event: DropItemEvent) {
@@ -181,6 +208,51 @@ class NetworkHandler(host: String, port: Int) : EventListener {
                                     .setY(event.startDropPos.y))
                             .setOwner(event.owner)
                             .setSlotid(event.slotId)
+                            .setMapid(event.mapId)
+                    ).build()
+            )
+        }.start()
+    }
+
+    fun handleEquipItem(event: EquipItemEvent) {
+        if(event.charid != 0)
+            return
+        Thread {
+            requestStream?.onNext(
+                    RequestEvent.newBuilder().setEquipItem(Service.EquipItem
+                            .newBuilder()
+                            .setCid(event.charid)
+                            .setSlotid(event.slotId)
+                            .setItemid(event.itemId)
+                    ).build()
+            )
+        }.start()
+    }
+
+    private fun handleUnequipItem(event: UnequipItemEvent) {
+        if(event.charid != 0)
+            return
+        Thread {
+            requestStream?.onNext(
+                    RequestEvent.newBuilder().setUnequipItem(Service.UnequipItem
+                            .newBuilder()
+                            .setCid(event.charid)
+                            .setSlotid(event.slotId)
+                            .setItemid(event.itemId)
+                    ).build()
+            )
+        }.start()
+    }
+
+    private fun handlePickupItem(event: PickupItemEvent) {
+        if(event.charid != 0)
+            return
+        Thread {
+            requestStream?.onNext(
+                    RequestEvent.newBuilder().setPickupItem(Service.PickupItem
+                            .newBuilder()
+                            .setCharid(event.charid)
+                            .setOid(event.oid)
                             .setMapid(event.mapId)
                     ).build()
             )

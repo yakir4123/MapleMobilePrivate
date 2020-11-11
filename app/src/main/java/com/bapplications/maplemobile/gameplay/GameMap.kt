@@ -57,14 +57,19 @@ class GameMap(camera: Camera) : EventListener {
             }
             EventType.PickupItem -> {
                 val (cid, oid, _mapId) = event as PickupItemEvent
-                val drop = drops?.drops?.get(oid) as Drop
-                val char: MapObject? = if(cid == player.oid) {
-                    player
-                } else {
-                    characters?.getChar(cid)
-                }
-                if (mapId == _mapId) {
-                    char?.let{drop.expire(Drop.State.PICKEDUP, it)}
+                Log.e("GameMap", "Pick up item: $cid, $oid, $_mapId")
+                val drop = drops!![oid] as Drop?
+                drop?.let {
+                    val char: MapObject? = if (cid == player.oid) {
+                        player.pickupDrop(it)
+                        player
+                    } else {
+                        characters?.getChar(cid)
+                    }
+                    if (mapId == _mapId) {
+                        // pickup animation
+                        char?.let { drops?.remove(oid, Drop.State.PICKEDUP, it) }
+                    }
                 }
             }
         }
@@ -184,13 +189,15 @@ class GameMap(camera: Camera) : EventListener {
 
     private fun checkDrops() {
         val drop = drops!!.inRange(player)
+
+        // button is set to visible but he didnt click yet
         if((drop != null || player.isPressed(InputAction.LOOT_KEY))
                 != player.stats.canLoot.value) {
             player.stats.canLoot.postValue(drop != null)
         }
-        if(drop != null && !drop.isPicked() && player.isPressed(InputAction.LOOT_KEY)) {
-            player.pickupDrop(drop)
-            drop.expire(Drop.State.PICKEDUP, player)
+        // pressed pick up button now try to pick it
+        if(drop != null && !drop.onPickProcess && !drop.isPicked() && player.isPressed(InputAction.LOOT_KEY)) {
+            player.tryPickupDrop(drop)
         }
     }
 

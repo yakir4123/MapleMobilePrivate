@@ -165,6 +165,39 @@ public final class Service {
      */
     messaging.Service.UpdatePlayerState getPlayerStateUpdated();
 
+    /**
+     * <code>.messaging.EquipItem equipItem = 6;</code>
+     * @return Whether the equipItem field is set.
+     */
+    boolean hasEquipItem();
+    /**
+     * <code>.messaging.EquipItem equipItem = 6;</code>
+     * @return The equipItem.
+     */
+    messaging.Service.EquipItem getEquipItem();
+
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 7;</code>
+     * @return Whether the unequipItem field is set.
+     */
+    boolean hasUnequipItem();
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 7;</code>
+     * @return The unequipItem.
+     */
+    messaging.Service.UnequipItem getUnequipItem();
+
+    /**
+     * <code>.messaging.PickupItem pickupItem = 8;</code>
+     * @return Whether the pickupItem field is set.
+     */
+    boolean hasPickupItem();
+    /**
+     * <code>.messaging.PickupItem pickupItem = 8;</code>
+     * @return The pickupItem.
+     */
+    messaging.Service.PickupItem getPickupItem();
+
     public messaging.Service.RequestEvent.EventCase getEventCase();
   }
   /**
@@ -185,6 +218,9 @@ public final class Service {
       EXPRESSIONBUTTON(3),
       PLAYERCONNECT(4),
       PLAYERSTATEUPDATED(5),
+      EQUIPITEM(6),
+      UNEQUIPITEM(7),
+      PICKUPITEM(8),
       EVENT_NOT_SET(0);
       private final int value;
       private EventCase(int value) {
@@ -205,6 +241,9 @@ public final class Service {
           case 3: return EXPRESSIONBUTTON;
           case 4: return PLAYERCONNECT;
           case 5: return PLAYERSTATEUPDATED;
+          case 6: return EQUIPITEM;
+          case 7: return UNEQUIPITEM;
+          case 8: return PICKUPITEM;
           case 0: return EVENT_NOT_SET;
           default: return null;
         }
@@ -471,6 +510,156 @@ public final class Service {
      */
     private void clearPlayerStateUpdated() {
       if (eventCase_ == 5) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int EQUIPITEM_FIELD_NUMBER = 6;
+    /**
+     * <code>.messaging.EquipItem equipItem = 6;</code>
+     */
+    @java.lang.Override
+    public boolean hasEquipItem() {
+      return eventCase_ == 6;
+    }
+    /**
+     * <code>.messaging.EquipItem equipItem = 6;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.EquipItem getEquipItem() {
+      if (eventCase_ == 6) {
+         return (messaging.Service.EquipItem) event_;
+      }
+      return messaging.Service.EquipItem.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.EquipItem equipItem = 6;</code>
+     */
+    private void setEquipItem(messaging.Service.EquipItem value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 6;
+    }
+    /**
+     * <code>.messaging.EquipItem equipItem = 6;</code>
+     */
+    private void mergeEquipItem(messaging.Service.EquipItem value) {
+      value.getClass();
+  if (eventCase_ == 6 &&
+          event_ != messaging.Service.EquipItem.getDefaultInstance()) {
+        event_ = messaging.Service.EquipItem.newBuilder((messaging.Service.EquipItem) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 6;
+    }
+    /**
+     * <code>.messaging.EquipItem equipItem = 6;</code>
+     */
+    private void clearEquipItem() {
+      if (eventCase_ == 6) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int UNEQUIPITEM_FIELD_NUMBER = 7;
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 7;</code>
+     */
+    @java.lang.Override
+    public boolean hasUnequipItem() {
+      return eventCase_ == 7;
+    }
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 7;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.UnequipItem getUnequipItem() {
+      if (eventCase_ == 7) {
+         return (messaging.Service.UnequipItem) event_;
+      }
+      return messaging.Service.UnequipItem.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 7;</code>
+     */
+    private void setUnequipItem(messaging.Service.UnequipItem value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 7;
+    }
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 7;</code>
+     */
+    private void mergeUnequipItem(messaging.Service.UnequipItem value) {
+      value.getClass();
+  if (eventCase_ == 7 &&
+          event_ != messaging.Service.UnequipItem.getDefaultInstance()) {
+        event_ = messaging.Service.UnequipItem.newBuilder((messaging.Service.UnequipItem) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 7;
+    }
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 7;</code>
+     */
+    private void clearUnequipItem() {
+      if (eventCase_ == 7) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int PICKUPITEM_FIELD_NUMBER = 8;
+    /**
+     * <code>.messaging.PickupItem pickupItem = 8;</code>
+     */
+    @java.lang.Override
+    public boolean hasPickupItem() {
+      return eventCase_ == 8;
+    }
+    /**
+     * <code>.messaging.PickupItem pickupItem = 8;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.PickupItem getPickupItem() {
+      if (eventCase_ == 8) {
+         return (messaging.Service.PickupItem) event_;
+      }
+      return messaging.Service.PickupItem.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.PickupItem pickupItem = 8;</code>
+     */
+    private void setPickupItem(messaging.Service.PickupItem value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 8;
+    }
+    /**
+     * <code>.messaging.PickupItem pickupItem = 8;</code>
+     */
+    private void mergePickupItem(messaging.Service.PickupItem value) {
+      value.getClass();
+  if (eventCase_ == 8 &&
+          event_ != messaging.Service.PickupItem.getDefaultInstance()) {
+        event_ = messaging.Service.PickupItem.newBuilder((messaging.Service.PickupItem) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 8;
+    }
+    /**
+     * <code>.messaging.PickupItem pickupItem = 8;</code>
+     */
+    private void clearPickupItem() {
+      if (eventCase_ == 8) {
         eventCase_ = 0;
         event_ = null;
       }
@@ -823,6 +1012,150 @@ public final class Service {
         return this;
       }
 
+      /**
+       * <code>.messaging.EquipItem equipItem = 6;</code>
+       */
+      @java.lang.Override
+      public boolean hasEquipItem() {
+        return instance.hasEquipItem();
+      }
+      /**
+       * <code>.messaging.EquipItem equipItem = 6;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.EquipItem getEquipItem() {
+        return instance.getEquipItem();
+      }
+      /**
+       * <code>.messaging.EquipItem equipItem = 6;</code>
+       */
+      public Builder setEquipItem(messaging.Service.EquipItem value) {
+        copyOnWrite();
+        instance.setEquipItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.EquipItem equipItem = 6;</code>
+       */
+      public Builder setEquipItem(
+          messaging.Service.EquipItem.Builder builderForValue) {
+        copyOnWrite();
+        instance.setEquipItem(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.EquipItem equipItem = 6;</code>
+       */
+      public Builder mergeEquipItem(messaging.Service.EquipItem value) {
+        copyOnWrite();
+        instance.mergeEquipItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.EquipItem equipItem = 6;</code>
+       */
+      public Builder clearEquipItem() {
+        copyOnWrite();
+        instance.clearEquipItem();
+        return this;
+      }
+
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 7;</code>
+       */
+      @java.lang.Override
+      public boolean hasUnequipItem() {
+        return instance.hasUnequipItem();
+      }
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 7;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.UnequipItem getUnequipItem() {
+        return instance.getUnequipItem();
+      }
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 7;</code>
+       */
+      public Builder setUnequipItem(messaging.Service.UnequipItem value) {
+        copyOnWrite();
+        instance.setUnequipItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 7;</code>
+       */
+      public Builder setUnequipItem(
+          messaging.Service.UnequipItem.Builder builderForValue) {
+        copyOnWrite();
+        instance.setUnequipItem(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 7;</code>
+       */
+      public Builder mergeUnequipItem(messaging.Service.UnequipItem value) {
+        copyOnWrite();
+        instance.mergeUnequipItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 7;</code>
+       */
+      public Builder clearUnequipItem() {
+        copyOnWrite();
+        instance.clearUnequipItem();
+        return this;
+      }
+
+      /**
+       * <code>.messaging.PickupItem pickupItem = 8;</code>
+       */
+      @java.lang.Override
+      public boolean hasPickupItem() {
+        return instance.hasPickupItem();
+      }
+      /**
+       * <code>.messaging.PickupItem pickupItem = 8;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.PickupItem getPickupItem() {
+        return instance.getPickupItem();
+      }
+      /**
+       * <code>.messaging.PickupItem pickupItem = 8;</code>
+       */
+      public Builder setPickupItem(messaging.Service.PickupItem value) {
+        copyOnWrite();
+        instance.setPickupItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.PickupItem pickupItem = 8;</code>
+       */
+      public Builder setPickupItem(
+          messaging.Service.PickupItem.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPickupItem(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.PickupItem pickupItem = 8;</code>
+       */
+      public Builder mergePickupItem(messaging.Service.PickupItem value) {
+        copyOnWrite();
+        instance.mergePickupItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.PickupItem pickupItem = 8;</code>
+       */
+      public Builder clearPickupItem() {
+        copyOnWrite();
+        instance.clearPickupItem();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:messaging.RequestEvent)
     }
     @java.lang.Override
@@ -846,10 +1179,13 @@ public final class Service {
               messaging.Service.ExpressionButton.class,
               messaging.Service.RequestPlayerConnect.class,
               messaging.Service.UpdatePlayerState.class,
+              messaging.Service.EquipItem.class,
+              messaging.Service.UnequipItem.class,
+              messaging.Service.PickupItem.class,
             };
             java.lang.String info =
-                "\u0000\u0005\u0001\u0000\u0001\u0005\u0005\u0000\u0000\u0000\u0001<\u0000\u0002<" +
-                "\u0000\u0003<\u0000\u0004<\u0000\u0005<\u0000";
+                "\u0000\b\u0001\u0000\u0001\b\b\u0000\u0000\u0000\u0001<\u0000\u0002<\u0000\u0003" +
+                "<\u0000\u0004<\u0000\u0005<\u0000\u0006<\u0000\u0007<\u0000\b<\u0000";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through
@@ -974,6 +1310,39 @@ public final class Service {
      */
     messaging.Service.UpdatePlayerState getOtherPlayerStateUpdated();
 
+    /**
+     * <code>.messaging.EquipItem equipItem = 7;</code>
+     * @return Whether the equipItem field is set.
+     */
+    boolean hasEquipItem();
+    /**
+     * <code>.messaging.EquipItem equipItem = 7;</code>
+     * @return The equipItem.
+     */
+    messaging.Service.EquipItem getEquipItem();
+
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 8;</code>
+     * @return Whether the unequipItem field is set.
+     */
+    boolean hasUnequipItem();
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 8;</code>
+     * @return The unequipItem.
+     */
+    messaging.Service.UnequipItem getUnequipItem();
+
+    /**
+     * <code>.messaging.PickupItem pickupItem = 9;</code>
+     * @return Whether the pickupItem field is set.
+     */
+    boolean hasPickupItem();
+    /**
+     * <code>.messaging.PickupItem pickupItem = 9;</code>
+     * @return The pickupItem.
+     */
+    messaging.Service.PickupItem getPickupItem();
+
     public messaging.Service.ResponseEvent.EventCase getEventCase();
   }
   /**
@@ -995,6 +1364,9 @@ public final class Service {
       PLAYERCONNECTED(4),
       OTHERPLAYERCONNECTED(5),
       OTHERPLAYERSTATEUPDATED(6),
+      EQUIPITEM(7),
+      UNEQUIPITEM(8),
+      PICKUPITEM(9),
       EVENT_NOT_SET(0);
       private final int value;
       private EventCase(int value) {
@@ -1016,6 +1388,9 @@ public final class Service {
           case 4: return PLAYERCONNECTED;
           case 5: return OTHERPLAYERCONNECTED;
           case 6: return OTHERPLAYERSTATEUPDATED;
+          case 7: return EQUIPITEM;
+          case 8: return UNEQUIPITEM;
+          case 9: return PICKUPITEM;
           case 0: return EVENT_NOT_SET;
           default: return null;
         }
@@ -1332,6 +1707,156 @@ public final class Service {
      */
     private void clearOtherPlayerStateUpdated() {
       if (eventCase_ == 6) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int EQUIPITEM_FIELD_NUMBER = 7;
+    /**
+     * <code>.messaging.EquipItem equipItem = 7;</code>
+     */
+    @java.lang.Override
+    public boolean hasEquipItem() {
+      return eventCase_ == 7;
+    }
+    /**
+     * <code>.messaging.EquipItem equipItem = 7;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.EquipItem getEquipItem() {
+      if (eventCase_ == 7) {
+         return (messaging.Service.EquipItem) event_;
+      }
+      return messaging.Service.EquipItem.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.EquipItem equipItem = 7;</code>
+     */
+    private void setEquipItem(messaging.Service.EquipItem value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 7;
+    }
+    /**
+     * <code>.messaging.EquipItem equipItem = 7;</code>
+     */
+    private void mergeEquipItem(messaging.Service.EquipItem value) {
+      value.getClass();
+  if (eventCase_ == 7 &&
+          event_ != messaging.Service.EquipItem.getDefaultInstance()) {
+        event_ = messaging.Service.EquipItem.newBuilder((messaging.Service.EquipItem) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 7;
+    }
+    /**
+     * <code>.messaging.EquipItem equipItem = 7;</code>
+     */
+    private void clearEquipItem() {
+      if (eventCase_ == 7) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int UNEQUIPITEM_FIELD_NUMBER = 8;
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 8;</code>
+     */
+    @java.lang.Override
+    public boolean hasUnequipItem() {
+      return eventCase_ == 8;
+    }
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 8;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.UnequipItem getUnequipItem() {
+      if (eventCase_ == 8) {
+         return (messaging.Service.UnequipItem) event_;
+      }
+      return messaging.Service.UnequipItem.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 8;</code>
+     */
+    private void setUnequipItem(messaging.Service.UnequipItem value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 8;
+    }
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 8;</code>
+     */
+    private void mergeUnequipItem(messaging.Service.UnequipItem value) {
+      value.getClass();
+  if (eventCase_ == 8 &&
+          event_ != messaging.Service.UnequipItem.getDefaultInstance()) {
+        event_ = messaging.Service.UnequipItem.newBuilder((messaging.Service.UnequipItem) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 8;
+    }
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 8;</code>
+     */
+    private void clearUnequipItem() {
+      if (eventCase_ == 8) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int PICKUPITEM_FIELD_NUMBER = 9;
+    /**
+     * <code>.messaging.PickupItem pickupItem = 9;</code>
+     */
+    @java.lang.Override
+    public boolean hasPickupItem() {
+      return eventCase_ == 9;
+    }
+    /**
+     * <code>.messaging.PickupItem pickupItem = 9;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.PickupItem getPickupItem() {
+      if (eventCase_ == 9) {
+         return (messaging.Service.PickupItem) event_;
+      }
+      return messaging.Service.PickupItem.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.PickupItem pickupItem = 9;</code>
+     */
+    private void setPickupItem(messaging.Service.PickupItem value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 9;
+    }
+    /**
+     * <code>.messaging.PickupItem pickupItem = 9;</code>
+     */
+    private void mergePickupItem(messaging.Service.PickupItem value) {
+      value.getClass();
+  if (eventCase_ == 9 &&
+          event_ != messaging.Service.PickupItem.getDefaultInstance()) {
+        event_ = messaging.Service.PickupItem.newBuilder((messaging.Service.PickupItem) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 9;
+    }
+    /**
+     * <code>.messaging.PickupItem pickupItem = 9;</code>
+     */
+    private void clearPickupItem() {
+      if (eventCase_ == 9) {
         eventCase_ = 0;
         event_ = null;
       }
@@ -1732,6 +2257,150 @@ public final class Service {
         return this;
       }
 
+      /**
+       * <code>.messaging.EquipItem equipItem = 7;</code>
+       */
+      @java.lang.Override
+      public boolean hasEquipItem() {
+        return instance.hasEquipItem();
+      }
+      /**
+       * <code>.messaging.EquipItem equipItem = 7;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.EquipItem getEquipItem() {
+        return instance.getEquipItem();
+      }
+      /**
+       * <code>.messaging.EquipItem equipItem = 7;</code>
+       */
+      public Builder setEquipItem(messaging.Service.EquipItem value) {
+        copyOnWrite();
+        instance.setEquipItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.EquipItem equipItem = 7;</code>
+       */
+      public Builder setEquipItem(
+          messaging.Service.EquipItem.Builder builderForValue) {
+        copyOnWrite();
+        instance.setEquipItem(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.EquipItem equipItem = 7;</code>
+       */
+      public Builder mergeEquipItem(messaging.Service.EquipItem value) {
+        copyOnWrite();
+        instance.mergeEquipItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.EquipItem equipItem = 7;</code>
+       */
+      public Builder clearEquipItem() {
+        copyOnWrite();
+        instance.clearEquipItem();
+        return this;
+      }
+
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 8;</code>
+       */
+      @java.lang.Override
+      public boolean hasUnequipItem() {
+        return instance.hasUnequipItem();
+      }
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 8;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.UnequipItem getUnequipItem() {
+        return instance.getUnequipItem();
+      }
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 8;</code>
+       */
+      public Builder setUnequipItem(messaging.Service.UnequipItem value) {
+        copyOnWrite();
+        instance.setUnequipItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 8;</code>
+       */
+      public Builder setUnequipItem(
+          messaging.Service.UnequipItem.Builder builderForValue) {
+        copyOnWrite();
+        instance.setUnequipItem(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 8;</code>
+       */
+      public Builder mergeUnequipItem(messaging.Service.UnequipItem value) {
+        copyOnWrite();
+        instance.mergeUnequipItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 8;</code>
+       */
+      public Builder clearUnequipItem() {
+        copyOnWrite();
+        instance.clearUnequipItem();
+        return this;
+      }
+
+      /**
+       * <code>.messaging.PickupItem pickupItem = 9;</code>
+       */
+      @java.lang.Override
+      public boolean hasPickupItem() {
+        return instance.hasPickupItem();
+      }
+      /**
+       * <code>.messaging.PickupItem pickupItem = 9;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.PickupItem getPickupItem() {
+        return instance.getPickupItem();
+      }
+      /**
+       * <code>.messaging.PickupItem pickupItem = 9;</code>
+       */
+      public Builder setPickupItem(messaging.Service.PickupItem value) {
+        copyOnWrite();
+        instance.setPickupItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.PickupItem pickupItem = 9;</code>
+       */
+      public Builder setPickupItem(
+          messaging.Service.PickupItem.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPickupItem(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.PickupItem pickupItem = 9;</code>
+       */
+      public Builder mergePickupItem(messaging.Service.PickupItem value) {
+        copyOnWrite();
+        instance.mergePickupItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.PickupItem pickupItem = 9;</code>
+       */
+      public Builder clearPickupItem() {
+        copyOnWrite();
+        instance.clearPickupItem();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:messaging.ResponseEvent)
     }
     @java.lang.Override
@@ -1756,10 +2425,13 @@ public final class Service {
               messaging.Service.ResponsePlayerConnected.class,
               messaging.Service.ResponseOtherPlayerConnected.class,
               messaging.Service.UpdatePlayerState.class,
+              messaging.Service.EquipItem.class,
+              messaging.Service.UnequipItem.class,
+              messaging.Service.PickupItem.class,
             };
             java.lang.String info =
-                "\u0000\u0006\u0001\u0000\u0001\u0006\u0006\u0000\u0000\u0000\u0001<\u0000\u0002<" +
-                "\u0000\u0003<\u0000\u0004<\u0000\u0005<\u0000\u0006<\u0000";
+                "\u0000\t\u0001\u0000\u0001\t\t\u0000\u0000\u0000\u0001<\u0000\u0002<\u0000\u0003" +
+                "<\u0000\u0004<\u0000\u0005<\u0000\u0006<\u0000\u0007<\u0000\b<\u0000\t<\u0000";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through
@@ -5335,6 +6007,1104 @@ public final class Service {
     private static volatile com.google.protobuf.Parser<ResponseDropItem> PARSER;
 
     public static com.google.protobuf.Parser<ResponseDropItem> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface EquipItemOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:messaging.EquipItem)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int32 cid = 1;</code>
+     * @return The cid.
+     */
+    int getCid();
+
+    /**
+     * <code>int32 slotid = 2;</code>
+     * @return The slotid.
+     */
+    int getSlotid();
+
+    /**
+     * <code>int32 itemid = 3;</code>
+     * @return The itemid.
+     */
+    int getItemid();
+  }
+  /**
+   * Protobuf type {@code messaging.EquipItem}
+   */
+  public  static final class EquipItem extends
+      com.google.protobuf.GeneratedMessageLite<
+          EquipItem, EquipItem.Builder> implements
+      // @@protoc_insertion_point(message_implements:messaging.EquipItem)
+      EquipItemOrBuilder {
+    private EquipItem() {
+    }
+    public static final int CID_FIELD_NUMBER = 1;
+    private int cid_;
+    /**
+     * <code>int32 cid = 1;</code>
+     * @return The cid.
+     */
+    @java.lang.Override
+    public int getCid() {
+      return cid_;
+    }
+    /**
+     * <code>int32 cid = 1;</code>
+     * @param value The cid to set.
+     */
+    private void setCid(int value) {
+      
+      cid_ = value;
+    }
+    /**
+     * <code>int32 cid = 1;</code>
+     */
+    private void clearCid() {
+      
+      cid_ = 0;
+    }
+
+    public static final int SLOTID_FIELD_NUMBER = 2;
+    private int slotid_;
+    /**
+     * <code>int32 slotid = 2;</code>
+     * @return The slotid.
+     */
+    @java.lang.Override
+    public int getSlotid() {
+      return slotid_;
+    }
+    /**
+     * <code>int32 slotid = 2;</code>
+     * @param value The slotid to set.
+     */
+    private void setSlotid(int value) {
+      
+      slotid_ = value;
+    }
+    /**
+     * <code>int32 slotid = 2;</code>
+     */
+    private void clearSlotid() {
+      
+      slotid_ = 0;
+    }
+
+    public static final int ITEMID_FIELD_NUMBER = 3;
+    private int itemid_;
+    /**
+     * <code>int32 itemid = 3;</code>
+     * @return The itemid.
+     */
+    @java.lang.Override
+    public int getItemid() {
+      return itemid_;
+    }
+    /**
+     * <code>int32 itemid = 3;</code>
+     * @param value The itemid to set.
+     */
+    private void setItemid(int value) {
+      
+      itemid_ = value;
+    }
+    /**
+     * <code>int32 itemid = 3;</code>
+     */
+    private void clearItemid() {
+      
+      itemid_ = 0;
+    }
+
+    public static messaging.Service.EquipItem parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.EquipItem parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.EquipItem parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.EquipItem parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.EquipItem parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.EquipItem parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.EquipItem parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.EquipItem parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.EquipItem parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.EquipItem parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.EquipItem parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.EquipItem parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(messaging.Service.EquipItem prototype) {
+      return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code messaging.EquipItem}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          messaging.Service.EquipItem, Builder> implements
+        // @@protoc_insertion_point(builder_implements:messaging.EquipItem)
+        messaging.Service.EquipItemOrBuilder {
+      // Construct using messaging.Service.EquipItem.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>int32 cid = 1;</code>
+       * @return The cid.
+       */
+      @java.lang.Override
+      public int getCid() {
+        return instance.getCid();
+      }
+      /**
+       * <code>int32 cid = 1;</code>
+       * @param value The cid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCid(int value) {
+        copyOnWrite();
+        instance.setCid(value);
+        return this;
+      }
+      /**
+       * <code>int32 cid = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCid() {
+        copyOnWrite();
+        instance.clearCid();
+        return this;
+      }
+
+      /**
+       * <code>int32 slotid = 2;</code>
+       * @return The slotid.
+       */
+      @java.lang.Override
+      public int getSlotid() {
+        return instance.getSlotid();
+      }
+      /**
+       * <code>int32 slotid = 2;</code>
+       * @param value The slotid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSlotid(int value) {
+        copyOnWrite();
+        instance.setSlotid(value);
+        return this;
+      }
+      /**
+       * <code>int32 slotid = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSlotid() {
+        copyOnWrite();
+        instance.clearSlotid();
+        return this;
+      }
+
+      /**
+       * <code>int32 itemid = 3;</code>
+       * @return The itemid.
+       */
+      @java.lang.Override
+      public int getItemid() {
+        return instance.getItemid();
+      }
+      /**
+       * <code>int32 itemid = 3;</code>
+       * @param value The itemid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setItemid(int value) {
+        copyOnWrite();
+        instance.setItemid(value);
+        return this;
+      }
+      /**
+       * <code>int32 itemid = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearItemid() {
+        copyOnWrite();
+        instance.clearItemid();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:messaging.EquipItem)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new messaging.Service.EquipItem();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "cid_",
+              "slotid_",
+              "itemid_",
+            };
+            java.lang.String info =
+                "\u0000\u0003\u0000\u0000\u0001\u0003\u0003\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
+                "\u0003\u0004";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<messaging.Service.EquipItem> parser = PARSER;
+          if (parser == null) {
+            synchronized (messaging.Service.EquipItem.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<messaging.Service.EquipItem>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:messaging.EquipItem)
+    private static final messaging.Service.EquipItem DEFAULT_INSTANCE;
+    static {
+      EquipItem defaultInstance = new EquipItem();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        EquipItem.class, defaultInstance);
+    }
+
+    public static messaging.Service.EquipItem getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<EquipItem> PARSER;
+
+    public static com.google.protobuf.Parser<EquipItem> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface UnequipItemOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:messaging.UnequipItem)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int32 cid = 1;</code>
+     * @return The cid.
+     */
+    int getCid();
+
+    /**
+     * <code>int32 slotid = 2;</code>
+     * @return The slotid.
+     */
+    int getSlotid();
+
+    /**
+     * <code>int32 itemid = 3;</code>
+     * @return The itemid.
+     */
+    int getItemid();
+  }
+  /**
+   * Protobuf type {@code messaging.UnequipItem}
+   */
+  public  static final class UnequipItem extends
+      com.google.protobuf.GeneratedMessageLite<
+          UnequipItem, UnequipItem.Builder> implements
+      // @@protoc_insertion_point(message_implements:messaging.UnequipItem)
+      UnequipItemOrBuilder {
+    private UnequipItem() {
+    }
+    public static final int CID_FIELD_NUMBER = 1;
+    private int cid_;
+    /**
+     * <code>int32 cid = 1;</code>
+     * @return The cid.
+     */
+    @java.lang.Override
+    public int getCid() {
+      return cid_;
+    }
+    /**
+     * <code>int32 cid = 1;</code>
+     * @param value The cid to set.
+     */
+    private void setCid(int value) {
+      
+      cid_ = value;
+    }
+    /**
+     * <code>int32 cid = 1;</code>
+     */
+    private void clearCid() {
+      
+      cid_ = 0;
+    }
+
+    public static final int SLOTID_FIELD_NUMBER = 2;
+    private int slotid_;
+    /**
+     * <code>int32 slotid = 2;</code>
+     * @return The slotid.
+     */
+    @java.lang.Override
+    public int getSlotid() {
+      return slotid_;
+    }
+    /**
+     * <code>int32 slotid = 2;</code>
+     * @param value The slotid to set.
+     */
+    private void setSlotid(int value) {
+      
+      slotid_ = value;
+    }
+    /**
+     * <code>int32 slotid = 2;</code>
+     */
+    private void clearSlotid() {
+      
+      slotid_ = 0;
+    }
+
+    public static final int ITEMID_FIELD_NUMBER = 3;
+    private int itemid_;
+    /**
+     * <code>int32 itemid = 3;</code>
+     * @return The itemid.
+     */
+    @java.lang.Override
+    public int getItemid() {
+      return itemid_;
+    }
+    /**
+     * <code>int32 itemid = 3;</code>
+     * @param value The itemid to set.
+     */
+    private void setItemid(int value) {
+      
+      itemid_ = value;
+    }
+    /**
+     * <code>int32 itemid = 3;</code>
+     */
+    private void clearItemid() {
+      
+      itemid_ = 0;
+    }
+
+    public static messaging.Service.UnequipItem parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.UnequipItem parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.UnequipItem parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.UnequipItem parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.UnequipItem parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.UnequipItem parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.UnequipItem parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.UnequipItem parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.UnequipItem parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.UnequipItem parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.UnequipItem parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.UnequipItem parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(messaging.Service.UnequipItem prototype) {
+      return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code messaging.UnequipItem}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          messaging.Service.UnequipItem, Builder> implements
+        // @@protoc_insertion_point(builder_implements:messaging.UnequipItem)
+        messaging.Service.UnequipItemOrBuilder {
+      // Construct using messaging.Service.UnequipItem.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>int32 cid = 1;</code>
+       * @return The cid.
+       */
+      @java.lang.Override
+      public int getCid() {
+        return instance.getCid();
+      }
+      /**
+       * <code>int32 cid = 1;</code>
+       * @param value The cid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCid(int value) {
+        copyOnWrite();
+        instance.setCid(value);
+        return this;
+      }
+      /**
+       * <code>int32 cid = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCid() {
+        copyOnWrite();
+        instance.clearCid();
+        return this;
+      }
+
+      /**
+       * <code>int32 slotid = 2;</code>
+       * @return The slotid.
+       */
+      @java.lang.Override
+      public int getSlotid() {
+        return instance.getSlotid();
+      }
+      /**
+       * <code>int32 slotid = 2;</code>
+       * @param value The slotid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSlotid(int value) {
+        copyOnWrite();
+        instance.setSlotid(value);
+        return this;
+      }
+      /**
+       * <code>int32 slotid = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSlotid() {
+        copyOnWrite();
+        instance.clearSlotid();
+        return this;
+      }
+
+      /**
+       * <code>int32 itemid = 3;</code>
+       * @return The itemid.
+       */
+      @java.lang.Override
+      public int getItemid() {
+        return instance.getItemid();
+      }
+      /**
+       * <code>int32 itemid = 3;</code>
+       * @param value The itemid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setItemid(int value) {
+        copyOnWrite();
+        instance.setItemid(value);
+        return this;
+      }
+      /**
+       * <code>int32 itemid = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearItemid() {
+        copyOnWrite();
+        instance.clearItemid();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:messaging.UnequipItem)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new messaging.Service.UnequipItem();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "cid_",
+              "slotid_",
+              "itemid_",
+            };
+            java.lang.String info =
+                "\u0000\u0003\u0000\u0000\u0001\u0003\u0003\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
+                "\u0003\u0004";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<messaging.Service.UnequipItem> parser = PARSER;
+          if (parser == null) {
+            synchronized (messaging.Service.UnequipItem.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<messaging.Service.UnequipItem>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:messaging.UnequipItem)
+    private static final messaging.Service.UnequipItem DEFAULT_INSTANCE;
+    static {
+      UnequipItem defaultInstance = new UnequipItem();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        UnequipItem.class, defaultInstance);
+    }
+
+    public static messaging.Service.UnequipItem getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<UnequipItem> PARSER;
+
+    public static com.google.protobuf.Parser<UnequipItem> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface PickupItemOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:messaging.PickupItem)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int32 charid = 1;</code>
+     * @return The charid.
+     */
+    int getCharid();
+
+    /**
+     * <code>int32 oid = 2;</code>
+     * @return The oid.
+     */
+    int getOid();
+
+    /**
+     * <code>int32 mapid = 3;</code>
+     * @return The mapid.
+     */
+    int getMapid();
+  }
+  /**
+   * Protobuf type {@code messaging.PickupItem}
+   */
+  public  static final class PickupItem extends
+      com.google.protobuf.GeneratedMessageLite<
+          PickupItem, PickupItem.Builder> implements
+      // @@protoc_insertion_point(message_implements:messaging.PickupItem)
+      PickupItemOrBuilder {
+    private PickupItem() {
+    }
+    public static final int CHARID_FIELD_NUMBER = 1;
+    private int charid_;
+    /**
+     * <code>int32 charid = 1;</code>
+     * @return The charid.
+     */
+    @java.lang.Override
+    public int getCharid() {
+      return charid_;
+    }
+    /**
+     * <code>int32 charid = 1;</code>
+     * @param value The charid to set.
+     */
+    private void setCharid(int value) {
+      
+      charid_ = value;
+    }
+    /**
+     * <code>int32 charid = 1;</code>
+     */
+    private void clearCharid() {
+      
+      charid_ = 0;
+    }
+
+    public static final int OID_FIELD_NUMBER = 2;
+    private int oid_;
+    /**
+     * <code>int32 oid = 2;</code>
+     * @return The oid.
+     */
+    @java.lang.Override
+    public int getOid() {
+      return oid_;
+    }
+    /**
+     * <code>int32 oid = 2;</code>
+     * @param value The oid to set.
+     */
+    private void setOid(int value) {
+      
+      oid_ = value;
+    }
+    /**
+     * <code>int32 oid = 2;</code>
+     */
+    private void clearOid() {
+      
+      oid_ = 0;
+    }
+
+    public static final int MAPID_FIELD_NUMBER = 3;
+    private int mapid_;
+    /**
+     * <code>int32 mapid = 3;</code>
+     * @return The mapid.
+     */
+    @java.lang.Override
+    public int getMapid() {
+      return mapid_;
+    }
+    /**
+     * <code>int32 mapid = 3;</code>
+     * @param value The mapid to set.
+     */
+    private void setMapid(int value) {
+      
+      mapid_ = value;
+    }
+    /**
+     * <code>int32 mapid = 3;</code>
+     */
+    private void clearMapid() {
+      
+      mapid_ = 0;
+    }
+
+    public static messaging.Service.PickupItem parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.PickupItem parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.PickupItem parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.PickupItem parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.PickupItem parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.PickupItem parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.PickupItem parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.PickupItem parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.PickupItem parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.PickupItem parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.PickupItem parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.PickupItem parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(messaging.Service.PickupItem prototype) {
+      return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code messaging.PickupItem}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          messaging.Service.PickupItem, Builder> implements
+        // @@protoc_insertion_point(builder_implements:messaging.PickupItem)
+        messaging.Service.PickupItemOrBuilder {
+      // Construct using messaging.Service.PickupItem.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>int32 charid = 1;</code>
+       * @return The charid.
+       */
+      @java.lang.Override
+      public int getCharid() {
+        return instance.getCharid();
+      }
+      /**
+       * <code>int32 charid = 1;</code>
+       * @param value The charid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCharid(int value) {
+        copyOnWrite();
+        instance.setCharid(value);
+        return this;
+      }
+      /**
+       * <code>int32 charid = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCharid() {
+        copyOnWrite();
+        instance.clearCharid();
+        return this;
+      }
+
+      /**
+       * <code>int32 oid = 2;</code>
+       * @return The oid.
+       */
+      @java.lang.Override
+      public int getOid() {
+        return instance.getOid();
+      }
+      /**
+       * <code>int32 oid = 2;</code>
+       * @param value The oid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOid(int value) {
+        copyOnWrite();
+        instance.setOid(value);
+        return this;
+      }
+      /**
+       * <code>int32 oid = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearOid() {
+        copyOnWrite();
+        instance.clearOid();
+        return this;
+      }
+
+      /**
+       * <code>int32 mapid = 3;</code>
+       * @return The mapid.
+       */
+      @java.lang.Override
+      public int getMapid() {
+        return instance.getMapid();
+      }
+      /**
+       * <code>int32 mapid = 3;</code>
+       * @param value The mapid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMapid(int value) {
+        copyOnWrite();
+        instance.setMapid(value);
+        return this;
+      }
+      /**
+       * <code>int32 mapid = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMapid() {
+        copyOnWrite();
+        instance.clearMapid();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:messaging.PickupItem)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new messaging.Service.PickupItem();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "charid_",
+              "oid_",
+              "mapid_",
+            };
+            java.lang.String info =
+                "\u0000\u0003\u0000\u0000\u0001\u0003\u0003\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
+                "\u0003\u0004";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<messaging.Service.PickupItem> parser = PARSER;
+          if (parser == null) {
+            synchronized (messaging.Service.PickupItem.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<messaging.Service.PickupItem>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:messaging.PickupItem)
+    private static final messaging.Service.PickupItem DEFAULT_INSTANCE;
+    static {
+      PickupItem defaultInstance = new PickupItem();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        PickupItem.class, defaultInstance);
+    }
+
+    public static messaging.Service.PickupItem getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<PickupItem> PARSER;
+
+    public static com.google.protobuf.Parser<PickupItem> parser() {
       return DEFAULT_INSTANCE.getParserForType();
     }
   }

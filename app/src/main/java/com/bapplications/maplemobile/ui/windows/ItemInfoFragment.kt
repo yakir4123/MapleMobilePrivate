@@ -35,16 +35,23 @@ class ItemInfoFragment(val player: Player) : Fragment() {
             EventsQueue.instance
                     .enqueue(DropItemEvent(dropped.itemId, player.position,
                             0, viewModel.inventorySlot.value?.slotId!!,
-                            player.map?.mapId!!))
+                            player.map.mapId))
         }
 
         binding.itemInfoEquipBt.setOnClickListener {
             if(viewModel.inventorySlot.value?.inventoryType == InventoryType.Id.EQUIP) {
-                EventsQueue.instance
-                        .enqueue(EquipItemEvent(0, viewModel.inventorySlot.value?.slotId!!))
+                if(player.canWearItem(viewModel.inventorySlot.value!!.item)) {
+                    EventsQueue.instance
+                            .enqueue(EquipItemEvent(0, viewModel.inventorySlot.value?.slotId!!,
+                                    viewModel.inventorySlot.value!!.itemId))
+                }
             } else { // Equipped inventory
-                EventsQueue.instance
-                        .enqueue(UnequipItemEvent(0, viewModel.inventorySlot.value?.slotId!!))
+                // unequip item need to check if it can be added to the inventory
+                if(player.canPickupItem(viewModel.inventorySlot.value?.item)) {
+                    EventsQueue.instance
+                            .enqueue(UnequipItemEvent(0, viewModel.inventorySlot.value?.slotId!!,
+                                    viewModel.inventorySlot.value?.item?.itemId!!))
+                }
             }
         }
 
