@@ -64,6 +64,8 @@ class MapDrops {
         spawns.add(spawn)
     }
 
+    operator fun get(index: Int) = drops[index]
+
     fun remove(oid: Int, state: Drop.State, looter: MapObject)
     {
         val drop: Drop? = drops[oid] as Drop

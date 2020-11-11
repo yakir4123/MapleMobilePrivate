@@ -1,5 +1,6 @@
 package com.bapplications.maplemobile.gameplay.player
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.bapplications.maplemobile.constatns.Configuration
 import com.bapplications.maplemobile.gameplay.GameMap
@@ -154,11 +155,15 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
                 }
             }
             EventType.EquipItem -> {
-                val (charid, slotid) = event as EquipItemEvent
-                if(charid == 0) {
+                val (charid, slotid, itemid) = event as EquipItemEvent
+                if(charid == oid) {
                     val slot = inventory.getInventory(InventoryType.Id.EQUIP).items[slotid]
-                    val changed = inventory.equipItem(slot.item as Equip)
-                    if (changed) {
+                    if(itemid != slot.itemId) {
+                        Log.e("Player::onEventRecieved", "EquipItem event received itemid = $itemid different than the item in slotid $slotid with item ${slot.itemId}")
+                        return
+                    }
+                    val successfulChange = inventory.equipItem(slot.item as Equip)
+                    if (successfulChange) {
                         look.addEquip(slot.itemId)
                         inventory.getInventory(InventoryType.Id.EQUIP).popItem(slot.slotId)
                     }
@@ -166,7 +171,7 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
             }
             EventType.UnequipItem -> {
                 val (charid, slotid) = event as UnequipItemEvent
-                if(charid == 0) {
+                if(charid == oid) {
                     val slot = inventory.getInventory(InventoryType.Id.EQUIPPED).items[slotid]
                     val changed = inventory.unequipItem(slot.item as Equip)
                     if (changed) {
@@ -177,8 +182,14 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
         }
     }
 
-    fun pickupDrop(drop: Drop) {
+    // ask the server if he can pick it
+    fun tryPickupDrop(drop: Drop) {
+
         EventsQueue.instance.enqueue(PickupItemEvent(0, drop.oid, map.mapId))
+        drop.onPickProcess = true
+    }
+
+    fun pickupDrop(drop: Drop) {
         resetPickupTimer()
 
         when(drop) {
@@ -205,6 +216,14 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
             }
         }
         return res
+    }
+
+    fun canWearItem(item: Item?): Boolean {
+        return true;
+    }
+
+    fun canPickupItem(item: Item?): Boolean {
+        return true
     }
 
     init {

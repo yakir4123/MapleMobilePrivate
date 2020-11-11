@@ -1,12 +1,19 @@
 package com.bapplications.maplemobile.gameplay.map.map_objects
 
 import com.bapplications.maplemobile.gameplay.map.Layer
+import com.bapplications.maplemobile.gameplay.player.inventory.Equip
+import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType
 import com.bapplications.maplemobile.gameplay.player.look.Char
 import com.bapplications.maplemobile.gameplay.player.look.CharLook
+import com.bapplications.maplemobile.input.EventsQueue
+import com.bapplications.maplemobile.input.events.EquipItemEvent
+import com.bapplications.maplemobile.input.events.Event
+import com.bapplications.maplemobile.input.events.EventListener
+import com.bapplications.maplemobile.input.events.EventType
 import com.bapplications.maplemobile.utils.Point
 
 class OtherChar(cid: Int, look: CharLook, level: Byte, job: Short,
-                name: String, state: State, position: Point) : Char(cid, look, name){
+                name: String, state: State, position: Point) : Char(cid, look, name) {
 
     init {
         respawn(position, false)
@@ -28,4 +35,5 @@ class OtherChar(cid: Int, look: CharLook, level: Byte, job: Short,
         position = pos
         super.state = state
     }
+
 }

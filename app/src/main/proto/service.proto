@@ -13,6 +13,9 @@ message RequestEvent {
     ExpressionButton expressionButton = 3;
     RequestPlayerConnect playerConnect = 4;
     UpdatePlayerState playerStateUpdated = 5;
+    EquipItem equipItem = 6;
+    UnequipItem unequipItem = 7;
+    PickupItem pickupItem = 8;
   }
 }
 
@@ -24,6 +27,9 @@ message ResponseEvent {
     ResponsePlayerConnected playerConnected = 4;
     ResponseOtherPlayerConnected otherPlayerConnected = 5;
     UpdatePlayerState otherPlayerStateUpdated = 6;
+    EquipItem equipItem = 7;
+    UnequipItem unequipItem = 8;
+    PickupItem pickupItem = 9;
   }
 }
 
@@ -79,6 +85,24 @@ message ResponseDropItem {
   Point start = 3;
   int32 owner = 4;
   int32 mapid = 5;
+}
+
+message EquipItem {
+  int32 cid = 1;
+  int32 slotid = 2;
+  int32 itemid = 3;
+}
+
+message UnequipItem {
+  int32 cid = 1;
+  int32 slotid = 2;
+  int32 itemid = 3;
+}
+
+message PickupItem {
+  int32 charid = 1;
+  int32 oid = 2;
+  int32 mapid = 3;
 }
 
 enum DropState {

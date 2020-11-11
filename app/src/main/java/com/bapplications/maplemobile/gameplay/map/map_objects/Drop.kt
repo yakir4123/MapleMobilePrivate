@@ -18,6 +18,8 @@ open class Drop(id: Int, val owner: Int,
     enum class State {
         DROPPED, FLOATING, PICKEDUP
     }
+
+
     private var collider = Rectangle()
     val PICKUP_TIME = 24
     val FLOAT_PIXELS = 8
@@ -29,6 +31,7 @@ open class Drop(id: Int, val owner: Int,
     var moved: Double = 180.0
     var baseY: Float = 0.0f
     var looter: MapObject? = null
+    var onPickProcess = false
 
     init {
         this.setPosition(start.x, start.y + FLOAT_PIXELS)
