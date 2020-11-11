@@ -41,9 +41,6 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        Configuration.WZ_DIRECTORY = getExternalFilesDir(null).getAbsolutePath();
-        Configuration.CACHE_DIRECTORY = getCacheDir().getAbsolutePath();
-
         try {
             Loaded.loadFile(Loaded.WzFileName.MAP, Configuration.WZ_DIRECTORY + "/Map.nx");
             Loaded.loadFile(Loaded.WzFileName.MOB, Configuration.WZ_DIRECTORY + "/Mob.nx");
