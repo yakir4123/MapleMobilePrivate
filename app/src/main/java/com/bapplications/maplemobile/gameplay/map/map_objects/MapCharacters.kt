@@ -9,6 +9,7 @@ import com.bapplications.maplemobile.input.EventsQueue
 import com.bapplications.maplemobile.input.InputAction
 import com.bapplications.maplemobile.gameplay.map.Layer
 import com.bapplications.maplemobile.gameplay.map.MapObject
+import com.bapplications.maplemobile.gameplay.map.map_objects.spawns.CharSpawn
 import com.bapplications.maplemobile.gameplay.physics.Physics
 import com.bapplications.maplemobile.gameplay.player.CharEntry
 import com.bapplications.maplemobile.input.events.EventListener

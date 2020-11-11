@@ -10,8 +10,7 @@ import com.bapplications.maplemobile.ui.windows.EquippedFragment
 import com.bapplications.maplemobile.ui.windows.InventoryFragment
 import com.bapplications.maplemobile.ui.windows.ItemInfoFragment
 
-
-class PageViewerToolsAdapter(activity: FragmentActivity, val player: Player) : FragmentStateAdapter(activity) {
+class PageViewerToolsAdapter(val activity: FragmentActivity, val player: Player) : FragmentStateAdapter(activity) {
 
     override fun createFragment(position: Int): Fragment {
         return when(WindowTool.values()[position]) {
@@ -24,9 +23,7 @@ class PageViewerToolsAdapter(activity: FragmentActivity, val player: Player) : F
         }
     }
 
-
     override fun getItemCount(): Int = WindowTool.values().size
-
 
     enum class WindowTool {
         NONE, INVENTORY, ITEM_INFO, EQUIPPED, SKILLS, STATS
@@ -35,4 +32,6 @@ class PageViewerToolsAdapter(activity: FragmentActivity, val player: Player) : F
     override fun onBindViewHolder(holder: FragmentViewHolder, position: Int, payloads: MutableList<Any>) {
         super.onBindViewHolder(holder, position, payloads)
     }
+
+
 }

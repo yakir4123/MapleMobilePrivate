@@ -42,7 +42,7 @@ class PageViewerInventoryAdapter( val inventory: Inventory) : RecyclerView.Adapt
     }
 
     override fun getItemCount(): Int {
-        return InventoryType.Id.values().size - 2 // without equipped
+        return InventoryType.Id.values().size - 2 // without equipped and NONE
     }
 
     override fun onBindViewHolder(holder: InventoryRecyclerHolder, position: Int) {

@@ -20,6 +20,7 @@ import com.bapplications.maplemobile.input.events.*
 import com.bapplications.maplemobile.ui.adapters.PageViewerToolsAdapter
 import com.bapplications.maplemobile.ui.adapters.PageViewerToolsAdapter.WindowTool
 import com.bapplications.maplemobile.ui.interfaces.GameEngineListener
+import com.bapplications.maplemobile.ui.windows.ItemInfoFragment
 import com.bapplications.maplemobile.utils.StaticUtils
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
@@ -86,6 +87,11 @@ class GameActivityUIManager(private var activity: GameActivity?, private val bin
         binding.toolsTab.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 tab.customView?.let { StaticUtils.rotateViewAnimation(it, true) }
+                if(tab.position != 2) {
+                    (activity?.supportFragmentManager
+                            ?.findFragmentByTag("f" + 2) as ItemInfoFragment?)
+                            ?.setItem(null)
+                }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {

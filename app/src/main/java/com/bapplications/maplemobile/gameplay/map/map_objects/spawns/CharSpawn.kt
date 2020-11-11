@@ -1,7 +1,7 @@
-package com.bapplications.maplemobile.gameplay.map.map_objects
+package com.bapplications.maplemobile.gameplay.map.map_objects.spawns
 
+import com.bapplications.maplemobile.gameplay.map.map_objects.OtherChar
 import com.bapplications.maplemobile.gameplay.player.CharEntry
-import com.bapplications.maplemobile.gameplay.player.Stance
 import com.bapplications.maplemobile.gameplay.player.look.Char
 import com.bapplications.maplemobile.gameplay.player.look.CharLook
 import com.bapplications.maplemobile.utils.Point

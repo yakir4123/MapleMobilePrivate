@@ -27,9 +27,8 @@ class InventoryFragment(inventory: Inventory) : Fragment(), EventListener {
         EventsQueue.instance.registerListener(EventType.UnequipItem, this)
         EventsQueue.instance.registerListener(EventType.PickupItem, this)
 
-        binding.inventoryPager.apply {
-            adapter = inventoryPagerAdapter
-        }
+        binding.inventoryPager.adapter = inventoryPagerAdapter
+
         TabLayoutMediator(binding.selectedInventoryTab, binding.inventoryPager) { tab, position ->
             tab.text = when(position) {
                 0 -> "Equip"
@@ -42,14 +41,6 @@ class InventoryFragment(inventory: Inventory) : Fragment(), EventListener {
         }.attach()
 
         return binding.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        EventsQueue.instance.unregisterListener(EventType.ItemDropped, this)
-        EventsQueue.instance.unregisterListener(EventType.EquipItem, this)
-        EventsQueue.instance.unregisterListener(EventType.UnequipItem, this)
-        EventsQueue.instance.unregisterListener(EventType.PickupItem, this)
     }
 
     override fun onEventReceive(event: Event) {

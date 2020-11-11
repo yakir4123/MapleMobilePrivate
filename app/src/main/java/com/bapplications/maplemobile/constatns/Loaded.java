@@ -19,6 +19,7 @@ public class Loaded {
 
 
     public enum WzFileName {
+        NPC,
         MOB,
         MAP,
         ITEM,
