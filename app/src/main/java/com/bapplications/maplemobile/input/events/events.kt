@@ -50,8 +50,7 @@ data class DropItemEvent (val itemid: Int, val startDropPos: Point, val owner: I
                val slotId: Int, val mapId: Int) : Event(EventType.DropItem)
 data class ItemDroppedEvent (val oid: Int, val id: Int, val start: Point,
                              val owner: Int, val mapId: Int): Event(EventType.ItemDropped)
-data class EquipItemEvent (val charid: Int, val slotId: Int): Event(EventType.EquipItem)
-data class UnequipItemEvent (val charid: Int, val slotId: Int): Event(EventType.UnequipItem)
+data class EquipItemEvent (val charid: Int, val slotId: Int, val itemId: Int): Event(EventType.EquipItem)
+data class UnequipItemEvent (val charid: Int, val slotId: Int, val itemId: Int): Event(EventType.UnequipItem)
 
-// to-do :: split this event to 2 one to ask the server and 1 for response from the client
 data class PickupItemEvent(val charid: Int, val oid: Int, val mapId: Int) : Event(EventType.PickupItem)

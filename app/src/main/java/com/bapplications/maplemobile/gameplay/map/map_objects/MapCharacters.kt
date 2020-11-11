@@ -23,6 +23,8 @@ class MapCharacters : EventListener {
         EventsQueue.instance.registerListener(EventType.ExpressionButton, this)
         EventsQueue.instance.registerListener(EventType.OtherPlayerConnected, this)
         EventsQueue.instance.registerListener(EventType.PlayerStateUpdate, this)
+        EventsQueue.instance.registerListener(EventType.EquipItem, this)
+        EventsQueue.instance.registerListener(EventType.UnequipItem, this)
     }
 
     fun update(physics: Physics, deltatime: Int) {
@@ -74,6 +76,18 @@ class MapCharacters : EventListener {
                         if(ochar?.let{ event.pos.dist(it.position) > Configuration.MIN_DIST_UPDATE} == true) {
                             ochar.position = event.pos
                         }
+                }
+            }
+            is EquipItemEvent -> {
+                if (event.charid != 0) {
+                    val ochar : OtherChar? = chars[event.charid] as OtherChar?
+                    ochar?.look?.addEquip(event.itemId)
+                }
+            }
+            is UnequipItemEvent -> {
+                if (event.charid != 0) {
+                    val ochar : OtherChar? = chars[event.charid] as OtherChar?
+                    ochar?.look?.removeEquip(event.itemId)
                 }
             }
         }
