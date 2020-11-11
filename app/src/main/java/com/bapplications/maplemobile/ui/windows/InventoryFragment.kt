@@ -44,14 +44,6 @@ class InventoryFragment(inventory: Inventory) : Fragment(), EventListener {
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        EventsQueue.instance.unregisterListener(EventType.ItemDropped, this)
-        EventsQueue.instance.unregisterListener(EventType.EquipItem, this)
-        EventsQueue.instance.unregisterListener(EventType.UnequipItem, this)
-        EventsQueue.instance.unregisterListener(EventType.PickupItem, this)
-    }
-
     override fun onEventReceive(event: Event) {
         activity?.runOnUiThread {
             // no matter what event is it just update the list
