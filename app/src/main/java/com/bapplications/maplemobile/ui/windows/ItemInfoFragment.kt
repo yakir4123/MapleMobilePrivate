@@ -26,9 +26,10 @@ class ItemInfoFragment(val player: Player) : Fragment() {
         val binding : FragmentItemInfoBinding = FragmentItemInfoBinding.inflate(inflater, container, false)
         binding.setLifecycleOwner { lifecycle }
         binding.viewModel = viewModel
-        viewModel.inventorySlot.postValue(null)
+        viewModel.inventorySlot.value = null
 
         binding.itemInfoDropBt.setOnClickListener {
+
             val dropped = player.inventory
                     .getInventory(viewModel.inventorySlot.value?.inventoryType)
                     .popItem(viewModel.inventorySlot.value?.slotId!!)
@@ -36,9 +37,12 @@ class ItemInfoFragment(val player: Player) : Fragment() {
                     .enqueue(DropItemEvent(dropped.itemId, player.position,
                             0, viewModel.inventorySlot.value?.slotId!!,
                             player.map.mapId))
+            viewModel.inventorySlot.value = null
+
         }
 
         binding.itemInfoEquipBt.setOnClickListener {
+
             if(viewModel.inventorySlot.value?.inventoryType == InventoryType.Id.EQUIP) {
                 if(player.canWearItem(viewModel.inventorySlot.value!!.item)) {
                     EventsQueue.instance
@@ -53,12 +57,14 @@ class ItemInfoFragment(val player: Player) : Fragment() {
                                     viewModel.inventorySlot.value?.item?.itemId!!))
                 }
             }
+            viewModel.inventorySlot.value = null
+
         }
 
         return binding.root
     }
 
-    fun setItem(slot: InventorySlot) {
+    fun setItem(slot: InventorySlot?) {
         viewModel.inventorySlot.value = slot
     }
 
