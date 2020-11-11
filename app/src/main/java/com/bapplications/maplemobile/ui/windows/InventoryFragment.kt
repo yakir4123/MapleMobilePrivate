@@ -27,9 +27,8 @@ class InventoryFragment(inventory: Inventory) : Fragment(), EventListener {
         EventsQueue.instance.registerListener(EventType.UnequipItem, this)
         EventsQueue.instance.registerListener(EventType.PickupItem, this)
 
-        binding.inventoryPager.apply {
-            adapter = inventoryPagerAdapter
-        }
+        binding.inventoryPager.adapter = inventoryPagerAdapter
+
         TabLayoutMediator(binding.selectedInventoryTab, binding.inventoryPager) { tab, position ->
             tab.text = when(position) {
                 0 -> "Equip"
