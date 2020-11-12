@@ -1,6 +1,6 @@
 package com.bapplications.maplemobile.gameplay.player.inventory;
 
-import com.bapplications.maplemobile.constatns.Loaded;
+import com.bapplications.maplemobile.constants.Loaded;
 import com.bapplications.maplemobile.gameplay.player.PlayerViewModel;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 

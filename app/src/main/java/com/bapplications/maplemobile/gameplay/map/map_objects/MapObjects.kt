@@ -62,4 +62,8 @@ class MapObjects<T : MapObject> {
         objects.clear()
         for (layer in layers) layer!!.clear()
     }
+
+    operator fun iterator(): MutableIterator<MutableMap.MutableEntry<Int, T>> {
+        return objects.iterator()
+    }
 }

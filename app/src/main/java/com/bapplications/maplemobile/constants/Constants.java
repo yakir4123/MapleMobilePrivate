@@ -1,4 +1,4 @@
-package com.bapplications.maplemobile.constatns;
+package com.bapplications.maplemobile.constants;
 
 public class Constants {
 

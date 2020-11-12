@@ -1,7 +1,7 @@
 package com.bapplications.maplemobile.gameplay.model_pools
 
 import com.bapplications.maplemobile.utils.StaticUtils
-import com.bapplications.maplemobile.constatns.Loaded
+import com.bapplications.maplemobile.constants.Loaded
 import com.bapplications.maplemobile.gameplay.audio.Sound
 import com.bapplications.maplemobile.gameplay.map.map_objects.mobs.Mob
 import com.bapplications.maplemobile.pkgnx.NXNode

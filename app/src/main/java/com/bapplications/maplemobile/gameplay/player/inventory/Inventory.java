@@ -1,6 +1,6 @@
 package com.bapplications.maplemobile.gameplay.player.inventory;
 
-import com.bapplications.maplemobile.constatns.Configuration;
+import com.bapplications.maplemobile.constants.Configuration;
 
 import java.util.EnumMap;
 

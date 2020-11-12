@@ -1,6 +1,6 @@
 package com.bapplications.maplemobile.gameplay.model_pools
 
-import com.bapplications.maplemobile.constatns.Loaded
+import com.bapplications.maplemobile.constants.Loaded
 import com.bapplications.maplemobile.gameplay.textures.Texture
 import com.bapplications.maplemobile.pkgnx.NXNode
 

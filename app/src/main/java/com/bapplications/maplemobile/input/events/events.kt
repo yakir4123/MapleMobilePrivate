@@ -19,7 +19,9 @@ enum class EventType {
     PlayerConnect,
     PlayerConnected,
     OtherPlayerConnected,
-    PlayerStateUpdate
+    PlayerStateUpdate,
+
+    StartNPCChat
 }
 
 open class Event(val type: EventType)
@@ -54,3 +56,5 @@ data class EquipItemEvent (val charid: Int, val slotId: Int, val itemId: Int): E
 data class UnequipItemEvent (val charid: Int, val slotId: Int, val itemId: Int): Event(EventType.UnequipItem)
 
 data class PickupItemEvent(val charid: Int, val oid: Int, val mapId: Int) : Event(EventType.PickupItem)
+
+data class StartNPCChatEvent(val npcId: Int, val name: String): Event(EventType.StartNPCChat)

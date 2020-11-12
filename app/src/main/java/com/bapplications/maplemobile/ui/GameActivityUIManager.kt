@@ -21,6 +21,7 @@ import com.bapplications.maplemobile.ui.adapters.PageViewerToolsAdapter
 import com.bapplications.maplemobile.ui.adapters.PageViewerToolsAdapter.WindowTool
 import com.bapplications.maplemobile.ui.interfaces.GameEngineListener
 import com.bapplications.maplemobile.ui.windows.ItemInfoFragment
+import com.bapplications.maplemobile.ui.windows.NpcChatPopupWindow
 import com.bapplications.maplemobile.utils.StaticUtils
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
@@ -131,6 +132,7 @@ class GameActivityUIManager(private var activity: GameActivity?, private val bin
         EventsQueue.instance.registerListener(EventType.ItemDropped, this)
         EventsQueue.instance.registerListener(EventType.EquipItem, this)
         EventsQueue.instance.registerListener(EventType.UnequipItem, this)
+        EventsQueue.instance.registerListener(EventType.StartNPCChat, this)
     }
 
     private fun setExpressions(expressions: Collection<Expression>?) {
@@ -196,6 +198,9 @@ class GameActivityUIManager(private var activity: GameActivity?, private val bin
                 }
                 is UnequipItemEvent -> {
                     binding.toolsWindow.currentItem = WindowTool.EQUIPPED.ordinal
+                }
+                is StartNPCChatEvent -> {
+                    activity?.let{NpcChatPopupWindow(it)}
                 }
 
             }

@@ -1,7 +1,8 @@
 package com.bapplications.maplemobile.gameplay
 
 import android.util.Log
-import com.bapplications.maplemobile.constatns.Loaded
+import android.view.MotionEvent
+import com.bapplications.maplemobile.constants.Loaded
 import com.bapplications.maplemobile.gameplay.audio.Music
 import com.bapplications.maplemobile.gameplay.audio.Sound
 import com.bapplications.maplemobile.gameplay.map.Layer
@@ -49,6 +50,14 @@ class GameMap(camera: Camera) : EventListener {
     fun init(mapid: Int) {
         // drops.init();
         loadMap(mapid)
+    }
+
+    fun onTouchEvent(event: MotionEvent) {
+        if(event.action == MotionEvent.ACTION_DOWN){
+            var touchPos = Point((event.x - Loaded.SCREEN_WIDTH/2)/Loaded.SCREEN_SCALE, (-event.y + Loaded.SCREEN_HEIGHT/2)/Loaded.SCREEN_SCALE)
+            touchPos = touchPos.minus(camera.position())
+            npcs.clickNpc(touchPos)
+        }
     }
 
     override fun onEventReceive(event: Event) {

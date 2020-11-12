@@ -1,6 +1,6 @@
 package com.bapplications.maplemobile.gameplay.map.map_objects
 
-import com.bapplications.maplemobile.constatns.Configuration
+import com.bapplications.maplemobile.constants.Configuration
 import com.bapplications.maplemobile.gameplay.components.ColliderComponent
 import com.bapplications.maplemobile.gameplay.map.MapObject
 import com.bapplications.maplemobile.gameplay.physics.Physics

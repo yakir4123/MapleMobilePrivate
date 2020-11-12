@@ -7,7 +7,7 @@
 
     <data>
         <import type="com.bapplications.maplemobile.gameplay.player.PlayerViewModel"/>
-        <import type="com.bapplications.maplemobile.constatns.Constants"/>
+        <import type="com.bapplications.maplemobile.constants.Constants"/>
         <import type="com.bapplications.maplemobile.utils.BindingUtils"/>
         <variable
             name="playerViewModel"
@@ -240,7 +240,6 @@
                 android:rotation="180"
                 android:layout_marginTop="30dp"/>
 
-
             <androidx.constraintlayout.helper.widget.Layer
                 android:id="@+id/up_arrow_layer"
                 android:layout_width="wrap_content"
@@ -315,7 +314,6 @@
                 app:layout_constraintCircleRadius="@dimen/ctrls_first_ring"
                 app:layout_constraintCircleAngle="250"
                 tools:ignore="MissingConstraints" />
-
 
             <GridLayout
                 android:id="@+id/expressions_btns_layout"

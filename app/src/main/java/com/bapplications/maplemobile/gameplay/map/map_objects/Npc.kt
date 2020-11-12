@@ -1,12 +1,12 @@
 package com.bapplications.maplemobile.gameplay.map.map_objects
 
-import com.bapplications.maplemobile.constatns.Loaded
+import com.bapplications.maplemobile.constants.Configuration
+import com.bapplications.maplemobile.constants.Loaded
+import com.bapplications.maplemobile.gameplay.components.ColliderComponent
 import com.bapplications.maplemobile.gameplay.map.MapObject
 import com.bapplications.maplemobile.gameplay.physics.Physics
 import com.bapplications.maplemobile.gameplay.textures.Animation
 import com.bapplications.maplemobile.pkgnx.NXNode
-import com.bapplications.maplemobile.pkgnx.nodes.NXLongNode
-import com.bapplications.maplemobile.pkgnx.nodes.NXStringNode
 import com.bapplications.maplemobile.utils.*
 
 class Npc (val npcid: Int, oid: Int, var flip: Boolean, val fh: Short, val control: Boolean, position: Point)
@@ -19,7 +19,7 @@ class Npc (val npcid: Int, oid: Int, var flip: Boolean, val fh: Short, val contr
     private val info: NXNode
     private val hidename: Boolean
     private val scripted: Boolean
-
+    private val collider: Rectangle
     val name: String
     val func: String
     var stance: String? = null
@@ -73,12 +73,24 @@ class Npc (val npcid: Int, oid: Int, var flip: Boolean, val fh: Short, val contr
         stance = "stand";
 
         phobj.fhid = fh
-        this.position = Point(position);
+        this.position = Point(position)
+
+        collider = animations[stance]!!.bounds
+        collider.shift(position)
     }
 
     override fun draw(view: Point, alpha: Float) {
-        val absp = phobj.getAbsolute(view, alpha);
-        animations[stance]?.draw(DrawArgument(absp, flip), alpha);
+        val absp = phobj.getAbsolute(view, alpha)
+        val dargs = DrawArgument(absp, flip)
+        animations[stance]?.draw(dargs, alpha)
+
+        if (Configuration.SHOW_NPCS_RECT) {
+            collider.draw(view)
+            var origin = DrawableCircle.createCircle(position, Color.GREEN)
+            origin.draw(dargs)
+            origin = DrawableCircle.createCircle(absp, Color.RED)
+            origin.draw(dargs)
+        }
     }
 
     override fun update(physics: Physics, deltaTime: Int): Byte
@@ -104,6 +116,10 @@ class Npc (val npcid: Int, oid: Int, var flip: Boolean, val fh: Short, val contr
     }
 
     override fun getCollider(): Rectangle {
-        TODO("Not yet implemented")
+        return collider
+    }
+
+    fun isInRange(pos: Point): Boolean {
+        return if (!isActive) false else collider.contains(pos)
     }
 }

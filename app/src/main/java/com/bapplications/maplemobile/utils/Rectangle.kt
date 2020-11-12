@@ -1,6 +1,7 @@
 package com.bapplications.maplemobile.utils
 
 import com.bapplications.maplemobile.pkgnx.NXNode
+import com.bapplications.maplemobile.pkgnx.nodes.NXBitmapNode
 import com.bapplications.maplemobile.pkgnx.nodes.NXPointNode
 import com.bapplications.maplemobile.utils.Point.TwoDPolygon
 
@@ -17,7 +18,16 @@ class Rectangle(var leftTop: Point, var rightBottom: Point) : TwoDPolygon {
             this(Point(sourceLeftTop.point).flipY(), Point(sourceRightBottom.point).flipY())
 
     constructor(source: NXNode) :
-            this(Point(source.getChild("lt")).flipY(), Point(source.getChild("rb")).flipY())
+            this(Point(source.getChild("lt")).flipY(),
+                    Point(source.getChild("rb")).flipY()) {
+        if(source.getChild<NXNode>("lt").isNotExist
+                && source is NXBitmapNode) {
+            val bmap = source.get()
+            this.leftTop = Point(-bmap.width/2, bmap.height)
+            this.rightBottom = Point(bmap.width/2, 0)
+            bmap.recycle()
+        }
+    }
 
     constructor(horizon: Range, vertical: Range): this(Point(horizon.lower, vertical.upper), Point(horizon.upper, vertical.lower))
     

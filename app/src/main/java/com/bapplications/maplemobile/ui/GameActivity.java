@@ -9,8 +9,8 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.bapplications.maplemobile.R;
-import com.bapplications.maplemobile.constatns.Configuration;
-import com.bapplications.maplemobile.constatns.Loaded;
+import com.bapplications.maplemobile.constants.Configuration;
+import com.bapplications.maplemobile.constants.Loaded;
 import com.bapplications.maplemobile.databinding.ActivityGameBinding;
 import com.bapplications.maplemobile.gameplay.GameEngine;
 import com.bapplications.maplemobile.gameplay.audio.Music;

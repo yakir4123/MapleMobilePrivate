@@ -5,7 +5,7 @@
                 android:angle="0"
                 android:centerX="0.6"
                 android:endColor="@android:color/transparent"
-                android:centerColor="@color/transparent_black"
+                android:centerColor="@color/half_ransparent_black"
                 android:startColor="@android:color/transparent" />
         </shape>
     </item>
@@ -17,7 +17,7 @@
                 android:centerX="0.4"
                 android:startColor="@android:color/transparent"
                 android:endColor="@android:color/transparent"
-                android:centerColor="@color/transparent_black" />
+                android:centerColor="@color/half_ransparent_black" />
         </shape>
     </item>
 </layer-list>

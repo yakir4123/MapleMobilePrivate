@@ -5,7 +5,7 @@ import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.utils.Range;
 import com.bapplications.maplemobile.utils.Point;
 import com.bapplications.maplemobile.utils.DrawableCircle;
-import com.bapplications.maplemobile.constatns.Configuration;
+import com.bapplications.maplemobile.constants.Configuration;
 import com.bapplications.maplemobile.utils.DrawArgument;
 
 public class Foothold {

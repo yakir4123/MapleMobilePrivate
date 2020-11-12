@@ -4,13 +4,12 @@ import android.opengl.GLES20
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
 import android.util.Log
-import com.bapplications.maplemobile.constatns.Configuration
-import com.bapplications.maplemobile.constatns.Loaded
+import com.bapplications.maplemobile.constants.Configuration
+import com.bapplications.maplemobile.constants.Loaded
 import com.bapplications.maplemobile.gameplay.GameEngine
 import com.bapplications.maplemobile.gameplay.audio.Sound
 import com.bapplications.maplemobile.gameplay.map.map_objects.MapPortals
 import com.bapplications.maplemobile.gameplay.player.look.Char
-import kotlinx.coroutines.runBlocking
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -31,6 +30,10 @@ class GameGLRenderer private constructor() : GLSurfaceView.Renderer {
         GLES20.glEnable(GLES20.GL_DEPTH_TEST)
         GLState.initGL()
         Log.d("RENDERER", "OnSurfaceCreated")
+        Char.init()
+        Sound.init()
+        MapPortals.init()
+
     }
 
     override fun onSurfaceChanged(gl10: GL10, width: Int, height: Int) {
@@ -51,9 +54,6 @@ class GameGLRenderer private constructor() : GLSurfaceView.Renderer {
         start = System.currentTimeMillis()
         // Calculate the projection and view transformation
         Matrix.multiplyMM(GLState._MVPMatrix, 0, GLState._projectionMatrix, 0, GLState._viewMatrix, 0)
-        Char.init()
-        Sound.init()
-        MapPortals.init()
         startGame()
     }
 
@@ -95,11 +95,11 @@ class GameGLRenderer private constructor() : GLSurfaceView.Renderer {
 
     companion object {
         private const val TAG = "GameGLRenderer"
-        var instance: GameGLRenderer? = null
+        lateinit var instance: GameGLRenderer
             private set
 
         @JvmStatic
-        fun createInstance(): GameGLRenderer? {
+        fun createInstance(): GameGLRenderer {
             instance = GameGLRenderer()
             return instance
         }

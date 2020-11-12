@@ -1,6 +1,5 @@
-package com.bapplications.maplemobile.constatns;
+package com.bapplications.maplemobile.constants;
 
-import com.bapplications.maplemobile.pkgnx.EagerNXFile;
 import com.bapplications.maplemobile.pkgnx.LazyNXFile;
 import com.bapplications.maplemobile.pkgnx.NXFile;
 

@@ -2,7 +2,7 @@ package com.bapplications.maplemobile.gameplay.player
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import com.bapplications.maplemobile.constatns.Configuration
+import com.bapplications.maplemobile.constants.Configuration
 import com.bapplications.maplemobile.gameplay.GameMap
 import com.bapplications.maplemobile.gameplay.map.Layer
 import com.bapplications.maplemobile.gameplay.map.look.ItemDrop
@@ -184,7 +184,6 @@ class Player(entry: CharEntry) : Char(entry.id, CharLook(entry.look), entry.stat
 
     // ask the server if he can pick it
     fun tryPickupDrop(drop: Drop) {
-
         EventsQueue.instance.enqueue(PickupItemEvent(0, drop.oid, map.mapId))
         drop.onPickProcess = true
     }

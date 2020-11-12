@@ -2,8 +2,8 @@ package com.bapplications.maplemobile.gameplay.audio;
 
 import android.media.MediaPlayer;
 
-import com.bapplications.maplemobile.constatns.Configuration;
-import com.bapplications.maplemobile.constatns.Loaded;
+import com.bapplications.maplemobile.constants.Configuration;
+import com.bapplications.maplemobile.constants.Loaded;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 import com.bapplications.maplemobile.pkgnx.nodes.NXAudioNode;
 

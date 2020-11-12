@@ -1,10 +1,11 @@
 package com.bapplications.maplemobile.gameplay.map.map_objects
 
-import com.bapplications.maplemobile.gameplay.map.Layer
-import com.bapplications.maplemobile.gameplay.map.map_objects.spawns.MobSpawn
-import com.bapplications.maplemobile.gameplay.map.map_objects.spawns.NpcSpawn
-import com.bapplications.maplemobile.gameplay.physics.Physics
 import com.bapplications.maplemobile.utils.Point
+import com.bapplications.maplemobile.gameplay.map.Layer
+import com.bapplications.maplemobile.gameplay.physics.Physics
+import com.bapplications.maplemobile.gameplay.map.map_objects.spawns.NpcSpawn
+import com.bapplications.maplemobile.input.EventsQueue
+import com.bapplications.maplemobile.input.events.StartNPCChatEvent
 import java.util.*
 
 class MapNpcs {
@@ -32,6 +33,14 @@ class MapNpcs {
 
     fun spawn(spawn: NpcSpawn) {
         spawns.add(spawn)
+    }
+
+    fun clickNpc(touchPos: Point) {
+        for((_, npc) in npcs) {
+            if(npc.isInRange(touchPos)){
+                EventsQueue.instance.enqueue(StartNPCChatEvent(npc.npcid, npc.name))
+            }
+        }
     }
 
 }

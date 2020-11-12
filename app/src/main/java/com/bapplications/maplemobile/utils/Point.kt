@@ -1,7 +1,7 @@
 package com.bapplications.maplemobile.utils
 
 import com.bapplications.maplemobile.pkgnx.NXNode
-import com.bapplications.maplemobile.constatns.Loaded
+import com.bapplications.maplemobile.constants.Loaded
 import com.bapplications.maplemobile.pkgnx.nodes.NXPointNode
 import messaging.Service
 import kotlin.math.pow
@@ -41,6 +41,8 @@ class Point {
             y = src.getChild<NXNode>("y").get(0L).toFloat()
         }
     }
+
+    constructor(x: Int, y: Int): this(x.toFloat(), y.toFloat())
 
     @JvmOverloads
     constructor(x: Float = 0f, y: Float = 0f) {

@@ -1,6 +1,6 @@
 package com.bapplications.maplemobile.gameplay.map.map_objects
 
-import com.bapplications.maplemobile.constatns.Loaded
+import com.bapplications.maplemobile.constants.Loaded
 import com.bapplications.maplemobile.gameplay.map.Portal
 import com.bapplications.maplemobile.gameplay.map.Portal.WarpInfo
 import com.bapplications.maplemobile.gameplay.player.Player

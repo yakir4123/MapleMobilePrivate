@@ -1,6 +1,6 @@
 package com.bapplications.maplemobile.gameplay.player.look;
 
-import com.bapplications.maplemobile.constatns.Loaded;
+import com.bapplications.maplemobile.constants.Loaded;
 import com.bapplications.maplemobile.gameplay.player.Stance;
 import com.bapplications.maplemobile.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;

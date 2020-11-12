@@ -42,9 +42,9 @@ open class Animation() {
 
     open fun update(deltatime: Int): Boolean {
         val framedata = getFrameNumber()
-        opacity.plus(framedata.opcstep(deltatime))
+        framedata?.let{opacity.plus(it.opcstep(deltatime))}
         if (opacity.last() < 0.0f) opacity.set(0.0f) else if (opacity.last() > 255.0f) opacity.set(255.0f)
-        xyscale.plus(framedata.scalestep(deltatime))
+        framedata?.let{xyscale.plus(it.scalestep(deltatime))}
         if (xyscale.last() < 0.0f) opacity.set(0.0f)
         return if (deltatime >= delay) {
             val lastframe = (model.size() - 1).toShort()
@@ -93,9 +93,9 @@ open class Animation() {
     }
 
     val dimensions: Point
-        get() = getFrameNumber().dimenstion
+        get() = getFrameNumber()?.dimenstion ?: Point()
 
-    private fun getFrameNumber(): Frame {
+    private fun getFrameNumber(): Frame? {
         return model[frameNumber.get().toInt()]
     }
 

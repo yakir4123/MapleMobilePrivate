@@ -2,7 +2,7 @@ package com.bapplications.maplemobile.opengl;
 
 import android.opengl.GLES20;
 
-import com.bapplications.maplemobile.constatns.Loaded;
+import com.bapplications.maplemobile.constants.Loaded;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

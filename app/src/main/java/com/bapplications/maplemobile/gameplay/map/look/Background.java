@@ -7,7 +7,7 @@ import com.bapplications.maplemobile.gameplay.textures.Animation;
 import com.bapplications.maplemobile.utils.DrawArgument;
 import com.bapplications.maplemobile.utils.Point;
 import com.bapplications.maplemobile.pkgnx.NXNode;
-import com.bapplications.maplemobile.constatns.Loaded;
+import com.bapplications.maplemobile.constants.Loaded;
 import com.bapplications.maplemobile.gameplay.map.MovingObject;
 
 public class Background extends Animation {

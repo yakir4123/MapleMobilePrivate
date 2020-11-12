@@ -1,6 +1,6 @@
 package com.bapplications.maplemobile.gameplay.map.map_objects
 
-import com.bapplications.maplemobile.constatns.Configuration
+import com.bapplications.maplemobile.constants.Configuration
 import java.util.*
 
 import com.bapplications.maplemobile.utils.Point

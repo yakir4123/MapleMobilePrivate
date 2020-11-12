@@ -4,7 +4,7 @@ package com.bapplications.maplemobile.gameplay.player.inventory;
 import android.graphics.Bitmap;
 
 import com.bapplications.maplemobile.utils.BoolPair;
-import com.bapplications.maplemobile.constatns.Loaded;
+import com.bapplications.maplemobile.constants.Loaded;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 
 import org.jetbrains.annotations.Nullable;
