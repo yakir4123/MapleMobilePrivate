@@ -53,10 +53,11 @@ public class Sound {
 
         // resetting mediaplayer instance to evade problems
         mediaPlayer.reset();
-        FileInputStream fis = null;
+        FileInputStream fis;
         try {
             fis = new FileInputStream(tempMp3);
             mediaPlayer.setDataSource(fis.getFD());
+            fis.close();
             mediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();
@@ -92,13 +93,16 @@ public class Sound {
 
 
         // create temp file that will hold byte array
-        File tempMp3 = null;
         try {
-            tempMp3 = File.createTempFile(src.getName(), "mp3", new File(Configuration.CACHE_DIRECTORY));
-            tempMp3.deleteOnExit();
-            FileOutputStream fos = new FileOutputStream(tempMp3);
+            String soundPath = Configuration.CACHE_DIRECTORY + src.getName() + ".mp3";
+            File soundFile = new File(soundPath);
+            if (!soundFile.exists()){
+                // create temp file that will hold byte array
+                soundFile.createNewFile();
+            }
+            FileOutputStream fos = new FileOutputStream(soundFile);
             fos.write(data.array());
-            samples.put(id, tempMp3.getAbsolutePath());
+            samples.put(id, soundFile.getAbsolutePath());
 
             fos.close();
         } catch (IOException e) {
