@@ -38,9 +38,14 @@ class MapNpcs {
     fun clickNpc(touchPos: Point) {
         for((_, npc) in npcs) {
             if(npc.isInRange(touchPos)){
-                EventsQueue.instance.enqueue(StartNPCChatEvent(npc.npcid, npc.name))
+                EventsQueue.instance.enqueue(StartNPCChatEvent(npc.oid))
             }
         }
     }
 
+    operator fun get(oid: Int) : Npc? = npcs[oid] as Npc?
+
+    fun clear() {
+        npcs.iterator().forEach { (_, npc) -> npc.clear()}
+    }
 }

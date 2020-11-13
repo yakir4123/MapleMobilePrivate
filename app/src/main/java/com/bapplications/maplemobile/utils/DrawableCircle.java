@@ -23,17 +23,17 @@ public class DrawableCircle extends Texture {
 
         if(!colorToHandler.containsKey(color)) {
             Bitmap bmap = changeBitmapColor(template, color);
-            int textureDataHandle = loadGLTexture(bmap);
+            int textureDataHandle = loadGLTexture(bmap, true);
             bmap.recycle();
             colorToHandler.put(color, textureDataHandle);
         }
 
-        res.textureDataHandle = colorToHandler.get(color);
+        res.setTextureDataHandle(colorToHandler.get(color));
         p.flipY();
         res.origin = new Point();
         res.setPos(p, false);
-        res.dimensions = new Point(RADIUS, RADIUS);
-        res.half_dimensions_glratio = res.dimensions.scalarMul(0.5f).toGLRatio();
+        res.dimenstion = new Point(RADIUS, RADIUS);
+        res.halfDimensionsGLratio = res.dimenstion.scalarMul(0.5f).toGLRatio();
 
         return res;
     }

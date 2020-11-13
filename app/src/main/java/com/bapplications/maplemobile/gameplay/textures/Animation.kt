@@ -23,7 +23,7 @@ open class Animation() {
         reset()
     }
 
-    constructor(src: NXNode, z: Any? = 0) : this(AnimationModel(src, z))
+    constructor(src: NXNode, z: Any? = 0, recycle: Boolean = true) : this(AnimationModel(src, z, recycle))
 
 
     fun reset() {
@@ -101,6 +101,10 @@ open class Animation() {
 
     fun getZ(): Any? {
         return model.getZ()
+    }
+
+    fun recycle(except: Int = -1) {
+        model.recycle(except)
     }
 
     val frame: Frame

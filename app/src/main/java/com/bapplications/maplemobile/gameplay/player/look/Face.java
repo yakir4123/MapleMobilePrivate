@@ -28,7 +28,7 @@ public class Face {
                 frame = new Frame();
                 facenode = faces.getChild("default");
                 frame.setDelay((short) 2500);
-                frame.initTexture(facenode.getChild("face"));
+                frame.initTexture(facenode.getChild("face"), true, true);
                 Point shift = facenode.getChild("face").getChild("map")
                         .getChild("brow").get(new Point());
                 frame.shift(shift.mul(negateShift));
@@ -41,7 +41,7 @@ public class Face {
                     NXNode frameNode = facenode.getChild(frameNumber);
                     frame = new Frame();
                     frame.setDelay((frameNode.getChild("delay").get(2500L)).shortValue());
-                    frame.initTexture(frameNode.getChild("face"));
+                    frame.initTexture(frameNode.getChild("face"), true, true);
                     frame.setZ("face");
                     Point shift = (Point) frameNode.getChild("face").getChild("map")
                             .getChild("brow").get(new Point());

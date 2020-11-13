@@ -17,7 +17,8 @@ class GameEngine private constructor() : EventListener {
     val camera: Camera = Camera()
     lateinit var player: Player
         private set
-    private var currMap: GameMap
+    var currMap: GameMap
+        private set
     private val networkHandler: NetworkHandler
     
     fun startGame() {

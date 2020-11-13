@@ -1,5 +1,6 @@
 package com.bapplications.maplemobile.gameplay.map.map_objects
 
+import android.graphics.Bitmap
 import com.bapplications.maplemobile.constants.Configuration
 import com.bapplications.maplemobile.constants.Loaded
 import com.bapplications.maplemobile.gameplay.components.ColliderComponent
@@ -12,6 +13,7 @@ import com.bapplications.maplemobile.utils.*
 class Npc (val npcid: Int, oid: Int, var flip: Boolean, val fh: Short, val control: Boolean, position: Point)
     : MapObject(oid) {
 
+    val icon: Bitmap
     private val animations = mutableMapOf<String, Animation>()
     private val states = mutableListOf<String>()
     private val speaks = mutableMapOf<String, MutableList<String>>()
@@ -40,7 +42,7 @@ class Npc (val npcid: Int, oid: Int, var flip: Boolean, val fh: Short, val contr
 
         var link = src.getChild<NXNode>("info").getChild<NXNode>("link").get("")
 
-        if (link.length > 0)
+        if (link.isNotEmpty())
         {
             link += ".img"
             src = Loaded.getFile(Loaded.WzFileName.NPC).root.getChild(link)
@@ -58,19 +60,29 @@ class Npc (val npcid: Int, oid: Int, var flip: Boolean, val fh: Short, val contr
 
             if (state != "info")
             {
-                animations[state] = Animation(npcnode)
-                states.add(state);
+                animations[state] = Animation(npcnode, 0, false)
+                states.add(state)
             }
 
             for (speaknode in npcnode.getChild<NXNode>("speak")) {
-                speaks[state]?.add(strsrc[speaknode.get("")]);
+                speaks[state]?.add(strsrc[speaknode.get("")])
             }
         }
+
 
         name = strsrc.getChild<NXNode>("name").get("")
         func = strsrc.getChild<NXNode>("func").get("")
 
         stance = "stand";
+
+        icon = animations[stance]!!.frame.bmap
+//        animations.forEach { (st, anim) ->
+//            if (st != stance) {
+//                anim.recycle()
+//            } else {
+//                anim.recycle(0)
+//            }
+//        }
 
         phobj.fhid = fh
         this.position = Point(position)
@@ -121,5 +133,9 @@ class Npc (val npcid: Int, oid: Int, var flip: Boolean, val fh: Short, val contr
 
     fun isInRange(pos: Point): Boolean {
         return if (!isActive) false else collider.contains(pos)
+    }
+
+    fun clear() {
+        icon.recycle()
     }
 }

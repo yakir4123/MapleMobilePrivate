@@ -11,6 +11,7 @@ import android.view.ViewGroup.MarginLayoutParams
 import com.bapplications.maplemobile.gameplay.GameMap
 import com.bapplications.maplemobile.gameplay.player.Player
 import com.bapplications.maplemobile.databinding.ActivityGameBinding
+import com.bapplications.maplemobile.gameplay.GameEngine
 import com.bapplications.maplemobile.gameplay.player.PlayerViewModel
 import com.bapplications.maplemobile.gameplay.player.look.Expression
 import com.bapplications.maplemobile.input.EventsQueue
@@ -200,7 +201,10 @@ class GameActivityUIManager(private var activity: GameActivity?, private val bin
                     binding.toolsWindow.currentItem = WindowTool.EQUIPPED.ordinal
                 }
                 is StartNPCChatEvent -> {
-                    activity?.let{NpcChatPopupWindow(it)}
+                    activity?.let{
+                        GameEngine.instance?.currMap?.npcs?.get(event.oid)?.apply{
+                            NpcChatPopupWindow(it, this)}
+                    }
                 }
 
             }

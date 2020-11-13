@@ -57,4 +57,4 @@ data class UnequipItemEvent (val charid: Int, val slotId: Int, val itemId: Int):
 
 data class PickupItemEvent(val charid: Int, val oid: Int, val mapId: Int) : Event(EventType.PickupItem)
 
-data class StartNPCChatEvent(val npcId: Int, val name: String): Event(EventType.StartNPCChat)
+data class StartNPCChatEvent(val oid: Int): Event(EventType.StartNPCChat)

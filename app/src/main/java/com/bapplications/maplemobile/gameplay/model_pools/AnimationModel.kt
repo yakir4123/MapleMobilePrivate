@@ -13,10 +13,10 @@ open class AnimationModel {
     var zigzag = false
     val animated: Boolean
 
-    constructor(src: NXNode, z: Any? = "0") {
+    constructor(src: NXNode, z: Any? = "0", recycle: Boolean = true) {
         zigzag = src.getChild<NXNode>("zigzag").get(0L) > 0
         if (src is NXBitmapNode) {
-            frames.add(Frame(src))
+            frames.add(Frame(src, recycle))
         } else {
             val frameids: MutableSet<Short> = HashSet()
             for (sub in src) {
@@ -27,8 +27,8 @@ open class AnimationModel {
             }
             for (fid in frameids) {
                 val sub = src.getChild<NXNode>("" + fid)
-                val frame = Frame(sub)
-                frame.setZ(z)
+                val frame = Frame(sub, recycle)
+                frame.z = z
                 frames.add(frame)
             }
             if (frames.isEmpty()) frames.add(Frame())
@@ -47,9 +47,12 @@ open class AnimationModel {
     }
 
     fun getZ(): Any? {
-        return frames[0].getZ()
+        return frames[0].z
     }
 
     fun dimensions(frame: Int) : Point = frames[frame].dimenstion
+    fun recycle(except: Int) {
+        frames.filterIndexed{i, v -> i != except}.forEach{ tex -> tex.recycle()}
+    }
 
 }

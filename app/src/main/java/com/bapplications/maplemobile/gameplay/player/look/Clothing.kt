@@ -28,7 +28,7 @@ class Clothing(val id: Int, drawInfo: BodyDrawInfo) {
                                     ?>
                             ?>
                     ?> = EnumMap(Stance.Id::class.java)
-    fun draw(stance: Stance.Id?, layer: Layer?, frame: Byte, args: DrawArgument?) {
+    fun draw(stance: Stance.Id?, layer: Layer?, frame: Byte, args: DrawArgument) {
         val layers = stances[stance]?.get(layer) ?: return
         for (tex in layers[frame]!!) tex.draw(args)
     }

@@ -34,7 +34,8 @@ class GameMap(camera: Camera) : EventListener {
     lateinit var player: Player
         private set
     private val camera: Camera
-    private lateinit var npcs: MapNpcs
+    lateinit var npcs: MapNpcs
+        private set
     private lateinit var drops: MapDrops
     private lateinit var mapInfo: MapInfo
     private lateinit var physics: Physics
@@ -105,20 +106,6 @@ class GameMap(camera: Camera) : EventListener {
         }
     }
 
-    private fun spawnNpcs(src: NXNode) {
-        var oid = 100 // todo: needs a way to calculate that
-        for (spawnNode in src) {
-            if (spawnNode.getChild<NXNode>("type").get("") != "n") {
-                continue
-            }
-            val id = spawnNode.getChild<NXNode>("id").get("")
-            val flip = spawnNode.getChild<NXNode>("f").get(0L).toShort()
-            val p = Point(spawnNode)
-            val spawn = MobSpawn(oid++, id.toInt(), 0.toByte(), 0.toByte(), flip, true, 0.toByte(), p.flipY())
-            mobs.spawn(spawn)
-        }
-    }
-
     private fun spawnItemDrop(oid: Int, id: Int, start: Point?, owner: Int) {
         val spawn = DropSpawn(oid, id, id == 0, owner, start!!, Drop.State.DROPPED, true)
         drops.spawn(spawn)
@@ -133,8 +120,8 @@ class GameMap(camera: Camera) : EventListener {
         // in case of no map exist with this mapid
         if (src != null && !src.isNotExist) {
             try {
-                mobs = MapMobs()
                 npcs = MapNpcs()
+                mobs = MapMobs()
                 drops = MapDrops()
                 characters = MapCharacters()
                 physics = Physics(src.getChild("foothold"))
@@ -281,7 +268,7 @@ class GameMap(camera: Camera) : EventListener {
 
         //        Texture.clear();
 //        chars.clear();
-//        npcs.clear();
+        npcs.clear();
 //        mobs.clear();
 //        drops.clear();
 //        reactors.clear();

@@ -45,10 +45,10 @@ class MapDrops {
                 else
                 {
                     val itemdata: ItemData? = ItemData.get(itemid)
-                    val icon = Texture(itemdata?.icon(true))
+                    val icon = Texture(itemdata?.icon(true)!!)
                     // icon is actually the "DropModel"
                     // so it is not necessary to create new class for it
-                    icon.pos = icon.dimenstion.scalarMul(-0.5f)//Point(-16f, -24f)
+                    icon.setPos(icon.dimenstion.scalarMul(-0.5f))
                     drops.add(spawn.instantiate(icon));
                 }
             }

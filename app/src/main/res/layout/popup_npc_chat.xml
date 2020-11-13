@@ -10,12 +10,27 @@
         android:id="@+id/full_window"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="120dp"
+        android:layout_marginHorizontal="150dp"
+        android:layout_marginVertical="120dp"
         android:background="@drawable/window_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/npc_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/full_window"
+        app:layout_constraintStart_toStartOf="@id/full_window"
+        android:background="@drawable/headline_window_background"
+        android:paddingHorizontal="30dp"
+        android:layout_margin="4dp"
+        tools:text="NPC NAME"
+        android:textColor="@color/tc_window"
+        />
 
     <ImageView
         android:id="@+id/npc_icon_window"
@@ -24,8 +39,9 @@
         android:background="@drawable/sub_window_background"
         app:layout_constraintStart_toStartOf="@id/full_window"
         app:layout_constraintEnd_toStartOf="@id/text_window"
-        app:layout_constraintTop_toTopOf="@id/full_window"
+        app:layout_constraintTop_toBottomOf="@id/npc_name_tv"
         app:layout_constraintBottom_toBottomOf="@id/full_window"
+        android:padding="15dp"
         android:layout_margin="10dp"
         app:layout_constraintHorizontal_weight="1"
         />
@@ -37,10 +53,45 @@
         android:background="@drawable/sub_window_background"
         app:layout_constraintStart_toEndOf="@id/npc_icon_window"
         app:layout_constraintEnd_toEndOf="@id/full_window"
-        app:layout_constraintTop_toTopOf="@id/full_window"
+        app:layout_constraintTop_toBottomOf="@id/npc_name_tv"
         app:layout_constraintBottom_toBottomOf="@id/full_window"
         android:layout_margin="10dp"
-        app:layout_constraintHorizontal_weight="3"
+        app:layout_constraintHorizontal_weight="4"
         />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="@id/text_window"
+        app:layout_constraintBottom_toBottomOf="@id/text_window"
+        app:layout_constraintStart_toStartOf="@id/text_window"
+        app:layout_constraintEnd_toEndOf="@id/text_window"
+        >
+        <TextView
+            android:id="@+id/content_text_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Npcs functionality are not implemented yet"
+            android:textColor="@color/tc_sub_window"
+            android:textSize="16sp"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginTop="2dp"
+            />
+    </ScrollView>
+
+    <Button
+        android:id="@+id/cancel_button"
+        android:layout_width="@dimen/big_icon_size"
+        android:layout_height="30dp"
+        android:text="Cancel"
+        app:layout_constraintBottom_toBottomOf="@+id/text_window"
+        app:layout_constraintEnd_toEndOf="@+id/text_window"
+        android:background="@drawable/positive_btn"
+        android:textColor="@color/tc_window"
+        android:textAllCaps="false"
+        android:layout_margin="3dp"
+        />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
