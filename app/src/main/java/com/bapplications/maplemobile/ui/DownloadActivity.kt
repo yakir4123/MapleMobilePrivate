@@ -64,9 +64,15 @@ class DownloadActivity : AppCompatActivity() {
             }
         })
 
+        val downloadingState = object : DownloadingState {
+            override fun onDownloadFinished(fileDownloader: FileDownloader) {
+                viewModel.files.value!!.remove(fileDownloader)
+            }
+        }
+
         files.forEach {
             viewModel.files.postValue(viewModel.files.value?.apply {
-                val fileDownloader = FileDownloader(it)
+                val fileDownloader = FileDownloader(it, downloadingState)
                 this.add(fileDownloader)
                 fileDownloader.startDownload()
             })

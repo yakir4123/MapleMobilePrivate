@@ -3,6 +3,7 @@ package com.bapplications.maplemobile.ui.etc
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.bapplications.maplemobile.constatns.Configuration
+import com.bapplications.maplemobile.ui.DownloadingState
 import com.bapplications.maplemobile.ui.TAG
 import okhttp3.Call
 import okhttp3.Callback
@@ -19,7 +20,7 @@ import java.security.MessageDigest
 
 val CHUNK_SIZE: Long = 8192
 
-class FileDownloader(val fileName: String) {
+class FileDownloader(val fileName: String, val downloadingState: DownloadingState) {
 
 
     // todo: ask yakir about that it crates new one every time
@@ -97,6 +98,7 @@ class FileDownloader(val fileName: String) {
 
         sink.close()
         md5Path.writeText(generateMd5(path))
+        downloadingState.onDownloadFinished(this)
     }
 
     private fun generateMd5(path: File): String {
