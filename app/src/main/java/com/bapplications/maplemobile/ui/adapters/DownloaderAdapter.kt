@@ -45,5 +45,4 @@ class DownloaderAdapter : RecyclerView.Adapter<FileDownloaderItemViewHolder>() {
     fun getFileDownloader(position: Int): FileDownloader {
         return data[position]
     }
-
 }
