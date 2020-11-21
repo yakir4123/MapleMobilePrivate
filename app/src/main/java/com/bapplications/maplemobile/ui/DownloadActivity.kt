@@ -2,6 +2,7 @@ package com.bapplications.maplemobile.ui
 
 import android.app.DownloadManager
 import android.content.Intent
+import android.graphics.Bitmap
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
@@ -69,8 +70,9 @@ class DownloadActivity : AppCompatActivity() {
         Configuration.CACHE_DIRECTORY = cacheDir.absolutePath
 
         files.forEach {
-            var md5 : String = File(Configuration.WZ_DIRECTORY, "$it.md5").readText()
-            if (!File("${Configuration.WZ_DIRECTORY}/$it").exists() && md5) {
+//            val md5 : String = File(Configuration.WZ_DIRECTORY, "$it.md5").readText()
+            val url = getMd5("http://137.135.90.47/$it")
+            if (!File("${Configuration.WZ_DIRECTORY}/$it").exists()) {
                 keepToNextActivity = false
             }
         }
@@ -80,7 +82,7 @@ class DownloadActivity : AppCompatActivity() {
         } else {
             bgm = MediaPlayer.create(this, R.raw.download_bgm).apply { isLooping = true }
             setUpView()
-            downloadFiles()
+//            downloadFiles()
         }
     }
 
@@ -131,9 +133,12 @@ class DownloadActivity : AppCompatActivity() {
 
     }
 
-    private fun getMd5(url : String) : String{
-        Log.d(TAG, "get md5 from url: $url")
-        val request: okhttp3.Request = okhttp3.Request.Builder().url(url).build()
+    private fun getMd5(fileName : String, localMd5 : String) {
+        Log.d(TAG, "get md5 from file: $fileName")
+        val request: okhttp3.Request = okhttp3.Request.Builder()
+                .url("${Configuration.FILES_HOST}/$fileName")
+                .build()
+        var buffer = Buffer()
 
         client.newCall(request).enqueue(
                 object :Callback {
@@ -145,28 +150,30 @@ class DownloadActivity : AppCompatActivity() {
                         Log.d(TAG, "onResponse: ")
 
                         if (response.code != 200) {
-                            return response.body.source.readAll()
+                            Log.d(TAG, "onResponse: ")
+                            val remoteFileMd5 = response.body!!.string()
+                            if (remoteFileMd5 != localMd5) {
+                                downloadFile("${Configuration.FILES_HOST}/$fileName", File(getExternalFilesDir(null)!!, fileName))
+                            }
                         }
                     }
                 }
         )
-
-
     }
 
-    private fun downloadFiles() {
-
-        // CR:: instead of thread use coroutine, it is network operation is IO operation so asyncIO is better than thread
-        thread(start = true) {
-            // CR:: instead of thread and a loop isn't that better to download all files seperatly?
-            files.forEach {
-//                downloadFile("http://192.168.1.18/$it", File(getExternalFilesDir(null)!!, it))
-                // CR:: dont use magic
-                downloadFile("http://137.135.90.47/$it", File(getExternalFilesDir(null)!!, it))
-            }
-
-        }
-    }
+//    private fun downloadFiles() {
+//
+//        // CR:: instead of thread use coroutine, it is network operation is IO operation so asyncIO is better than thread
+//        thread(start = true) {
+//            // CR:: instead of thread and a loop isn't that better to download all files seperatly?
+//            files.forEach {
+////                downloadFile("http://192.168.1.18/$it", File(getExternalFilesDir(null)!!, it))
+//                // CR:: dont use magic
+//                downloadFile("${Configuration.FILES_HOST}/$it", File(getExternalFilesDir(null)!!, it))
+//            }
+//
+//        }
+//    }
 
     fun downloadFile(url: String, path: File) {
         Log.d(TAG, "downloadFile: downloading: $url, size $fileSize")
@@ -176,8 +183,8 @@ class DownloadActivity : AppCompatActivity() {
                 .build()
 
         // we are using the synchronous
-        // CR:: why synchrounes?
-        saveFile(client.newCall(request).execute(), path)
+//         CR:: why synchrounes?
+//        saveFile(client.newCall(request).execute(), path)
     }
 
     private fun saveFile(response: Response, path: File) {
