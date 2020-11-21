@@ -17,17 +17,6 @@ import com.bapplications.maplemobile.constatns.Configuration
 import com.bapplications.maplemobile.ui.adapters.DownloaderAdapter
 import com.bapplications.maplemobile.ui.etc.FileDownloader
 import com.bapplications.maplemobile.ui.view_models.DownloadActivityViewModel
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.Response
-import okio.Buffer
-import okio.BufferedSink
-import okio.buffer
-import okio.sink
-import java.io.File
-import java.io.IOException
-import java.math.BigInteger
-import java.security.MessageDigest
 
 
 val files = arrayOf(
