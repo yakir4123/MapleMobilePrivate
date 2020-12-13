@@ -111,11 +111,6 @@ public class GLState {
     }
 
     public static void setSpriteSquareRes() {
-        for(int i = 0 ; i < SQUARE_COORDINATES.length ; i += 3){
-            SQUARE_COORDINATES[i] = Loaded.SCREEN_SCALE * SQUARE_COORDINATES[i] / Loaded.SCREEN_WIDTH;
-            SQUARE_COORDINATES[i + 1] = Loaded.SCREEN_SCALE * SQUARE_COORDINATES[i + 1] / Loaded.SCREEN_HEIGHT;
-            SQUARE_COORDINATES[i + 2] = 0;
-        }
 
         ByteBuffer bb = ByteBuffer.allocateDirect(SQUARE_COORDINATES.length * 4);
         bb.order(ByteOrder.nativeOrder());
