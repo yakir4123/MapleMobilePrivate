@@ -1,9 +1,9 @@
 package com.bapplications.maplemobile.gameplay.textures;
 
-import android.opengl.GLES20;
 import android.opengl.Matrix;
 import android.opengl.GLUtils;
 import android.graphics.Bitmap;
+import static android.opengl.GLES20.*;
 
 import com.bapplications.maplemobile.opengl.GLState;
 import com.bapplications.maplemobile.utils.DrawArgument;
@@ -89,15 +89,15 @@ public class Texture {
 
         // generate one texture pointer and bind it to our handle
         int[] textureHandle = new int[1];
-        GLES20.glGenTextures(1, textureHandle, 0);
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
+        glGenTextures(1, textureHandle, 0);
+        glBindTexture(GL_TEXTURE_2D, textureHandle[0]);
 
         // create nearest filtered texture
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         // Use Android GLUtils to specify a two-dimensional texture image from our bitmap
-        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, bmap, 0);
+        GLUtils.texImage2D(GL_TEXTURE_2D, 0, GL_RGBA, bmap, 0);
 
         bitmapToTextureMap.put(bmap.hashCode(), textureHandle[0]);
 //        bmap.recycle();
@@ -107,7 +107,7 @@ public class Texture {
     public static void clear(){
         int size = bitmapToTextureMap.values().size();
         int[] textureArr = bitmapToTextureMap.values().stream().mapToInt(i->i).toArray();
-        GLES20.glDeleteTextures(size, textureArr, 0);
+        glDeleteTextures(size, textureArr, 0);
         bitmapToTextureMap.clear();
     }
 
@@ -126,20 +126,20 @@ public class Texture {
         System.arraycopy(GLState._MVPMatrix, 0, scratchMatrix, 0, 16);
 
         // Add program to OpenGL environment
-        GLES20.glUseProgram(GLState._programHandle);
+        glUseProgram(GLState._programHandle);
 
         // Enable a handle to the vertices
-        GLES20.glEnableVertexAttribArray(GLState.positionHandle);
+        glEnableVertexAttribArray(GLState.positionHandle);
 
         // Prepare the coordinate data
-        GLES20.glVertexAttribPointer(GLState.positionHandle, GLState.COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, GLState.VERTEX_STRIDE, GLState._vertexBuffer);
+        glVertexAttribPointer(GLState.positionHandle, GLState.COORDS_PER_VERTEX, GL_FLOAT, false, GLState.VERTEX_STRIDE, GLState._vertexBuffer);
 
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureDataHandle);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, textureDataHandle);
 
         GLState._textureBuffer.position(0);
-        GLES20.glEnableVertexAttribArray(GLState.textureCoordinateHandle);
-        GLES20.glVertexAttribPointer(GLState.textureCoordinateHandle, 2, GLES20.GL_FLOAT, false, 0, GLState._textureBuffer);
+        glEnableVertexAttribArray(GLState.textureCoordinateHandle);
+        glVertexAttribPointer(GLState.textureCoordinateHandle, 2, GL_FLOAT, false, 0, GLState._textureBuffer);
 
         float angle = _rotationZ + args.getAngle();
 //        angle = angle != 0 ? 45: 0;
@@ -151,14 +151,14 @@ public class Texture {
         Matrix.scaleM(scratchMatrix, 0, dimensions.x * flip, dimensions.y, 1);
 
         // Apply the projection and view transformation
-        GLES20.glUniformMatrix4fv(GLState.mvpMatrixHandle, 1, false, scratchMatrix, 0);
+        glUniformMatrix4fv(GLState.mvpMatrixHandle, 1, false, scratchMatrix, 0);
 
         // Draw the sprite
-        GLES20.glDrawElements(GLES20.GL_TRIANGLES, GLState.DRAW_ORDER.length, GLES20.GL_UNSIGNED_SHORT, GLState._drawListBuffer);
+        glDrawElements(GL_TRIANGLES, GLState.DRAW_ORDER.length, GL_UNSIGNED_SHORT, GLState._drawListBuffer);
 
         // Disable vertex array
-        GLES20.glDisableVertexAttribArray(GLState.positionHandle);
-        GLES20.glDisableVertexAttribArray(GLState.textureCoordinateHandle);
+        glDisableVertexAttribArray(GLState.positionHandle);
+        glDisableVertexAttribArray(GLState.textureCoordinateHandle);
     }
 
     public Object getZ()
