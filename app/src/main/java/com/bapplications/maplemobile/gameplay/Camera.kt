@@ -17,8 +17,8 @@ class Camera {
     var sevenEighthCameraHeight = 0f
 
     fun setCameraSize(width: Int, height: Int) {
-        halfCameraWidth = width / 2 / Loaded.SCREEN_SCALE
-        halfCameraHeight = height / 2f
+        halfCameraWidth = width / 4f
+        halfCameraHeight = height / 4f
         eighthCameraHeight = height / 8f
         sevenEighthCameraHeight = height / 8f * 7
     }

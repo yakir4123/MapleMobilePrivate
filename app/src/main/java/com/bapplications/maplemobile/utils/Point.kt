@@ -73,8 +73,8 @@ class Point {
 
     fun toGLRatio(): FloatArray {
         return floatArrayOf(
-                2 * Loaded.SCREEN_SCALE * x / Loaded.SCREEN_WIDTH,
-                2 * Loaded.SCREEN_SCALE * y / Loaded.SCREEN_HEIGHT)
+                2 * x ,
+                2 * y )
     }
 
     fun negateSign(): Point {

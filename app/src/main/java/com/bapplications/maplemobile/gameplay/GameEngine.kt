@@ -54,13 +54,6 @@ class GameEngine private constructor() : EventListener {
 
     fun loadPlayer() {
         EventsQueue.instance.enqueue(PlayerConnectEvent(0))
-        if (false) {
-            // for development this will be a new char instead from reading from a db
-            val ce = CharEntry(0)
-            ce.look.faceid = 20000
-            ce.look.hairid = 30020
-            loadPlayer(ce)
-        }
     }
 
     fun loadPlayer(entry: CharEntry) {
