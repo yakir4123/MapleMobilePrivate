@@ -9,7 +9,7 @@ import com.bapplications.maplemobile.R
 import com.bapplications.maplemobile.opengl.GameGLSurfaceView
 
 class GameFragment : Fragment() {
-    private var gameGLSurfaceView: GameGLSurfaceView? = null
+    private lateinit var gameGLSurfaceView: GameGLSurfaceView
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -20,12 +20,27 @@ class GameFragment : Fragment() {
     }
 
     fun setUIManager(uiManager: GameActivityUIManager) {
-        gameGLSurfaceView?.gameEngine?.registerListener(uiManager)
+        gameGLSurfaceView.gameEngine?.registerListener(uiManager)
     }
 
-    fun getGameEngine() = gameGLSurfaceView!!.gameEngine
+    fun getGameEngine() = gameGLSurfaceView.gameEngine
 
-    fun runOnGLThread(run: Runnable) = gameGLSurfaceView!!.queueEvent(run);
+    fun runOnGLThread(run: Runnable) = gameGLSurfaceView.queueEvent(run);
+
+
+    override fun onPause() {
+        super.onPause()
+        if(gameGLSurfaceView.mRenderer != null){
+            gameGLSurfaceView.onPause()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(gameGLSurfaceView.mRenderer != null){
+            gameGLSurfaceView.onResume()
+        }
+    }
 
     companion object {
         @JvmStatic

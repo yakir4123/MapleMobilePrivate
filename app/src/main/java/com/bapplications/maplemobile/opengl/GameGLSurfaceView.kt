@@ -9,7 +9,7 @@ import com.bapplications.maplemobile.opengl.GameGLRenderer.Companion.createInsta
 
 class GameGLSurfaceView(context: Context?, attrs: AttributeSet?) : GLSurfaceView(context, attrs) {
     // Set the Renderer for drawing on the GLSurfaceView
-    private val mRenderer: GameGLRenderer?
+    val mRenderer: GameGLRenderer?
     fun exitGame() {
         queueEvent { gameEngine!!.destroy() }
     }

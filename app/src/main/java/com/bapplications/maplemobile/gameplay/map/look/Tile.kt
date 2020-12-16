@@ -14,8 +14,8 @@ class Tile (src: NXNode, private val model: TileModel) : Point.TwoDPolygon {
     }
 
     override val width: Range
-        get() = Range(pos.x, pos.x + model.dimenstion.x)
+        get() = Range(pos.x, pos.x + model.dimension.x)
     override val height: Range
-        get() = Range(pos.y, pos.y + model.dimenstion.y)
+        get() = Range(pos.y, pos.y + model.dimension.y)
 
 }

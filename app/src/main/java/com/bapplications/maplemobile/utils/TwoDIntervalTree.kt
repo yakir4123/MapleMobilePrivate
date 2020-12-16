@@ -24,9 +24,19 @@ class TwoDIntervalTree (objs: List<Point.TwoDPolygon>, dimension: Point.TwoDPoly
 
         val intersectRanges = intervalTree.getRanges(firstAxisRange)
 
-        return rangeToPolygon.filterKeys{intersectRanges.contains(it)}
-                .filterValues { secondAxisRange.intersect(if(onWidth) it.height else it.width) }
-                .values
+        val res = ArrayList<Point.TwoDPolygon>()
+        for((key, value) in rangeToPolygon) {
+            if(intersectRanges.contains(key)
+                    && secondAxisRange.intersect(if(onWidth) value.height else value.width)) {
+                res.add(value)
+            }
+        }
+        return res
+
+        // the method above to get the rectangles is better by 25%! than using those list functions
+//        return rangeToPolygon.filterKeys{intersectRanges.contains(it)}
+//                .filterValues { secondAxisRange.intersect(if(onWidth) it.height else it.width) }
+//                .values
     }
 
     override val size: Int

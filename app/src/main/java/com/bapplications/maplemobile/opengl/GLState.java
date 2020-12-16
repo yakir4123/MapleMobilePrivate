@@ -49,8 +49,8 @@ public class GLState {
 
     
     public static FloatBuffer _vertexBuffer;
-    public static ShortBuffer _drawListBuffer;
     public static FloatBuffer _textureBuffer;
+    public static ShortBuffer _drawListBuffer;
 
     /** Order to draw the sprite square */
     public static final short DRAW_ORDER[] = { 0, 1, 2, 0, 2, 3 };

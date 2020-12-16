@@ -86,7 +86,6 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
     protected void onResume ()
     {
         super.onResume();
-//        gameGLSurfaceView.onResume();
         uiManager.setGameActivity(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         toggleFullscreen(true);
@@ -96,7 +95,6 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
     @Override
     protected void onPause ()
     {
-//        gameGLSurfaceView.onPause();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         Music.pauseBgm();
         uiManager.onPause();
@@ -106,9 +104,8 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
     @Override
     protected void onDestroy ()
     {
-//        gameGLSurfaceView.exitGame();
-        gameFragment = null;
         super.onDestroy();
+        gameFragment = null;
     }
 
 
