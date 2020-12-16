@@ -93,7 +93,7 @@ open class Animation() {
     }
 
     val dimensions: Point
-        get() = getFrameNumber().dimenstion
+        get() = getFrameNumber().dimension
 
     private fun getFrameNumber(): Frame {
         return model[frameNumber.get().toInt()]

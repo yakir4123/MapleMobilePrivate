@@ -5,7 +5,6 @@ import com.bapplications.maplemobile.utils.StaticUtils
 import com.bapplications.maplemobile.pkgnx.NXNode
 import com.bapplications.maplemobile.pkgnx.nodes.NXBitmapNode
 import com.bapplications.maplemobile.utils.Point
-import com.bapplications.maplemobile.utils.Rectangle
 import java.util.*
 
 open class AnimationModel {
@@ -50,6 +49,6 @@ open class AnimationModel {
         return frames[0].getZ()
     }
 
-    fun dimensions(frame: Int) : Point = frames[frame].dimenstion
+    fun dimensions(frame: Int) : Point = frames[frame].dimension
 
 }

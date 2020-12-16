@@ -100,7 +100,7 @@ public class Texture {
         GLUtils.texImage2D(GL_TEXTURE_2D, 0, GL_RGBA, bmap, 0);
 
         bitmapToTextureMap.put(bmap.hashCode(), textureHandle[0]);
-//        bmap.recycle();
+        bmap.recycle();
         return textureHandle[0];
     }
 
@@ -142,11 +142,15 @@ public class Texture {
         glVertexAttribPointer(GLState.textureCoordinateHandle, 2, GL_FLOAT, false, 0, GLState._textureBuffer);
 
         float angle = _rotationZ + args.getAngle();
-//        angle = angle != 0 ? 45: 0;
+
         // translate the sprite to it's current position
         Matrix.translateM(scratchMatrix, 0, curPos[0] , curPos[1], 1);
-        // rotate the sprite
-        Matrix.rotateM(scratchMatrix, 0, angle, 0, 0, 1 );
+        // rotation took 8% of running time, and most of the time is unnecessary
+        // so i avoid using that in those cases
+        if(angle != 0) {
+            // rotate the sprite
+            Matrix.rotateM(scratchMatrix, 0, angle, 0, 0, 1 );
+        }
         // scale the sprite
         Matrix.scaleM(scratchMatrix, 0, dimensions.x * flip, dimensions.y, 1);
 
@@ -177,7 +181,7 @@ public class Texture {
     public void setPos(Point pos) {
         setPos(pos, true);
     }
-
+//
 
     public void setPos(Point pos, boolean relativeOrigin){
         pos.y *= -1;
@@ -191,7 +195,7 @@ public class Texture {
         return pos.flipY();//.plus(origin);
     }
 
-    public Point getDimenstion() {
+    public Point getDimension() {
         return dimensions;
     }
 
