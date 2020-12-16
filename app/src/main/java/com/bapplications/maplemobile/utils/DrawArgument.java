@@ -96,6 +96,16 @@ public class DrawArgument {
         return new DrawArgument(this.pos.plus(pos), center, stretch, xscale, yscale, color, angle);
     }
 
+    public DrawArgument plusPosition(Point pos) {
+        this.pos.offset(pos);
+        return this;
+    }
+
+    public DrawArgument minusPosition(Point pos) {
+        this.pos.deoffset(pos);
+        return this;
+    }
+
     public DrawArgument plus(DrawArgument o) {
         return new DrawArgument(this.pos.plus(o.pos),
                 this.center.plus(o.center),

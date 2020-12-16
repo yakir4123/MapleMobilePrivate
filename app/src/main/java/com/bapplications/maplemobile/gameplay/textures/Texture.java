@@ -76,11 +76,11 @@ public class Texture {
 
     public void loadGLTexture() {
         textureDataHandle = loadGLTexture(bmap);
+
     }
 
     public static int loadGLTexture(Bitmap bmap)
     {
-
         Integer cachedTextureId = bitmapToTextureMap.get(bmap.hashCode());
         if (cachedTextureId != null)
         {
@@ -113,8 +113,10 @@ public class Texture {
 
     public void draw (DrawArgument args) {
         flip(args.getDirection());
-        Point drawingPos = args.getPos().plus(pos);
+        args.getPos().offset(pos);
+        Point drawingPos = args.getPos();
         float[] curPos = drawingPos.toGLRatio();
+        args.getPos().deoffset(pos);
         if(!(curPos[0] + half_dimensions_glratio[0] > -1
                 || curPos[0] - half_dimensions_glratio[0] < 1
                 || curPos[1] - half_dimensions_glratio[1] > -1
@@ -125,26 +127,12 @@ public class Texture {
 
         System.arraycopy(GLState._MVPMatrix, 0, scratchMatrix, 0, 16);
 
-        // Add program to OpenGL environment
-        glUseProgram(GLState._programHandle);
-
-        // Enable a handle to the vertices
-        glEnableVertexAttribArray(GLState.positionHandle);
-
-        // Prepare the coordinate data
-        glVertexAttribPointer(GLState.positionHandle, GLState.COORDS_PER_VERTEX, GL_FLOAT, false, GLState.VERTEX_STRIDE, GLState._vertexBuffer);
-
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, textureDataHandle);
-
-        GLState._textureBuffer.position(0);
-        glEnableVertexAttribArray(GLState.textureCoordinateHandle);
-        glVertexAttribPointer(GLState.textureCoordinateHandle, 2, GL_FLOAT, false, 0, GLState._textureBuffer);
-
-        float angle = _rotationZ + args.getAngle();
+        bindTexture();
 
         // translate the sprite to it's current position
         Matrix.translateM(scratchMatrix, 0, curPos[0] , curPos[1], 1);
+
+        float angle = _rotationZ + args.getAngle();
         // rotation took 8% of running time, and most of the time is unnecessary
         // so i avoid using that in those cases
         if(angle != 0) {
@@ -165,6 +153,26 @@ public class Texture {
         glDisableVertexAttribArray(GLState.textureCoordinateHandle);
     }
 
+    void bindTexture() {
+
+        // Add program to OpenGL environment
+        glUseProgram(GLState._programHandle);
+
+        // Enable a handle to the vertices
+        glEnableVertexAttribArray(GLState.positionHandle);
+        GLState._vertexBuffer.position(0);
+        // Prepare the coordinate data
+        glVertexAttribPointer(GLState.positionHandle, GLState.COORDS_PER_VERTEX, GL_FLOAT, false, GLState.VERTEX_STRIDE, GLState._vertexBuffer);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, textureDataHandle);
+
+        GLState._textureBuffer.position(0);
+        glEnableVertexAttribArray(GLState.textureCoordinateHandle);
+        glVertexAttribPointer(GLState.textureCoordinateHandle, 2, GL_FLOAT, false, 0, GLState._textureBuffer);
+
+    }
+
     public Object getZ()
     {
         return z;
@@ -181,7 +189,6 @@ public class Texture {
     public void setPos(Point pos) {
         setPos(pos, true);
     }
-//
 
     public void setPos(Point pos, boolean relativeOrigin){
         pos.y *= -1;
