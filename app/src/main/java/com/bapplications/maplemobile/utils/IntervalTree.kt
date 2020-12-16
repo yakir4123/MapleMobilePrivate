@@ -1,5 +1,8 @@
 package com.bapplications.maplemobile.utils
 
+import java.util.*
+import kotlin.collections.ArrayList
+
 class IntervalTree(ranges: Collection<Range>, xrange: Range) : Collection<Range> {
 
     val x: Float = xrange.center
@@ -66,16 +69,26 @@ class IntervalTree(ranges: Collection<Range>, xrange: Range) : Collection<Range>
         rightTree?.shrinkTree()
     }
 
+    /**
+     * Stack implementation is twice better than the recursion implementation
+     */
     fun getRanges(range: Range): List<Range> {
         val res: MutableList<Range> = ArrayList()
-        if (range.intersect(minMaxNodeRange)) {
-            res.addAll(cutX)
-        }
-        if(leftTree?.minMaxTreeRange?.intersect(range) == true) {
-            leftTree?.let { res.addAll(it.getRanges(range)) }
-        }
-        if(rightTree?.minMaxTreeRange?.intersect(range) == true) {
-            rightTree?.let { res.addAll(it.getRanges(range)) }
+        val stack = Stack<IntervalTree>()
+        stack.push(this)
+
+        while(!stack.empty()){
+            val node = stack.pop()
+            if (range.intersect(node.minMaxNodeRange)) {
+                res.addAll(node.cutX)
+            }
+
+            if(node.rightTree?.minMaxTreeRange?.intersect(range) == true) {
+                node.rightTree?.let { stack.push(it) }
+            }
+            if(node.leftTree?.minMaxTreeRange?.intersect(range) == true) {
+                node.leftTree?.let { stack.push(it) }
+            }
         }
         return res
     }
