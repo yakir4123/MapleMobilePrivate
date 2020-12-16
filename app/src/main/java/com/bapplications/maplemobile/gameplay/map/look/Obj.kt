@@ -14,13 +14,13 @@ class Obj(src: NXNode, model: ObjModel) : Animation(model), TwoDPolygon {
     fun draw(viewpos: Point?, alpha: Float) {
         super.draw(DrawArgument(viewpos), alpha)
     }
-    val _width: Float
-    val _height: Float
+    val _width: Range
+    val _height: Range
 
     override val width: Range
-        get() = Range(pos.x, pos.x + _width)
+        get() = _width
     override val height: Range
-        get() = Range(pos.y, pos.y + _height)
+        get() = _height
 
     init {
         pos = Point(src)
@@ -36,7 +36,7 @@ class Obj(src: NXNode, model: ObjModel) : Animation(model), TwoDPolygon {
                 maxYDimension = model.dimensions(n).y
             }
         }
-        _width = maxXDimension
-        _height = maxYDimension
+        _width = Range(pos.x, pos.x + maxXDimension)
+        _height = Range(pos.y, pos.y + maxYDimension)
     }
 }
