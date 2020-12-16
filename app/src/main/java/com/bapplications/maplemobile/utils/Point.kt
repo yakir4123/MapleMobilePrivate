@@ -94,6 +94,15 @@ class Point {
         this.y += y
     }
 
+    fun deoffset(p: Point?) {
+        if (p != null) deoffset(p.x, p.y)
+    }
+
+    fun deoffset(x: Float, y: Float) {
+        this.x -= x
+        this.y -= y
+    }
+
     fun mul(o: Point): Point {
         return Point(x * o.x, y * o.y)
     }

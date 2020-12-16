@@ -11,9 +11,8 @@ import com.bapplications.maplemobile.utils.Point.TwoDPolygon
 import com.bapplications.maplemobile.utils.Range
 
 class Obj(src: NXNode, model: ObjModel) : Animation(model), TwoDPolygon {
-    fun draw(viewpos: Point?, alpha: Float) {
-        super.draw(DrawArgument(viewpos), alpha)
-    }
+    private val dargs = DrawArgument(pos)
+
     val _width: Range
     val _height: Range
 
@@ -21,6 +20,12 @@ class Obj(src: NXNode, model: ObjModel) : Animation(model), TwoDPolygon {
         get() = _width
     override val height: Range
         get() = _height
+
+    fun draw(viewpos: Point?, alpha: Float) {
+        // read on tile.kt why I doing this and not creating new DrawArgument each draw
+        super.draw(dargs.plusPosition(viewpos), alpha)
+        dargs.minusPosition(viewpos)
+    }
 
     init {
         pos = Point(src)
