@@ -71,11 +71,16 @@ class Point {
         return this
     }
 
-    fun toGLRatio(): FloatArray {
-        return floatArrayOf(
-                2 * x ,
-                2 * y )
+    fun toGLRatio(): Point {
+        x *= 2
+        y *= 2
+        return this;
     }
+//    fun toGLRatio(): FloatArray {
+//        return floatArrayOf(
+//                2 * x ,
+//                2 * y )
+//    }
 
     fun negateSign(): Point {
         return scalarMul(-1f)

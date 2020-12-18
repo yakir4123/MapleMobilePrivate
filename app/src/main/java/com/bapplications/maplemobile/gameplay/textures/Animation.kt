@@ -37,7 +37,10 @@ open class Animation() {
     fun draw(args: DrawArgument, alpha: Float) {
         val interframe = frameNumber[alpha]
         args.setDirection(lookLeft)
-        model[interframe.toInt()].draw(args.plus(pos))
+        args.plusPosition(pos)
+        model[interframe.toInt()].draw(args)
+        args.minusPosition(pos)
+
     }
 
     open fun update(deltatime: Int): Boolean {

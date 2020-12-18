@@ -40,7 +40,7 @@ class GameGLRenderer private constructor() : GLSurfaceView.Renderer {
         Loaded.SCREEN_HEIGHT = height
         Loaded.SCREEN_WIDTH = width
         Loaded.SCREEN_RATIO = width.toFloat() / height
-        gameEngine!!.camera.setCameraSize(Loaded.SCREEN_WIDTH, Loaded.SCREEN_HEIGHT)
+        gameEngine!!.camera.setCameraSize()
         GLState.setSpriteSquareRes()
         Matrix.orthoM(GLState._projectionMatrix, 0, -width / 2f, width / 2f, -height / 2f, height / 2f, 0f, 1f)
 
