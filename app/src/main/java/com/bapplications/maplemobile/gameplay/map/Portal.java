@@ -12,6 +12,7 @@ public class Portal implements ColliderComponent {
     private boolean touched;
     private final String name;
     private final Point position;
+    private final Rectangle colider;
     private final WarpInfo warpInfo;
     private final Point spawnPosition;
     private final Animation animation;
@@ -24,6 +25,10 @@ public class Portal implements ColliderComponent {
         this.animation = animation;
         this.spawnPosition = position.plus(new Point(0 , 90));
         this.warpInfo =  new WarpInfo(targetMapid, intramap, target_name, name);
+        Point lt = position.plus(new Point(-25, 100));
+        Point rb = position.plus(new Point(25, -25));
+
+        this.colider = new Rectangle(lt, rb);
     }
 
 
@@ -67,10 +72,7 @@ public class Portal implements ColliderComponent {
 
     @Override
     public Rectangle getCollider() {
-        Point lt = position.plus( new Point(-25, 100));
-        Point rb = position.plus(new Point(25, -25));
-
-        return new Rectangle(lt, rb);
+        return colider;
     }
 
     public enum Type

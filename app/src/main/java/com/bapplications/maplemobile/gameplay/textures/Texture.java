@@ -23,10 +23,11 @@ public class Texture {
     protected Object z;
     protected byte flip = 1;
     protected Point dimensions;
-    protected float[] half_dimensions_glratio;
+    protected Point half_dimensions_glratio;
     protected int textureDataHandle;
     protected float _rotationZ = 0.0f;
 
+    private float[] scratchMatrix = new float[16];
     private static Map<Integer, Integer> bitmapToTextureMap = new HashMap<>();
     private Bitmap bmap;
 
@@ -76,7 +77,6 @@ public class Texture {
 
     public void loadGLTexture() {
         textureDataHandle = loadGLTexture(bmap);
-
     }
 
     public static int loadGLTexture(Bitmap bmap)
@@ -112,25 +112,24 @@ public class Texture {
     }
 
     public void draw (DrawArgument args) {
+        Point apos = args.getPos();
         flip(args.getDirection());
-        args.getPos().offset(pos);
-        Point drawingPos = args.getPos();
-        float[] curPos = drawingPos.toGLRatio();
-        args.getPos().deoffset(pos);
-        if(!(curPos[0] + half_dimensions_glratio[0] > -1
-                || curPos[0] - half_dimensions_glratio[0] < 1
-                || curPos[1] - half_dimensions_glratio[1] > -1
-                || curPos[1] - half_dimensions_glratio[1] < 1)) {
+        apos.offset(pos);
+        Point drawingPos = new Point(apos).toGLRatio();
+        apos.deoffset(pos);
+        if(!(drawingPos.x + half_dimensions_glratio.x > -1
+                || drawingPos.x - half_dimensions_glratio.x < 1
+                || drawingPos.y - half_dimensions_glratio.y > -1
+                || drawingPos.y - half_dimensions_glratio.y < 1)) {
             return;
         }
-        float[] scratchMatrix = new float[16];
 
         System.arraycopy(GLState._MVPMatrix, 0, scratchMatrix, 0, 16);
 
         bindTexture();
 
         // translate the sprite to it's current position
-        Matrix.translateM(scratchMatrix, 0, curPos[0] , curPos[1], 1);
+        Matrix.translateM(scratchMatrix, 0, drawingPos.x , drawingPos.y, 1);
 
         float angle = _rotationZ + args.getAngle();
         // rotation took 8% of running time, and most of the time is unnecessary

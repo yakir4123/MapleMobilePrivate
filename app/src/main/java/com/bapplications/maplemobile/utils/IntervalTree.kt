@@ -1,7 +1,9 @@
 package com.bapplications.maplemobile.utils
 
+import com.bapplications.maplemobile.gameplay.GameEngine
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
 
 class IntervalTree(ranges: Collection<Range>, xrange: Range) : Collection<Range> {
 
@@ -13,6 +15,12 @@ class IntervalTree(ranges: Collection<Range>, xrange: Range) : Collection<Range>
 
     var leftTree: IntervalTree?
     var rightTree: IntervalTree?
+
+    companion object {
+        @JvmStatic
+        private val stack = BasicStack<IntervalTree>(25)
+    }
+
 
     init {
         var minNode = Float.MAX_VALUE
@@ -74,10 +82,11 @@ class IntervalTree(ranges: Collection<Range>, xrange: Range) : Collection<Range>
      */
     fun getRanges(range: Range): List<Range> {
         val res: MutableList<Range> = ArrayList()
-        val stack = Stack<IntervalTree>()
+        // From profiling this stack initialization, pop and push is more than 1.5%
+        // so I implement it using array list with less than 1%
         stack.push(this)
 
-        while(!stack.empty()){
+        while(!stack.isEmpty()){
             val node = stack.pop()
             if (range.intersect(node.minMaxNodeRange)) {
                 res.addAll(node.cutX)
@@ -90,6 +99,7 @@ class IntervalTree(ranges: Collection<Range>, xrange: Range) : Collection<Range>
                 node.leftTree?.let { stack.push(it) }
             }
         }
+        stack.clear()
         return res
     }
 

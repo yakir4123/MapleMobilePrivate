@@ -13,7 +13,6 @@ class Tile (src: NXNode, private val model: TileModel) : Point.TwoDPolygon {
     private val dargs = DrawArgument(pos)
 
     fun draw(viewpos: Point) {
-//        model.draw(DrawArgument(pos.plus(viewpos)))
         // it is better to create one time dargs and change it every time because tiles get called so many times so it better to save it
         // offset it by position
         model.draw(dargs.plusPosition(viewpos))
