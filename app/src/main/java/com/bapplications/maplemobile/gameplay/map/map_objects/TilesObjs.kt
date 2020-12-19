@@ -15,8 +15,10 @@ import kotlin.collections.HashMap
 class TilesObjs(src: NXNode, mapSize: Rectangle) {
     private val objModelTree: MutableMap<String, ObjModel> = HashMap()
     private val tileModelTree: MutableMap<String, TileModel> = HashMap()
+
     private val tiles = mutableMapOf<Byte, TwoDIntervalTree>()
     private val objs = mutableMapOf<Byte, TwoDIntervalTree>()
+
     private val animatedObjs = mutableListOf<Obj>()
 
     private fun getObjModel(src: NXNode): ObjModel {
@@ -100,14 +102,16 @@ class TilesObjs(src: NXNode, mapSize: Rectangle) {
             }
         }
 
+        // remove objects that outside the map (there are cases like that) :/
         objsList.forEach{ (k, v) -> objsList[k] = v.filter { it.height.intersect(mapSize.height) } as MutableList<Obj> }
-        objsList.forEach{ (k, v) -> objsList[k] = v.filter { it.width.intersect(mapSize.width) } as MutableList<Obj> }
-
         tilesList.forEach{ (k, v) -> tilesList[k] = v.filter { it.height.intersect(mapSize.height) } as MutableList<Tile> }
+
+        objsList.forEach{ (k, v) -> objsList[k] = v.filter { it.width.intersect(mapSize.width) } as MutableList<Obj> }
         tilesList.forEach{ (k, v) -> tilesList[k] = v.filter { it.width.intersect(mapSize.width) } as MutableList<Tile> }
 
         objsList.forEach{ (k, v) -> objs[k] = TwoDIntervalTree(v, mapSize)}
         tilesList.forEach{ (k, v) -> tiles[k] = TwoDIntervalTree(v, mapSize)}
+
     }
 
 }

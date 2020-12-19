@@ -90,22 +90,14 @@ class Point {
         return Point(x * a, y * a)
     }
 
-    fun offset(p: Point?) {
-        if (p != null) offset(p.x, p.y)
+    fun offset(p: Point?) : Point {
+        p?.let{ offset(it.x, it.y) }
+        return this
     }
 
     fun offset(x: Float, y: Float) {
         this.x += x
         this.y += y
-    }
-
-    fun deoffset(p: Point?) {
-        if (p != null) deoffset(p.x, p.y)
-    }
-
-    fun deoffset(x: Float, y: Float) {
-        this.x -= x
-        this.y -= y
     }
 
     fun mul(o: Point): Point {
@@ -131,6 +123,11 @@ class Point {
     }
 
     fun dist(position: Point): Float = sqrt((x - position.x).pow(2) + (y - position.y).pow(2))
+    fun copy(pos: Point): Point {
+        this.x = pos.x
+        this.y = pos.y
+        return this
+    }
 
     interface TwoDPolygon {
         val width: Range

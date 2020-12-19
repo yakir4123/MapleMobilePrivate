@@ -15,7 +15,7 @@ class Tile (src: NXNode, private val model: TileModel) : Point.TwoDPolygon {
     fun draw(viewpos: Point) {
         // it is better to create one time dargs and change it every time because tiles get called so many times so it better to save it
         // offset it by position
-        model.draw(dargs.plusPosition(viewpos))
+        model.draw(dargs.offsetPosition(viewpos))
         // and than return it back to this.pos
         dargs.minusPosition(viewpos)
     }

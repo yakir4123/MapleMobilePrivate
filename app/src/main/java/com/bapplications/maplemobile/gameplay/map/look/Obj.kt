@@ -1,7 +1,5 @@
 package com.bapplications.maplemobile.gameplay.map.look
 
-import android.util.Log
-
 import com.bapplications.maplemobile.gameplay.model_pools.ObjModel
 import com.bapplications.maplemobile.gameplay.textures.Animation
 import com.bapplications.maplemobile.pkgnx.NXNode
@@ -23,7 +21,7 @@ class Obj(src: NXNode, model: ObjModel) : Animation(model), TwoDPolygon {
 
     fun draw(viewpos: Point?, alpha: Float) {
         // read on tile.kt why I doing this and not creating new DrawArgument each draw
-        super.draw(dargs.plusPosition(viewpos), alpha)
+        super.draw(dargs.offsetPosition(viewpos), alpha)
         dargs.minusPosition(viewpos)
     }
 
