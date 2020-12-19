@@ -40,12 +40,35 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
+
+    signingConfigs {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            storeFile file("../maplemobilekeystore.jks")
+            storePassword '123456'
+            keyAlias 'maplemobile'
+            keyPassword '123456'
+        }
+
+        debug {
+            storeFile file("../maplemobilekeystore.jks")
+            storePassword '123456'
+            keyAlias 'maplemobile'
+            keyPassword '123456'
         }
     }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            signingConfig signingConfigs.debug
+        }
+    }
+
     buildFeatures{
         viewBinding = true
         dataBinding = true
@@ -59,6 +82,9 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+
+
+
 }
 
 dependencies {
