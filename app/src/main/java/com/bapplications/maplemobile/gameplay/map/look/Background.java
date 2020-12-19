@@ -117,62 +117,57 @@ public class Background extends Animation {
         return Type.NORMAL;
     }
 
-    public void draw(Point viewpos, float alpha)
-    {
+    public void draw(Point viewpos, float alpha) {
         double x;
 
-        if (moveobj.hmobile())
-        {
+        if (moveobj.hmobile()) {
             x = moveobj.getAbsoluteX(viewpos.x, alpha);
-        }
-        else
-        {
+        } else {
             float shift_x = rx * (WOFFSET - viewpos.x) / 100 + WOFFSET;
             x = moveobj.getAbsoluteX(shift_x, alpha);
         }
 
         double y;
 
-        if (moveobj.vmobile())
-        {
+        if (moveobj.vmobile()) {
             y = moveobj.getAbsoluteY(viewpos.y, alpha);
-        }
-        else
-        {
-            float shift_y = ry * (HOFFSET - viewpos.y/2) / 100 + HOFFSET;
+        } else {
+            float shift_y = ry * (HOFFSET - viewpos.y / 2) / 100 + HOFFSET;
             y = moveobj.getAbsoluteY(shift_y, alpha);
         }
 
-        if (htile > 1)
-        {
-            if(x > 0)
+        if (htile > 1) {
+            if (x > 0)
                 x = (x % cx) - cx;
 
             if (x < -cx)
                 x = x % -cx;
         }
 
-        if (vtile > 1)
-        {
-            if(y > 0)
+        if (vtile > 1) {
+            if (y > 0)
                 y = (y % cy) - cy;
 
             if (y < -cy)
                 y = y % -cy;
         }
 
-        short ix = (short)(Math.round(x));
-        short iy = (short)(Math.round(y));
+        short ix = (short) (Math.round(x));
+        short iy = (short) (Math.round(y));
 
-        ix -= WOFFSET ;
-        iy -= HOFFSET ;
+        ix -= WOFFSET;
+        iy -= HOFFSET;
 
         short tw = (short) (cx * htile);
         short th = (short) (cy * vtile);
+        DrawArgument dargs = new DrawArgument(new Point(ix, iy));
+        for (int tx = 0; tx < tw; tx += cx){
+            for (int ty = 0; ty < th; ty += cy) {
+                super.draw(dargs.offsetPosition(tx, ty), alpha);
+                dargs.offsetPosition(-tx, -ty);
+            }
+        }
 
-        for (int tx = 0; tx < tw; tx += cx)
-            for (int ty = 0; ty < th; ty += cy)
-                super.draw(new DrawArgument(new Point(ix + tx, iy + ty)),  alpha);
     }
 
 

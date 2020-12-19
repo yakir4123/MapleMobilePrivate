@@ -16,6 +16,8 @@ import java.util.Map;
 
 public class Texture {
 
+    private static Point drawingPos = new Point();
+
     private Point pos;
     protected Point origin;
     private Point shift = new Point();
@@ -112,11 +114,8 @@ public class Texture {
     }
 
     public void draw (DrawArgument args) {
-        Point apos = args.getPos();
         flip(args.getDirection());
-        apos.offset(pos);
-        Point drawingPos = new Point(apos).toGLRatio();
-        apos.deoffset(pos);
+        drawingPos.copy(pos).offset(args.getPos()).toGLRatio();
         if(!(drawingPos.x + half_dimensions_glratio.x > -1
                 || drawingPos.x - half_dimensions_glratio.x < 1
                 || drawingPos.y - half_dimensions_glratio.y > -1

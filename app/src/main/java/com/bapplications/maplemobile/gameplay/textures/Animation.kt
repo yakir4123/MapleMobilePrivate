@@ -37,7 +37,7 @@ open class Animation() {
     fun draw(args: DrawArgument, alpha: Float) {
         val interframe = frameNumber[alpha]
         args.setDirection(lookLeft)
-        args.plusPosition(pos)
+        args.offsetPosition(pos)
         model[interframe.toInt()].draw(args)
         args.minusPosition(pos)
 
