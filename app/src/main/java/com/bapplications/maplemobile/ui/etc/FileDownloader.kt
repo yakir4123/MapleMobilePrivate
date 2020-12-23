@@ -1,7 +1,6 @@
 package com.bapplications.maplemobile.ui.etc
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import com.bapplications.maplemobile.constatns.Configuration
 import com.bapplications.maplemobile.ui.DownloadingState
 import com.bapplications.maplemobile.ui.TAG
@@ -14,11 +13,11 @@ import okio.BufferedSink
 import okio.buffer
 import okio.sink
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.math.BigInteger
 import java.security.MessageDigest
-
-val CHUNK_SIZE: Long = 8192
+import java.util.zip.GZIPInputStream
 
 class FileDownloader(val fileName: String, val downloadingState: DownloadingState) {
 
@@ -26,9 +25,8 @@ class FileDownloader(val fileName: String, val downloadingState: DownloadingStat
     // todo: ask yakir about that it crates new one every time
     val client: OkHttpClient = OkHttpClient()
 
-    var progress : Long = 0
+    var progress: Long = 0
     var fileSize: Int = 0
-
 
 
     fun startDownload() {
@@ -38,7 +36,7 @@ class FileDownloader(val fileName: String, val downloadingState: DownloadingStat
     private fun downloadIfNeeded(fileName: String, localMd5: String) {
         Log.d(TAG, "get md5 from file: $fileName")
         val request: okhttp3.Request = okhttp3.Request.Builder()
-                .url("${Configuration.FILES_HOST}/$fileName.md5")
+                .url("${Configuration.FILES_HOST}/$fileName.gz.md5")
                 .build()
 
         client.newCall(request).enqueue(
@@ -48,15 +46,24 @@ class FileDownloader(val fileName: String, val downloadingState: DownloadingStat
                     }
 
                     override fun onResponse(call: Call, response: Response) {
-                        Log.d(TAG, "onResponse: ")
+                        Log.d(TAG, "response from: ${response.request.url}")
 
-                        if (response.code == 200) {
-                            val remoteFileMd5 = response.body!!.string()
-                            if (remoteFileMd5 != localMd5) {
-                                downloadFile("${Configuration.FILES_HOST}/$fileName", fileName)
+                        when (response.code) {
+                            200 -> {
+                                val remoteFileMd5 = response.body!!.string()
+                                if (remoteFileMd5 != localMd5) {
+                                    downloadFile("${Configuration.FILES_HOST}/$fileName", fileName)
+                                }
+                            }
+
+                            else -> {
+                                if (!File(fileName).exists()) {
+                                    downloadFile("${Configuration.FILES_HOST}/$fileName.gz", "$fileName.gz")
+                                }
                             }
                         }
                     }
+
                 }
         )
     }
@@ -68,14 +75,33 @@ class FileDownloader(val fileName: String, val downloadingState: DownloadingStat
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Log.e(TAG, "onFailure: ")
+                Log.e(TAG, "request failed, url: ${request.url}\n", e)
             }
 
             override fun onResponse(call: Call, response: Response) {
-                saveFile(response, File(Configuration.WZ_DIRECTORY, fileName), File(Configuration.WZ_DIRECTORY, "$fileName.md5"))
+                Log.d(TAG, "response from ${response.request.url}, code: ${response.code}")
+                saveFile(response, File(Configuration.WZ_DIRECTORY, fileName), File(Configuration.WZ_DIRECTORY, fileName))
             }
 
         })
+    }
+
+    fun ungzip(srcPath: File, dstPath: File) {
+        fileSize = srcPath.length().toInt()
+
+        val sink: FileOutputStream = dstPath.outputStream()
+        var gzipInput = GZIPInputStream(srcPath.inputStream())
+        var byteCount: Long
+        var buffer: ByteArray = ByteArray(CHUNK_SIZE.toInt())
+
+        while (gzipInput.read(buffer).also {
+                    byteCount = it.toLong()
+                    Log.d(TAG, "saveFile: $byteCount")
+                    progress += it
+                } != -1) {
+            sink.write(buffer)
+        }
+        sink.close()
     }
 
     private fun saveFile(response: Response, path: File, md5Path: File) {
@@ -97,12 +123,16 @@ class FileDownloader(val fileName: String, val downloadingState: DownloadingStat
         }
 
         sink.close()
+        ungzip(File("${path.absolutePath}"), path)
         md5Path.writeText(generateMd5(path))
         downloadingState.onDownloadFinished(this)
     }
 
     private fun generateMd5(path: File): String {
         //todo: check if this need to be here
+        if (!path.exists())
+            return ""
+
         val buff = ByteArray(8192)
         val digest = MessageDigest.getInstance("MD5")
         path.inputStream().buffered().use {
@@ -130,3 +160,6 @@ class FileDownloader(val fileName: String, val downloadingState: DownloadingStat
         }
     }
 }
+
+val CHUNK_SIZE: Long = 8192
+
