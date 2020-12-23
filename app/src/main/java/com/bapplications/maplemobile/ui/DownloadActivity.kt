@@ -2,7 +2,6 @@ package com.bapplications.maplemobile.ui
 
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
@@ -21,11 +20,11 @@ import com.bapplications.maplemobile.ui.view_models.DownloadActivityViewModel
 
 val files = arrayOf(
         "String.nx",
-        "Map.nx",
-        "Sound.nx",
-        "Character.nx",
-        "Mob.nx",
-        "Item.nx",
+//        "Map.nx",
+//        "Sound.nx",
+//        "Character.nx",
+//        "Mob.nx",
+//        "Item.nx",
 )
 
 val TAG = "DownloadManager"
@@ -136,98 +135,6 @@ class DownloadActivity : AppCompatActivity() {
 
 
     }
-
-//    private fun downloadIfNeeded(fileName: String, localMd5: String) {
-//        Log.d(TAG, "get md5 from file: $fileName")
-//        val request: okhttp3.Request = okhttp3.Request.Builder()
-//                .url("${Configuration.FILES_HOST}/$fileName.md5")
-//                .build()
-//
-//        client.newCall(request).enqueue(
-//                object : Callback {
-//                    override fun onFailure(call: Call, e: IOException) {
-//                        Log.d(TAG, "onFail: " + e)
-//                    }
-//
-//                    override fun onResponse(call: Call, response: Response) {
-//                        Log.d(TAG, "onResponse: ")
-//
-//                        if (response.code == 200) {
-//                            val remoteFileMd5 = response.body!!.string()
-//                            if (remoteFileMd5 != localMd5) {
-//                                downloadFile("${Configuration.FILES_HOST}/$fileName", fileName)
-//                            }
-//                        }
-//                    }
-//                }
-//        )
-//    }
-
-//    fun downloadFile(url: String, fileName: String) {
-//        Log.d(TAG, "downloadFile: downloading: $url, size $fileSize")
-//        viewModel.files.currentFile.postValue(url)
-//        val request: okhttp3.Request = okhttp3.Request.Builder()
-//                .url(url)
-//                .build()
-//
-//        client.newCall(request).enqueue(object : Callback {
-//            override fun onFailure(call: Call, e: IOException) {
-//                Log.e(TAG, "onFailure: ")
-//            }
-//
-//            override fun onResponse(call: Call, response: Response) {
-//                saveFile(response, File(Configuration.WZ_DIRECTORY, fileName), File(Configuration.WZ_DIRECTORY, "$fileName.md5"))
-//            }
-//
-//        })
-//    }
-//
-//    private fun generateMd5(path: File): String {
-//        //todo: check if this need to be here
-//        val buff = ByteArray(8192)
-//        val digest = MessageDigest.getInstance("MD5")
-//        path.inputStream().buffered().use {
-//            it.read(buff)
-//            digest.update(buff)
-//        }
-//        val md5sum: ByteArray = digest.digest()
-//        val bigInt = BigInteger(1, md5sum)
-//        var output: String = bigInt.toString(16)
-//        // Fill to 32 chars
-//        output = String.format("%32s", output).replace(' ', '0')
-//        return output
-//
-//
-//    }
-//
-//    private fun saveFile(response: Response, path: File, md5Path: File) {
-//        val sink: BufferedSink = path.sink().buffer()
-//        var byteCount: Long
-//
-//        val source = response.body!!.source()
-//        fileSize = response.body!!.contentLength()
-//        val buffer = Buffer()
-//
-//        while (source.read
-//                (buffer, CHUNK_SIZE).also {
-//                    byteCount = it
-//                    viewModel.textProgress.postValue(viewModel.textProgress.value!! + byteCount)
-//                    Log.d(TAG, "saveFile: $byteCount")
-//                } != -1L) {
-//            sink.write(buffer, byteCount)
-//            sink.flush()
-//        }
-//
-//        sink.close()
-//        md5Path.writeText(generateMd5(path))
-//
-//
-//        // reset the progress bar and the download information
-//        // CR:: Im going to change your layout that will have
-//        // recyclerview of progressviews will help you to call coroutine there
-//        // and update the value there
-//        viewModel.textProgress.postValue(0)
-//    }
 
     private fun backgroundAnimation(backgroundIv: ImageView) {
         val fadeOut: Animation = AnimationUtils.loadAnimation(this, R.anim.fade_out).apply { startOffset = 10000 }
