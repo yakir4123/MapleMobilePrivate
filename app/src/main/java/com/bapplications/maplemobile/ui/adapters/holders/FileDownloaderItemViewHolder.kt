@@ -2,7 +2,6 @@ package com.bapplications.maplemobile.ui.adapters.holders
 
 import android.view.View
 import android.widget.TextView
-import android.widget.ImageView
 import android.widget.ProgressBar
 import com.bapplications.maplemobile.R
 import androidx.recyclerview.widget.RecyclerView
