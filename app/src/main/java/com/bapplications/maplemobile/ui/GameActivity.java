@@ -22,6 +22,7 @@ import com.bapplications.maplemobile.ui.windows.ChangeMapPopup;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -39,6 +40,7 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
     protected void onCreate (Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        Configuration.WZ_DIRECTORY = Objects.requireNonNull(getExternalFilesDir(null)).getAbsolutePath();
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         try {
@@ -49,11 +51,9 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
             Loaded.loadFile(Loaded.WzFileName.STRING, Configuration.WZ_DIRECTORY + "/String.nx");
             Loaded.loadFile(Loaded.WzFileName.CHARACTER, Configuration.WZ_DIRECTORY + "/Character.nx");
         } catch (IOException e) {
-            DownloadAssetsKt.downloadAssets(this);
-            Intent downloadActivityIntent = new Intent(this, DownloadActivity.class);
-            startActivity(downloadActivityIntent);
-
+            Log.e(TAG, "error loaded file", e);
         }
+
         Log.d(TAG, "Loading files complete");
 
         ActivityGameBinding binding = ActivityGameBinding.inflate(getLayoutInflater());
