@@ -8,7 +8,7 @@ import com.bapplications.maplemobile.utils.Point
 import com.bapplications.maplemobile.utils.Point.TwoDPolygon
 import com.bapplications.maplemobile.utils.Range
 
-class Obj(src: NXNode, model: ObjModel) : Animation(model), TwoDPolygon {
+class Obj(val src: NXNode, model: ObjModel) : Animation(model), TwoDPolygon {
     private val dargs = DrawArgument(pos)
 
     val _width: Range
@@ -23,12 +23,17 @@ class Obj(src: NXNode, model: ObjModel) : Animation(model), TwoDPolygon {
         // read on tile.kt why I doing this and not creating new DrawArgument each draw
         super.draw(dargs.offsetPosition(viewpos), alpha)
         dargs.minusPosition(viewpos)
+
     }
 
     init {
         pos = Point(src)
-        lookLeft = src.getChild<NXNode>("f").get(0L).toInt() == 0
 
+        // because I use only one instance of drawArgument instead of initiate every time in draw
+        // I needed to setdirection on the here and change lookLeft to true, this way the obj wont flip every draw
+        lookLeft = src.getChild<NXNode>("f").get(0L).toInt() == 0
+        dargs.setDirection(lookLeft)
+        lookLeft = true
         var maxXDimension: Float = Float.MIN_VALUE
         var maxYDimension: Float = Float.MIN_VALUE
         for(n in 0 until model.size()) {
