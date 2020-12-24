@@ -1,5 +1,6 @@
 package com.bapplications.maplemobile.ui
 
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.animation.Animation
@@ -16,6 +17,7 @@ import com.bapplications.maplemobile.constatns.Configuration
 import com.bapplications.maplemobile.ui.adapters.DownloaderAdapter
 import com.bapplications.maplemobile.ui.etc.FileDownloader
 import com.bapplications.maplemobile.ui.view_models.DownloadActivityViewModel
+import java.io.File
 
 
 val files = arrayOf(
@@ -46,6 +48,12 @@ class DownloadActivity : AppCompatActivity() {
 
     val adapter = DownloaderAdapter()
 
+    fun startGameActivity() {
+        val intent = Intent(this, GameActivity::class.java)
+        startActivity(intent)
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -66,16 +74,26 @@ class DownloadActivity : AppCompatActivity() {
         val downloadingState = object : DownloadingState {
             override fun onDownloadFinished(fileDownloader: FileDownloader) {
                 viewModel.files.value!!.remove(fileDownloader)
+                if (viewModel.files.value!!.size == 0) {
+                    startGameActivity()
+                }
             }
         }
 
         files.forEach {
             viewModel.files.postValue(viewModel.files.value?.apply {
-                val fileDownloader = FileDownloader(it, downloadingState)
-                this.add(fileDownloader)
-                fileDownloader.startDownload()
+                if (!File(Configuration.WZ_DIRECTORY, it).exists()) {
+                    val fileDownloader = FileDownloader(it, downloadingState)
+                    this.add(fileDownloader)
+                    fileDownloader.startDownload()
+                }
             })
         }
+
+        if (viewModel.files.value!!.size == 0) {
+            startGameActivity()
+        }
+
 
 //            if (File(Configuration.WZ_DIRECTORY, it).exists()) {
 //                downloadIfNeeded(it, getLocalMd5(it))

@@ -26,7 +26,10 @@ class FileDownloader(val fileName: String, val downloadingState: DownloadingStat
 
 
     fun startDownload() {
-        downloadIfNeeded(fileName, getLocalMd5(fileName))
+        // for now we does not use the md5 check
+//        downloadIfNeeded(fileName, getLocalMd5(fileName))
+        val compressFilePath = File(Configuration.WZ_DIRECTORY, "$fileName.gz")
+        downloadFile("${Configuration.FILES_HOST}/$fileName.gz", compressFilePath)
     }
 
     private fun downloadIfNeeded(fileName: String, localMd5: String) {
@@ -43,18 +46,19 @@ class FileDownloader(val fileName: String, val downloadingState: DownloadingStat
 
                     override fun onResponse(call: Call, response: Response) {
                         Log.d(TAG, "response from: ${response.request.url} with code:${response.code}")
+                        val compressFilePath = File(Configuration.WZ_DIRECTORY, "$fileName.gz")
 
                         when (response.code) {
                             200 -> {
                                 val remoteFileMd5 = response.body!!.string()
                                 if (remoteFileMd5 != localMd5) {
-                                    downloadFile("${Configuration.FILES_HOST}/$fileName", fileName)
+                                    downloadFile("${Configuration.FILES_HOST}/$fileName", compressFilePath)
                                 }
                             }
 
                             else -> {
-                                if (!File(fileName).exists()) {
-                                    downloadFile("${Configuration.FILES_HOST}/$fileName.gz", "$fileName.gz")
+                                if (compressFilePath.exists()) {
+                                    downloadFile("${Configuration.FILES_HOST}/$fileName.gz", compressFilePath)
                                 } else {
                                     Log.d(TAG, "skipping downloading $fileName")
                                 }
@@ -66,7 +70,7 @@ class FileDownloader(val fileName: String, val downloadingState: DownloadingStat
         )
     }
 
-    fun downloadFile(url: String, fileName: String) {
+    fun downloadFile(url: String, filePath: File) {
         Log.i(TAG, "download file from $url to $fileName")
         val request: okhttp3.Request = okhttp3.Request.Builder()
                 .url(url)
@@ -79,7 +83,7 @@ class FileDownloader(val fileName: String, val downloadingState: DownloadingStat
 
             override fun onResponse(call: Call, response: Response) {
                 Log.d(TAG, "response from ${response.request.url}, code: ${response.code}")
-                saveFile(response, File(Configuration.WZ_DIRECTORY, fileName))
+                saveFile(response, filePath)
             }
 
         })
