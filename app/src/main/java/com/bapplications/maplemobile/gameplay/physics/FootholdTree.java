@@ -58,23 +58,23 @@ public class FootholdTree {
 					Foothold foothold = new Foothold(lastf, id, layer);
                     footholds.put(id, foothold);
 
-                    if (foothold.l() < leftw)
-                        leftw = foothold.l();
+                    if (foothold.getLeft() < leftw)
+                        leftw = foothold.getLeft();
 
-                    if (foothold.r() > rightw)
-                        rightw = foothold.r();
+                    if (foothold.getRight() > rightw)
+                        rightw = foothold.getRight();
 
-                    if (foothold.b() > botb)
-                        botb = foothold.b();
+                    if (foothold.getBottom() > botb)
+                        botb = foothold.getBottom();
 
-                    if (foothold.t() < topb)
-                        topb = foothold.t();
+                    if (foothold.getTop() < topb)
+                        topb = foothold.getTop();
 
                     if (foothold.isWall())
                         continue;
 
-                    float start = foothold.l();
-                    float end = foothold.r();
+                    float start = foothold.getLeft();
+                    float end = foothold.getRight();
 
                     for (short i = (short) start; i <= end; i++) {
                         if(!footholdsbyx.containsKey(i)){
@@ -110,9 +110,9 @@ public class FootholdTree {
 
         if (phobj.onground)
         {
-            if (Math.floor(x) > curfh.r())
+            if (Math.floor(x) > curfh.getRight())
                 phobj.fhid = curfh.next();
-			else if (Math.ceil(x) < curfh.l())
+			else if (Math.ceil(x) < curfh.getLeft())
                 phobj.fhid = curfh.prev();
 
             if (phobj.fhid == 0)
@@ -172,7 +172,7 @@ public class FootholdTree {
         if (phobj.fhid == 0)
         {
             phobj.fhid = curfh.id();
-            phobj.limitX(curfh.x1());
+            phobj.limitX(curfh.getLeft());
         }
     }
 
@@ -271,13 +271,13 @@ public class FootholdTree {
             short previd = fh.prev();
 
             if (previd == 0)
-                return fh.l();
+                return fh.getLeft();
 
 			Foothold prev = getFH(previd);
             short prev_previd = prev.prev();
 
             if (prev_previd == 0)
-                return prev.l();
+                return prev.getLeft();
 
             return walls.getLower();
         }
@@ -286,13 +286,13 @@ public class FootholdTree {
             short nextid = fh.next();
 
             if (nextid == 0)
-                return fh.r();
+                return fh.getRight();
 
 			Foothold next = getFH(nextid);
             short next_nextid = next.next();
 
             if (next_nextid == 0)
-                return next.r();
+                return next.getRight();
 
             return walls.getUpper();
         }
@@ -307,24 +307,24 @@ public class FootholdTree {
 			Foothold prev = getFH(cur.prev());
 
             if (prev.isBlocking(vertical))
-                return cur.l();
+                return cur.getLeft();
 
 			Foothold prev_prev = getFH(prev.prev());
 
             if (prev_prev.isBlocking(vertical))
-                return prev.l();
+                return prev.getLeft();
 
             return walls.getLower();
         } else {
 			Foothold next = getFH(cur.next());
 
             if (next.isBlocking(vertical))
-                return cur.r();
+                return cur.getRight();
 
 			Foothold next_next = getFH(next.next());
 
             if (next_next.isBlocking(vertical))
-                return next.r();
+                return next.getRight();
 
             return walls.getUpper();
         }
