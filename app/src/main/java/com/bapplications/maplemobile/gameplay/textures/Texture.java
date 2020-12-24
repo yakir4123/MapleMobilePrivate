@@ -1,9 +1,9 @@
 package com.bapplications.maplemobile.gameplay.textures;
 
-import android.opengl.GLES20;
 import android.opengl.Matrix;
 import android.opengl.GLUtils;
 import android.graphics.Bitmap;
+import static android.opengl.GLES20.*;
 
 import com.bapplications.maplemobile.opengl.GLState;
 import com.bapplications.maplemobile.utils.DrawArgument;
@@ -16,6 +16,8 @@ import java.util.Map;
 
 public class Texture {
 
+    private static Point drawingPos = new Point();
+
     private Point pos;
     protected Point origin;
     private Point shift = new Point();
@@ -23,10 +25,11 @@ public class Texture {
     protected Object z;
     protected byte flip = 1;
     protected Point dimensions;
-    protected float[] half_dimensions_glratio;
+    protected Point half_dimensions_glratio;
     protected int textureDataHandle;
     protected float _rotationZ = 0.0f;
 
+    private float[] scratchMatrix = new float[16];
     private static Map<Integer, Integer> bitmapToTextureMap = new HashMap<>();
     private Bitmap bmap;
 
@@ -80,7 +83,6 @@ public class Texture {
 
     public static int loadGLTexture(Bitmap bmap)
     {
-
         Integer cachedTextureId = bitmapToTextureMap.get(bmap.hashCode());
         if (cachedTextureId != null)
         {
@@ -89,76 +91,84 @@ public class Texture {
 
         // generate one texture pointer and bind it to our handle
         int[] textureHandle = new int[1];
-        GLES20.glGenTextures(1, textureHandle, 0);
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
+        glGenTextures(1, textureHandle, 0);
+        glBindTexture(GL_TEXTURE_2D, textureHandle[0]);
 
         // create nearest filtered texture
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
-        GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         // Use Android GLUtils to specify a two-dimensional texture image from our bitmap
-        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, GLES20.GL_RGBA, bmap, 0);
+        GLUtils.texImage2D(GL_TEXTURE_2D, 0, GL_RGBA, bmap, 0);
 
         bitmapToTextureMap.put(bmap.hashCode(), textureHandle[0]);
-//        bmap.recycle();
+        bmap.recycle();
         return textureHandle[0];
     }
 
     public static void clear(){
         int size = bitmapToTextureMap.values().size();
         int[] textureArr = bitmapToTextureMap.values().stream().mapToInt(i->i).toArray();
-        GLES20.glDeleteTextures(size, textureArr, 0);
+        glDeleteTextures(size, textureArr, 0);
         bitmapToTextureMap.clear();
     }
 
     public void draw (DrawArgument args) {
         flip(args.getDirection());
-        Point drawingPos = args.getPos().plus(pos);
-        float[] curPos = drawingPos.toGLRatio();
-        if(!(curPos[0] + half_dimensions_glratio[0] > -1
-                || curPos[0] - half_dimensions_glratio[0] < 1
-                || curPos[1] - half_dimensions_glratio[1] > -1
-                || curPos[1] - half_dimensions_glratio[1] < 1)) {
+        drawingPos.copy(pos).offset(args.getPos()).toGLRatio();
+        if(!(drawingPos.x + half_dimensions_glratio.x > -1
+                || drawingPos.x - half_dimensions_glratio.x < 1
+                || drawingPos.y - half_dimensions_glratio.y > -1
+                || drawingPos.y - half_dimensions_glratio.y < 1)) {
             return;
         }
-        float[] scratchMatrix = new float[16];
 
         System.arraycopy(GLState._MVPMatrix, 0, scratchMatrix, 0, 16);
 
-        // Add program to OpenGL environment
-        GLES20.glUseProgram(GLState._programHandle);
+        bindTexture();
 
-        // Enable a handle to the vertices
-        GLES20.glEnableVertexAttribArray(GLState.positionHandle);
-
-        // Prepare the coordinate data
-        GLES20.glVertexAttribPointer(GLState.positionHandle, GLState.COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, GLState.VERTEX_STRIDE, GLState._vertexBuffer);
-
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureDataHandle);
-
-        GLState._textureBuffer.position(0);
-        GLES20.glEnableVertexAttribArray(GLState.textureCoordinateHandle);
-        GLES20.glVertexAttribPointer(GLState.textureCoordinateHandle, 2, GLES20.GL_FLOAT, false, 0, GLState._textureBuffer);
+        // translate the sprite to it's current position
+        Matrix.translateM(scratchMatrix, 0, drawingPos.x , drawingPos.y, 1);
 
         float angle = _rotationZ + args.getAngle();
-//        angle = angle != 0 ? 45: 0;
-        // translate the sprite to it's current position
-        Matrix.translateM(scratchMatrix, 0, curPos[0] , curPos[1], 1);
-        // rotate the sprite
-        Matrix.rotateM(scratchMatrix, 0, angle, 0, 0, 1 );
+        // rotation took 8% of running time, and most of the time is unnecessary
+        // so i avoid using that in those cases
+        if(angle != 0) {
+            // rotate the sprite
+            Matrix.rotateM(scratchMatrix, 0, angle, 0, 0, 1 );
+        }
         // scale the sprite
         Matrix.scaleM(scratchMatrix, 0, dimensions.x * flip, dimensions.y, 1);
 
         // Apply the projection and view transformation
-        GLES20.glUniformMatrix4fv(GLState.mvpMatrixHandle, 1, false, scratchMatrix, 0);
+        glUniformMatrix4fv(GLState.mvpMatrixHandle, 1, false, scratchMatrix, 0);
 
         // Draw the sprite
-        GLES20.glDrawElements(GLES20.GL_TRIANGLES, GLState.DRAW_ORDER.length, GLES20.GL_UNSIGNED_SHORT, GLState._drawListBuffer);
+        glDrawElements(GL_TRIANGLES, GLState.DRAW_ORDER.length, GL_UNSIGNED_SHORT, GLState._drawListBuffer);
 
         // Disable vertex array
-        GLES20.glDisableVertexAttribArray(GLState.positionHandle);
-        GLES20.glDisableVertexAttribArray(GLState.textureCoordinateHandle);
+        glDisableVertexAttribArray(GLState.positionHandle);
+        glDisableVertexAttribArray(GLState.textureCoordinateHandle);
+    }
+
+    void bindTexture() {
+
+        // Add program to OpenGL environment
+        glUseProgram(GLState._programHandle);
+
+        // Enable a handle to the vertices
+        glEnableVertexAttribArray(GLState.positionHandle);
+        GLState._vertexBuffer.position(0);
+        // Prepare the coordinate data
+        glVertexAttribPointer(GLState.positionHandle, GLState.COORDS_PER_VERTEX, GL_FLOAT, false, GLState.VERTEX_STRIDE, GLState._vertexBuffer);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, textureDataHandle);
+
+        GLState._textureBuffer.position(0);
+        glEnableVertexAttribArray(GLState.textureCoordinateHandle);
+        glVertexAttribPointer(GLState.textureCoordinateHandle, 2, GL_FLOAT, false, 0, GLState._textureBuffer);
+
     }
 
     public Object getZ()
@@ -178,7 +188,6 @@ public class Texture {
         setPos(pos, true);
     }
 
-
     public void setPos(Point pos, boolean relativeOrigin){
         pos.y *= -1;
         if(relativeOrigin)
@@ -191,7 +200,7 @@ public class Texture {
         return pos.flipY();//.plus(origin);
     }
 
-    public Point getDimenstion() {
+    public Point getDimension() {
         return dimensions;
     }
 

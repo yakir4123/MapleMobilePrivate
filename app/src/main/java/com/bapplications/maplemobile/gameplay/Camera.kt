@@ -16,11 +16,11 @@ class Camera {
     var eighthCameraHeight = 0f
     var sevenEighthCameraHeight = 0f
 
-    fun setCameraSize(width: Int, height: Int) {
-        halfCameraWidth = width / 2 / Loaded.SCREEN_SCALE
-        halfCameraHeight = height / 2f
-        eighthCameraHeight = height / 8f
-        sevenEighthCameraHeight = height / 8f * 7
+    fun setCameraSize() {
+        halfCameraWidth = Loaded.SCREEN_WIDTH / 4f
+        halfCameraHeight = Loaded.SCREEN_HEIGHT / 4f
+        eighthCameraHeight = Loaded.SCREEN_HEIGHT / 8f
+        sevenEighthCameraHeight = Loaded.SCREEN_HEIGHT / 8f * 7
     }
 
     fun setView(mapwalls: Range, mapborders: Range) {

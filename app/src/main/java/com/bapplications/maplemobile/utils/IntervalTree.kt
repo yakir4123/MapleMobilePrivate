@@ -1,5 +1,10 @@
 package com.bapplications.maplemobile.utils
 
+import com.bapplications.maplemobile.gameplay.GameEngine
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
+
 class IntervalTree(ranges: Collection<Range>, xrange: Range) : Collection<Range> {
 
     val x: Float = xrange.center
@@ -10,6 +15,12 @@ class IntervalTree(ranges: Collection<Range>, xrange: Range) : Collection<Range>
 
     var leftTree: IntervalTree?
     var rightTree: IntervalTree?
+
+    companion object {
+        @JvmStatic
+        private val stack = BasicStack<IntervalTree>(25)
+    }
+
 
     init {
         var minNode = Float.MAX_VALUE
@@ -66,17 +77,29 @@ class IntervalTree(ranges: Collection<Range>, xrange: Range) : Collection<Range>
         rightTree?.shrinkTree()
     }
 
+    /**
+     * Stack implementation is twice better than the recursion implementation
+     */
     fun getRanges(range: Range): List<Range> {
         val res: MutableList<Range> = ArrayList()
-        if (range.intersect(minMaxNodeRange)) {
-            res.addAll(cutX)
+        // From profiling this stack initialization, pop and push is more than 1.5%
+        // so I implement it using array list with less than 1%
+        stack.push(this)
+
+        while(!stack.isEmpty()){
+            val node = stack.pop()
+            if (range.intersect(node.minMaxNodeRange)) {
+                res.addAll(node.cutX)
+            }
+
+            if(node.rightTree?.minMaxTreeRange?.intersect(range) == true) {
+                node.rightTree?.let { stack.push(it) }
+            }
+            if(node.leftTree?.minMaxTreeRange?.intersect(range) == true) {
+                node.leftTree?.let { stack.push(it) }
+            }
         }
-        if(leftTree?.minMaxTreeRange?.intersect(range) == true) {
-            leftTree?.let { res.addAll(it.getRanges(range)) }
-        }
-        if(rightTree?.minMaxTreeRange?.intersect(range) == true) {
-            rightTree?.let { res.addAll(it.getRanges(range)) }
-        }
+        stack.clear()
         return res
     }
 

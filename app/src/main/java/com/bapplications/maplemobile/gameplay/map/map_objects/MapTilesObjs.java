@@ -14,15 +14,15 @@ public class MapTilesObjs {
     public MapTilesObjs(NXNode src, Rectangle mapSize) {
         layers = new EnumMap<>(Layer.class);
         for (Layer id : Layer.values())
-            layers.put(id, new TilesObjs(src.getChild("" + id.ordinal()), mapSize));
+            layers.put(id, new TilesObjs(src.getChild(id.ordinal()), mapSize));
     }
 
     public void draw(Layer layer, Rectangle cameraRect, Point viewpos, float alpha) {
         layers.get(layer).draw(cameraRect, viewpos, alpha);
     }
 
-    public void update(int deltatime) {
+    public void update(int deltaTime) {
         for (Layer id : Layer.values())
-            layers.get(id).update(deltatime);
+            layers.get(id).update(deltaTime);
     }
 }

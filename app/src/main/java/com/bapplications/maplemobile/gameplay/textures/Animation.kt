@@ -37,7 +37,10 @@ open class Animation() {
     fun draw(args: DrawArgument, alpha: Float) {
         val interframe = frameNumber[alpha]
         args.setDirection(lookLeft)
-        model[interframe.toInt()].draw(args.plus(pos))
+        args.offsetPosition(pos)
+        model[interframe.toInt()].draw(args)
+        args.minusPosition(pos)
+
     }
 
     open fun update(deltatime: Int): Boolean {
@@ -93,7 +96,7 @@ open class Animation() {
     }
 
     val dimensions: Point
-        get() = getFrameNumber().dimenstion
+        get() = getFrameNumber().dimension
 
     private fun getFrameNumber(): Frame {
         return model[frameNumber.get().toInt()]

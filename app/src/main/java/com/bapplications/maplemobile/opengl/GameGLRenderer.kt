@@ -1,18 +1,17 @@
 package com.bapplications.maplemobile.opengl
 
-import android.opengl.GLES20
-import android.opengl.GLSurfaceView
-import android.opengl.Matrix
 import android.util.Log
-import com.bapplications.maplemobile.constatns.Configuration
+import android.opengl.Matrix
+import android.opengl.GLES20.*
+import android.opengl.GLSurfaceView
+import javax.microedition.khronos.egl.EGLConfig
+import javax.microedition.khronos.opengles.GL10
 import com.bapplications.maplemobile.constatns.Loaded
 import com.bapplications.maplemobile.gameplay.GameEngine
 import com.bapplications.maplemobile.gameplay.audio.Sound
-import com.bapplications.maplemobile.gameplay.map.map_objects.MapPortals
+import com.bapplications.maplemobile.constatns.Configuration
 import com.bapplications.maplemobile.gameplay.player.look.Char
-import kotlinx.coroutines.runBlocking
-import javax.microedition.khronos.egl.EGLConfig
-import javax.microedition.khronos.opengles.GL10
+import com.bapplications.maplemobile.gameplay.map.map_objects.MapPortals
 
 class GameGLRenderer private constructor() : GLSurfaceView.Renderer {
     val gameEngine: GameEngine? = GameEngine.instance
@@ -24,11 +23,11 @@ class GameGLRenderer private constructor() : GLSurfaceView.Renderer {
 
     override fun onSurfaceCreated(gl10: GL10, eglConfig: EGLConfig) {
         Log.d(TAG, "surface CREATED")
-        GLES20.glClearColor(0.09019f, 0.10588f, 0.13333f, 0.0f)
-        GLES20.glEnable(GLES20.GL_BLEND)
-        GLES20.glBlendEquation(GLES20.GL_FUNC_ADD)
-        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA)
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST)
+        glClearColor(0.09019f, 0.10588f, 0.13333f, 0.0f)
+        glEnable(GL_BLEND)
+        glBlendEquation(GL_FUNC_ADD)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+        glEnable(GL_DEPTH_TEST)
         GLState.initGL()
         Log.d("RENDERER", "OnSurfaceCreated")
     }
@@ -37,14 +36,13 @@ class GameGLRenderer private constructor() : GLSurfaceView.Renderer {
         Log.d(TAG, "surface changed")
 
         // Adjust the viewport
-        GLES20.glViewport(0, 0, width, height)
+        glViewport(0, 0, width, height)
         Loaded.SCREEN_HEIGHT = height
         Loaded.SCREEN_WIDTH = width
         Loaded.SCREEN_RATIO = width.toFloat() / height
-        Loaded.SCREEN_SCALE = Loaded.SCREEN_RATIO / 1.2f // divide by the resolution of 800x600 ratio
-        gameEngine!!.camera.setCameraSize(Loaded.SCREEN_WIDTH, Loaded.SCREEN_HEIGHT)
+        gameEngine!!.camera.setCameraSize()
         GLState.setSpriteSquareRes()
-        Matrix.orthoM(GLState._projectionMatrix, 0, -1f, 1f, -1f, 1f, 0f, 1f)
+        Matrix.orthoM(GLState._projectionMatrix, 0, -width / 2f, width / 2f, -height / 2f, height / 2f, 0f, 1f)
 
         // Set the camera position (View matrix)
         Matrix.setLookAtM(GLState._viewMatrix, 0, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1.0f, 0.0f)
@@ -66,7 +64,7 @@ class GameGLRenderer private constructor() : GLSurfaceView.Renderer {
 
     override fun onDrawFrame(gl10: GL10) {
         // Draw background color
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT or GLES20.GL_DEPTH_BUFFER_BIT)
+        glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
         val now = System.currentTimeMillis()
         val elapsed = now - before.toDouble()
         before = now

@@ -9,6 +9,7 @@ import com.bapplications.maplemobile.constatns.Configuration
 import com.bapplications.maplemobile.gameplay.player.CharEntry
 import com.bapplications.maplemobile.input.events.EventListener
 import com.bapplications.maplemobile.input.network.NetworkHandler
+import com.bapplications.maplemobile.input.network.NetworkHandlerDemo
 import com.bapplications.maplemobile.ui.interfaces.GameEngineListener
 
 class GameEngine private constructor() : EventListener {
@@ -17,7 +18,9 @@ class GameEngine private constructor() : EventListener {
         private set
     private var currMap: GameMap
     private val networkHandler: NetworkHandler
-    
+    private val networkHandlerDemo: NetworkHandlerDemo
+
+
     fun startGame() {
         currMap.init(Configuration.START_MAP)
         listeners.forEach(Consumer { listener: GameEngineListener -> listener.onGameStarted() })
@@ -51,13 +54,6 @@ class GameEngine private constructor() : EventListener {
 
     fun loadPlayer() {
         EventsQueue.instance.enqueue(PlayerConnectEvent(0))
-        if (false) {
-            // for development this will be a new char instead from reading from a db
-            val ce = CharEntry(0)
-            ce.look.faceid = 20000
-            ce.look.hairid = 30020
-            loadPlayer(ce)
-        }
     }
 
     fun loadPlayer(entry: CharEntry) {
@@ -101,6 +97,8 @@ class GameEngine private constructor() : EventListener {
     init {
         currMap = GameMap(camera)
         networkHandler = NetworkHandler(Configuration.HOST, Configuration.PORT)
+        networkHandlerDemo = NetworkHandlerDemo()
+//        networkHandler = NetworkHandlerDemo()
         EventsQueue.instance.registerListener(EventType.PlayerConnected, this)
     }
 }

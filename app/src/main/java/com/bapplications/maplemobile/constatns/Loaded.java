@@ -15,7 +15,6 @@ public class Loaded {
     public static int SCREEN_WIDTH = -1;
     public static int SCREEN_HEIGHT = -1;
     public static float SCREEN_RATIO = -1;
-    public static float SCREEN_SCALE = -1;
 
 
     public enum WzFileName {

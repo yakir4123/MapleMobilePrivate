@@ -3,9 +3,15 @@ package com.bapplications.maplemobile.utils
 import com.bapplications.maplemobile.pkgnx.NXNode
 import com.bapplications.maplemobile.pkgnx.nodes.NXPointNode
 import com.bapplications.maplemobile.utils.Point.TwoDPolygon
+import kotlin.math.abs
 
 
 class Rectangle(var leftTop: Point, var rightBottom: Point) : TwoDPolygon {
+
+    private lateinit var widthRange: Range
+    private lateinit var heightRange: Range
+    private var widthChanged = true
+    private var heightChanged = true
 
     // want new instance of the points to avoid shallow copy
     init {
@@ -28,11 +34,11 @@ class Rectangle(var leftTop: Point, var rightBottom: Point) : TwoDPolygon {
     constructor(rect: Rectangle): this(Point(rect.leftTop), Point(rect.rightBottom))
 
     fun width(): Float {
-        return Math.abs(left() - right())
+        return abs(left() - right())
     }
 
     fun height(): Float {
-        return Math.abs(top() - bottom())
+        return abs(top() - bottom())
     }
 
     fun left(): Float {
@@ -60,8 +66,8 @@ class Rectangle(var leftTop: Point, var rightBottom: Point) : TwoDPolygon {
     }
 
     fun overlaps(ar: Rectangle): Boolean {
-        return (get_horizontal().intersect(Range(ar.left(), ar.right()))
-                && get_vertical().intersect(Range(ar.top(), ar.bottom())))
+        return (getHorizontal().intersect(Range(ar.left(), ar.right()))
+                && getVertical().intersect(Range(ar.top(), ar.bottom())))
     }
 
     fun straight(): Boolean {
@@ -72,50 +78,64 @@ class Rectangle(var leftTop: Point, var rightBottom: Point) : TwoDPolygon {
         return leftTop.x == leftTop.y && rightBottom.x == rightBottom.y && straight()
     }
 
-    fun get_left_top(): Point? {
-        return leftTop
-    }
-
-    fun get_right_bottom(): Point? {
-        return rightBottom
-    }
-
-    fun get_right_top(): Point {
+    fun getRightTop(): Point {
         return Point(rightBottom.x, leftTop.y)
     }
 
-    fun get_left_bottom(): Point {
+    fun getLeftBottom(): Point {
         return Point(leftTop.x, rightBottom.y)
     }
 
-    fun get_horizontal(): Range {
-        return Range(left(), right())
+    fun getHorizontal(): Range {
+        if(widthChanged) {
+            widthRange = Range(left(), right())
+            widthChanged = false;
+        }
+        return widthRange
     }
 
-    fun get_vertical(): Range {
-        return Range(top(), bottom())
+    fun getVertical(): Range {
+        if(heightChanged) {
+            heightRange = Range(top(), bottom())
+            heightChanged = false;
+        }
+        return heightRange
     }
 
     fun shift(v: Point) {
         leftTop.offset(v.x, v.y)
         rightBottom.offset(v.x, v.y)
+        widthChanged = true
+        heightChanged = true
     }
 
     fun setLeft(`val`: Float) {
         leftTop.x = `val`
+        widthChanged = true
     }
 
     fun setRight(`val`: Float) {
         rightBottom.x = `val`
+        widthChanged = true
+    }
+
+    fun setTop(`val`: Float) {
+        leftTop.y = `val`
+        heightChanged = true
+    }
+
+    fun setBottom(`val`: Float) {
+        rightBottom.y = `val`
+        heightChanged = true
     }
 
     fun draw(pos: Point) {
         val args = DrawArgument(pos)
         val points = listOf<DrawableCircle>(
-                DrawableCircle.createCircle(get_left_top(), Color.GREEN),
-                DrawableCircle.createCircle(get_right_top(), Color.GREEN),
-                DrawableCircle.createCircle(get_left_bottom(), Color.GREEN),
-                DrawableCircle.createCircle(get_right_bottom(), Color.GREEN))
+                DrawableCircle.createCircle(leftTop, Color.GREEN),
+                DrawableCircle.createCircle(getRightTop(), Color.GREEN),
+                DrawableCircle.createCircle(getLeftBottom(), Color.GREEN),
+                DrawableCircle.createCircle(rightBottom, Color.GREEN))
         for (p in points) {
             p.draw(args)
         }
@@ -126,7 +146,7 @@ class Rectangle(var leftTop: Point, var rightBottom: Point) : TwoDPolygon {
     }
 
     override val width: Range
-        get() = get_horizontal()
+        get() = getHorizontal()
     override val height: Range
-        get() = get_vertical()
+        get() = getVertical()
 }

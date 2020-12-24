@@ -6,8 +6,13 @@ class Range (first: Float, second: Float) {
 
     fun size(): Float = upper - lower
 
-    fun intersect(v: Range): Boolean = contains(v.lower) || contains(v.upper) ||
-            v.contains(lower) || v.contains(upper)
+    // simply check if v intersect with this
+    // more clear is the `or` implementation but the `and` implementation is faster because it asks less questions
+    // and i profile that multiple times and it is really faster
+//    fun intersect(v: Range): Boolean = contains(v.lower) || contains(v.upper) ||
+//            v.contains(lower) || v.contains(upper)
+    fun intersect(v: Range): Boolean = !(!contains(v.lower) && !contains(v.upper) &&
+            !v.contains(lower) && !v.contains(upper))
 
     operator fun contains(v: Float): Boolean = v > lower && v < upper
 
