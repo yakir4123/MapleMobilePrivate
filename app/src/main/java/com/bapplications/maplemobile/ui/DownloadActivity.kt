@@ -20,11 +20,11 @@ import com.bapplications.maplemobile.ui.view_models.DownloadActivityViewModel
 
 val files = arrayOf(
         "String.nx",
-//        "Map.nx",
-//        "Sound.nx",
-//        "Character.nx",
-//        "Mob.nx",
-//        "Item.nx",
+        "Map.nx",
+        "Sound.nx",
+        "Character.nx",
+        "Mob.nx",
+        "Item.nx",
 )
 
 val TAG = "DownloadManager"

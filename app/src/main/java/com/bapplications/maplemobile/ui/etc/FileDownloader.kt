@@ -8,12 +8,8 @@ import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
 import okhttp3.Response
-import okio.Buffer
-import okio.BufferedSink
-import okio.buffer
-import okio.sink
+import okio.*
 import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
 import java.math.BigInteger
 import java.security.MessageDigest
@@ -46,7 +42,7 @@ class FileDownloader(val fileName: String, val downloadingState: DownloadingStat
                     }
 
                     override fun onResponse(call: Call, response: Response) {
-                        Log.d(TAG, "response from: ${response.request.url}")
+                        Log.d(TAG, "response from: ${response.request.url} with code:${response.code}")
 
                         when (response.code) {
                             200 -> {
@@ -59,6 +55,8 @@ class FileDownloader(val fileName: String, val downloadingState: DownloadingStat
                             else -> {
                                 if (!File(fileName).exists()) {
                                     downloadFile("${Configuration.FILES_HOST}/$fileName.gz", "$fileName.gz")
+                                } else {
+                                    Log.d(TAG, "skipping downloading $fileName")
                                 }
                             }
                         }
@@ -69,6 +67,7 @@ class FileDownloader(val fileName: String, val downloadingState: DownloadingStat
     }
 
     fun downloadFile(url: String, fileName: String) {
+        Log.i(TAG, "download file from $url to $fileName")
         val request: okhttp3.Request = okhttp3.Request.Builder()
                 .url(url)
                 .build()
@@ -80,31 +79,48 @@ class FileDownloader(val fileName: String, val downloadingState: DownloadingStat
 
             override fun onResponse(call: Call, response: Response) {
                 Log.d(TAG, "response from ${response.request.url}, code: ${response.code}")
-                saveFile(response, File(Configuration.WZ_DIRECTORY, fileName), File(Configuration.WZ_DIRECTORY, fileName))
+                saveFile(response, File(Configuration.WZ_DIRECTORY, fileName))
             }
 
         })
     }
 
     fun ungzip(srcPath: File, dstPath: File) {
-        fileSize = srcPath.length().toInt()
+        Log.d(TAG, "unzip $srcPath to $dstPath")
+        val sourceBuffer = GZIPInputStream(srcPath.inputStream()).source()
+        val dstSinkBuffer : BufferedSink = dstPath.sink().buffer()
+        dstSinkBuffer.writeAll(sourceBuffer)
+//        val buffer = Buffer()
+//        while (sourceBuffer.read
+//                (buffer, CHUNK_SIZE) != -1L) {
+//            dstSinkBuffer.writeAll(buffer)
+//        }
+//            sink.write(buffer, byteCount)
 
-        val sink: FileOutputStream = dstPath.outputStream()
-        var gzipInput = GZIPInputStream(srcPath.inputStream())
-        var byteCount: Long
-        var buffer: ByteArray = ByteArray(CHUNK_SIZE.toInt())
 
-        while (gzipInput.read(buffer).also {
-                    byteCount = it.toLong()
-                    Log.d(TAG, "saveFile: $byteCount")
-                    progress += it
-                } != -1) {
-            sink.write(buffer)
-        }
-        sink.close()
+//        while (
+//        dstPath.writeBytes(GZIPInputStream(srcPath.inputStream()).)
     }
 
-    private fun saveFile(response: Response, path: File, md5Path: File) {
+//    fun ungzip(srcPath: File, dstPath: File) {
+//        fileSize = srcPath.length().toInt()
+//
+//        val sink: FileOutputStream = dstPath.outputStream()
+//        var gzipInput = GZIPInputStream(srcPath.inputStream())
+//        var byteCount: Long
+//        var buffer: ByteArray = ByteArray(CHUNK_SIZE.toInt())
+//
+//        while (gzipInput.read(buffer).also {
+//                    byteCount = it.toLong()
+//                    Log.d(TAG, "saveFile: $byteCount")
+//                    progress += it
+//                } != -1) {
+//            sink.write(buffer)
+//        }
+//        sink.close()
+//    }
+
+    private fun saveFile(response: Response, path: File) {
         val sink: BufferedSink = path.sink().buffer()
         var byteCount: Long
 
@@ -115,7 +131,6 @@ class FileDownloader(val fileName: String, val downloadingState: DownloadingStat
         while (source.read
                 (buffer, CHUNK_SIZE).also {
                     byteCount = it
-                    Log.d(TAG, "saveFile: $byteCount")
                     progress += it
                 } != -1L) {
             sink.write(buffer, byteCount)
@@ -123,8 +138,11 @@ class FileDownloader(val fileName: String, val downloadingState: DownloadingStat
         }
 
         sink.close()
-        ungzip(File("${path.absolutePath}"), path)
-        md5Path.writeText(generateMd5(path))
+
+        val nxFile = File(Configuration.WZ_DIRECTORY, fileName)
+        ungzip(path, nxFile)
+        path.delete()
+        File("$nxFile.md5").writeText(generateMd5(path))
         downloadingState.onDownloadFinished(this)
     }
 
