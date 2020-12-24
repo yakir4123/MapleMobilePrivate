@@ -47,18 +47,22 @@ public class Music {
 
     private static void playAudioByNode(NXAudioNode audioNode) {
         try {
-            // create temp file that will hold byte array
-            File tempMp3 = File.createTempFile("bgm", "mp3", new File(Configuration.CACHE_DIRECTORY));
-            tempMp3.deleteOnExit();
-            FileOutputStream fos = new FileOutputStream(tempMp3);
+            String bgmPath = Configuration.CACHE_DIRECTORY + bgmpath + ".mp3";
+            File bgmFile = new File(bgmPath);
+            if (!bgmFile.exists()){
+                // create temp file that will hold byte array
+                bgmFile.createNewFile();
+            }
+            FileOutputStream fos = new FileOutputStream(bgmFile);
             fos.write(audioNode.get().array());
             fos.close();
 
             // resetting mediaplayer instance to evade problems
             mediaPlayer.reset();
             mediaPlayer.setLooping(true);
-            FileInputStream fis = new FileInputStream(tempMp3);
+            FileInputStream fis = new FileInputStream(bgmFile);
             mediaPlayer.setDataSource(fis.getFD());
+            fis.close();
 
             mediaPlayer.prepare();
             mediaPlayer.start();

@@ -1,6 +1,6 @@
 package com.bapplications.maplemobile.opengl;
 
-import android.opengl.GLES20;
+import static android.opengl.GLES20.*;
 
 import com.bapplications.maplemobile.constatns.Loaded;
 
@@ -49,8 +49,8 @@ public class GLState {
 
     
     public static FloatBuffer _vertexBuffer;
-    public static ShortBuffer _drawListBuffer;
     public static FloatBuffer _textureBuffer;
+    public static ShortBuffer _drawListBuffer;
 
     /** Order to draw the sprite square */
     public static final short DRAW_ORDER[] = { 0, 1, 2, 0, 2, 3 };
@@ -82,40 +82,35 @@ public class GLState {
         _drawListBuffer.put(DRAW_ORDER);
         _drawListBuffer.position(0);
 
-        int vertexShader = loadShader(GLES20.GL_VERTEX_SHADER, VERTEX_SHADER_CODE);
-        int fragmentShader = loadShader(GLES20.GL_FRAGMENT_SHADER, FRAGMENT_SHADER_CODE);
-        _programHandle = GLES20.glCreateProgram();             // create empty OpenGL Program
-        GLES20.glAttachShader(_programHandle, vertexShader);   // add the vertex shader to program
-        GLES20.glAttachShader(_programHandle, fragmentShader); // add the fragment shader to program
+        int vertexShader = loadShader(GL_VERTEX_SHADER, VERTEX_SHADER_CODE);
+        int fragmentShader = loadShader(GL_FRAGMENT_SHADER, FRAGMENT_SHADER_CODE);
+        _programHandle = glCreateProgram();             // create empty OpenGL Program
+        glAttachShader(_programHandle, vertexShader);   // add the vertex shader to program
+        glAttachShader(_programHandle, fragmentShader); // add the fragment shader to program
 
-        GLES20.glBindAttribLocation(_programHandle, 0, TEXTURE_COORDINATE_PARAM);
-        GLES20.glLinkProgram(_programHandle);
+        glBindAttribLocation(_programHandle, 0, TEXTURE_COORDINATE_PARAM);
+        glLinkProgram(_programHandle);
 
-        positionHandle = GLES20.glGetAttribLocation(_programHandle, POSITION_PARAM);
-        textureCoordinateHandle = GLES20.glGetAttribLocation(_programHandle, TEXTURE_COORDINATE_PARAM);
-        mvpMatrixHandle = GLES20.glGetUniformLocation(_programHandle, MVPMATRIX_PARAM);
+        positionHandle = glGetAttribLocation(_programHandle, POSITION_PARAM);
+        textureCoordinateHandle = glGetAttribLocation(_programHandle, TEXTURE_COORDINATE_PARAM);
+        mvpMatrixHandle = glGetUniformLocation(_programHandle, MVPMATRIX_PARAM);
 
     }
     
     public static int loadShader (int type, String shaderCode)
     {
-        // create a vertex shader type (GLES20.GL_VERTEX_SHADER)
-        // or a fragment shader type (GLES20.GL_FRAGMENT_SHADER)
-        int shader = GLES20.glCreateShader(type);
+        // create a vertex shader type (GL_VERTEX_SHADER)
+        // or a fragment shader type (GL_FRAGMENT_SHADER)
+        int shader = glCreateShader(type);
 
         // add the source code to the shader and compile it
-        GLES20.glShaderSource(shader, shaderCode);
-        GLES20.glCompileShader(shader);
+        glShaderSource(shader, shaderCode);
+        glCompileShader(shader);
 
         return shader;
     }
 
     public static void setSpriteSquareRes() {
-        for(int i = 0 ; i < SQUARE_COORDINATES.length ; i += 3){
-            SQUARE_COORDINATES[i] = Loaded.SCREEN_SCALE * SQUARE_COORDINATES[i] / Loaded.SCREEN_WIDTH;
-            SQUARE_COORDINATES[i + 1] = Loaded.SCREEN_SCALE * SQUARE_COORDINATES[i + 1] / Loaded.SCREEN_HEIGHT;
-            SQUARE_COORDINATES[i + 2] = 0;
-        }
 
         ByteBuffer bb = ByteBuffer.allocateDirect(SQUARE_COORDINATES.length * 4);
         bb.order(ByteOrder.nativeOrder());
@@ -133,6 +128,6 @@ public class GLState {
     }
 
     public static void drawScreenFill() {
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 }

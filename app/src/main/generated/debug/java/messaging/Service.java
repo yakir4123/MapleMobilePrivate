@@ -106,360 +106,6 @@ public final class Service {
     // @@protoc_insertion_point(enum_scope:messaging.DropState)
   }
 
-  public interface ChatMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:messaging.ChatMessage)
-      com.google.protobuf.MessageLiteOrBuilder {
-
-    /**
-     * <code>int32 id = 1;</code>
-     * @return The id.
-     */
-    int getId();
-
-    /**
-     * <code>string message = 2;</code>
-     * @return The message.
-     */
-    java.lang.String getMessage();
-    /**
-     * <code>string message = 2;</code>
-     * @return The bytes for message.
-     */
-    com.google.protobuf.ByteString
-        getMessageBytes();
-  }
-  /**
-   * Protobuf type {@code messaging.ChatMessage}
-   */
-  public  static final class ChatMessage extends
-      com.google.protobuf.GeneratedMessageLite<
-          ChatMessage, ChatMessage.Builder> implements
-      // @@protoc_insertion_point(message_implements:messaging.ChatMessage)
-      ChatMessageOrBuilder {
-    private ChatMessage() {
-      message_ = "";
-    }
-    public static final int ID_FIELD_NUMBER = 1;
-    private int id_;
-    /**
-     * <code>int32 id = 1;</code>
-     * @return The id.
-     */
-    @java.lang.Override
-    public int getId() {
-      return id_;
-    }
-    /**
-     * <code>int32 id = 1;</code>
-     * @param value The id to set.
-     */
-    private void setId(int value) {
-      
-      id_ = value;
-    }
-    /**
-     * <code>int32 id = 1;</code>
-     */
-    private void clearId() {
-      
-      id_ = 0;
-    }
-
-    public static final int MESSAGE_FIELD_NUMBER = 2;
-    private java.lang.String message_;
-    /**
-     * <code>string message = 2;</code>
-     * @return The message.
-     */
-    @java.lang.Override
-    public java.lang.String getMessage() {
-      return message_;
-    }
-    /**
-     * <code>string message = 2;</code>
-     * @return The bytes for message.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getMessageBytes() {
-      return com.google.protobuf.ByteString.copyFromUtf8(message_);
-    }
-    /**
-     * <code>string message = 2;</code>
-     * @param value The message to set.
-     */
-    private void setMessage(
-        java.lang.String value) {
-      value.getClass();
-  
-      message_ = value;
-    }
-    /**
-     * <code>string message = 2;</code>
-     */
-    private void clearMessage() {
-      
-      message_ = getDefaultInstance().getMessage();
-    }
-    /**
-     * <code>string message = 2;</code>
-     * @param value The bytes for message to set.
-     */
-    private void setMessageBytes(
-        com.google.protobuf.ByteString value) {
-      checkByteStringIsUtf8(value);
-      message_ = value.toStringUtf8();
-      
-    }
-
-    public static messaging.Service.ChatMessage parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
-    }
-    public static messaging.Service.ChatMessage parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
-    }
-    public static messaging.Service.ChatMessage parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
-    }
-    public static messaging.Service.ChatMessage parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
-    }
-    public static messaging.Service.ChatMessage parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
-    }
-    public static messaging.Service.ChatMessage parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
-    }
-    public static messaging.Service.ChatMessage parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input);
-    }
-    public static messaging.Service.ChatMessage parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input, extensionRegistry);
-    }
-    public static messaging.Service.ChatMessage parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
-    }
-    public static messaging.Service.ChatMessage parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
-    }
-    public static messaging.Service.ChatMessage parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input);
-    }
-    public static messaging.Service.ChatMessage parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() {
-      return (Builder) DEFAULT_INSTANCE.createBuilder();
-    }
-    public static Builder newBuilder(messaging.Service.ChatMessage prototype) {
-      return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
-    }
-
-    /**
-     * Protobuf type {@code messaging.ChatMessage}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageLite.Builder<
-          messaging.Service.ChatMessage, Builder> implements
-        // @@protoc_insertion_point(builder_implements:messaging.ChatMessage)
-        messaging.Service.ChatMessageOrBuilder {
-      // Construct using messaging.Service.ChatMessage.newBuilder()
-      private Builder() {
-        super(DEFAULT_INSTANCE);
-      }
-
-
-      /**
-       * <code>int32 id = 1;</code>
-       * @return The id.
-       */
-      @java.lang.Override
-      public int getId() {
-        return instance.getId();
-      }
-      /**
-       * <code>int32 id = 1;</code>
-       * @param value The id to set.
-       * @return This builder for chaining.
-       */
-      public Builder setId(int value) {
-        copyOnWrite();
-        instance.setId(value);
-        return this;
-      }
-      /**
-       * <code>int32 id = 1;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearId() {
-        copyOnWrite();
-        instance.clearId();
-        return this;
-      }
-
-      /**
-       * <code>string message = 2;</code>
-       * @return The message.
-       */
-      @java.lang.Override
-      public java.lang.String getMessage() {
-        return instance.getMessage();
-      }
-      /**
-       * <code>string message = 2;</code>
-       * @return The bytes for message.
-       */
-      @java.lang.Override
-      public com.google.protobuf.ByteString
-          getMessageBytes() {
-        return instance.getMessageBytes();
-      }
-      /**
-       * <code>string message = 2;</code>
-       * @param value The message to set.
-       * @return This builder for chaining.
-       */
-      public Builder setMessage(
-          java.lang.String value) {
-        copyOnWrite();
-        instance.setMessage(value);
-        return this;
-      }
-      /**
-       * <code>string message = 2;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearMessage() {
-        copyOnWrite();
-        instance.clearMessage();
-        return this;
-      }
-      /**
-       * <code>string message = 2;</code>
-       * @param value The bytes for message to set.
-       * @return This builder for chaining.
-       */
-      public Builder setMessageBytes(
-          com.google.protobuf.ByteString value) {
-        copyOnWrite();
-        instance.setMessageBytes(value);
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:messaging.ChatMessage)
-    }
-    @java.lang.Override
-    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
-    protected final java.lang.Object dynamicMethod(
-        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
-        java.lang.Object arg0, java.lang.Object arg1) {
-      switch (method) {
-        case NEW_MUTABLE_INSTANCE: {
-          return new messaging.Service.ChatMessage();
-        }
-        case NEW_BUILDER: {
-          return new Builder();
-        }
-        case BUILD_MESSAGE_INFO: {
-            java.lang.Object[] objects = new java.lang.Object[] {
-              "id_",
-              "message_",
-            };
-            java.lang.String info =
-                "\u0000\u0002\u0000\u0000\u0001\u0002\u0002\u0000\u0000\u0000\u0001\u0004\u0002\u0208" +
-                "";
-            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
-        }
-        // fall through
-        case GET_DEFAULT_INSTANCE: {
-          return DEFAULT_INSTANCE;
-        }
-        case GET_PARSER: {
-          com.google.protobuf.Parser<messaging.Service.ChatMessage> parser = PARSER;
-          if (parser == null) {
-            synchronized (messaging.Service.ChatMessage.class) {
-              parser = PARSER;
-              if (parser == null) {
-                parser =
-                    new DefaultInstanceBasedParser<messaging.Service.ChatMessage>(
-                        DEFAULT_INSTANCE);
-                PARSER = parser;
-              }
-            }
-          }
-          return parser;
-      }
-      case GET_MEMOIZED_IS_INITIALIZED: {
-        return (byte) 1;
-      }
-      case SET_MEMOIZED_IS_INITIALIZED: {
-        return null;
-      }
-      }
-      throw new UnsupportedOperationException();
-    }
-
-
-    // @@protoc_insertion_point(class_scope:messaging.ChatMessage)
-    private static final messaging.Service.ChatMessage DEFAULT_INSTANCE;
-    static {
-      ChatMessage defaultInstance = new ChatMessage();
-      // New instances are implicitly immutable so no need to make
-      // immutable.
-      DEFAULT_INSTANCE = defaultInstance;
-      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
-        ChatMessage.class, defaultInstance);
-    }
-
-    public static messaging.Service.ChatMessage getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static volatile com.google.protobuf.Parser<ChatMessage> PARSER;
-
-    public static com.google.protobuf.Parser<ChatMessage> parser() {
-      return DEFAULT_INSTANCE.getParserForType();
-    }
-  }
-
   public interface RequestEventOrBuilder extends
       // @@protoc_insertion_point(interface_extends:messaging.RequestEvent)
       com.google.protobuf.MessageLiteOrBuilder {
@@ -474,6 +120,83 @@ public final class Service {
      * @return The dropItem.
      */
     messaging.Service.RequestDropItem getDropItem();
+
+    /**
+     * <code>.messaging.PressButton pressButton = 2;</code>
+     * @return Whether the pressButton field is set.
+     */
+    boolean hasPressButton();
+    /**
+     * <code>.messaging.PressButton pressButton = 2;</code>
+     * @return The pressButton.
+     */
+    messaging.Service.PressButton getPressButton();
+
+    /**
+     * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+     * @return Whether the expressionButton field is set.
+     */
+    boolean hasExpressionButton();
+    /**
+     * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+     * @return The expressionButton.
+     */
+    messaging.Service.ExpressionButton getExpressionButton();
+
+    /**
+     * <code>.messaging.RequestPlayerConnect playerConnect = 4;</code>
+     * @return Whether the playerConnect field is set.
+     */
+    boolean hasPlayerConnect();
+    /**
+     * <code>.messaging.RequestPlayerConnect playerConnect = 4;</code>
+     * @return The playerConnect.
+     */
+    messaging.Service.RequestPlayerConnect getPlayerConnect();
+
+    /**
+     * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+     * @return Whether the playerStateUpdated field is set.
+     */
+    boolean hasPlayerStateUpdated();
+    /**
+     * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+     * @return The playerStateUpdated.
+     */
+    messaging.Service.UpdatePlayerState getPlayerStateUpdated();
+
+    /**
+     * <code>.messaging.EquipItem equipItem = 6;</code>
+     * @return Whether the equipItem field is set.
+     */
+    boolean hasEquipItem();
+    /**
+     * <code>.messaging.EquipItem equipItem = 6;</code>
+     * @return The equipItem.
+     */
+    messaging.Service.EquipItem getEquipItem();
+
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 7;</code>
+     * @return Whether the unequipItem field is set.
+     */
+    boolean hasUnequipItem();
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 7;</code>
+     * @return The unequipItem.
+     */
+    messaging.Service.UnequipItem getUnequipItem();
+
+    /**
+     * <code>.messaging.PickupItem pickupItem = 8;</code>
+     * @return Whether the pickupItem field is set.
+     */
+    boolean hasPickupItem();
+    /**
+     * <code>.messaging.PickupItem pickupItem = 8;</code>
+     * @return The pickupItem.
+     */
+    messaging.Service.PickupItem getPickupItem();
 
     public messaging.Service.RequestEvent.EventCase getEventCase();
   }
@@ -491,6 +214,13 @@ public final class Service {
     private java.lang.Object event_;
     public enum EventCase {
       DROPITEM(1),
+      PRESSBUTTON(2),
+      EXPRESSIONBUTTON(3),
+      PLAYERCONNECT(4),
+      PLAYERSTATEUPDATED(5),
+      EQUIPITEM(6),
+      UNEQUIPITEM(7),
+      PICKUPITEM(8),
       EVENT_NOT_SET(0);
       private final int value;
       private EventCase(int value) {
@@ -507,6 +237,13 @@ public final class Service {
       public static EventCase forNumber(int value) {
         switch (value) {
           case 1: return DROPITEM;
+          case 2: return PRESSBUTTON;
+          case 3: return EXPRESSIONBUTTON;
+          case 4: return PLAYERCONNECT;
+          case 5: return PLAYERSTATEUPDATED;
+          case 6: return EQUIPITEM;
+          case 7: return UNEQUIPITEM;
+          case 8: return PICKUPITEM;
           case 0: return EVENT_NOT_SET;
           default: return null;
         }
@@ -573,6 +310,356 @@ public final class Service {
      */
     private void clearDropItem() {
       if (eventCase_ == 1) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int PRESSBUTTON_FIELD_NUMBER = 2;
+    /**
+     * <code>.messaging.PressButton pressButton = 2;</code>
+     */
+    @java.lang.Override
+    public boolean hasPressButton() {
+      return eventCase_ == 2;
+    }
+    /**
+     * <code>.messaging.PressButton pressButton = 2;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.PressButton getPressButton() {
+      if (eventCase_ == 2) {
+         return (messaging.Service.PressButton) event_;
+      }
+      return messaging.Service.PressButton.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.PressButton pressButton = 2;</code>
+     */
+    private void setPressButton(messaging.Service.PressButton value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 2;
+    }
+    /**
+     * <code>.messaging.PressButton pressButton = 2;</code>
+     */
+    private void mergePressButton(messaging.Service.PressButton value) {
+      value.getClass();
+  if (eventCase_ == 2 &&
+          event_ != messaging.Service.PressButton.getDefaultInstance()) {
+        event_ = messaging.Service.PressButton.newBuilder((messaging.Service.PressButton) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 2;
+    }
+    /**
+     * <code>.messaging.PressButton pressButton = 2;</code>
+     */
+    private void clearPressButton() {
+      if (eventCase_ == 2) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int EXPRESSIONBUTTON_FIELD_NUMBER = 3;
+    /**
+     * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+     */
+    @java.lang.Override
+    public boolean hasExpressionButton() {
+      return eventCase_ == 3;
+    }
+    /**
+     * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.ExpressionButton getExpressionButton() {
+      if (eventCase_ == 3) {
+         return (messaging.Service.ExpressionButton) event_;
+      }
+      return messaging.Service.ExpressionButton.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+     */
+    private void setExpressionButton(messaging.Service.ExpressionButton value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 3;
+    }
+    /**
+     * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+     */
+    private void mergeExpressionButton(messaging.Service.ExpressionButton value) {
+      value.getClass();
+  if (eventCase_ == 3 &&
+          event_ != messaging.Service.ExpressionButton.getDefaultInstance()) {
+        event_ = messaging.Service.ExpressionButton.newBuilder((messaging.Service.ExpressionButton) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 3;
+    }
+    /**
+     * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+     */
+    private void clearExpressionButton() {
+      if (eventCase_ == 3) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int PLAYERCONNECT_FIELD_NUMBER = 4;
+    /**
+     * <code>.messaging.RequestPlayerConnect playerConnect = 4;</code>
+     */
+    @java.lang.Override
+    public boolean hasPlayerConnect() {
+      return eventCase_ == 4;
+    }
+    /**
+     * <code>.messaging.RequestPlayerConnect playerConnect = 4;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.RequestPlayerConnect getPlayerConnect() {
+      if (eventCase_ == 4) {
+         return (messaging.Service.RequestPlayerConnect) event_;
+      }
+      return messaging.Service.RequestPlayerConnect.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.RequestPlayerConnect playerConnect = 4;</code>
+     */
+    private void setPlayerConnect(messaging.Service.RequestPlayerConnect value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 4;
+    }
+    /**
+     * <code>.messaging.RequestPlayerConnect playerConnect = 4;</code>
+     */
+    private void mergePlayerConnect(messaging.Service.RequestPlayerConnect value) {
+      value.getClass();
+  if (eventCase_ == 4 &&
+          event_ != messaging.Service.RequestPlayerConnect.getDefaultInstance()) {
+        event_ = messaging.Service.RequestPlayerConnect.newBuilder((messaging.Service.RequestPlayerConnect) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 4;
+    }
+    /**
+     * <code>.messaging.RequestPlayerConnect playerConnect = 4;</code>
+     */
+    private void clearPlayerConnect() {
+      if (eventCase_ == 4) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int PLAYERSTATEUPDATED_FIELD_NUMBER = 5;
+    /**
+     * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+     */
+    @java.lang.Override
+    public boolean hasPlayerStateUpdated() {
+      return eventCase_ == 5;
+    }
+    /**
+     * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.UpdatePlayerState getPlayerStateUpdated() {
+      if (eventCase_ == 5) {
+         return (messaging.Service.UpdatePlayerState) event_;
+      }
+      return messaging.Service.UpdatePlayerState.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+     */
+    private void setPlayerStateUpdated(messaging.Service.UpdatePlayerState value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 5;
+    }
+    /**
+     * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+     */
+    private void mergePlayerStateUpdated(messaging.Service.UpdatePlayerState value) {
+      value.getClass();
+  if (eventCase_ == 5 &&
+          event_ != messaging.Service.UpdatePlayerState.getDefaultInstance()) {
+        event_ = messaging.Service.UpdatePlayerState.newBuilder((messaging.Service.UpdatePlayerState) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 5;
+    }
+    /**
+     * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+     */
+    private void clearPlayerStateUpdated() {
+      if (eventCase_ == 5) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int EQUIPITEM_FIELD_NUMBER = 6;
+    /**
+     * <code>.messaging.EquipItem equipItem = 6;</code>
+     */
+    @java.lang.Override
+    public boolean hasEquipItem() {
+      return eventCase_ == 6;
+    }
+    /**
+     * <code>.messaging.EquipItem equipItem = 6;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.EquipItem getEquipItem() {
+      if (eventCase_ == 6) {
+         return (messaging.Service.EquipItem) event_;
+      }
+      return messaging.Service.EquipItem.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.EquipItem equipItem = 6;</code>
+     */
+    private void setEquipItem(messaging.Service.EquipItem value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 6;
+    }
+    /**
+     * <code>.messaging.EquipItem equipItem = 6;</code>
+     */
+    private void mergeEquipItem(messaging.Service.EquipItem value) {
+      value.getClass();
+  if (eventCase_ == 6 &&
+          event_ != messaging.Service.EquipItem.getDefaultInstance()) {
+        event_ = messaging.Service.EquipItem.newBuilder((messaging.Service.EquipItem) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 6;
+    }
+    /**
+     * <code>.messaging.EquipItem equipItem = 6;</code>
+     */
+    private void clearEquipItem() {
+      if (eventCase_ == 6) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int UNEQUIPITEM_FIELD_NUMBER = 7;
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 7;</code>
+     */
+    @java.lang.Override
+    public boolean hasUnequipItem() {
+      return eventCase_ == 7;
+    }
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 7;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.UnequipItem getUnequipItem() {
+      if (eventCase_ == 7) {
+         return (messaging.Service.UnequipItem) event_;
+      }
+      return messaging.Service.UnequipItem.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 7;</code>
+     */
+    private void setUnequipItem(messaging.Service.UnequipItem value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 7;
+    }
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 7;</code>
+     */
+    private void mergeUnequipItem(messaging.Service.UnequipItem value) {
+      value.getClass();
+  if (eventCase_ == 7 &&
+          event_ != messaging.Service.UnequipItem.getDefaultInstance()) {
+        event_ = messaging.Service.UnequipItem.newBuilder((messaging.Service.UnequipItem) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 7;
+    }
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 7;</code>
+     */
+    private void clearUnequipItem() {
+      if (eventCase_ == 7) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int PICKUPITEM_FIELD_NUMBER = 8;
+    /**
+     * <code>.messaging.PickupItem pickupItem = 8;</code>
+     */
+    @java.lang.Override
+    public boolean hasPickupItem() {
+      return eventCase_ == 8;
+    }
+    /**
+     * <code>.messaging.PickupItem pickupItem = 8;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.PickupItem getPickupItem() {
+      if (eventCase_ == 8) {
+         return (messaging.Service.PickupItem) event_;
+      }
+      return messaging.Service.PickupItem.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.PickupItem pickupItem = 8;</code>
+     */
+    private void setPickupItem(messaging.Service.PickupItem value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 8;
+    }
+    /**
+     * <code>.messaging.PickupItem pickupItem = 8;</code>
+     */
+    private void mergePickupItem(messaging.Service.PickupItem value) {
+      value.getClass();
+  if (eventCase_ == 8 &&
+          event_ != messaging.Service.PickupItem.getDefaultInstance()) {
+        event_ = messaging.Service.PickupItem.newBuilder((messaging.Service.PickupItem) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 8;
+    }
+    /**
+     * <code>.messaging.PickupItem pickupItem = 8;</code>
+     */
+    private void clearPickupItem() {
+      if (eventCase_ == 8) {
         eventCase_ = 0;
         event_ = null;
       }
@@ -733,6 +820,342 @@ public final class Service {
         return this;
       }
 
+      /**
+       * <code>.messaging.PressButton pressButton = 2;</code>
+       */
+      @java.lang.Override
+      public boolean hasPressButton() {
+        return instance.hasPressButton();
+      }
+      /**
+       * <code>.messaging.PressButton pressButton = 2;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.PressButton getPressButton() {
+        return instance.getPressButton();
+      }
+      /**
+       * <code>.messaging.PressButton pressButton = 2;</code>
+       */
+      public Builder setPressButton(messaging.Service.PressButton value) {
+        copyOnWrite();
+        instance.setPressButton(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.PressButton pressButton = 2;</code>
+       */
+      public Builder setPressButton(
+          messaging.Service.PressButton.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPressButton(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.PressButton pressButton = 2;</code>
+       */
+      public Builder mergePressButton(messaging.Service.PressButton value) {
+        copyOnWrite();
+        instance.mergePressButton(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.PressButton pressButton = 2;</code>
+       */
+      public Builder clearPressButton() {
+        copyOnWrite();
+        instance.clearPressButton();
+        return this;
+      }
+
+      /**
+       * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+       */
+      @java.lang.Override
+      public boolean hasExpressionButton() {
+        return instance.hasExpressionButton();
+      }
+      /**
+       * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.ExpressionButton getExpressionButton() {
+        return instance.getExpressionButton();
+      }
+      /**
+       * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+       */
+      public Builder setExpressionButton(messaging.Service.ExpressionButton value) {
+        copyOnWrite();
+        instance.setExpressionButton(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+       */
+      public Builder setExpressionButton(
+          messaging.Service.ExpressionButton.Builder builderForValue) {
+        copyOnWrite();
+        instance.setExpressionButton(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+       */
+      public Builder mergeExpressionButton(messaging.Service.ExpressionButton value) {
+        copyOnWrite();
+        instance.mergeExpressionButton(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+       */
+      public Builder clearExpressionButton() {
+        copyOnWrite();
+        instance.clearExpressionButton();
+        return this;
+      }
+
+      /**
+       * <code>.messaging.RequestPlayerConnect playerConnect = 4;</code>
+       */
+      @java.lang.Override
+      public boolean hasPlayerConnect() {
+        return instance.hasPlayerConnect();
+      }
+      /**
+       * <code>.messaging.RequestPlayerConnect playerConnect = 4;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.RequestPlayerConnect getPlayerConnect() {
+        return instance.getPlayerConnect();
+      }
+      /**
+       * <code>.messaging.RequestPlayerConnect playerConnect = 4;</code>
+       */
+      public Builder setPlayerConnect(messaging.Service.RequestPlayerConnect value) {
+        copyOnWrite();
+        instance.setPlayerConnect(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.RequestPlayerConnect playerConnect = 4;</code>
+       */
+      public Builder setPlayerConnect(
+          messaging.Service.RequestPlayerConnect.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPlayerConnect(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.RequestPlayerConnect playerConnect = 4;</code>
+       */
+      public Builder mergePlayerConnect(messaging.Service.RequestPlayerConnect value) {
+        copyOnWrite();
+        instance.mergePlayerConnect(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.RequestPlayerConnect playerConnect = 4;</code>
+       */
+      public Builder clearPlayerConnect() {
+        copyOnWrite();
+        instance.clearPlayerConnect();
+        return this;
+      }
+
+      /**
+       * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+       */
+      @java.lang.Override
+      public boolean hasPlayerStateUpdated() {
+        return instance.hasPlayerStateUpdated();
+      }
+      /**
+       * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.UpdatePlayerState getPlayerStateUpdated() {
+        return instance.getPlayerStateUpdated();
+      }
+      /**
+       * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+       */
+      public Builder setPlayerStateUpdated(messaging.Service.UpdatePlayerState value) {
+        copyOnWrite();
+        instance.setPlayerStateUpdated(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+       */
+      public Builder setPlayerStateUpdated(
+          messaging.Service.UpdatePlayerState.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPlayerStateUpdated(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+       */
+      public Builder mergePlayerStateUpdated(messaging.Service.UpdatePlayerState value) {
+        copyOnWrite();
+        instance.mergePlayerStateUpdated(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.UpdatePlayerState playerStateUpdated = 5;</code>
+       */
+      public Builder clearPlayerStateUpdated() {
+        copyOnWrite();
+        instance.clearPlayerStateUpdated();
+        return this;
+      }
+
+      /**
+       * <code>.messaging.EquipItem equipItem = 6;</code>
+       */
+      @java.lang.Override
+      public boolean hasEquipItem() {
+        return instance.hasEquipItem();
+      }
+      /**
+       * <code>.messaging.EquipItem equipItem = 6;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.EquipItem getEquipItem() {
+        return instance.getEquipItem();
+      }
+      /**
+       * <code>.messaging.EquipItem equipItem = 6;</code>
+       */
+      public Builder setEquipItem(messaging.Service.EquipItem value) {
+        copyOnWrite();
+        instance.setEquipItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.EquipItem equipItem = 6;</code>
+       */
+      public Builder setEquipItem(
+          messaging.Service.EquipItem.Builder builderForValue) {
+        copyOnWrite();
+        instance.setEquipItem(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.EquipItem equipItem = 6;</code>
+       */
+      public Builder mergeEquipItem(messaging.Service.EquipItem value) {
+        copyOnWrite();
+        instance.mergeEquipItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.EquipItem equipItem = 6;</code>
+       */
+      public Builder clearEquipItem() {
+        copyOnWrite();
+        instance.clearEquipItem();
+        return this;
+      }
+
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 7;</code>
+       */
+      @java.lang.Override
+      public boolean hasUnequipItem() {
+        return instance.hasUnequipItem();
+      }
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 7;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.UnequipItem getUnequipItem() {
+        return instance.getUnequipItem();
+      }
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 7;</code>
+       */
+      public Builder setUnequipItem(messaging.Service.UnequipItem value) {
+        copyOnWrite();
+        instance.setUnequipItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 7;</code>
+       */
+      public Builder setUnequipItem(
+          messaging.Service.UnequipItem.Builder builderForValue) {
+        copyOnWrite();
+        instance.setUnequipItem(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 7;</code>
+       */
+      public Builder mergeUnequipItem(messaging.Service.UnequipItem value) {
+        copyOnWrite();
+        instance.mergeUnequipItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 7;</code>
+       */
+      public Builder clearUnequipItem() {
+        copyOnWrite();
+        instance.clearUnequipItem();
+        return this;
+      }
+
+      /**
+       * <code>.messaging.PickupItem pickupItem = 8;</code>
+       */
+      @java.lang.Override
+      public boolean hasPickupItem() {
+        return instance.hasPickupItem();
+      }
+      /**
+       * <code>.messaging.PickupItem pickupItem = 8;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.PickupItem getPickupItem() {
+        return instance.getPickupItem();
+      }
+      /**
+       * <code>.messaging.PickupItem pickupItem = 8;</code>
+       */
+      public Builder setPickupItem(messaging.Service.PickupItem value) {
+        copyOnWrite();
+        instance.setPickupItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.PickupItem pickupItem = 8;</code>
+       */
+      public Builder setPickupItem(
+          messaging.Service.PickupItem.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPickupItem(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.PickupItem pickupItem = 8;</code>
+       */
+      public Builder mergePickupItem(messaging.Service.PickupItem value) {
+        copyOnWrite();
+        instance.mergePickupItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.PickupItem pickupItem = 8;</code>
+       */
+      public Builder clearPickupItem() {
+        copyOnWrite();
+        instance.clearPickupItem();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:messaging.RequestEvent)
     }
     @java.lang.Override
@@ -752,9 +1175,17 @@ public final class Service {
               "event_",
               "eventCase_",
               messaging.Service.RequestDropItem.class,
+              messaging.Service.PressButton.class,
+              messaging.Service.ExpressionButton.class,
+              messaging.Service.RequestPlayerConnect.class,
+              messaging.Service.UpdatePlayerState.class,
+              messaging.Service.EquipItem.class,
+              messaging.Service.UnequipItem.class,
+              messaging.Service.PickupItem.class,
             };
             java.lang.String info =
-                "\u0000\u0001\u0001\u0000\u0001\u0001\u0001\u0000\u0000\u0000\u0001<\u0000";
+                "\u0000\b\u0001\u0000\u0001\b\b\u0000\u0000\u0000\u0001<\u0000\u0002<\u0000\u0003" +
+                "<\u0000\u0004<\u0000\u0005<\u0000\u0006<\u0000\u0007<\u0000\b<\u0000";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through
@@ -824,6 +1255,94 @@ public final class Service {
      */
     messaging.Service.ResponseDropItem getDropItem();
 
+    /**
+     * <code>.messaging.PressButton pressButton = 2;</code>
+     * @return Whether the pressButton field is set.
+     */
+    boolean hasPressButton();
+    /**
+     * <code>.messaging.PressButton pressButton = 2;</code>
+     * @return The pressButton.
+     */
+    messaging.Service.PressButton getPressButton();
+
+    /**
+     * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+     * @return Whether the expressionButton field is set.
+     */
+    boolean hasExpressionButton();
+    /**
+     * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+     * @return The expressionButton.
+     */
+    messaging.Service.ExpressionButton getExpressionButton();
+
+    /**
+     * <code>.messaging.ResponsePlayerConnected playerConnected = 4;</code>
+     * @return Whether the playerConnected field is set.
+     */
+    boolean hasPlayerConnected();
+    /**
+     * <code>.messaging.ResponsePlayerConnected playerConnected = 4;</code>
+     * @return The playerConnected.
+     */
+    messaging.Service.ResponsePlayerConnected getPlayerConnected();
+
+    /**
+     * <code>.messaging.ResponseOtherPlayerConnected otherPlayerConnected = 5;</code>
+     * @return Whether the otherPlayerConnected field is set.
+     */
+    boolean hasOtherPlayerConnected();
+    /**
+     * <code>.messaging.ResponseOtherPlayerConnected otherPlayerConnected = 5;</code>
+     * @return The otherPlayerConnected.
+     */
+    messaging.Service.ResponseOtherPlayerConnected getOtherPlayerConnected();
+
+    /**
+     * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+     * @return Whether the otherPlayerStateUpdated field is set.
+     */
+    boolean hasOtherPlayerStateUpdated();
+    /**
+     * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+     * @return The otherPlayerStateUpdated.
+     */
+    messaging.Service.UpdatePlayerState getOtherPlayerStateUpdated();
+
+    /**
+     * <code>.messaging.EquipItem equipItem = 7;</code>
+     * @return Whether the equipItem field is set.
+     */
+    boolean hasEquipItem();
+    /**
+     * <code>.messaging.EquipItem equipItem = 7;</code>
+     * @return The equipItem.
+     */
+    messaging.Service.EquipItem getEquipItem();
+
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 8;</code>
+     * @return Whether the unequipItem field is set.
+     */
+    boolean hasUnequipItem();
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 8;</code>
+     * @return The unequipItem.
+     */
+    messaging.Service.UnequipItem getUnequipItem();
+
+    /**
+     * <code>.messaging.PickupItem pickupItem = 9;</code>
+     * @return Whether the pickupItem field is set.
+     */
+    boolean hasPickupItem();
+    /**
+     * <code>.messaging.PickupItem pickupItem = 9;</code>
+     * @return The pickupItem.
+     */
+    messaging.Service.PickupItem getPickupItem();
+
     public messaging.Service.ResponseEvent.EventCase getEventCase();
   }
   /**
@@ -840,6 +1359,14 @@ public final class Service {
     private java.lang.Object event_;
     public enum EventCase {
       DROPITEM(1),
+      PRESSBUTTON(2),
+      EXPRESSIONBUTTON(3),
+      PLAYERCONNECTED(4),
+      OTHERPLAYERCONNECTED(5),
+      OTHERPLAYERSTATEUPDATED(6),
+      EQUIPITEM(7),
+      UNEQUIPITEM(8),
+      PICKUPITEM(9),
       EVENT_NOT_SET(0);
       private final int value;
       private EventCase(int value) {
@@ -856,6 +1383,14 @@ public final class Service {
       public static EventCase forNumber(int value) {
         switch (value) {
           case 1: return DROPITEM;
+          case 2: return PRESSBUTTON;
+          case 3: return EXPRESSIONBUTTON;
+          case 4: return PLAYERCONNECTED;
+          case 5: return OTHERPLAYERCONNECTED;
+          case 6: return OTHERPLAYERSTATEUPDATED;
+          case 7: return EQUIPITEM;
+          case 8: return UNEQUIPITEM;
+          case 9: return PICKUPITEM;
           case 0: return EVENT_NOT_SET;
           default: return null;
         }
@@ -922,6 +1457,406 @@ public final class Service {
      */
     private void clearDropItem() {
       if (eventCase_ == 1) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int PRESSBUTTON_FIELD_NUMBER = 2;
+    /**
+     * <code>.messaging.PressButton pressButton = 2;</code>
+     */
+    @java.lang.Override
+    public boolean hasPressButton() {
+      return eventCase_ == 2;
+    }
+    /**
+     * <code>.messaging.PressButton pressButton = 2;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.PressButton getPressButton() {
+      if (eventCase_ == 2) {
+         return (messaging.Service.PressButton) event_;
+      }
+      return messaging.Service.PressButton.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.PressButton pressButton = 2;</code>
+     */
+    private void setPressButton(messaging.Service.PressButton value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 2;
+    }
+    /**
+     * <code>.messaging.PressButton pressButton = 2;</code>
+     */
+    private void mergePressButton(messaging.Service.PressButton value) {
+      value.getClass();
+  if (eventCase_ == 2 &&
+          event_ != messaging.Service.PressButton.getDefaultInstance()) {
+        event_ = messaging.Service.PressButton.newBuilder((messaging.Service.PressButton) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 2;
+    }
+    /**
+     * <code>.messaging.PressButton pressButton = 2;</code>
+     */
+    private void clearPressButton() {
+      if (eventCase_ == 2) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int EXPRESSIONBUTTON_FIELD_NUMBER = 3;
+    /**
+     * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+     */
+    @java.lang.Override
+    public boolean hasExpressionButton() {
+      return eventCase_ == 3;
+    }
+    /**
+     * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.ExpressionButton getExpressionButton() {
+      if (eventCase_ == 3) {
+         return (messaging.Service.ExpressionButton) event_;
+      }
+      return messaging.Service.ExpressionButton.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+     */
+    private void setExpressionButton(messaging.Service.ExpressionButton value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 3;
+    }
+    /**
+     * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+     */
+    private void mergeExpressionButton(messaging.Service.ExpressionButton value) {
+      value.getClass();
+  if (eventCase_ == 3 &&
+          event_ != messaging.Service.ExpressionButton.getDefaultInstance()) {
+        event_ = messaging.Service.ExpressionButton.newBuilder((messaging.Service.ExpressionButton) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 3;
+    }
+    /**
+     * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+     */
+    private void clearExpressionButton() {
+      if (eventCase_ == 3) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int PLAYERCONNECTED_FIELD_NUMBER = 4;
+    /**
+     * <code>.messaging.ResponsePlayerConnected playerConnected = 4;</code>
+     */
+    @java.lang.Override
+    public boolean hasPlayerConnected() {
+      return eventCase_ == 4;
+    }
+    /**
+     * <code>.messaging.ResponsePlayerConnected playerConnected = 4;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.ResponsePlayerConnected getPlayerConnected() {
+      if (eventCase_ == 4) {
+         return (messaging.Service.ResponsePlayerConnected) event_;
+      }
+      return messaging.Service.ResponsePlayerConnected.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.ResponsePlayerConnected playerConnected = 4;</code>
+     */
+    private void setPlayerConnected(messaging.Service.ResponsePlayerConnected value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 4;
+    }
+    /**
+     * <code>.messaging.ResponsePlayerConnected playerConnected = 4;</code>
+     */
+    private void mergePlayerConnected(messaging.Service.ResponsePlayerConnected value) {
+      value.getClass();
+  if (eventCase_ == 4 &&
+          event_ != messaging.Service.ResponsePlayerConnected.getDefaultInstance()) {
+        event_ = messaging.Service.ResponsePlayerConnected.newBuilder((messaging.Service.ResponsePlayerConnected) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 4;
+    }
+    /**
+     * <code>.messaging.ResponsePlayerConnected playerConnected = 4;</code>
+     */
+    private void clearPlayerConnected() {
+      if (eventCase_ == 4) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int OTHERPLAYERCONNECTED_FIELD_NUMBER = 5;
+    /**
+     * <code>.messaging.ResponseOtherPlayerConnected otherPlayerConnected = 5;</code>
+     */
+    @java.lang.Override
+    public boolean hasOtherPlayerConnected() {
+      return eventCase_ == 5;
+    }
+    /**
+     * <code>.messaging.ResponseOtherPlayerConnected otherPlayerConnected = 5;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.ResponseOtherPlayerConnected getOtherPlayerConnected() {
+      if (eventCase_ == 5) {
+         return (messaging.Service.ResponseOtherPlayerConnected) event_;
+      }
+      return messaging.Service.ResponseOtherPlayerConnected.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.ResponseOtherPlayerConnected otherPlayerConnected = 5;</code>
+     */
+    private void setOtherPlayerConnected(messaging.Service.ResponseOtherPlayerConnected value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 5;
+    }
+    /**
+     * <code>.messaging.ResponseOtherPlayerConnected otherPlayerConnected = 5;</code>
+     */
+    private void mergeOtherPlayerConnected(messaging.Service.ResponseOtherPlayerConnected value) {
+      value.getClass();
+  if (eventCase_ == 5 &&
+          event_ != messaging.Service.ResponseOtherPlayerConnected.getDefaultInstance()) {
+        event_ = messaging.Service.ResponseOtherPlayerConnected.newBuilder((messaging.Service.ResponseOtherPlayerConnected) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 5;
+    }
+    /**
+     * <code>.messaging.ResponseOtherPlayerConnected otherPlayerConnected = 5;</code>
+     */
+    private void clearOtherPlayerConnected() {
+      if (eventCase_ == 5) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int OTHERPLAYERSTATEUPDATED_FIELD_NUMBER = 6;
+    /**
+     * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+     */
+    @java.lang.Override
+    public boolean hasOtherPlayerStateUpdated() {
+      return eventCase_ == 6;
+    }
+    /**
+     * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.UpdatePlayerState getOtherPlayerStateUpdated() {
+      if (eventCase_ == 6) {
+         return (messaging.Service.UpdatePlayerState) event_;
+      }
+      return messaging.Service.UpdatePlayerState.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+     */
+    private void setOtherPlayerStateUpdated(messaging.Service.UpdatePlayerState value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 6;
+    }
+    /**
+     * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+     */
+    private void mergeOtherPlayerStateUpdated(messaging.Service.UpdatePlayerState value) {
+      value.getClass();
+  if (eventCase_ == 6 &&
+          event_ != messaging.Service.UpdatePlayerState.getDefaultInstance()) {
+        event_ = messaging.Service.UpdatePlayerState.newBuilder((messaging.Service.UpdatePlayerState) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 6;
+    }
+    /**
+     * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+     */
+    private void clearOtherPlayerStateUpdated() {
+      if (eventCase_ == 6) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int EQUIPITEM_FIELD_NUMBER = 7;
+    /**
+     * <code>.messaging.EquipItem equipItem = 7;</code>
+     */
+    @java.lang.Override
+    public boolean hasEquipItem() {
+      return eventCase_ == 7;
+    }
+    /**
+     * <code>.messaging.EquipItem equipItem = 7;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.EquipItem getEquipItem() {
+      if (eventCase_ == 7) {
+         return (messaging.Service.EquipItem) event_;
+      }
+      return messaging.Service.EquipItem.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.EquipItem equipItem = 7;</code>
+     */
+    private void setEquipItem(messaging.Service.EquipItem value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 7;
+    }
+    /**
+     * <code>.messaging.EquipItem equipItem = 7;</code>
+     */
+    private void mergeEquipItem(messaging.Service.EquipItem value) {
+      value.getClass();
+  if (eventCase_ == 7 &&
+          event_ != messaging.Service.EquipItem.getDefaultInstance()) {
+        event_ = messaging.Service.EquipItem.newBuilder((messaging.Service.EquipItem) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 7;
+    }
+    /**
+     * <code>.messaging.EquipItem equipItem = 7;</code>
+     */
+    private void clearEquipItem() {
+      if (eventCase_ == 7) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int UNEQUIPITEM_FIELD_NUMBER = 8;
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 8;</code>
+     */
+    @java.lang.Override
+    public boolean hasUnequipItem() {
+      return eventCase_ == 8;
+    }
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 8;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.UnequipItem getUnequipItem() {
+      if (eventCase_ == 8) {
+         return (messaging.Service.UnequipItem) event_;
+      }
+      return messaging.Service.UnequipItem.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 8;</code>
+     */
+    private void setUnequipItem(messaging.Service.UnequipItem value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 8;
+    }
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 8;</code>
+     */
+    private void mergeUnequipItem(messaging.Service.UnequipItem value) {
+      value.getClass();
+  if (eventCase_ == 8 &&
+          event_ != messaging.Service.UnequipItem.getDefaultInstance()) {
+        event_ = messaging.Service.UnequipItem.newBuilder((messaging.Service.UnequipItem) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 8;
+    }
+    /**
+     * <code>.messaging.UnequipItem unequipItem = 8;</code>
+     */
+    private void clearUnequipItem() {
+      if (eventCase_ == 8) {
+        eventCase_ = 0;
+        event_ = null;
+      }
+    }
+
+    public static final int PICKUPITEM_FIELD_NUMBER = 9;
+    /**
+     * <code>.messaging.PickupItem pickupItem = 9;</code>
+     */
+    @java.lang.Override
+    public boolean hasPickupItem() {
+      return eventCase_ == 9;
+    }
+    /**
+     * <code>.messaging.PickupItem pickupItem = 9;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.PickupItem getPickupItem() {
+      if (eventCase_ == 9) {
+         return (messaging.Service.PickupItem) event_;
+      }
+      return messaging.Service.PickupItem.getDefaultInstance();
+    }
+    /**
+     * <code>.messaging.PickupItem pickupItem = 9;</code>
+     */
+    private void setPickupItem(messaging.Service.PickupItem value) {
+      value.getClass();
+  event_ = value;
+      eventCase_ = 9;
+    }
+    /**
+     * <code>.messaging.PickupItem pickupItem = 9;</code>
+     */
+    private void mergePickupItem(messaging.Service.PickupItem value) {
+      value.getClass();
+  if (eventCase_ == 9 &&
+          event_ != messaging.Service.PickupItem.getDefaultInstance()) {
+        event_ = messaging.Service.PickupItem.newBuilder((messaging.Service.PickupItem) event_)
+            .mergeFrom(value).buildPartial();
+      } else {
+        event_ = value;
+      }
+      eventCase_ = 9;
+    }
+    /**
+     * <code>.messaging.PickupItem pickupItem = 9;</code>
+     */
+    private void clearPickupItem() {
+      if (eventCase_ == 9) {
         eventCase_ = 0;
         event_ = null;
       }
@@ -1082,6 +2017,390 @@ public final class Service {
         return this;
       }
 
+      /**
+       * <code>.messaging.PressButton pressButton = 2;</code>
+       */
+      @java.lang.Override
+      public boolean hasPressButton() {
+        return instance.hasPressButton();
+      }
+      /**
+       * <code>.messaging.PressButton pressButton = 2;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.PressButton getPressButton() {
+        return instance.getPressButton();
+      }
+      /**
+       * <code>.messaging.PressButton pressButton = 2;</code>
+       */
+      public Builder setPressButton(messaging.Service.PressButton value) {
+        copyOnWrite();
+        instance.setPressButton(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.PressButton pressButton = 2;</code>
+       */
+      public Builder setPressButton(
+          messaging.Service.PressButton.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPressButton(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.PressButton pressButton = 2;</code>
+       */
+      public Builder mergePressButton(messaging.Service.PressButton value) {
+        copyOnWrite();
+        instance.mergePressButton(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.PressButton pressButton = 2;</code>
+       */
+      public Builder clearPressButton() {
+        copyOnWrite();
+        instance.clearPressButton();
+        return this;
+      }
+
+      /**
+       * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+       */
+      @java.lang.Override
+      public boolean hasExpressionButton() {
+        return instance.hasExpressionButton();
+      }
+      /**
+       * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.ExpressionButton getExpressionButton() {
+        return instance.getExpressionButton();
+      }
+      /**
+       * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+       */
+      public Builder setExpressionButton(messaging.Service.ExpressionButton value) {
+        copyOnWrite();
+        instance.setExpressionButton(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+       */
+      public Builder setExpressionButton(
+          messaging.Service.ExpressionButton.Builder builderForValue) {
+        copyOnWrite();
+        instance.setExpressionButton(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+       */
+      public Builder mergeExpressionButton(messaging.Service.ExpressionButton value) {
+        copyOnWrite();
+        instance.mergeExpressionButton(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.ExpressionButton expressionButton = 3;</code>
+       */
+      public Builder clearExpressionButton() {
+        copyOnWrite();
+        instance.clearExpressionButton();
+        return this;
+      }
+
+      /**
+       * <code>.messaging.ResponsePlayerConnected playerConnected = 4;</code>
+       */
+      @java.lang.Override
+      public boolean hasPlayerConnected() {
+        return instance.hasPlayerConnected();
+      }
+      /**
+       * <code>.messaging.ResponsePlayerConnected playerConnected = 4;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.ResponsePlayerConnected getPlayerConnected() {
+        return instance.getPlayerConnected();
+      }
+      /**
+       * <code>.messaging.ResponsePlayerConnected playerConnected = 4;</code>
+       */
+      public Builder setPlayerConnected(messaging.Service.ResponsePlayerConnected value) {
+        copyOnWrite();
+        instance.setPlayerConnected(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.ResponsePlayerConnected playerConnected = 4;</code>
+       */
+      public Builder setPlayerConnected(
+          messaging.Service.ResponsePlayerConnected.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPlayerConnected(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.ResponsePlayerConnected playerConnected = 4;</code>
+       */
+      public Builder mergePlayerConnected(messaging.Service.ResponsePlayerConnected value) {
+        copyOnWrite();
+        instance.mergePlayerConnected(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.ResponsePlayerConnected playerConnected = 4;</code>
+       */
+      public Builder clearPlayerConnected() {
+        copyOnWrite();
+        instance.clearPlayerConnected();
+        return this;
+      }
+
+      /**
+       * <code>.messaging.ResponseOtherPlayerConnected otherPlayerConnected = 5;</code>
+       */
+      @java.lang.Override
+      public boolean hasOtherPlayerConnected() {
+        return instance.hasOtherPlayerConnected();
+      }
+      /**
+       * <code>.messaging.ResponseOtherPlayerConnected otherPlayerConnected = 5;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.ResponseOtherPlayerConnected getOtherPlayerConnected() {
+        return instance.getOtherPlayerConnected();
+      }
+      /**
+       * <code>.messaging.ResponseOtherPlayerConnected otherPlayerConnected = 5;</code>
+       */
+      public Builder setOtherPlayerConnected(messaging.Service.ResponseOtherPlayerConnected value) {
+        copyOnWrite();
+        instance.setOtherPlayerConnected(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.ResponseOtherPlayerConnected otherPlayerConnected = 5;</code>
+       */
+      public Builder setOtherPlayerConnected(
+          messaging.Service.ResponseOtherPlayerConnected.Builder builderForValue) {
+        copyOnWrite();
+        instance.setOtherPlayerConnected(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.ResponseOtherPlayerConnected otherPlayerConnected = 5;</code>
+       */
+      public Builder mergeOtherPlayerConnected(messaging.Service.ResponseOtherPlayerConnected value) {
+        copyOnWrite();
+        instance.mergeOtherPlayerConnected(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.ResponseOtherPlayerConnected otherPlayerConnected = 5;</code>
+       */
+      public Builder clearOtherPlayerConnected() {
+        copyOnWrite();
+        instance.clearOtherPlayerConnected();
+        return this;
+      }
+
+      /**
+       * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+       */
+      @java.lang.Override
+      public boolean hasOtherPlayerStateUpdated() {
+        return instance.hasOtherPlayerStateUpdated();
+      }
+      /**
+       * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.UpdatePlayerState getOtherPlayerStateUpdated() {
+        return instance.getOtherPlayerStateUpdated();
+      }
+      /**
+       * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+       */
+      public Builder setOtherPlayerStateUpdated(messaging.Service.UpdatePlayerState value) {
+        copyOnWrite();
+        instance.setOtherPlayerStateUpdated(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+       */
+      public Builder setOtherPlayerStateUpdated(
+          messaging.Service.UpdatePlayerState.Builder builderForValue) {
+        copyOnWrite();
+        instance.setOtherPlayerStateUpdated(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+       */
+      public Builder mergeOtherPlayerStateUpdated(messaging.Service.UpdatePlayerState value) {
+        copyOnWrite();
+        instance.mergeOtherPlayerStateUpdated(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.UpdatePlayerState otherPlayerStateUpdated = 6;</code>
+       */
+      public Builder clearOtherPlayerStateUpdated() {
+        copyOnWrite();
+        instance.clearOtherPlayerStateUpdated();
+        return this;
+      }
+
+      /**
+       * <code>.messaging.EquipItem equipItem = 7;</code>
+       */
+      @java.lang.Override
+      public boolean hasEquipItem() {
+        return instance.hasEquipItem();
+      }
+      /**
+       * <code>.messaging.EquipItem equipItem = 7;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.EquipItem getEquipItem() {
+        return instance.getEquipItem();
+      }
+      /**
+       * <code>.messaging.EquipItem equipItem = 7;</code>
+       */
+      public Builder setEquipItem(messaging.Service.EquipItem value) {
+        copyOnWrite();
+        instance.setEquipItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.EquipItem equipItem = 7;</code>
+       */
+      public Builder setEquipItem(
+          messaging.Service.EquipItem.Builder builderForValue) {
+        copyOnWrite();
+        instance.setEquipItem(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.EquipItem equipItem = 7;</code>
+       */
+      public Builder mergeEquipItem(messaging.Service.EquipItem value) {
+        copyOnWrite();
+        instance.mergeEquipItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.EquipItem equipItem = 7;</code>
+       */
+      public Builder clearEquipItem() {
+        copyOnWrite();
+        instance.clearEquipItem();
+        return this;
+      }
+
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 8;</code>
+       */
+      @java.lang.Override
+      public boolean hasUnequipItem() {
+        return instance.hasUnequipItem();
+      }
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 8;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.UnequipItem getUnequipItem() {
+        return instance.getUnequipItem();
+      }
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 8;</code>
+       */
+      public Builder setUnequipItem(messaging.Service.UnequipItem value) {
+        copyOnWrite();
+        instance.setUnequipItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 8;</code>
+       */
+      public Builder setUnequipItem(
+          messaging.Service.UnequipItem.Builder builderForValue) {
+        copyOnWrite();
+        instance.setUnequipItem(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 8;</code>
+       */
+      public Builder mergeUnequipItem(messaging.Service.UnequipItem value) {
+        copyOnWrite();
+        instance.mergeUnequipItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.UnequipItem unequipItem = 8;</code>
+       */
+      public Builder clearUnequipItem() {
+        copyOnWrite();
+        instance.clearUnequipItem();
+        return this;
+      }
+
+      /**
+       * <code>.messaging.PickupItem pickupItem = 9;</code>
+       */
+      @java.lang.Override
+      public boolean hasPickupItem() {
+        return instance.hasPickupItem();
+      }
+      /**
+       * <code>.messaging.PickupItem pickupItem = 9;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.PickupItem getPickupItem() {
+        return instance.getPickupItem();
+      }
+      /**
+       * <code>.messaging.PickupItem pickupItem = 9;</code>
+       */
+      public Builder setPickupItem(messaging.Service.PickupItem value) {
+        copyOnWrite();
+        instance.setPickupItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.PickupItem pickupItem = 9;</code>
+       */
+      public Builder setPickupItem(
+          messaging.Service.PickupItem.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPickupItem(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.PickupItem pickupItem = 9;</code>
+       */
+      public Builder mergePickupItem(messaging.Service.PickupItem value) {
+        copyOnWrite();
+        instance.mergePickupItem(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.PickupItem pickupItem = 9;</code>
+       */
+      public Builder clearPickupItem() {
+        copyOnWrite();
+        instance.clearPickupItem();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:messaging.ResponseEvent)
     }
     @java.lang.Override
@@ -1101,9 +2420,18 @@ public final class Service {
               "event_",
               "eventCase_",
               messaging.Service.ResponseDropItem.class,
+              messaging.Service.PressButton.class,
+              messaging.Service.ExpressionButton.class,
+              messaging.Service.ResponsePlayerConnected.class,
+              messaging.Service.ResponseOtherPlayerConnected.class,
+              messaging.Service.UpdatePlayerState.class,
+              messaging.Service.EquipItem.class,
+              messaging.Service.UnequipItem.class,
+              messaging.Service.PickupItem.class,
             };
             java.lang.String info =
-                "\u0000\u0001\u0001\u0000\u0001\u0001\u0001\u0000\u0000\u0000\u0001<\u0000";
+                "\u0000\t\u0001\u0000\u0001\t\t\u0000\u0000\u0000\u0001<\u0000\u0002<\u0000\u0003" +
+                "<\u0000\u0004<\u0000\u0005<\u0000\u0006<\u0000\u0007<\u0000\b<\u0000\t<\u0000";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through
@@ -1158,6 +2486,2350 @@ public final class Service {
     }
   }
 
+  public interface RequestPlayerConnectOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:messaging.RequestPlayerConnect)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int32 charid = 1;</code>
+     * @return The charid.
+     */
+    int getCharid();
+  }
+  /**
+   * Protobuf type {@code messaging.RequestPlayerConnect}
+   */
+  public  static final class RequestPlayerConnect extends
+      com.google.protobuf.GeneratedMessageLite<
+          RequestPlayerConnect, RequestPlayerConnect.Builder> implements
+      // @@protoc_insertion_point(message_implements:messaging.RequestPlayerConnect)
+      RequestPlayerConnectOrBuilder {
+    private RequestPlayerConnect() {
+    }
+    public static final int CHARID_FIELD_NUMBER = 1;
+    private int charid_;
+    /**
+     * <code>int32 charid = 1;</code>
+     * @return The charid.
+     */
+    @java.lang.Override
+    public int getCharid() {
+      return charid_;
+    }
+    /**
+     * <code>int32 charid = 1;</code>
+     * @param value The charid to set.
+     */
+    private void setCharid(int value) {
+      
+      charid_ = value;
+    }
+    /**
+     * <code>int32 charid = 1;</code>
+     */
+    private void clearCharid() {
+      
+      charid_ = 0;
+    }
+
+    public static messaging.Service.RequestPlayerConnect parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.RequestPlayerConnect parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.RequestPlayerConnect parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.RequestPlayerConnect parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.RequestPlayerConnect parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.RequestPlayerConnect parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.RequestPlayerConnect parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.RequestPlayerConnect parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.RequestPlayerConnect parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.RequestPlayerConnect parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.RequestPlayerConnect parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.RequestPlayerConnect parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(messaging.Service.RequestPlayerConnect prototype) {
+      return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code messaging.RequestPlayerConnect}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          messaging.Service.RequestPlayerConnect, Builder> implements
+        // @@protoc_insertion_point(builder_implements:messaging.RequestPlayerConnect)
+        messaging.Service.RequestPlayerConnectOrBuilder {
+      // Construct using messaging.Service.RequestPlayerConnect.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>int32 charid = 1;</code>
+       * @return The charid.
+       */
+      @java.lang.Override
+      public int getCharid() {
+        return instance.getCharid();
+      }
+      /**
+       * <code>int32 charid = 1;</code>
+       * @param value The charid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCharid(int value) {
+        copyOnWrite();
+        instance.setCharid(value);
+        return this;
+      }
+      /**
+       * <code>int32 charid = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCharid() {
+        copyOnWrite();
+        instance.clearCharid();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:messaging.RequestPlayerConnect)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new messaging.Service.RequestPlayerConnect();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "charid_",
+            };
+            java.lang.String info =
+                "\u0000\u0001\u0000\u0000\u0001\u0001\u0001\u0000\u0000\u0000\u0001\u0004";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<messaging.Service.RequestPlayerConnect> parser = PARSER;
+          if (parser == null) {
+            synchronized (messaging.Service.RequestPlayerConnect.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<messaging.Service.RequestPlayerConnect>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:messaging.RequestPlayerConnect)
+    private static final messaging.Service.RequestPlayerConnect DEFAULT_INSTANCE;
+    static {
+      RequestPlayerConnect defaultInstance = new RequestPlayerConnect();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        RequestPlayerConnect.class, defaultInstance);
+    }
+
+    public static messaging.Service.RequestPlayerConnect getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<RequestPlayerConnect> PARSER;
+
+    public static com.google.protobuf.Parser<RequestPlayerConnect> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface ResponsePlayerConnectedOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:messaging.ResponsePlayerConnected)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int32 charid = 1;</code>
+     * @return The charid.
+     */
+    int getCharid();
+
+    /**
+     * <code>int32 hair = 2;</code>
+     * @return The hair.
+     */
+    int getHair();
+
+    /**
+     * <code>int32 skin = 3;</code>
+     * @return The skin.
+     */
+    int getSkin();
+
+    /**
+     * <code>int32 face = 4;</code>
+     * @return The face.
+     */
+    int getFace();
+  }
+  /**
+   * Protobuf type {@code messaging.ResponsePlayerConnected}
+   */
+  public  static final class ResponsePlayerConnected extends
+      com.google.protobuf.GeneratedMessageLite<
+          ResponsePlayerConnected, ResponsePlayerConnected.Builder> implements
+      // @@protoc_insertion_point(message_implements:messaging.ResponsePlayerConnected)
+      ResponsePlayerConnectedOrBuilder {
+    private ResponsePlayerConnected() {
+    }
+    public static final int CHARID_FIELD_NUMBER = 1;
+    private int charid_;
+    /**
+     * <code>int32 charid = 1;</code>
+     * @return The charid.
+     */
+    @java.lang.Override
+    public int getCharid() {
+      return charid_;
+    }
+    /**
+     * <code>int32 charid = 1;</code>
+     * @param value The charid to set.
+     */
+    private void setCharid(int value) {
+      
+      charid_ = value;
+    }
+    /**
+     * <code>int32 charid = 1;</code>
+     */
+    private void clearCharid() {
+      
+      charid_ = 0;
+    }
+
+    public static final int HAIR_FIELD_NUMBER = 2;
+    private int hair_;
+    /**
+     * <code>int32 hair = 2;</code>
+     * @return The hair.
+     */
+    @java.lang.Override
+    public int getHair() {
+      return hair_;
+    }
+    /**
+     * <code>int32 hair = 2;</code>
+     * @param value The hair to set.
+     */
+    private void setHair(int value) {
+      
+      hair_ = value;
+    }
+    /**
+     * <code>int32 hair = 2;</code>
+     */
+    private void clearHair() {
+      
+      hair_ = 0;
+    }
+
+    public static final int SKIN_FIELD_NUMBER = 3;
+    private int skin_;
+    /**
+     * <code>int32 skin = 3;</code>
+     * @return The skin.
+     */
+    @java.lang.Override
+    public int getSkin() {
+      return skin_;
+    }
+    /**
+     * <code>int32 skin = 3;</code>
+     * @param value The skin to set.
+     */
+    private void setSkin(int value) {
+      
+      skin_ = value;
+    }
+    /**
+     * <code>int32 skin = 3;</code>
+     */
+    private void clearSkin() {
+      
+      skin_ = 0;
+    }
+
+    public static final int FACE_FIELD_NUMBER = 4;
+    private int face_;
+    /**
+     * <code>int32 face = 4;</code>
+     * @return The face.
+     */
+    @java.lang.Override
+    public int getFace() {
+      return face_;
+    }
+    /**
+     * <code>int32 face = 4;</code>
+     * @param value The face to set.
+     */
+    private void setFace(int value) {
+      
+      face_ = value;
+    }
+    /**
+     * <code>int32 face = 4;</code>
+     */
+    private void clearFace() {
+      
+      face_ = 0;
+    }
+
+    public static messaging.Service.ResponsePlayerConnected parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.ResponsePlayerConnected parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.ResponsePlayerConnected parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.ResponsePlayerConnected parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.ResponsePlayerConnected parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.ResponsePlayerConnected parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.ResponsePlayerConnected parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.ResponsePlayerConnected parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.ResponsePlayerConnected parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.ResponsePlayerConnected parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.ResponsePlayerConnected parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.ResponsePlayerConnected parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(messaging.Service.ResponsePlayerConnected prototype) {
+      return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code messaging.ResponsePlayerConnected}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          messaging.Service.ResponsePlayerConnected, Builder> implements
+        // @@protoc_insertion_point(builder_implements:messaging.ResponsePlayerConnected)
+        messaging.Service.ResponsePlayerConnectedOrBuilder {
+      // Construct using messaging.Service.ResponsePlayerConnected.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>int32 charid = 1;</code>
+       * @return The charid.
+       */
+      @java.lang.Override
+      public int getCharid() {
+        return instance.getCharid();
+      }
+      /**
+       * <code>int32 charid = 1;</code>
+       * @param value The charid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCharid(int value) {
+        copyOnWrite();
+        instance.setCharid(value);
+        return this;
+      }
+      /**
+       * <code>int32 charid = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCharid() {
+        copyOnWrite();
+        instance.clearCharid();
+        return this;
+      }
+
+      /**
+       * <code>int32 hair = 2;</code>
+       * @return The hair.
+       */
+      @java.lang.Override
+      public int getHair() {
+        return instance.getHair();
+      }
+      /**
+       * <code>int32 hair = 2;</code>
+       * @param value The hair to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHair(int value) {
+        copyOnWrite();
+        instance.setHair(value);
+        return this;
+      }
+      /**
+       * <code>int32 hair = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearHair() {
+        copyOnWrite();
+        instance.clearHair();
+        return this;
+      }
+
+      /**
+       * <code>int32 skin = 3;</code>
+       * @return The skin.
+       */
+      @java.lang.Override
+      public int getSkin() {
+        return instance.getSkin();
+      }
+      /**
+       * <code>int32 skin = 3;</code>
+       * @param value The skin to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSkin(int value) {
+        copyOnWrite();
+        instance.setSkin(value);
+        return this;
+      }
+      /**
+       * <code>int32 skin = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSkin() {
+        copyOnWrite();
+        instance.clearSkin();
+        return this;
+      }
+
+      /**
+       * <code>int32 face = 4;</code>
+       * @return The face.
+       */
+      @java.lang.Override
+      public int getFace() {
+        return instance.getFace();
+      }
+      /**
+       * <code>int32 face = 4;</code>
+       * @param value The face to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFace(int value) {
+        copyOnWrite();
+        instance.setFace(value);
+        return this;
+      }
+      /**
+       * <code>int32 face = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFace() {
+        copyOnWrite();
+        instance.clearFace();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:messaging.ResponsePlayerConnected)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new messaging.Service.ResponsePlayerConnected();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "charid_",
+              "hair_",
+              "skin_",
+              "face_",
+            };
+            java.lang.String info =
+                "\u0000\u0004\u0000\u0000\u0001\u0004\u0004\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
+                "\u0003\u0004\u0004\u0004";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<messaging.Service.ResponsePlayerConnected> parser = PARSER;
+          if (parser == null) {
+            synchronized (messaging.Service.ResponsePlayerConnected.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<messaging.Service.ResponsePlayerConnected>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:messaging.ResponsePlayerConnected)
+    private static final messaging.Service.ResponsePlayerConnected DEFAULT_INSTANCE;
+    static {
+      ResponsePlayerConnected defaultInstance = new ResponsePlayerConnected();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        ResponsePlayerConnected.class, defaultInstance);
+    }
+
+    public static messaging.Service.ResponsePlayerConnected getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<ResponsePlayerConnected> PARSER;
+
+    public static com.google.protobuf.Parser<ResponsePlayerConnected> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface ResponseOtherPlayerConnectedOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:messaging.ResponseOtherPlayerConnected)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int32 charid = 1;</code>
+     * @return The charid.
+     */
+    int getCharid();
+
+    /**
+     * <code>int32 hair = 2;</code>
+     * @return The hair.
+     */
+    int getHair();
+
+    /**
+     * <code>int32 skin = 3;</code>
+     * @return The skin.
+     */
+    int getSkin();
+
+    /**
+     * <code>int32 face = 4;</code>
+     * @return The face.
+     */
+    int getFace();
+
+    /**
+     * <code>int32 state = 5;</code>
+     * @return The state.
+     */
+    int getState();
+
+    /**
+     * <code>.messaging.Point pos = 6;</code>
+     * @return Whether the pos field is set.
+     */
+    boolean hasPos();
+    /**
+     * <code>.messaging.Point pos = 6;</code>
+     * @return The pos.
+     */
+    messaging.Service.Point getPos();
+  }
+  /**
+   * Protobuf type {@code messaging.ResponseOtherPlayerConnected}
+   */
+  public  static final class ResponseOtherPlayerConnected extends
+      com.google.protobuf.GeneratedMessageLite<
+          ResponseOtherPlayerConnected, ResponseOtherPlayerConnected.Builder> implements
+      // @@protoc_insertion_point(message_implements:messaging.ResponseOtherPlayerConnected)
+      ResponseOtherPlayerConnectedOrBuilder {
+    private ResponseOtherPlayerConnected() {
+    }
+    public static final int CHARID_FIELD_NUMBER = 1;
+    private int charid_;
+    /**
+     * <code>int32 charid = 1;</code>
+     * @return The charid.
+     */
+    @java.lang.Override
+    public int getCharid() {
+      return charid_;
+    }
+    /**
+     * <code>int32 charid = 1;</code>
+     * @param value The charid to set.
+     */
+    private void setCharid(int value) {
+      
+      charid_ = value;
+    }
+    /**
+     * <code>int32 charid = 1;</code>
+     */
+    private void clearCharid() {
+      
+      charid_ = 0;
+    }
+
+    public static final int HAIR_FIELD_NUMBER = 2;
+    private int hair_;
+    /**
+     * <code>int32 hair = 2;</code>
+     * @return The hair.
+     */
+    @java.lang.Override
+    public int getHair() {
+      return hair_;
+    }
+    /**
+     * <code>int32 hair = 2;</code>
+     * @param value The hair to set.
+     */
+    private void setHair(int value) {
+      
+      hair_ = value;
+    }
+    /**
+     * <code>int32 hair = 2;</code>
+     */
+    private void clearHair() {
+      
+      hair_ = 0;
+    }
+
+    public static final int SKIN_FIELD_NUMBER = 3;
+    private int skin_;
+    /**
+     * <code>int32 skin = 3;</code>
+     * @return The skin.
+     */
+    @java.lang.Override
+    public int getSkin() {
+      return skin_;
+    }
+    /**
+     * <code>int32 skin = 3;</code>
+     * @param value The skin to set.
+     */
+    private void setSkin(int value) {
+      
+      skin_ = value;
+    }
+    /**
+     * <code>int32 skin = 3;</code>
+     */
+    private void clearSkin() {
+      
+      skin_ = 0;
+    }
+
+    public static final int FACE_FIELD_NUMBER = 4;
+    private int face_;
+    /**
+     * <code>int32 face = 4;</code>
+     * @return The face.
+     */
+    @java.lang.Override
+    public int getFace() {
+      return face_;
+    }
+    /**
+     * <code>int32 face = 4;</code>
+     * @param value The face to set.
+     */
+    private void setFace(int value) {
+      
+      face_ = value;
+    }
+    /**
+     * <code>int32 face = 4;</code>
+     */
+    private void clearFace() {
+      
+      face_ = 0;
+    }
+
+    public static final int STATE_FIELD_NUMBER = 5;
+    private int state_;
+    /**
+     * <code>int32 state = 5;</code>
+     * @return The state.
+     */
+    @java.lang.Override
+    public int getState() {
+      return state_;
+    }
+    /**
+     * <code>int32 state = 5;</code>
+     * @param value The state to set.
+     */
+    private void setState(int value) {
+      
+      state_ = value;
+    }
+    /**
+     * <code>int32 state = 5;</code>
+     */
+    private void clearState() {
+      
+      state_ = 0;
+    }
+
+    public static final int POS_FIELD_NUMBER = 6;
+    private messaging.Service.Point pos_;
+    /**
+     * <code>.messaging.Point pos = 6;</code>
+     */
+    @java.lang.Override
+    public boolean hasPos() {
+      return pos_ != null;
+    }
+    /**
+     * <code>.messaging.Point pos = 6;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.Point getPos() {
+      return pos_ == null ? messaging.Service.Point.getDefaultInstance() : pos_;
+    }
+    /**
+     * <code>.messaging.Point pos = 6;</code>
+     */
+    private void setPos(messaging.Service.Point value) {
+      value.getClass();
+  pos_ = value;
+      
+      }
+    /**
+     * <code>.messaging.Point pos = 6;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergePos(messaging.Service.Point value) {
+      value.getClass();
+  if (pos_ != null &&
+          pos_ != messaging.Service.Point.getDefaultInstance()) {
+        pos_ =
+          messaging.Service.Point.newBuilder(pos_).mergeFrom(value).buildPartial();
+      } else {
+        pos_ = value;
+      }
+      
+    }
+    /**
+     * <code>.messaging.Point pos = 6;</code>
+     */
+    private void clearPos() {  pos_ = null;
+      
+    }
+
+    public static messaging.Service.ResponseOtherPlayerConnected parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.ResponseOtherPlayerConnected parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.ResponseOtherPlayerConnected parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.ResponseOtherPlayerConnected parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.ResponseOtherPlayerConnected parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.ResponseOtherPlayerConnected parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.ResponseOtherPlayerConnected parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.ResponseOtherPlayerConnected parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.ResponseOtherPlayerConnected parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.ResponseOtherPlayerConnected parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.ResponseOtherPlayerConnected parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.ResponseOtherPlayerConnected parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(messaging.Service.ResponseOtherPlayerConnected prototype) {
+      return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code messaging.ResponseOtherPlayerConnected}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          messaging.Service.ResponseOtherPlayerConnected, Builder> implements
+        // @@protoc_insertion_point(builder_implements:messaging.ResponseOtherPlayerConnected)
+        messaging.Service.ResponseOtherPlayerConnectedOrBuilder {
+      // Construct using messaging.Service.ResponseOtherPlayerConnected.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>int32 charid = 1;</code>
+       * @return The charid.
+       */
+      @java.lang.Override
+      public int getCharid() {
+        return instance.getCharid();
+      }
+      /**
+       * <code>int32 charid = 1;</code>
+       * @param value The charid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCharid(int value) {
+        copyOnWrite();
+        instance.setCharid(value);
+        return this;
+      }
+      /**
+       * <code>int32 charid = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCharid() {
+        copyOnWrite();
+        instance.clearCharid();
+        return this;
+      }
+
+      /**
+       * <code>int32 hair = 2;</code>
+       * @return The hair.
+       */
+      @java.lang.Override
+      public int getHair() {
+        return instance.getHair();
+      }
+      /**
+       * <code>int32 hair = 2;</code>
+       * @param value The hair to set.
+       * @return This builder for chaining.
+       */
+      public Builder setHair(int value) {
+        copyOnWrite();
+        instance.setHair(value);
+        return this;
+      }
+      /**
+       * <code>int32 hair = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearHair() {
+        copyOnWrite();
+        instance.clearHair();
+        return this;
+      }
+
+      /**
+       * <code>int32 skin = 3;</code>
+       * @return The skin.
+       */
+      @java.lang.Override
+      public int getSkin() {
+        return instance.getSkin();
+      }
+      /**
+       * <code>int32 skin = 3;</code>
+       * @param value The skin to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSkin(int value) {
+        copyOnWrite();
+        instance.setSkin(value);
+        return this;
+      }
+      /**
+       * <code>int32 skin = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSkin() {
+        copyOnWrite();
+        instance.clearSkin();
+        return this;
+      }
+
+      /**
+       * <code>int32 face = 4;</code>
+       * @return The face.
+       */
+      @java.lang.Override
+      public int getFace() {
+        return instance.getFace();
+      }
+      /**
+       * <code>int32 face = 4;</code>
+       * @param value The face to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFace(int value) {
+        copyOnWrite();
+        instance.setFace(value);
+        return this;
+      }
+      /**
+       * <code>int32 face = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFace() {
+        copyOnWrite();
+        instance.clearFace();
+        return this;
+      }
+
+      /**
+       * <code>int32 state = 5;</code>
+       * @return The state.
+       */
+      @java.lang.Override
+      public int getState() {
+        return instance.getState();
+      }
+      /**
+       * <code>int32 state = 5;</code>
+       * @param value The state to set.
+       * @return This builder for chaining.
+       */
+      public Builder setState(int value) {
+        copyOnWrite();
+        instance.setState(value);
+        return this;
+      }
+      /**
+       * <code>int32 state = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearState() {
+        copyOnWrite();
+        instance.clearState();
+        return this;
+      }
+
+      /**
+       * <code>.messaging.Point pos = 6;</code>
+       */
+      @java.lang.Override
+      public boolean hasPos() {
+        return instance.hasPos();
+      }
+      /**
+       * <code>.messaging.Point pos = 6;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.Point getPos() {
+        return instance.getPos();
+      }
+      /**
+       * <code>.messaging.Point pos = 6;</code>
+       */
+      public Builder setPos(messaging.Service.Point value) {
+        copyOnWrite();
+        instance.setPos(value);
+        return this;
+        }
+      /**
+       * <code>.messaging.Point pos = 6;</code>
+       */
+      public Builder setPos(
+          messaging.Service.Point.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPos(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.Point pos = 6;</code>
+       */
+      public Builder mergePos(messaging.Service.Point value) {
+        copyOnWrite();
+        instance.mergePos(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.Point pos = 6;</code>
+       */
+      public Builder clearPos() {  copyOnWrite();
+        instance.clearPos();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:messaging.ResponseOtherPlayerConnected)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new messaging.Service.ResponseOtherPlayerConnected();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "charid_",
+              "hair_",
+              "skin_",
+              "face_",
+              "state_",
+              "pos_",
+            };
+            java.lang.String info =
+                "\u0000\u0006\u0000\u0000\u0001\u0006\u0006\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
+                "\u0003\u0004\u0004\u0004\u0005\u0004\u0006\t";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<messaging.Service.ResponseOtherPlayerConnected> parser = PARSER;
+          if (parser == null) {
+            synchronized (messaging.Service.ResponseOtherPlayerConnected.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<messaging.Service.ResponseOtherPlayerConnected>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:messaging.ResponseOtherPlayerConnected)
+    private static final messaging.Service.ResponseOtherPlayerConnected DEFAULT_INSTANCE;
+    static {
+      ResponseOtherPlayerConnected defaultInstance = new ResponseOtherPlayerConnected();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        ResponseOtherPlayerConnected.class, defaultInstance);
+    }
+
+    public static messaging.Service.ResponseOtherPlayerConnected getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<ResponseOtherPlayerConnected> PARSER;
+
+    public static com.google.protobuf.Parser<ResponseOtherPlayerConnected> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface UpdatePlayerStateOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:messaging.UpdatePlayerState)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int32 charid = 1;</code>
+     * @return The charid.
+     */
+    int getCharid();
+
+    /**
+     * <code>int32 state = 2;</code>
+     * @return The state.
+     */
+    int getState();
+
+    /**
+     * <code>.messaging.Point pos = 3;</code>
+     * @return Whether the pos field is set.
+     */
+    boolean hasPos();
+    /**
+     * <code>.messaging.Point pos = 3;</code>
+     * @return The pos.
+     */
+    messaging.Service.Point getPos();
+  }
+  /**
+   * Protobuf type {@code messaging.UpdatePlayerState}
+   */
+  public  static final class UpdatePlayerState extends
+      com.google.protobuf.GeneratedMessageLite<
+          UpdatePlayerState, UpdatePlayerState.Builder> implements
+      // @@protoc_insertion_point(message_implements:messaging.UpdatePlayerState)
+      UpdatePlayerStateOrBuilder {
+    private UpdatePlayerState() {
+    }
+    public static final int CHARID_FIELD_NUMBER = 1;
+    private int charid_;
+    /**
+     * <code>int32 charid = 1;</code>
+     * @return The charid.
+     */
+    @java.lang.Override
+    public int getCharid() {
+      return charid_;
+    }
+    /**
+     * <code>int32 charid = 1;</code>
+     * @param value The charid to set.
+     */
+    private void setCharid(int value) {
+      
+      charid_ = value;
+    }
+    /**
+     * <code>int32 charid = 1;</code>
+     */
+    private void clearCharid() {
+      
+      charid_ = 0;
+    }
+
+    public static final int STATE_FIELD_NUMBER = 2;
+    private int state_;
+    /**
+     * <code>int32 state = 2;</code>
+     * @return The state.
+     */
+    @java.lang.Override
+    public int getState() {
+      return state_;
+    }
+    /**
+     * <code>int32 state = 2;</code>
+     * @param value The state to set.
+     */
+    private void setState(int value) {
+      
+      state_ = value;
+    }
+    /**
+     * <code>int32 state = 2;</code>
+     */
+    private void clearState() {
+      
+      state_ = 0;
+    }
+
+    public static final int POS_FIELD_NUMBER = 3;
+    private messaging.Service.Point pos_;
+    /**
+     * <code>.messaging.Point pos = 3;</code>
+     */
+    @java.lang.Override
+    public boolean hasPos() {
+      return pos_ != null;
+    }
+    /**
+     * <code>.messaging.Point pos = 3;</code>
+     */
+    @java.lang.Override
+    public messaging.Service.Point getPos() {
+      return pos_ == null ? messaging.Service.Point.getDefaultInstance() : pos_;
+    }
+    /**
+     * <code>.messaging.Point pos = 3;</code>
+     */
+    private void setPos(messaging.Service.Point value) {
+      value.getClass();
+  pos_ = value;
+      
+      }
+    /**
+     * <code>.messaging.Point pos = 3;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergePos(messaging.Service.Point value) {
+      value.getClass();
+  if (pos_ != null &&
+          pos_ != messaging.Service.Point.getDefaultInstance()) {
+        pos_ =
+          messaging.Service.Point.newBuilder(pos_).mergeFrom(value).buildPartial();
+      } else {
+        pos_ = value;
+      }
+      
+    }
+    /**
+     * <code>.messaging.Point pos = 3;</code>
+     */
+    private void clearPos() {  pos_ = null;
+      
+    }
+
+    public static messaging.Service.UpdatePlayerState parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.UpdatePlayerState parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.UpdatePlayerState parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.UpdatePlayerState parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.UpdatePlayerState parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.UpdatePlayerState parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.UpdatePlayerState parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.UpdatePlayerState parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.UpdatePlayerState parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.UpdatePlayerState parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.UpdatePlayerState parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.UpdatePlayerState parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(messaging.Service.UpdatePlayerState prototype) {
+      return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code messaging.UpdatePlayerState}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          messaging.Service.UpdatePlayerState, Builder> implements
+        // @@protoc_insertion_point(builder_implements:messaging.UpdatePlayerState)
+        messaging.Service.UpdatePlayerStateOrBuilder {
+      // Construct using messaging.Service.UpdatePlayerState.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>int32 charid = 1;</code>
+       * @return The charid.
+       */
+      @java.lang.Override
+      public int getCharid() {
+        return instance.getCharid();
+      }
+      /**
+       * <code>int32 charid = 1;</code>
+       * @param value The charid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCharid(int value) {
+        copyOnWrite();
+        instance.setCharid(value);
+        return this;
+      }
+      /**
+       * <code>int32 charid = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCharid() {
+        copyOnWrite();
+        instance.clearCharid();
+        return this;
+      }
+
+      /**
+       * <code>int32 state = 2;</code>
+       * @return The state.
+       */
+      @java.lang.Override
+      public int getState() {
+        return instance.getState();
+      }
+      /**
+       * <code>int32 state = 2;</code>
+       * @param value The state to set.
+       * @return This builder for chaining.
+       */
+      public Builder setState(int value) {
+        copyOnWrite();
+        instance.setState(value);
+        return this;
+      }
+      /**
+       * <code>int32 state = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearState() {
+        copyOnWrite();
+        instance.clearState();
+        return this;
+      }
+
+      /**
+       * <code>.messaging.Point pos = 3;</code>
+       */
+      @java.lang.Override
+      public boolean hasPos() {
+        return instance.hasPos();
+      }
+      /**
+       * <code>.messaging.Point pos = 3;</code>
+       */
+      @java.lang.Override
+      public messaging.Service.Point getPos() {
+        return instance.getPos();
+      }
+      /**
+       * <code>.messaging.Point pos = 3;</code>
+       */
+      public Builder setPos(messaging.Service.Point value) {
+        copyOnWrite();
+        instance.setPos(value);
+        return this;
+        }
+      /**
+       * <code>.messaging.Point pos = 3;</code>
+       */
+      public Builder setPos(
+          messaging.Service.Point.Builder builderForValue) {
+        copyOnWrite();
+        instance.setPos(builderForValue.build());
+        return this;
+      }
+      /**
+       * <code>.messaging.Point pos = 3;</code>
+       */
+      public Builder mergePos(messaging.Service.Point value) {
+        copyOnWrite();
+        instance.mergePos(value);
+        return this;
+      }
+      /**
+       * <code>.messaging.Point pos = 3;</code>
+       */
+      public Builder clearPos() {  copyOnWrite();
+        instance.clearPos();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:messaging.UpdatePlayerState)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new messaging.Service.UpdatePlayerState();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "charid_",
+              "state_",
+              "pos_",
+            };
+            java.lang.String info =
+                "\u0000\u0003\u0000\u0000\u0001\u0003\u0003\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
+                "\u0003\t";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<messaging.Service.UpdatePlayerState> parser = PARSER;
+          if (parser == null) {
+            synchronized (messaging.Service.UpdatePlayerState.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<messaging.Service.UpdatePlayerState>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:messaging.UpdatePlayerState)
+    private static final messaging.Service.UpdatePlayerState DEFAULT_INSTANCE;
+    static {
+      UpdatePlayerState defaultInstance = new UpdatePlayerState();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        UpdatePlayerState.class, defaultInstance);
+    }
+
+    public static messaging.Service.UpdatePlayerState getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<UpdatePlayerState> PARSER;
+
+    public static com.google.protobuf.Parser<UpdatePlayerState> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface PressButtonOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:messaging.PressButton)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int32 charid = 1;</code>
+     * @return The charid.
+     */
+    int getCharid();
+
+    /**
+     * <code>int32 button = 2;</code>
+     * @return The button.
+     */
+    int getButton();
+
+    /**
+     * <code>bool pressed = 3;</code>
+     * @return The pressed.
+     */
+    boolean getPressed();
+  }
+  /**
+   * Protobuf type {@code messaging.PressButton}
+   */
+  public  static final class PressButton extends
+      com.google.protobuf.GeneratedMessageLite<
+          PressButton, PressButton.Builder> implements
+      // @@protoc_insertion_point(message_implements:messaging.PressButton)
+      PressButtonOrBuilder {
+    private PressButton() {
+    }
+    public static final int CHARID_FIELD_NUMBER = 1;
+    private int charid_;
+    /**
+     * <code>int32 charid = 1;</code>
+     * @return The charid.
+     */
+    @java.lang.Override
+    public int getCharid() {
+      return charid_;
+    }
+    /**
+     * <code>int32 charid = 1;</code>
+     * @param value The charid to set.
+     */
+    private void setCharid(int value) {
+      
+      charid_ = value;
+    }
+    /**
+     * <code>int32 charid = 1;</code>
+     */
+    private void clearCharid() {
+      
+      charid_ = 0;
+    }
+
+    public static final int BUTTON_FIELD_NUMBER = 2;
+    private int button_;
+    /**
+     * <code>int32 button = 2;</code>
+     * @return The button.
+     */
+    @java.lang.Override
+    public int getButton() {
+      return button_;
+    }
+    /**
+     * <code>int32 button = 2;</code>
+     * @param value The button to set.
+     */
+    private void setButton(int value) {
+      
+      button_ = value;
+    }
+    /**
+     * <code>int32 button = 2;</code>
+     */
+    private void clearButton() {
+      
+      button_ = 0;
+    }
+
+    public static final int PRESSED_FIELD_NUMBER = 3;
+    private boolean pressed_;
+    /**
+     * <code>bool pressed = 3;</code>
+     * @return The pressed.
+     */
+    @java.lang.Override
+    public boolean getPressed() {
+      return pressed_;
+    }
+    /**
+     * <code>bool pressed = 3;</code>
+     * @param value The pressed to set.
+     */
+    private void setPressed(boolean value) {
+      
+      pressed_ = value;
+    }
+    /**
+     * <code>bool pressed = 3;</code>
+     */
+    private void clearPressed() {
+      
+      pressed_ = false;
+    }
+
+    public static messaging.Service.PressButton parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.PressButton parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.PressButton parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.PressButton parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.PressButton parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.PressButton parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.PressButton parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.PressButton parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.PressButton parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.PressButton parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.PressButton parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.PressButton parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(messaging.Service.PressButton prototype) {
+      return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code messaging.PressButton}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          messaging.Service.PressButton, Builder> implements
+        // @@protoc_insertion_point(builder_implements:messaging.PressButton)
+        messaging.Service.PressButtonOrBuilder {
+      // Construct using messaging.Service.PressButton.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>int32 charid = 1;</code>
+       * @return The charid.
+       */
+      @java.lang.Override
+      public int getCharid() {
+        return instance.getCharid();
+      }
+      /**
+       * <code>int32 charid = 1;</code>
+       * @param value The charid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCharid(int value) {
+        copyOnWrite();
+        instance.setCharid(value);
+        return this;
+      }
+      /**
+       * <code>int32 charid = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCharid() {
+        copyOnWrite();
+        instance.clearCharid();
+        return this;
+      }
+
+      /**
+       * <code>int32 button = 2;</code>
+       * @return The button.
+       */
+      @java.lang.Override
+      public int getButton() {
+        return instance.getButton();
+      }
+      /**
+       * <code>int32 button = 2;</code>
+       * @param value The button to set.
+       * @return This builder for chaining.
+       */
+      public Builder setButton(int value) {
+        copyOnWrite();
+        instance.setButton(value);
+        return this;
+      }
+      /**
+       * <code>int32 button = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearButton() {
+        copyOnWrite();
+        instance.clearButton();
+        return this;
+      }
+
+      /**
+       * <code>bool pressed = 3;</code>
+       * @return The pressed.
+       */
+      @java.lang.Override
+      public boolean getPressed() {
+        return instance.getPressed();
+      }
+      /**
+       * <code>bool pressed = 3;</code>
+       * @param value The pressed to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPressed(boolean value) {
+        copyOnWrite();
+        instance.setPressed(value);
+        return this;
+      }
+      /**
+       * <code>bool pressed = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPressed() {
+        copyOnWrite();
+        instance.clearPressed();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:messaging.PressButton)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new messaging.Service.PressButton();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "charid_",
+              "button_",
+              "pressed_",
+            };
+            java.lang.String info =
+                "\u0000\u0003\u0000\u0000\u0001\u0003\u0003\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
+                "\u0003\u0007";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<messaging.Service.PressButton> parser = PARSER;
+          if (parser == null) {
+            synchronized (messaging.Service.PressButton.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<messaging.Service.PressButton>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:messaging.PressButton)
+    private static final messaging.Service.PressButton DEFAULT_INSTANCE;
+    static {
+      PressButton defaultInstance = new PressButton();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        PressButton.class, defaultInstance);
+    }
+
+    public static messaging.Service.PressButton getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<PressButton> PARSER;
+
+    public static com.google.protobuf.Parser<PressButton> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface ExpressionButtonOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:messaging.ExpressionButton)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int32 charid = 1;</code>
+     * @return The charid.
+     */
+    int getCharid();
+
+    /**
+     * <code>int32 expression = 2;</code>
+     * @return The expression.
+     */
+    int getExpression();
+  }
+  /**
+   * Protobuf type {@code messaging.ExpressionButton}
+   */
+  public  static final class ExpressionButton extends
+      com.google.protobuf.GeneratedMessageLite<
+          ExpressionButton, ExpressionButton.Builder> implements
+      // @@protoc_insertion_point(message_implements:messaging.ExpressionButton)
+      ExpressionButtonOrBuilder {
+    private ExpressionButton() {
+    }
+    public static final int CHARID_FIELD_NUMBER = 1;
+    private int charid_;
+    /**
+     * <code>int32 charid = 1;</code>
+     * @return The charid.
+     */
+    @java.lang.Override
+    public int getCharid() {
+      return charid_;
+    }
+    /**
+     * <code>int32 charid = 1;</code>
+     * @param value The charid to set.
+     */
+    private void setCharid(int value) {
+      
+      charid_ = value;
+    }
+    /**
+     * <code>int32 charid = 1;</code>
+     */
+    private void clearCharid() {
+      
+      charid_ = 0;
+    }
+
+    public static final int EXPRESSION_FIELD_NUMBER = 2;
+    private int expression_;
+    /**
+     * <code>int32 expression = 2;</code>
+     * @return The expression.
+     */
+    @java.lang.Override
+    public int getExpression() {
+      return expression_;
+    }
+    /**
+     * <code>int32 expression = 2;</code>
+     * @param value The expression to set.
+     */
+    private void setExpression(int value) {
+      
+      expression_ = value;
+    }
+    /**
+     * <code>int32 expression = 2;</code>
+     */
+    private void clearExpression() {
+      
+      expression_ = 0;
+    }
+
+    public static messaging.Service.ExpressionButton parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.ExpressionButton parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.ExpressionButton parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.ExpressionButton parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.ExpressionButton parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.ExpressionButton parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.ExpressionButton parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.ExpressionButton parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.ExpressionButton parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.ExpressionButton parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.ExpressionButton parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.ExpressionButton parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(messaging.Service.ExpressionButton prototype) {
+      return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code messaging.ExpressionButton}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          messaging.Service.ExpressionButton, Builder> implements
+        // @@protoc_insertion_point(builder_implements:messaging.ExpressionButton)
+        messaging.Service.ExpressionButtonOrBuilder {
+      // Construct using messaging.Service.ExpressionButton.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>int32 charid = 1;</code>
+       * @return The charid.
+       */
+      @java.lang.Override
+      public int getCharid() {
+        return instance.getCharid();
+      }
+      /**
+       * <code>int32 charid = 1;</code>
+       * @param value The charid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCharid(int value) {
+        copyOnWrite();
+        instance.setCharid(value);
+        return this;
+      }
+      /**
+       * <code>int32 charid = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCharid() {
+        copyOnWrite();
+        instance.clearCharid();
+        return this;
+      }
+
+      /**
+       * <code>int32 expression = 2;</code>
+       * @return The expression.
+       */
+      @java.lang.Override
+      public int getExpression() {
+        return instance.getExpression();
+      }
+      /**
+       * <code>int32 expression = 2;</code>
+       * @param value The expression to set.
+       * @return This builder for chaining.
+       */
+      public Builder setExpression(int value) {
+        copyOnWrite();
+        instance.setExpression(value);
+        return this;
+      }
+      /**
+       * <code>int32 expression = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearExpression() {
+        copyOnWrite();
+        instance.clearExpression();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:messaging.ExpressionButton)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new messaging.Service.ExpressionButton();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "charid_",
+              "expression_",
+            };
+            java.lang.String info =
+                "\u0000\u0002\u0000\u0000\u0001\u0002\u0002\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
+                "";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<messaging.Service.ExpressionButton> parser = PARSER;
+          if (parser == null) {
+            synchronized (messaging.Service.ExpressionButton.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<messaging.Service.ExpressionButton>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:messaging.ExpressionButton)
+    private static final messaging.Service.ExpressionButton DEFAULT_INSTANCE;
+    static {
+      ExpressionButton defaultInstance = new ExpressionButton();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        ExpressionButton.class, defaultInstance);
+    }
+
+    public static messaging.Service.ExpressionButton getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<ExpressionButton> PARSER;
+
+    public static com.google.protobuf.Parser<ExpressionButton> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
   public interface RequestDropItemOrBuilder extends
       // @@protoc_insertion_point(interface_extends:messaging.RequestDropItem)
       com.google.protobuf.MessageLiteOrBuilder {
@@ -1196,23 +4868,13 @@ public final class Service {
     messaging.Service.Point getStart();
 
     /**
-     * <pre>
-     * todo refactor to enum later
-     * </pre>
-     *
-     * <code>int32 invtype = 6;</code>
-     * @return The invtype.
-     */
-    int getInvtype();
-
-    /**
-     * <code>int32 slotid = 7;</code>
+     * <code>int32 slotid = 5;</code>
      * @return The slotid.
      */
     int getSlotid();
 
     /**
-     * <code>int32 mapid = 8;</code>
+     * <code>int32 mapid = 6;</code>
      * @return The mapid.
      */
     int getMapid();
@@ -1363,48 +5025,10 @@ public final class Service {
       
     }
 
-    public static final int INVTYPE_FIELD_NUMBER = 6;
-    private int invtype_;
-    /**
-     * <pre>
-     * todo refactor to enum later
-     * </pre>
-     *
-     * <code>int32 invtype = 6;</code>
-     * @return The invtype.
-     */
-    @java.lang.Override
-    public int getInvtype() {
-      return invtype_;
-    }
-    /**
-     * <pre>
-     * todo refactor to enum later
-     * </pre>
-     *
-     * <code>int32 invtype = 6;</code>
-     * @param value The invtype to set.
-     */
-    private void setInvtype(int value) {
-      
-      invtype_ = value;
-    }
-    /**
-     * <pre>
-     * todo refactor to enum later
-     * </pre>
-     *
-     * <code>int32 invtype = 6;</code>
-     */
-    private void clearInvtype() {
-      
-      invtype_ = 0;
-    }
-
-    public static final int SLOTID_FIELD_NUMBER = 7;
+    public static final int SLOTID_FIELD_NUMBER = 5;
     private int slotid_;
     /**
-     * <code>int32 slotid = 7;</code>
+     * <code>int32 slotid = 5;</code>
      * @return The slotid.
      */
     @java.lang.Override
@@ -1412,7 +5036,7 @@ public final class Service {
       return slotid_;
     }
     /**
-     * <code>int32 slotid = 7;</code>
+     * <code>int32 slotid = 5;</code>
      * @param value The slotid to set.
      */
     private void setSlotid(int value) {
@@ -1420,17 +5044,17 @@ public final class Service {
       slotid_ = value;
     }
     /**
-     * <code>int32 slotid = 7;</code>
+     * <code>int32 slotid = 5;</code>
      */
     private void clearSlotid() {
       
       slotid_ = 0;
     }
 
-    public static final int MAPID_FIELD_NUMBER = 8;
+    public static final int MAPID_FIELD_NUMBER = 6;
     private int mapid_;
     /**
-     * <code>int32 mapid = 8;</code>
+     * <code>int32 mapid = 6;</code>
      * @return The mapid.
      */
     @java.lang.Override
@@ -1438,7 +5062,7 @@ public final class Service {
       return mapid_;
     }
     /**
-     * <code>int32 mapid = 8;</code>
+     * <code>int32 mapid = 6;</code>
      * @param value The mapid to set.
      */
     private void setMapid(int value) {
@@ -1446,7 +5070,7 @@ public final class Service {
       mapid_ = value;
     }
     /**
-     * <code>int32 mapid = 8;</code>
+     * <code>int32 mapid = 6;</code>
      */
     private void clearMapid() {
       
@@ -1692,47 +5316,7 @@ public final class Service {
       }
 
       /**
-       * <pre>
-       * todo refactor to enum later
-       * </pre>
-       *
-       * <code>int32 invtype = 6;</code>
-       * @return The invtype.
-       */
-      @java.lang.Override
-      public int getInvtype() {
-        return instance.getInvtype();
-      }
-      /**
-       * <pre>
-       * todo refactor to enum later
-       * </pre>
-       *
-       * <code>int32 invtype = 6;</code>
-       * @param value The invtype to set.
-       * @return This builder for chaining.
-       */
-      public Builder setInvtype(int value) {
-        copyOnWrite();
-        instance.setInvtype(value);
-        return this;
-      }
-      /**
-       * <pre>
-       * todo refactor to enum later
-       * </pre>
-       *
-       * <code>int32 invtype = 6;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearInvtype() {
-        copyOnWrite();
-        instance.clearInvtype();
-        return this;
-      }
-
-      /**
-       * <code>int32 slotid = 7;</code>
+       * <code>int32 slotid = 5;</code>
        * @return The slotid.
        */
       @java.lang.Override
@@ -1740,7 +5324,7 @@ public final class Service {
         return instance.getSlotid();
       }
       /**
-       * <code>int32 slotid = 7;</code>
+       * <code>int32 slotid = 5;</code>
        * @param value The slotid to set.
        * @return This builder for chaining.
        */
@@ -1750,7 +5334,7 @@ public final class Service {
         return this;
       }
       /**
-       * <code>int32 slotid = 7;</code>
+       * <code>int32 slotid = 5;</code>
        * @return This builder for chaining.
        */
       public Builder clearSlotid() {
@@ -1760,7 +5344,7 @@ public final class Service {
       }
 
       /**
-       * <code>int32 mapid = 8;</code>
+       * <code>int32 mapid = 6;</code>
        * @return The mapid.
        */
       @java.lang.Override
@@ -1768,7 +5352,7 @@ public final class Service {
         return instance.getMapid();
       }
       /**
-       * <code>int32 mapid = 8;</code>
+       * <code>int32 mapid = 6;</code>
        * @param value The mapid to set.
        * @return This builder for chaining.
        */
@@ -1778,7 +5362,7 @@ public final class Service {
         return this;
       }
       /**
-       * <code>int32 mapid = 8;</code>
+       * <code>int32 mapid = 6;</code>
        * @return This builder for chaining.
        */
       public Builder clearMapid() {
@@ -1807,13 +5391,12 @@ public final class Service {
               "count_",
               "owner_",
               "start_",
-              "invtype_",
               "slotid_",
               "mapid_",
             };
             java.lang.String info =
-                "\u0000\u0007\u0000\u0000\u0001\b\u0007\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
-                "\u0003\u0004\u0004\t\u0006\u0004\u0007\u0004\b\u0004";
+                "\u0000\u0006\u0000\u0000\u0001\u0006\u0006\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
+                "\u0003\u0004\u0004\t\u0005\u0004\u0006\u0004";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through
@@ -2428,6 +6011,1104 @@ public final class Service {
     }
   }
 
+  public interface EquipItemOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:messaging.EquipItem)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int32 cid = 1;</code>
+     * @return The cid.
+     */
+    int getCid();
+
+    /**
+     * <code>int32 slotid = 2;</code>
+     * @return The slotid.
+     */
+    int getSlotid();
+
+    /**
+     * <code>int32 itemid = 3;</code>
+     * @return The itemid.
+     */
+    int getItemid();
+  }
+  /**
+   * Protobuf type {@code messaging.EquipItem}
+   */
+  public  static final class EquipItem extends
+      com.google.protobuf.GeneratedMessageLite<
+          EquipItem, EquipItem.Builder> implements
+      // @@protoc_insertion_point(message_implements:messaging.EquipItem)
+      EquipItemOrBuilder {
+    private EquipItem() {
+    }
+    public static final int CID_FIELD_NUMBER = 1;
+    private int cid_;
+    /**
+     * <code>int32 cid = 1;</code>
+     * @return The cid.
+     */
+    @java.lang.Override
+    public int getCid() {
+      return cid_;
+    }
+    /**
+     * <code>int32 cid = 1;</code>
+     * @param value The cid to set.
+     */
+    private void setCid(int value) {
+      
+      cid_ = value;
+    }
+    /**
+     * <code>int32 cid = 1;</code>
+     */
+    private void clearCid() {
+      
+      cid_ = 0;
+    }
+
+    public static final int SLOTID_FIELD_NUMBER = 2;
+    private int slotid_;
+    /**
+     * <code>int32 slotid = 2;</code>
+     * @return The slotid.
+     */
+    @java.lang.Override
+    public int getSlotid() {
+      return slotid_;
+    }
+    /**
+     * <code>int32 slotid = 2;</code>
+     * @param value The slotid to set.
+     */
+    private void setSlotid(int value) {
+      
+      slotid_ = value;
+    }
+    /**
+     * <code>int32 slotid = 2;</code>
+     */
+    private void clearSlotid() {
+      
+      slotid_ = 0;
+    }
+
+    public static final int ITEMID_FIELD_NUMBER = 3;
+    private int itemid_;
+    /**
+     * <code>int32 itemid = 3;</code>
+     * @return The itemid.
+     */
+    @java.lang.Override
+    public int getItemid() {
+      return itemid_;
+    }
+    /**
+     * <code>int32 itemid = 3;</code>
+     * @param value The itemid to set.
+     */
+    private void setItemid(int value) {
+      
+      itemid_ = value;
+    }
+    /**
+     * <code>int32 itemid = 3;</code>
+     */
+    private void clearItemid() {
+      
+      itemid_ = 0;
+    }
+
+    public static messaging.Service.EquipItem parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.EquipItem parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.EquipItem parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.EquipItem parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.EquipItem parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.EquipItem parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.EquipItem parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.EquipItem parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.EquipItem parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.EquipItem parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.EquipItem parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.EquipItem parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(messaging.Service.EquipItem prototype) {
+      return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code messaging.EquipItem}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          messaging.Service.EquipItem, Builder> implements
+        // @@protoc_insertion_point(builder_implements:messaging.EquipItem)
+        messaging.Service.EquipItemOrBuilder {
+      // Construct using messaging.Service.EquipItem.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>int32 cid = 1;</code>
+       * @return The cid.
+       */
+      @java.lang.Override
+      public int getCid() {
+        return instance.getCid();
+      }
+      /**
+       * <code>int32 cid = 1;</code>
+       * @param value The cid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCid(int value) {
+        copyOnWrite();
+        instance.setCid(value);
+        return this;
+      }
+      /**
+       * <code>int32 cid = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCid() {
+        copyOnWrite();
+        instance.clearCid();
+        return this;
+      }
+
+      /**
+       * <code>int32 slotid = 2;</code>
+       * @return The slotid.
+       */
+      @java.lang.Override
+      public int getSlotid() {
+        return instance.getSlotid();
+      }
+      /**
+       * <code>int32 slotid = 2;</code>
+       * @param value The slotid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSlotid(int value) {
+        copyOnWrite();
+        instance.setSlotid(value);
+        return this;
+      }
+      /**
+       * <code>int32 slotid = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSlotid() {
+        copyOnWrite();
+        instance.clearSlotid();
+        return this;
+      }
+
+      /**
+       * <code>int32 itemid = 3;</code>
+       * @return The itemid.
+       */
+      @java.lang.Override
+      public int getItemid() {
+        return instance.getItemid();
+      }
+      /**
+       * <code>int32 itemid = 3;</code>
+       * @param value The itemid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setItemid(int value) {
+        copyOnWrite();
+        instance.setItemid(value);
+        return this;
+      }
+      /**
+       * <code>int32 itemid = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearItemid() {
+        copyOnWrite();
+        instance.clearItemid();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:messaging.EquipItem)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new messaging.Service.EquipItem();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "cid_",
+              "slotid_",
+              "itemid_",
+            };
+            java.lang.String info =
+                "\u0000\u0003\u0000\u0000\u0001\u0003\u0003\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
+                "\u0003\u0004";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<messaging.Service.EquipItem> parser = PARSER;
+          if (parser == null) {
+            synchronized (messaging.Service.EquipItem.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<messaging.Service.EquipItem>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:messaging.EquipItem)
+    private static final messaging.Service.EquipItem DEFAULT_INSTANCE;
+    static {
+      EquipItem defaultInstance = new EquipItem();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        EquipItem.class, defaultInstance);
+    }
+
+    public static messaging.Service.EquipItem getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<EquipItem> PARSER;
+
+    public static com.google.protobuf.Parser<EquipItem> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface UnequipItemOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:messaging.UnequipItem)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int32 cid = 1;</code>
+     * @return The cid.
+     */
+    int getCid();
+
+    /**
+     * <code>int32 slotid = 2;</code>
+     * @return The slotid.
+     */
+    int getSlotid();
+
+    /**
+     * <code>int32 itemid = 3;</code>
+     * @return The itemid.
+     */
+    int getItemid();
+  }
+  /**
+   * Protobuf type {@code messaging.UnequipItem}
+   */
+  public  static final class UnequipItem extends
+      com.google.protobuf.GeneratedMessageLite<
+          UnequipItem, UnequipItem.Builder> implements
+      // @@protoc_insertion_point(message_implements:messaging.UnequipItem)
+      UnequipItemOrBuilder {
+    private UnequipItem() {
+    }
+    public static final int CID_FIELD_NUMBER = 1;
+    private int cid_;
+    /**
+     * <code>int32 cid = 1;</code>
+     * @return The cid.
+     */
+    @java.lang.Override
+    public int getCid() {
+      return cid_;
+    }
+    /**
+     * <code>int32 cid = 1;</code>
+     * @param value The cid to set.
+     */
+    private void setCid(int value) {
+      
+      cid_ = value;
+    }
+    /**
+     * <code>int32 cid = 1;</code>
+     */
+    private void clearCid() {
+      
+      cid_ = 0;
+    }
+
+    public static final int SLOTID_FIELD_NUMBER = 2;
+    private int slotid_;
+    /**
+     * <code>int32 slotid = 2;</code>
+     * @return The slotid.
+     */
+    @java.lang.Override
+    public int getSlotid() {
+      return slotid_;
+    }
+    /**
+     * <code>int32 slotid = 2;</code>
+     * @param value The slotid to set.
+     */
+    private void setSlotid(int value) {
+      
+      slotid_ = value;
+    }
+    /**
+     * <code>int32 slotid = 2;</code>
+     */
+    private void clearSlotid() {
+      
+      slotid_ = 0;
+    }
+
+    public static final int ITEMID_FIELD_NUMBER = 3;
+    private int itemid_;
+    /**
+     * <code>int32 itemid = 3;</code>
+     * @return The itemid.
+     */
+    @java.lang.Override
+    public int getItemid() {
+      return itemid_;
+    }
+    /**
+     * <code>int32 itemid = 3;</code>
+     * @param value The itemid to set.
+     */
+    private void setItemid(int value) {
+      
+      itemid_ = value;
+    }
+    /**
+     * <code>int32 itemid = 3;</code>
+     */
+    private void clearItemid() {
+      
+      itemid_ = 0;
+    }
+
+    public static messaging.Service.UnequipItem parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.UnequipItem parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.UnequipItem parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.UnequipItem parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.UnequipItem parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.UnequipItem parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.UnequipItem parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.UnequipItem parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.UnequipItem parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.UnequipItem parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.UnequipItem parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.UnequipItem parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(messaging.Service.UnequipItem prototype) {
+      return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code messaging.UnequipItem}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          messaging.Service.UnequipItem, Builder> implements
+        // @@protoc_insertion_point(builder_implements:messaging.UnequipItem)
+        messaging.Service.UnequipItemOrBuilder {
+      // Construct using messaging.Service.UnequipItem.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>int32 cid = 1;</code>
+       * @return The cid.
+       */
+      @java.lang.Override
+      public int getCid() {
+        return instance.getCid();
+      }
+      /**
+       * <code>int32 cid = 1;</code>
+       * @param value The cid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCid(int value) {
+        copyOnWrite();
+        instance.setCid(value);
+        return this;
+      }
+      /**
+       * <code>int32 cid = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCid() {
+        copyOnWrite();
+        instance.clearCid();
+        return this;
+      }
+
+      /**
+       * <code>int32 slotid = 2;</code>
+       * @return The slotid.
+       */
+      @java.lang.Override
+      public int getSlotid() {
+        return instance.getSlotid();
+      }
+      /**
+       * <code>int32 slotid = 2;</code>
+       * @param value The slotid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSlotid(int value) {
+        copyOnWrite();
+        instance.setSlotid(value);
+        return this;
+      }
+      /**
+       * <code>int32 slotid = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSlotid() {
+        copyOnWrite();
+        instance.clearSlotid();
+        return this;
+      }
+
+      /**
+       * <code>int32 itemid = 3;</code>
+       * @return The itemid.
+       */
+      @java.lang.Override
+      public int getItemid() {
+        return instance.getItemid();
+      }
+      /**
+       * <code>int32 itemid = 3;</code>
+       * @param value The itemid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setItemid(int value) {
+        copyOnWrite();
+        instance.setItemid(value);
+        return this;
+      }
+      /**
+       * <code>int32 itemid = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearItemid() {
+        copyOnWrite();
+        instance.clearItemid();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:messaging.UnequipItem)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new messaging.Service.UnequipItem();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "cid_",
+              "slotid_",
+              "itemid_",
+            };
+            java.lang.String info =
+                "\u0000\u0003\u0000\u0000\u0001\u0003\u0003\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
+                "\u0003\u0004";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<messaging.Service.UnequipItem> parser = PARSER;
+          if (parser == null) {
+            synchronized (messaging.Service.UnequipItem.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<messaging.Service.UnequipItem>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:messaging.UnequipItem)
+    private static final messaging.Service.UnequipItem DEFAULT_INSTANCE;
+    static {
+      UnequipItem defaultInstance = new UnequipItem();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        UnequipItem.class, defaultInstance);
+    }
+
+    public static messaging.Service.UnequipItem getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<UnequipItem> PARSER;
+
+    public static com.google.protobuf.Parser<UnequipItem> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface PickupItemOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:messaging.PickupItem)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>int32 charid = 1;</code>
+     * @return The charid.
+     */
+    int getCharid();
+
+    /**
+     * <code>int32 oid = 2;</code>
+     * @return The oid.
+     */
+    int getOid();
+
+    /**
+     * <code>int32 mapid = 3;</code>
+     * @return The mapid.
+     */
+    int getMapid();
+  }
+  /**
+   * Protobuf type {@code messaging.PickupItem}
+   */
+  public  static final class PickupItem extends
+      com.google.protobuf.GeneratedMessageLite<
+          PickupItem, PickupItem.Builder> implements
+      // @@protoc_insertion_point(message_implements:messaging.PickupItem)
+      PickupItemOrBuilder {
+    private PickupItem() {
+    }
+    public static final int CHARID_FIELD_NUMBER = 1;
+    private int charid_;
+    /**
+     * <code>int32 charid = 1;</code>
+     * @return The charid.
+     */
+    @java.lang.Override
+    public int getCharid() {
+      return charid_;
+    }
+    /**
+     * <code>int32 charid = 1;</code>
+     * @param value The charid to set.
+     */
+    private void setCharid(int value) {
+      
+      charid_ = value;
+    }
+    /**
+     * <code>int32 charid = 1;</code>
+     */
+    private void clearCharid() {
+      
+      charid_ = 0;
+    }
+
+    public static final int OID_FIELD_NUMBER = 2;
+    private int oid_;
+    /**
+     * <code>int32 oid = 2;</code>
+     * @return The oid.
+     */
+    @java.lang.Override
+    public int getOid() {
+      return oid_;
+    }
+    /**
+     * <code>int32 oid = 2;</code>
+     * @param value The oid to set.
+     */
+    private void setOid(int value) {
+      
+      oid_ = value;
+    }
+    /**
+     * <code>int32 oid = 2;</code>
+     */
+    private void clearOid() {
+      
+      oid_ = 0;
+    }
+
+    public static final int MAPID_FIELD_NUMBER = 3;
+    private int mapid_;
+    /**
+     * <code>int32 mapid = 3;</code>
+     * @return The mapid.
+     */
+    @java.lang.Override
+    public int getMapid() {
+      return mapid_;
+    }
+    /**
+     * <code>int32 mapid = 3;</code>
+     * @param value The mapid to set.
+     */
+    private void setMapid(int value) {
+      
+      mapid_ = value;
+    }
+    /**
+     * <code>int32 mapid = 3;</code>
+     */
+    private void clearMapid() {
+      
+      mapid_ = 0;
+    }
+
+    public static messaging.Service.PickupItem parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.PickupItem parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.PickupItem parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.PickupItem parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.PickupItem parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static messaging.Service.PickupItem parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static messaging.Service.PickupItem parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.PickupItem parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.PickupItem parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.PickupItem parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static messaging.Service.PickupItem parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static messaging.Service.PickupItem parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(messaging.Service.PickupItem prototype) {
+      return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code messaging.PickupItem}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          messaging.Service.PickupItem, Builder> implements
+        // @@protoc_insertion_point(builder_implements:messaging.PickupItem)
+        messaging.Service.PickupItemOrBuilder {
+      // Construct using messaging.Service.PickupItem.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>int32 charid = 1;</code>
+       * @return The charid.
+       */
+      @java.lang.Override
+      public int getCharid() {
+        return instance.getCharid();
+      }
+      /**
+       * <code>int32 charid = 1;</code>
+       * @param value The charid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCharid(int value) {
+        copyOnWrite();
+        instance.setCharid(value);
+        return this;
+      }
+      /**
+       * <code>int32 charid = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCharid() {
+        copyOnWrite();
+        instance.clearCharid();
+        return this;
+      }
+
+      /**
+       * <code>int32 oid = 2;</code>
+       * @return The oid.
+       */
+      @java.lang.Override
+      public int getOid() {
+        return instance.getOid();
+      }
+      /**
+       * <code>int32 oid = 2;</code>
+       * @param value The oid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setOid(int value) {
+        copyOnWrite();
+        instance.setOid(value);
+        return this;
+      }
+      /**
+       * <code>int32 oid = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearOid() {
+        copyOnWrite();
+        instance.clearOid();
+        return this;
+      }
+
+      /**
+       * <code>int32 mapid = 3;</code>
+       * @return The mapid.
+       */
+      @java.lang.Override
+      public int getMapid() {
+        return instance.getMapid();
+      }
+      /**
+       * <code>int32 mapid = 3;</code>
+       * @param value The mapid to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMapid(int value) {
+        copyOnWrite();
+        instance.setMapid(value);
+        return this;
+      }
+      /**
+       * <code>int32 mapid = 3;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMapid() {
+        copyOnWrite();
+        instance.clearMapid();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:messaging.PickupItem)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new messaging.Service.PickupItem();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "charid_",
+              "oid_",
+              "mapid_",
+            };
+            java.lang.String info =
+                "\u0000\u0003\u0000\u0000\u0001\u0003\u0003\u0000\u0000\u0000\u0001\u0004\u0002\u0004" +
+                "\u0003\u0004";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<messaging.Service.PickupItem> parser = PARSER;
+          if (parser == null) {
+            synchronized (messaging.Service.PickupItem.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<messaging.Service.PickupItem>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:messaging.PickupItem)
+    private static final messaging.Service.PickupItem DEFAULT_INSTANCE;
+    static {
+      PickupItem defaultInstance = new PickupItem();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        PickupItem.class, defaultInstance);
+    }
+
+    public static messaging.Service.PickupItem getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<PickupItem> PARSER;
+
+    public static com.google.protobuf.Parser<PickupItem> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
   public interface PointOrBuilder extends
       // @@protoc_insertion_point(interface_extends:messaging.Point)
       com.google.protobuf.MessageLiteOrBuilder {
@@ -2729,546 +7410,6 @@ public final class Service {
     private static volatile com.google.protobuf.Parser<Point> PARSER;
 
     public static com.google.protobuf.Parser<Point> parser() {
-      return DEFAULT_INSTANCE.getParserForType();
-    }
-  }
-
-  public interface connectRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:messaging.connectRequest)
-      com.google.protobuf.MessageLiteOrBuilder {
-  }
-  /**
-   * Protobuf type {@code messaging.connectRequest}
-   */
-  public  static final class connectRequest extends
-      com.google.protobuf.GeneratedMessageLite<
-          connectRequest, connectRequest.Builder> implements
-      // @@protoc_insertion_point(message_implements:messaging.connectRequest)
-      connectRequestOrBuilder {
-    private connectRequest() {
-    }
-    public static messaging.Service.connectRequest parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
-    }
-    public static messaging.Service.connectRequest parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
-    }
-    public static messaging.Service.connectRequest parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
-    }
-    public static messaging.Service.connectRequest parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
-    }
-    public static messaging.Service.connectRequest parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
-    }
-    public static messaging.Service.connectRequest parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
-    }
-    public static messaging.Service.connectRequest parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input);
-    }
-    public static messaging.Service.connectRequest parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input, extensionRegistry);
-    }
-    public static messaging.Service.connectRequest parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
-    }
-    public static messaging.Service.connectRequest parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
-    }
-    public static messaging.Service.connectRequest parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input);
-    }
-    public static messaging.Service.connectRequest parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() {
-      return (Builder) DEFAULT_INSTANCE.createBuilder();
-    }
-    public static Builder newBuilder(messaging.Service.connectRequest prototype) {
-      return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
-    }
-
-    /**
-     * Protobuf type {@code messaging.connectRequest}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageLite.Builder<
-          messaging.Service.connectRequest, Builder> implements
-        // @@protoc_insertion_point(builder_implements:messaging.connectRequest)
-        messaging.Service.connectRequestOrBuilder {
-      // Construct using messaging.Service.connectRequest.newBuilder()
-      private Builder() {
-        super(DEFAULT_INSTANCE);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:messaging.connectRequest)
-    }
-    @java.lang.Override
-    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
-    protected final java.lang.Object dynamicMethod(
-        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
-        java.lang.Object arg0, java.lang.Object arg1) {
-      switch (method) {
-        case NEW_MUTABLE_INSTANCE: {
-          return new messaging.Service.connectRequest();
-        }
-        case NEW_BUILDER: {
-          return new Builder();
-        }
-        case BUILD_MESSAGE_INFO: {
-            java.lang.Object[] objects = null;java.lang.String info =
-                "\u0000\u0000";
-            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
-        }
-        // fall through
-        case GET_DEFAULT_INSTANCE: {
-          return DEFAULT_INSTANCE;
-        }
-        case GET_PARSER: {
-          com.google.protobuf.Parser<messaging.Service.connectRequest> parser = PARSER;
-          if (parser == null) {
-            synchronized (messaging.Service.connectRequest.class) {
-              parser = PARSER;
-              if (parser == null) {
-                parser =
-                    new DefaultInstanceBasedParser<messaging.Service.connectRequest>(
-                        DEFAULT_INSTANCE);
-                PARSER = parser;
-              }
-            }
-          }
-          return parser;
-      }
-      case GET_MEMOIZED_IS_INITIALIZED: {
-        return (byte) 1;
-      }
-      case SET_MEMOIZED_IS_INITIALIZED: {
-        return null;
-      }
-      }
-      throw new UnsupportedOperationException();
-    }
-
-
-    // @@protoc_insertion_point(class_scope:messaging.connectRequest)
-    private static final messaging.Service.connectRequest DEFAULT_INSTANCE;
-    static {
-      connectRequest defaultInstance = new connectRequest();
-      // New instances are implicitly immutable so no need to make
-      // immutable.
-      DEFAULT_INSTANCE = defaultInstance;
-      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
-        connectRequest.class, defaultInstance);
-    }
-
-    public static messaging.Service.connectRequest getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static volatile com.google.protobuf.Parser<connectRequest> PARSER;
-
-    public static com.google.protobuf.Parser<connectRequest> parser() {
-      return DEFAULT_INSTANCE.getParserForType();
-    }
-  }
-
-  public interface connectResponseOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:messaging.connectResponse)
-      com.google.protobuf.MessageLiteOrBuilder {
-  }
-  /**
-   * Protobuf type {@code messaging.connectResponse}
-   */
-  public  static final class connectResponse extends
-      com.google.protobuf.GeneratedMessageLite<
-          connectResponse, connectResponse.Builder> implements
-      // @@protoc_insertion_point(message_implements:messaging.connectResponse)
-      connectResponseOrBuilder {
-    private connectResponse() {
-    }
-    public static messaging.Service.connectResponse parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
-    }
-    public static messaging.Service.connectResponse parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
-    }
-    public static messaging.Service.connectResponse parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
-    }
-    public static messaging.Service.connectResponse parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
-    }
-    public static messaging.Service.connectResponse parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
-    }
-    public static messaging.Service.connectResponse parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
-    }
-    public static messaging.Service.connectResponse parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input);
-    }
-    public static messaging.Service.connectResponse parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input, extensionRegistry);
-    }
-    public static messaging.Service.connectResponse parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
-    }
-    public static messaging.Service.connectResponse parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
-    }
-    public static messaging.Service.connectResponse parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input);
-    }
-    public static messaging.Service.connectResponse parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() {
-      return (Builder) DEFAULT_INSTANCE.createBuilder();
-    }
-    public static Builder newBuilder(messaging.Service.connectResponse prototype) {
-      return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
-    }
-
-    /**
-     * Protobuf type {@code messaging.connectResponse}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageLite.Builder<
-          messaging.Service.connectResponse, Builder> implements
-        // @@protoc_insertion_point(builder_implements:messaging.connectResponse)
-        messaging.Service.connectResponseOrBuilder {
-      // Construct using messaging.Service.connectResponse.newBuilder()
-      private Builder() {
-        super(DEFAULT_INSTANCE);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:messaging.connectResponse)
-    }
-    @java.lang.Override
-    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
-    protected final java.lang.Object dynamicMethod(
-        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
-        java.lang.Object arg0, java.lang.Object arg1) {
-      switch (method) {
-        case NEW_MUTABLE_INSTANCE: {
-          return new messaging.Service.connectResponse();
-        }
-        case NEW_BUILDER: {
-          return new Builder();
-        }
-        case BUILD_MESSAGE_INFO: {
-            java.lang.Object[] objects = null;java.lang.String info =
-                "\u0000\u0000";
-            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
-        }
-        // fall through
-        case GET_DEFAULT_INSTANCE: {
-          return DEFAULT_INSTANCE;
-        }
-        case GET_PARSER: {
-          com.google.protobuf.Parser<messaging.Service.connectResponse> parser = PARSER;
-          if (parser == null) {
-            synchronized (messaging.Service.connectResponse.class) {
-              parser = PARSER;
-              if (parser == null) {
-                parser =
-                    new DefaultInstanceBasedParser<messaging.Service.connectResponse>(
-                        DEFAULT_INSTANCE);
-                PARSER = parser;
-              }
-            }
-          }
-          return parser;
-      }
-      case GET_MEMOIZED_IS_INITIALIZED: {
-        return (byte) 1;
-      }
-      case SET_MEMOIZED_IS_INITIALIZED: {
-        return null;
-      }
-      }
-      throw new UnsupportedOperationException();
-    }
-
-
-    // @@protoc_insertion_point(class_scope:messaging.connectResponse)
-    private static final messaging.Service.connectResponse DEFAULT_INSTANCE;
-    static {
-      connectResponse defaultInstance = new connectResponse();
-      // New instances are implicitly immutable so no need to make
-      // immutable.
-      DEFAULT_INSTANCE = defaultInstance;
-      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
-        connectResponse.class, defaultInstance);
-    }
-
-    public static messaging.Service.connectResponse getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static volatile com.google.protobuf.Parser<connectResponse> PARSER;
-
-    public static com.google.protobuf.Parser<connectResponse> parser() {
-      return DEFAULT_INSTANCE.getParserForType();
-    }
-  }
-
-  public interface EmptyOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:messaging.Empty)
-      com.google.protobuf.MessageLiteOrBuilder {
-  }
-  /**
-   * Protobuf type {@code messaging.Empty}
-   */
-  public  static final class Empty extends
-      com.google.protobuf.GeneratedMessageLite<
-          Empty, Empty.Builder> implements
-      // @@protoc_insertion_point(message_implements:messaging.Empty)
-      EmptyOrBuilder {
-    private Empty() {
-    }
-    public static messaging.Service.Empty parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
-    }
-    public static messaging.Service.Empty parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
-    }
-    public static messaging.Service.Empty parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
-    }
-    public static messaging.Service.Empty parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
-    }
-    public static messaging.Service.Empty parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data);
-    }
-    public static messaging.Service.Empty parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, data, extensionRegistry);
-    }
-    public static messaging.Service.Empty parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input);
-    }
-    public static messaging.Service.Empty parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input, extensionRegistry);
-    }
-    public static messaging.Service.Empty parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
-    }
-    public static messaging.Service.Empty parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
-    }
-    public static messaging.Service.Empty parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input);
-    }
-    public static messaging.Service.Empty parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageLite.parseFrom(
-          DEFAULT_INSTANCE, input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() {
-      return (Builder) DEFAULT_INSTANCE.createBuilder();
-    }
-    public static Builder newBuilder(messaging.Service.Empty prototype) {
-      return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
-    }
-
-    /**
-     * Protobuf type {@code messaging.Empty}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageLite.Builder<
-          messaging.Service.Empty, Builder> implements
-        // @@protoc_insertion_point(builder_implements:messaging.Empty)
-        messaging.Service.EmptyOrBuilder {
-      // Construct using messaging.Service.Empty.newBuilder()
-      private Builder() {
-        super(DEFAULT_INSTANCE);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:messaging.Empty)
-    }
-    @java.lang.Override
-    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
-    protected final java.lang.Object dynamicMethod(
-        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
-        java.lang.Object arg0, java.lang.Object arg1) {
-      switch (method) {
-        case NEW_MUTABLE_INSTANCE: {
-          return new messaging.Service.Empty();
-        }
-        case NEW_BUILDER: {
-          return new Builder();
-        }
-        case BUILD_MESSAGE_INFO: {
-            java.lang.Object[] objects = null;java.lang.String info =
-                "\u0000\u0000";
-            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
-        }
-        // fall through
-        case GET_DEFAULT_INSTANCE: {
-          return DEFAULT_INSTANCE;
-        }
-        case GET_PARSER: {
-          com.google.protobuf.Parser<messaging.Service.Empty> parser = PARSER;
-          if (parser == null) {
-            synchronized (messaging.Service.Empty.class) {
-              parser = PARSER;
-              if (parser == null) {
-                parser =
-                    new DefaultInstanceBasedParser<messaging.Service.Empty>(
-                        DEFAULT_INSTANCE);
-                PARSER = parser;
-              }
-            }
-          }
-          return parser;
-      }
-      case GET_MEMOIZED_IS_INITIALIZED: {
-        return (byte) 1;
-      }
-      case SET_MEMOIZED_IS_INITIALIZED: {
-        return null;
-      }
-      }
-      throw new UnsupportedOperationException();
-    }
-
-
-    // @@protoc_insertion_point(class_scope:messaging.Empty)
-    private static final messaging.Service.Empty DEFAULT_INSTANCE;
-    static {
-      Empty defaultInstance = new Empty();
-      // New instances are implicitly immutable so no need to make
-      // immutable.
-      DEFAULT_INSTANCE = defaultInstance;
-      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
-        Empty.class, defaultInstance);
-    }
-
-    public static messaging.Service.Empty getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static volatile com.google.protobuf.Parser<Empty> PARSER;
-
-    public static com.google.protobuf.Parser<Empty> parser() {
       return DEFAULT_INSTANCE.getParserForType();
     }
   }

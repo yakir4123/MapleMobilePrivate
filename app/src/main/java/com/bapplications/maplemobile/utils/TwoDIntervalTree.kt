@@ -2,37 +2,56 @@ package com.bapplications.maplemobile.utils
 
 class TwoDIntervalTree (objs: List<Point.TwoDPolygon>, dimension: Point.TwoDPolygon) : Collection<Point.TwoDPolygon> {
 
-    private val heightRangeToPolygon: Map<Range, Point.TwoDPolygon> = objs.map { it.height to it }.toMap()
-    private val widthRangeToPolygon: Map<Range, Point.TwoDPolygon> = objs.map { it.width to it }.toMap()
+    private val onWidth = dimension.width.size() > dimension.height.size()
+    private val intervalTree: IntervalTree
+    private val rangeToPolygon: Map<Range, Point.TwoDPolygon>
 
-    private val yIntervalTree = IntervalTree(heightRangeToPolygon.keys, dimension.height)
-    private val xIntervalTree = IntervalTree(widthRangeToPolygon.keys, dimension.width)
 
-    fun getRectangles(rect: Rectangle) : Set<Point.TwoDPolygon> {
-        val intersectMap = mutableMapOf<Point.TwoDPolygon, Int>()
-        val xranges = xIntervalTree.getRanges(rect.width)
-        val yranges = yIntervalTree.getRanges(rect.height)
+    init {
 
-        xranges.forEach { intersectMap[widthRangeToPolygon[it]!!] = 1 }
-        yranges.forEach { intersectMap[heightRangeToPolygon[it]!!] = intersectMap[heightRangeToPolygon[it]!!]?.plus(1) ?: 1}
+        intervalTree = if(onWidth) {
+            rangeToPolygon = objs.map { it.width to it }.toMap()
+            IntervalTree(rangeToPolygon.keys, dimension.width)
+        } else {
+            rangeToPolygon = objs.map { it.height to it }.toMap()
+            IntervalTree(rangeToPolygon.keys, dimension.height)
+        }
+    }
 
-        return intersectMap.filterValues { it == 2 }.keys
+    fun getRectangles(rect: Rectangle) : Collection<Point.TwoDPolygon> {
+        val firstAxisRange = if(onWidth) rect.width else rect.height
+        val secondAxisRange = if(onWidth) rect.height else rect.width
+
+        val intersectRanges = intervalTree.getRanges(firstAxisRange)
+
+        val res = ArrayList<Point.TwoDPolygon>()
+        for((key, value) in rangeToPolygon) {
+            if(intersectRanges.contains(key)
+                    && secondAxisRange.intersect(if(onWidth) value.height else value.width)) {
+                res.add(value)
+            }
+        }
+        return res
+
+        // the method above to get the rectangles is better by 25%! than using those list functions
+//        return rangeToPolygon.filterKeys{intersectRanges.contains(it)}
+//                .filterValues { secondAxisRange.intersect(if(onWidth) it.height else it.width) }
+//                .values
     }
 
     override val size: Int
-        get() = widthRangeToPolygon.size
+        get() = rangeToPolygon.size
 
     override fun contains(element: Point.TwoDPolygon): Boolean =
-            widthRangeToPolygon.values.contains(element)
+            rangeToPolygon.values.contains(element)
 
     override fun containsAll(elements: Collection<Point.TwoDPolygon>): Boolean =
-            widthRangeToPolygon.values.containsAll(elements)
+            rangeToPolygon.values.containsAll(elements)
 
     override fun isEmpty(): Boolean =
-        widthRangeToPolygon.values.isEmpty()
+            rangeToPolygon.values.isEmpty()
 
 
     override fun iterator(): Iterator<Point.TwoDPolygon> =
-            widthRangeToPolygon.values.iterator()
-
+            rangeToPolygon.values.iterator()
 }

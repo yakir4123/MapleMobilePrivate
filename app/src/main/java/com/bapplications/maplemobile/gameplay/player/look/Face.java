@@ -29,7 +29,7 @@ public class Face {
                 facenode = faces.getChild("default");
                 frame.setDelay((short) 2500);
                 frame.initTexture(facenode.getChild("face"));
-                Point shift = (Point) facenode.getChild("face").getChild("map")
+                Point shift = facenode.getChild("face").getChild("map")
                         .getChild("brow").get(new Point());
                 frame.shift(shift.mul(negateShift));
                 frame.setZ("face");
@@ -50,18 +50,17 @@ public class Face {
                 }
             }
         }
-//        name = nl::nx::string["Eqp.img"]["Eqp"]["Face"][std::to_string(faceid)]["name"];
     }
 
     public void draw(Expression expression, byte frame, DrawArgument args) {
         Frame frameit = expressions[expression.ordinal()].get(frame);
         if (frameit != null) {
-            frameit.draw(args.plus(getDirectionShift()));
+            frameit.draw(args.plus(getDirectionShift(args.getXScale())));
         }
     }
 
-    private Point getDirectionShift() {
-        return frameShift.mul(new Point(lookLeft, 1));
+    private Point getDirectionShift(float xscale) {
+        return frameShift.mul(new Point(xscale, 1));
     }
 
     public void shift(Point faceshift) {

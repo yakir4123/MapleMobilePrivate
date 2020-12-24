@@ -4,6 +4,8 @@ import com.bapplications.maplemobile.pkgnx.NXNode
 import com.bapplications.maplemobile.constatns.Loaded
 import com.bapplications.maplemobile.pkgnx.nodes.NXPointNode
 import messaging.Service
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 class Point {
     @JvmField
@@ -69,11 +71,16 @@ class Point {
         return this
     }
 
-    fun toGLRatio(): FloatArray {
-        return floatArrayOf(
-                2 * Loaded.SCREEN_SCALE * x / Loaded.SCREEN_WIDTH,
-                2 * Loaded.SCREEN_SCALE * y / Loaded.SCREEN_HEIGHT)
+    fun toGLRatio(): Point {
+        x *= 2
+        y *= 2
+        return this;
     }
+//    fun toGLRatio(): FloatArray {
+//        return floatArrayOf(
+//                2 * x ,
+//                2 * y )
+//    }
 
     fun negateSign(): Point {
         return scalarMul(-1f)
@@ -83,8 +90,9 @@ class Point {
         return Point(x * a, y * a)
     }
 
-    fun offset(p: Point?) {
-        if (p != null) offset(p.x, p.y)
+    fun offset(p: Point?) : Point {
+        p?.let{ offset(it.x, it.y) }
+        return this
     }
 
     fun offset(x: Float, y: Float) {
@@ -111,6 +119,13 @@ class Point {
 
     fun flipX(): Point {
         x *= -1f
+        return this
+    }
+
+    fun dist(position: Point): Float = sqrt((x - position.x).pow(2) + (y - position.y).pow(2))
+    fun copy(pos: Point): Point {
+        this.x = pos.x
+        this.y = pos.y
         return this
     }
 

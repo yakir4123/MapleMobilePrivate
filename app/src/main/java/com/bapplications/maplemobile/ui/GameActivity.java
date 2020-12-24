@@ -17,7 +17,6 @@ import com.bapplications.maplemobile.gameplay.GameEngine;
 import com.bapplications.maplemobile.gameplay.audio.Music;
 import com.bapplications.maplemobile.utils.DownloadAssetsKt;
 import com.bapplications.maplemobile.utils.DrawableCircle;
-import com.bapplications.maplemobile.ui.windows.ChangeMapPopup;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -78,16 +77,6 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
         setContentView(root);
         DrawableCircle.init(BitmapFactory.decodeResource(getResources(),
                         R.drawable.red_circle));
-
-        binding.setMap.setOnClickListener(view -> {
-            ChangeMapPopup popUpClass = new ChangeMapPopup();
-            popUpClass.showPopupWindow(view);
-            popUpClass.setOnClickListener(v -> {
-
-                // change map
-                popUpClass.dismiss();
-            });
-        });
     }
 
 
@@ -99,7 +88,6 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
     protected void onResume ()
     {
         super.onResume();
-//        gameGLSurfaceView.onResume();
         uiManager.setGameActivity(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         toggleFullscreen(true);
@@ -109,7 +97,6 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
     @Override
     protected void onPause ()
     {
-//        gameGLSurfaceView.onPause();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         Music.pauseBgm();
         uiManager.onPause();
@@ -119,8 +106,8 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
     @Override
     protected void onDestroy ()
     {
-//        gameGLSurfaceView.exitGame();
         super.onDestroy();
+        gameFragment = null;
     }
 
 

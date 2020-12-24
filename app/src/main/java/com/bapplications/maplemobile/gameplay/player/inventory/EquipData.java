@@ -1,7 +1,7 @@
 package com.bapplications.maplemobile.gameplay.player.inventory;
 
 import com.bapplications.maplemobile.constatns.Loaded;
-import com.bapplications.maplemobile.gameplay.player.PlayerStats;
+import com.bapplications.maplemobile.gameplay.player.PlayerViewModel;
 import com.bapplications.maplemobile.pkgnx.NXNode;
 
 import java.util.EnumMap;
@@ -11,7 +11,7 @@ public class EquipData extends ItemData {
     private byte slots;
     private String type;
     private EquipSlot.Id eqSlot;
-    private EnumMap<PlayerStats.Id, Short> reqStats;
+    private EnumMap<PlayerViewModel.Id, Short> reqStats;
     private EnumMap<EquipStat, Short> defStats;
 
     public static EquipData get(int id) {
@@ -36,13 +36,13 @@ public class EquipData extends ItemData {
 
         slots = src.getChild("tuc").get(0L).byteValue();
 
-        reqStats = new EnumMap<>(PlayerStats.Id.class);
-        reqStats.put(PlayerStats.Id.LEVEL, src.getChild("reqLevel").get(0L).shortValue());
-        reqStats.put(PlayerStats.Id.JOB, src.getChild("reqJob").get(0L).shortValue());
-        reqStats.put(PlayerStats.Id.STR, src.getChild("reqSTR").get(0L).shortValue());
-        reqStats.put(PlayerStats.Id.DEX, src.getChild("reqDEX").get(0L).shortValue());
-        reqStats.put(PlayerStats.Id.INT, src.getChild("reqINT").get(0L).shortValue());
-        reqStats.put(PlayerStats.Id.LUK, src.getChild("reqLUK").get(0L).shortValue());
+        reqStats = new EnumMap<>(PlayerViewModel.Id.class);
+        reqStats.put(PlayerViewModel.Id.LEVEL, src.getChild("reqLevel").get(0L).shortValue());
+        reqStats.put(PlayerViewModel.Id.JOB, src.getChild("reqJob").get(0L).shortValue());
+        reqStats.put(PlayerViewModel.Id.STR, src.getChild("reqSTR").get(0L).shortValue());
+        reqStats.put(PlayerViewModel.Id.DEX, src.getChild("reqDEX").get(0L).shortValue());
+        reqStats.put(PlayerViewModel.Id.INT, src.getChild("reqINT").get(0L).shortValue());
+        reqStats.put(PlayerViewModel.Id.LUK, src.getChild("reqLUK").get(0L).shortValue());
 
         defStats = new EnumMap<>(EquipStat.class);
         defStats.put(EquipStat.STR, src.getChild("incSTR").get(0L).shortValue());
@@ -92,7 +92,7 @@ public class EquipData extends ItemData {
                 EquipSlot.Id.HAT,
                 EquipSlot.Id.FACE,
                 EquipSlot.Id.EYEACC,
-                EquipSlot.Id.EARACC,
+                EquipSlot.Id.EARRINGS,
                 EquipSlot.Id.TOP,
                 EquipSlot.Id.TOP,
                 EquipSlot.Id.BOTTOM,
@@ -152,7 +152,7 @@ public class EquipData extends ItemData {
         return defStats.get(stat);
     }
 
-    public int getRequirment(PlayerStats.Id requirement_stat) {
+    public int getRequirment(PlayerViewModel.Id requirement_stat) {
         try {
             return reqStats.get(requirement_stat);
         } catch (NullPointerException e) {
