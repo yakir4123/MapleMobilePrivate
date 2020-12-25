@@ -11,15 +11,16 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/sub_window_background"
-        android:layout_marginStart="2dp"
-        android:layout_marginEnd="2dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginTop="4dp"
         app:cardCornerRadius="@dimen/window_radius">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@drawable/sub_window_background"
+            android:padding="2dp"
             android:orientation="vertical">
 
             <ProgressBar
