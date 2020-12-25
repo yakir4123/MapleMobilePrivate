@@ -108,7 +108,7 @@
                 android:layout_marginEnd="15dp"
                 android:layout_marginTop="5dp"
                 app:colorBar="@{@color/mp_bar_color}"
-                app:layout_constraintEnd_toStartOf="@id/wifi_btn"
+                app:layout_constraintEnd_toStartOf="@id/tools_tab"
                 app:layout_constraintStart_toEndOf="@id/hp_progress_layout"
                 app:layout_constraintTop_toTopOf="parent"
                 app:maxProgress="@{playerViewModel.getStat(PlayerViewModel.Id.MAX_MP)}"
@@ -157,21 +157,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/wifi_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/wifi_offline_24"
-                android:background="@drawable/ui_btn_background"
-                app:backgroundTint="@color/sub_window_color_secondary"
-                app:elevation="0dp"
-                app:fabSize="mini"
-                app:pressedTranslationZ="0dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="5dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tools_btn" />
-
             <com.bapplications.maplemobile.ui.custom_views.WrapHeightTabLayout
                 android:id="@+id/tools_tab"
                 android:layout_width="wrap_content"
@@ -193,7 +178,7 @@
                 android:layout_height="0dp"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/ui_toolbar"
-                app:layout_constraintEnd_toEndOf="@id/wifi_btn"
+                app:layout_constraintEnd_toEndOf="@id/exp_progress_layout"
                 app:layout_constraintBottom_toBottomOf="@id/ctrl_left_arrow"
                 app:layout_constraintStart_toStartOf="@id/mp_progress_layout"
                 android:layout_marginTop="2dp"
