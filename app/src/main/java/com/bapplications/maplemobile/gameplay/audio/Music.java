@@ -17,6 +17,21 @@ public class Music {
     private static MediaPlayer mediaPlayer = new MediaPlayer();
     private static String bgmpath = "";
 
+    static {
+
+        mediaPlayer.setOnCompletionListener(mediaPlayer -> {
+            mediaPlayer.reset();
+            try {
+                mediaPlayer.prepare();
+            } catch (IOException | IllegalStateException e) {
+                e.printStackTrace();
+            }
+            mediaPlayer.start();
+
+        });
+
+    }
+
     public static void play(String path) {
         if (path.equals(bgmpath))
             return;

@@ -1,5 +1,6 @@
 package com.bapplications.maplemobile.ui;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,11 +42,8 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
         Configuration.WZ_DIRECTORY = Objects.requireNonNull(getExternalFilesDir(null)).getAbsolutePath();
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        Configuration.WZ_DIRECTORY = getExternalFilesDir(null).getAbsolutePath();
-        Configuration.CACHE_DIRECTORY = getCacheDir().getAbsolutePath();
         try {
             Loaded.loadFile(Loaded.WzFileName.MAP, Configuration.WZ_DIRECTORY + "/Map.nx");
-            Loaded.loadFile(Loaded.WzFileName.NPC, Configuration.WZ_DIRECTORY + "/Npc.nx");
             Loaded.loadFile(Loaded.WzFileName.MOB, Configuration.WZ_DIRECTORY + "/Mob.nx");
             Loaded.loadFile(Loaded.WzFileName.ITEM, Configuration.WZ_DIRECTORY + "/Item.nx");
             Loaded.loadFile(Loaded.WzFileName.SOUND, Configuration.WZ_DIRECTORY + "/Sound.nx");

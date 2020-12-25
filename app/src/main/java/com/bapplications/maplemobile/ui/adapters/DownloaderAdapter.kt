@@ -9,6 +9,16 @@ import com.bapplications.maplemobile.ui.adapters.holders.FileDownloaderItemViewH
 import com.bapplications.maplemobile.ui.etc.FileDownloader
 import java.text.NumberFormat
 import java.util.*
+import android.util.Log
+import android.view.ViewGroup
+import android.view.LayoutInflater
+import android.view.View
+import androidx.lifecycle.MutableLiveData
+import com.bapplications.maplemobile.R
+import androidx.recyclerview.widget.RecyclerView
+import com.bapplications.maplemobile.ui.adapters.holders.FileDownloaderItemViewHolder
+import com.bapplications.maplemobile.ui.etc.FileDownloader
+import okhttp3.Callback
 
 val updateProgressTime : Long = 100
 
@@ -40,7 +50,7 @@ class DownloaderAdapter : RecyclerView.Adapter<FileDownloaderItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileDownloaderItemViewHolder {
         handler = Handler()
-        handler.postDelayed(object : Runnable {
+        handler.postDelayed( object : Runnable {
             override fun run() {
                 notifyDataSetChanged()
                 handler.postDelayed(this, updateProgressTime)

@@ -118,7 +118,6 @@ class DownloadActivity : AppCompatActivity() {
 
         // background animation
         backgroundAnimation(backgroundIv)
-
         val recyclerView = findViewById<RecyclerView>(R.id.downloader_recycler)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
