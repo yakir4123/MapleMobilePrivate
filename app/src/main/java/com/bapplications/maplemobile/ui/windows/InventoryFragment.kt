@@ -1,118 +1,52 @@
 package com.bapplications.maplemobile.ui.windows
 
-import EqualSpacingItemDecoration
+import android.util.Log
+
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
+import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import com.bapplications.maplemobile.R
+import com.google.android.material.tabs.TabLayoutMediator
 import com.bapplications.maplemobile.databinding.FragmentInventoryBinding
-import com.bapplications.maplemobile.gameplay.player.Player
-import com.bapplications.maplemobile.gameplay.player.inventory.InventoryType
-import com.bapplications.maplemobile.gameplay.player.inventory.Slot
-import com.bapplications.maplemobile.ui.BindingUtils
-import com.bapplications.maplemobile.ui.GameActivity
-import com.bapplications.maplemobile.ui.adapters.InventoryAdapter
-import com.bapplications.maplemobile.ui.view_models.InventoryViewModel
-import kotlinx.android.synthetic.main.fragment_inventory.*
-import onItemClick
+import com.bapplications.maplemobile.gameplay.player.inventory.Inventory
+import com.bapplications.maplemobile.input.EventsQueue
+import com.bapplications.maplemobile.input.events.*
+import com.bapplications.maplemobile.ui.adapters.PageViewerInventoryAdapter
 
-class InventoryFragment(private var player: Player) : Fragment() {
 
-    private val viewModel: InventoryViewModel by viewModels()
+class InventoryFragment(inventory: Inventory) : Fragment(), EventListener {
 
+    private val inventoryPagerAdapter = PageViewerInventoryAdapter(inventory)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val binding : FragmentInventoryBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_inventory, container, false)
-        binding.viewModel = viewModel
-        binding.setLifecycleOwner { lifecycle }
+        val binding : FragmentInventoryBinding = FragmentInventoryBinding.inflate(inflater, container, false)
 
-        viewModel.itemInventory.postValue(player.inventory.getInventory(viewModel.selectedInventoryType.value).items)
-        viewModel.itemInventory.addSource(viewModel.selectedInventoryType) { value -> viewModel.itemInventory.postValue(player.inventory.getInventory(value).items) }
+        EventsQueue.instance.registerListener(EventType.ItemDropped, this)
+        EventsQueue.instance.registerListener(EventType.EquipItem, this)
+        EventsQueue.instance.registerListener(EventType.UnequipItem, this)
+        EventsQueue.instance.registerListener(EventType.PickupItem, this)
 
-        val adapter = InventoryAdapter()
-        binding.inventoryItemsRecycler.adapter = adapter
+        binding.inventoryPager.adapter = inventoryPagerAdapter
 
-        // set data
-//        val spacing: Int = (context?.resources?.getDimension(R.dimen.recycler_equal_spacing) ?: 0).toInt()
-//        binding.inventoryItemsRecycler.addItemDecoration(EqualSpacingItemDecoration(spacing, EqualSpacingItemDecoration.GRID))
-        viewModel.itemInventory.observe(viewLifecycleOwner, {
-            loading_tv.visibility = View.GONE
-            adapter.data = it
-        })
-        binding.inventoryItemsRecycler.onItemClick { recview, position, v ->
-            val slot = (binding.inventoryItemsRecycler.adapter as InventoryAdapter).getSlot(position)
-            if(slot.item != null) {
-                openItem(binding, slot)
-                binding.inventoryScreen.visibility = View.INVISIBLE
-                binding.itemInfoScreen.visibility = View.VISIBLE
+        TabLayoutMediator(binding.selectedInventoryTab, binding.inventoryPager) { tab, position ->
+            tab.text = when(position) {
+                0 -> "Equip"
+                1 -> "Use"
+                2 -> "Set-Up"
+                3 -> "Etc"
+                4 -> "Cash"
+                else -> ""
             }
-        }
+        }.attach()
 
-        binding.itemInfoReturnToInventory.setOnClickListener {
-            returnToInventory(binding)
-        }
-
-        binding.itemInfoEquipBt.setOnClickListener{
-            (activity as GameActivity).runOnGLThread {
-                if(player.changeEquip(viewModel.slot.value)) {
-                    (activity as GameActivity).runOnUiThread {
-                        adapter.notifyDataSetChanged()
-                        returnToInventory(binding)
-                    }
-                }
-            }
-        }
-
-        binding.itemInfoDropBt.setOnClickListener {
-            (activity as GameActivity).runOnGLThread {
-                if(player.dropItem(viewModel.slot.value)) {
-                    (activity as GameActivity).runOnUiThread {
-                        adapter.notifyDataSetChanged()
-                        returnToInventory(binding)
-                    }
-                }
-            }
-        }
-
-        // swipes
-        binding.inventoryItemsRecycler.setOnHorizonSwipe { isLeft -> inventorySwipe(isLeft) }
-        viewModel.selectedInventoryType.observe(viewLifecycleOwner, {
-            binding.inventoryTypeButtonsGroup.check(BindingUtils.inventoryTypeToButtonId(it))
-        })
         return binding.root
     }
 
-    private fun returnToInventory(binding: FragmentInventoryBinding) {
-        binding.itemInfoScreen.visibility = View.GONE
-        binding.inventoryScreen.visibility = View.VISIBLE
-        closeItem(binding)
-    }
-
-    private fun openItem(binding: FragmentInventoryBinding, slot: Slot) {
-        binding.viewModel?.setSlot(slot)
-    }
-
-
-    private fun closeItem(binding: FragmentInventoryBinding) {
-        binding.viewModel?.setSlot(null)
-    }
-
-    private fun inventorySwipe(isLeft : Boolean) {
-        val nextType = InventoryType.Id.values()[viewModel.selectedInventoryType.value?.ordinal?.plus(if(isLeft) -1 else 1)!!]
-        viewModel.setSelectedInventoryType(when(nextType) {
-            InventoryType.Id.NONE -> InventoryType.Id.CASH
-            InventoryType.Id.EQUIPPED -> InventoryType.Id.EQUIP
-            else -> nextType
-        })
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(player: Player) =
-                InventoryFragment(player)
+    override fun onEventReceive(event: Event) {
+        activity?.runOnUiThread {
+            // no matter what event is it just update the list
+            inventoryPagerAdapter.notifyDataSetChanged()
+        }
     }
 }

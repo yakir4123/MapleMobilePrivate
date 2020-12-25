@@ -3,25 +3,71 @@ syntax = "proto3";
 package messaging;
 
 service MapleService {
-  rpc Connect(connectRequest) returns (connectResponse);
   rpc EventsStream(stream RequestEvent) returns (stream ResponseEvent);
-}
-
-message ChatMessage {
-  int32 id = 1;
-  string message = 2;
 }
 
 message RequestEvent {
   oneof event {
     RequestDropItem dropItem = 1;
+    PressButton pressButton = 2;
+    ExpressionButton expressionButton = 3;
+    RequestPlayerConnect playerConnect = 4;
+    UpdatePlayerState playerStateUpdated = 5;
+    EquipItem equipItem = 6;
+    UnequipItem unequipItem = 7;
+    PickupItem pickupItem = 8;
   }
 }
 
 message ResponseEvent {
   oneof event {
     ResponseDropItem dropItem = 1;
+    PressButton pressButton = 2;
+    ExpressionButton expressionButton = 3;
+    ResponsePlayerConnected playerConnected = 4;
+    ResponseOtherPlayerConnected otherPlayerConnected = 5;
+    UpdatePlayerState otherPlayerStateUpdated = 6;
+    EquipItem equipItem = 7;
+    UnequipItem unequipItem = 8;
+    PickupItem pickupItem = 9;
   }
+}
+
+message RequestPlayerConnect {
+  int32 charid = 1;
+}
+
+message ResponsePlayerConnected {
+  int32 charid = 1;
+  int32 hair = 2;
+  int32 skin = 3;
+  int32 face = 4;
+}
+
+message ResponseOtherPlayerConnected {
+  int32 charid = 1;
+  int32 hair = 2;
+  int32 skin = 3;
+  int32 face = 4;
+  int32 state = 5;
+  Point pos = 6;
+}
+
+message UpdatePlayerState {
+  int32 charid = 1;
+  int32 state = 2;
+  Point pos = 3;
+}
+
+message PressButton {
+  int32 charid = 1;
+  int32 button = 2;
+  bool pressed = 3;
+}
+
+message ExpressionButton {
+  int32 charid = 1;
+  int32 expression = 2;
 }
 
 message RequestDropItem {
@@ -29,9 +75,8 @@ message RequestDropItem {
   int32 count = 2;
   int32 owner = 3;
   Point start = 4;
-  int32 invtype = 6; // todo refactor to enum later
-  int32 slotid = 7;
-  int32 mapid = 8;
+  int32 slotid = 5;
+  int32 mapid = 6;
 }
 
 message ResponseDropItem {
@@ -40,6 +85,24 @@ message ResponseDropItem {
   Point start = 3;
   int32 owner = 4;
   int32 mapid = 5;
+}
+
+message EquipItem {
+  int32 cid = 1;
+  int32 slotid = 2;
+  int32 itemid = 3;
+}
+
+message UnequipItem {
+  int32 cid = 1;
+  int32 slotid = 2;
+  int32 itemid = 3;
+}
+
+message PickupItem {
+  int32 charid = 1;
+  int32 oid = 2;
+  int32 mapid = 3;
 }
 
 enum DropState {
@@ -53,12 +116,3 @@ message Point {
   float y = 2;
 }
 
-message connectRequest {
-
-}
-
-message connectResponse {
-
-}
-
-message Empty {}

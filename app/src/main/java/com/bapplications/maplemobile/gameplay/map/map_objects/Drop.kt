@@ -1,14 +1,13 @@
 package com.bapplications.maplemobile.gameplay.map.map_objects
 
+import com.bapplications.maplemobile.constatns.Configuration
+import com.bapplications.maplemobile.gameplay.components.ColliderComponent
 import com.bapplications.maplemobile.gameplay.map.MapObject
 import com.bapplications.maplemobile.gameplay.physics.Physics
 import com.bapplications.maplemobile.gameplay.physics.PhysicsObject
-import com.bapplications.maplemobile.gameplay.components.ColliderComponent
-
-import com.bapplications.maplemobile.utils.Point
 import com.bapplications.maplemobile.utils.Linear
+import com.bapplications.maplemobile.utils.Point
 import com.bapplications.maplemobile.utils.Rectangle
-
 import kotlin.math.cos
 
 
@@ -20,8 +19,10 @@ open class Drop(id: Int, val owner: Int,
         DROPPED, FLOATING, PICKEDUP
     }
 
-    val PICKUP_TIME = 48
-    val FLOAT_PIXELS = 4
+
+    private var collider = Rectangle()
+    val PICKUP_TIME = 24
+    val FLOAT_PIXELS = 8
     val SPIN_STEP: Float = 20F
     val OPC_STEP = 1.0f / PICKUP_TIME
 
@@ -29,7 +30,8 @@ open class Drop(id: Int, val owner: Int,
     var angle: Linear = Linear()
     var moved: Double = 180.0
     var baseY: Float = 0.0f
-    var looter: PhysicsObject? = null
+    var looter: MapObject? = null
+    var onPickProcess = false
 
     init {
         this.setPosition(start.x, start.y + FLOAT_PIXELS)
@@ -39,12 +41,11 @@ open class Drop(id: Int, val owner: Int,
         when(state)
         {
             State.DROPPED -> {
-                baseY = phobj.crntY() + FLOAT_PIXELS
                 phobj.vspeed = -7f
                 phobj.hspeed = (phobj.crntX() - start.x) / 48
             }
             State.FLOATING -> {
-                baseY = phobj.crntY()
+                baseY = phobj.crntY() + FLOAT_PIXELS
                 phobj.type = PhysicsObject.Type.FIXATED
             }
             State.PICKEDUP -> {
@@ -61,9 +62,15 @@ open class Drop(id: Int, val owner: Int,
         {
             if (phobj.onground)
             {
+
+                val lt = position - Point(16f, 0f)
+                val rb = lt + Point(32f, 32f);
+                collider = Rectangle(lt, rb)
+                baseY = phobj.crntY() + FLOAT_PIXELS
+
                 phobj.hspeed = 0.0f;
                 phobj.type = PhysicsObject.Type.FIXATED;
-                state = State.FLOATING;
+                state = State.FLOATING
                 angle.set(0.0f);
                 setPosition(phobj.crntX(), phobj.crntY() + FLOAT_PIXELS);
             }
@@ -82,27 +89,24 @@ open class Drop(id: Int, val owner: Int,
         if (state == State.PICKEDUP)
         {
 
-            if (looter != null)
-            {
-                val hdelta = looter?.x?.minus(phobj.x.get());
-                phobj.hspeed = ((looter?.hspeed?.div(2.0) ?: 0.0)
-                        + ((hdelta?.minus(16.0))?.div(PICKUP_TIME) ?: 0.0)).toFloat()
-            }
+            val hdelta = looter?.phobj?.x?.minus(phobj.x.get())
+            phobj.hspeed = ((looter?.phobj?.hspeed?.div(2.0) ?: 0.0)
+                    + ((hdelta?.minus(16.0))?.div(PICKUP_TIME) ?: 0.0)).toFloat()
 
             opacity.setMinus(OPC_STEP)
 
             if (opacity.last() <= OPC_STEP)
             {
                 opacity.set(1.0f);
+                deActivate()
 
-                deActivate();
                 return -1;
             }
         }
         return phobj.fhlayer;
     }
 
-    fun expire(newState: State, lt: PhysicsObject)
+    fun expire(newState: State, lt: MapObject)
     {
         when (newState)
         {
@@ -112,16 +116,21 @@ open class Drop(id: Int, val owner: Int,
                 angle.set(0.0f);
                 state = State.PICKEDUP;
                 looter = lt;
-                phobj.vspeed = -4.5f;
+                phobj.vspeed = -5.5f;
                 phobj.type = PhysicsObject.Type.NORMAL;
             }
         }
     }
 
     override fun getCollider(): Rectangle {
-        val lt = position;
-        val rb = lt + Point(32f, 32f);
+        return collider
+    }
 
-        return Rectangle(lt, rb);
+    fun isPicked(): Boolean = state == State.PICKEDUP
+
+    override fun draw(view: Point, alpha: Float) {
+        if(Configuration.SHOW_DROPS_RECT) {
+            collider.draw(view)
+        }
     }
 }

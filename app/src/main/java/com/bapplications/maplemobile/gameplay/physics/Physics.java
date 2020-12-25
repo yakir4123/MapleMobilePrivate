@@ -9,7 +9,7 @@ public class Physics {
     
 	public static final double GRAVFORCE = 0.35;
 	public static final double SWIMGRAVFORCE = 0.03;
-	public static final double FRICTION = 0.3;
+	public static final double FRICTION = 0.2;
 	public static final double SLOPEFACTOR = 0.1;
 	public static final double GROUNDSLIP = 3.0;
 	public static final double FLYFRICTION = 0.05;

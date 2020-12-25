@@ -73,7 +73,6 @@ public class MapInfo {
         for (Ladder ladder: ladders)
             if (ladder.inRange(position, upwards))
                 return ladder;
-
         return null;
     }
 }

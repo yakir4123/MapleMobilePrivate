@@ -1,6 +1,5 @@
 package com.bapplications.maplemobile.ui;
 
-import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,7 +16,6 @@ import com.bapplications.maplemobile.gameplay.GameEngine;
 import com.bapplications.maplemobile.gameplay.audio.Music;
 import com.bapplications.maplemobile.utils.DownloadAssetsKt;
 import com.bapplications.maplemobile.utils.DrawableCircle;
-import com.bapplications.maplemobile.ui.windows.ChangeMapPopup;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -43,8 +41,11 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
         Configuration.WZ_DIRECTORY = Objects.requireNonNull(getExternalFilesDir(null)).getAbsolutePath();
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+        Configuration.WZ_DIRECTORY = getExternalFilesDir(null).getAbsolutePath();
+        Configuration.CACHE_DIRECTORY = getCacheDir().getAbsolutePath();
         try {
             Loaded.loadFile(Loaded.WzFileName.MAP, Configuration.WZ_DIRECTORY + "/Map.nx");
+            Loaded.loadFile(Loaded.WzFileName.NPC, Configuration.WZ_DIRECTORY + "/Npc.nx");
             Loaded.loadFile(Loaded.WzFileName.MOB, Configuration.WZ_DIRECTORY + "/Mob.nx");
             Loaded.loadFile(Loaded.WzFileName.ITEM, Configuration.WZ_DIRECTORY + "/Item.nx");
             Loaded.loadFile(Loaded.WzFileName.SOUND, Configuration.WZ_DIRECTORY + "/Sound.nx");
@@ -78,16 +79,6 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
         setContentView(root);
         DrawableCircle.init(BitmapFactory.decodeResource(getResources(),
                         R.drawable.red_circle));
-
-        binding.setMap.setOnClickListener(view -> {
-            ChangeMapPopup popUpClass = new ChangeMapPopup();
-            popUpClass.showPopupWindow(view);
-            popUpClass.setOnClickListener(v -> {
-
-                // change map
-                popUpClass.dismiss();
-            });
-        });
     }
 
 
@@ -99,7 +90,6 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
     protected void onResume ()
     {
         super.onResume();
-//        gameGLSurfaceView.onResume();
         uiManager.setGameActivity(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         toggleFullscreen(true);
@@ -109,7 +99,6 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
     @Override
     protected void onPause ()
     {
-//        gameGLSurfaceView.onPause();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         Music.pauseBgm();
         uiManager.onPause();
@@ -119,8 +108,8 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
     @Override
     protected void onDestroy ()
     {
-//        gameGLSurfaceView.exitGame();
         super.onDestroy();
+        gameFragment = null;
     }
 
 

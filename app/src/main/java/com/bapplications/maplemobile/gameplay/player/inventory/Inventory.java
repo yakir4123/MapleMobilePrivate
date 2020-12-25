@@ -10,6 +10,7 @@ public class Inventory {
 
     private EnumMap<InventoryType.Id, InventoryType> inventories = new EnumMap<>(InventoryType.Id.class);
 
+
     public Inventory() {
         gold = 0;
         inventories.put(InventoryType.Id.EQUIP, new InventoryType(InventoryType.Id.EQUIP, Configuration.INVENTORY_MAX_SLOTS));
@@ -39,6 +40,12 @@ public class Inventory {
 
     public boolean equipItem(Equip item) {
         Equip equip = getEquippedInventory().equipItem(item);
+        inventories.get(InventoryType.Id.EQUIP).add(equip);
+        return true;
+    }
+
+    public boolean unequipItem(Equip item) {
+        Equip equip = getEquippedInventory().unequipItem(EquipData.get(item.getItemId()).getEqSlot());
         inventories.get(InventoryType.Id.EQUIP).add(equip);
         return true;
     }

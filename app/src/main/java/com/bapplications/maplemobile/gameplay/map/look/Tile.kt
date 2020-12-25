@@ -8,14 +8,21 @@ import com.bapplications.maplemobile.utils.Range
 
 class Tile (src: NXNode, private val model: TileModel) : Point.TwoDPolygon {
     private val pos: Point = model.calculateDrawingPos(Point(src))
+    private val mHeight = Range(pos.y, pos.y + model.dimension.y)
+    private val mWidth = Range(pos.x, pos.x + model.dimension.x)
+    private val dargs = DrawArgument(pos)
 
     fun draw(viewpos: Point) {
-        model.draw(DrawArgument(viewpos.plus(pos)))
+        // it is better to create one time dargs and change it every time because tiles get called so many times so it better to save it
+        // offset it by position
+        model.draw(dargs.offsetPosition(viewpos))
+        // and than return it back to this.pos
+        dargs.minusPosition(viewpos)
     }
 
     override val width: Range
-        get() = Range(pos.x, pos.x + model.dimenstion.x)
+        get() = mWidth
     override val height: Range
-        get() = Range(pos.y, pos.y + model.dimenstion.y)
+        get() = mHeight
 
 }

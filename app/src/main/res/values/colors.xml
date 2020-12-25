@@ -15,6 +15,7 @@
     <color name="sub_window_stroke">#E6898B93</color>
     <color name="sub_window_color_main">#BBB7BACA</color>
     <color name="sub_window_color_secondary">#BBA2A5B3</color>
+    <color name="sub_window_color_light">#BBCACBCD</color>
     <color name="shadow_color">#BF232323</color>
     <color name="tc_sub_window">#FF333030</color>
 </resources>
