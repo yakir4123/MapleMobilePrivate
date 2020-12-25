@@ -36,14 +36,9 @@ class DownloadActivity : AppCompatActivity() {
 
     private val viewModel: DownloadActivityViewModel by viewModels()
 
-    private val CHUNK_SIZE: Long = 8192
-    private var keepToNextActivity = true
-
     // CR:: this fields are use only on setView() function, this is unnecessary
     private lateinit var backgroundIv: ImageView
-    private var fileSize: Long = 1L
 
-    private val client = okhttp3.OkHttpClient()
     private lateinit var bgm: MediaPlayer
 
     val adapter = DownloaderAdapter()
@@ -95,29 +90,7 @@ class DownloadActivity : AppCompatActivity() {
         }
 
 
-//            if (File(Configuration.WZ_DIRECTORY, it).exists()) {
-//                downloadIfNeeded(it, getLocalMd5(it))
-//            } else {
-//                downloadFile("${Configuration.FILES_HOST}/$it", it)
-//            }
-//            if (!File("${Configuration.WZ_DIRECTORY}/$it").exists()) {
-//                keepToNextActivity = false
-//            }
-//        }
-//
     }
-
-//    fun getLocalMd5(fileName: String): String {
-//        val md5File = File(Configuration.WZ_DIRECTORY, "$fileName.md5")
-//        return if (md5File.exists()) {
-//            md5File.readText()
-//        } else {
-//            val md5 = generateMd5(File(Configuration.WZ_DIRECTORY, fileName))
-//            md5File.writeText(md5)
-//            md5
-//        }
-//    }
-
 
     override fun onResume() {
         super.onResume()
@@ -139,14 +112,12 @@ class DownloadActivity : AppCompatActivity() {
         // CR:: try to find how I use the progress layout with viewmodel on the hp/mp progress
         // CR:: after using the viewmodel you dont going to use that but for knowing,
         // you dont need to call for settext / setprogress functions
-        // Int kotlin you can use the '=' operator to values and kotlin call its own setters.
+        // In kotlin you can use the '=' operator to values and kotlin call its own setters.
         // in that case downloadingTv.text = "..." will do the job
         // same with the progress
 
         // background animation
         backgroundAnimation(backgroundIv)
-
-//        val adapter = DownloaderAdapter()
         val recyclerView = findViewById<RecyclerView>(R.id.downloader_recycler)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
@@ -161,7 +132,6 @@ class DownloadActivity : AppCompatActivity() {
 
         val backgroundsDrawableResources = listOf(R.drawable.wallpaper1,
                 R.drawable.wallpaper2,
-                R.drawable.wallpaper3,
                 R.drawable.wallpaper4,
                 R.drawable.wallpaper5)
         val randomWallpaper = { current: Int ->

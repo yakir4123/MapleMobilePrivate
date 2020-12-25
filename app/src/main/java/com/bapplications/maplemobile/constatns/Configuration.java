@@ -12,7 +12,7 @@ public class Configuration {
     public static final int UPDATE_DIFF_TIME = 1000;
 
     //    public static final int START_MAP = 105090900; // balrog map
-    public static final int START_MAP = 100000000;//100000000; // henesys 104020000
+    public static final int START_MAP = 104020000;//100000000; // henesys 104020000
     public static final int OFFSETX = 0;
     public static final byte MS_PER_UPDATE = 16;
     public static final byte MIN_DIST_UPDATE = 30;
@@ -20,4 +20,5 @@ public class Configuration {
     public static String WZ_DIRECTORY = "";
     public static String CACHE_DIRECTORY = "";
     public static int INVENTORY_MAX_SLOTS = 72;
+    public static final int UPDATE_DIFF_TIME = 1000;
 }

@@ -1,6 +1,14 @@
 package com.bapplications.maplemobile.ui.adapters
 
 import android.os.Handler
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
+import com.bapplications.maplemobile.R
+import com.bapplications.maplemobile.ui.adapters.holders.FileDownloaderItemViewHolder
+import com.bapplications.maplemobile.ui.etc.FileDownloader
+import java.text.NumberFormat
+import java.util.*
 import android.util.Log
 import android.view.ViewGroup
 import android.view.LayoutInflater
@@ -30,10 +38,14 @@ class DownloaderAdapter : RecyclerView.Adapter<FileDownloaderItemViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: FileDownloaderItemViewHolder, position: Int) {
-        holder.downloadProgressTV.text = "${data[position].progress} / ${data[position].fileSize}"
+        holder.downloadProgressTV.text = "${getFormatedNumber(data[position].progress.toInt())} / ${getFormatedNumber(data[position].fileSize)}"
         holder.downloadPB.progress = data[position].progress.toInt()
         holder.downloadPB.max = data[position].fileSize
         holder.fileNameTV.text = data[position].fileName
+    }
+
+    private fun getFormatedNumber(amount: Int): String? {
+        return NumberFormat.getNumberInstance(Locale.US).format(amount)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileDownloaderItemViewHolder {
