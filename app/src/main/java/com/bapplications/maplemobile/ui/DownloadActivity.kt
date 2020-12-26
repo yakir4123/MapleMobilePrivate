@@ -119,8 +119,10 @@ class DownloadActivity : AppCompatActivity() {
 
         val backgroundsDrawableResources = listOf(R.drawable.wallpaper1,
                 R.drawable.wallpaper2,
+                R.drawable.wallpaper3,
                 R.drawable.wallpaper4,
-                R.drawable.wallpaper5)
+                R.drawable.wallpaper5,
+                R.drawable.wallpaper6)
         val randomWallpaper = { current: Int ->
             var drawable: Int
             do {
