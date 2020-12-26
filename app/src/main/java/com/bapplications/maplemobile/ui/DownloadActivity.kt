@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bapplications.maplemobile.R
 import com.bapplications.maplemobile.constatns.Configuration
+import com.bapplications.maplemobile.databinding.ActivityDownloadBinding
 import com.bapplications.maplemobile.ui.adapters.DownloaderAdapter
 import com.bapplications.maplemobile.ui.etc.FileDownloader
 import com.bapplications.maplemobile.ui.view_models.DownloadActivityViewModel
@@ -35,9 +36,6 @@ val TAG = "DownloadManager"
 class DownloadActivity : AppCompatActivity() {
 
     private val viewModel: DownloadActivityViewModel by viewModels()
-
-    // CR:: this fields are use only on setView() function, this is unnecessary
-    private lateinit var backgroundIv: ImageView
 
     private lateinit var bgm: MediaPlayer
 
@@ -84,11 +82,9 @@ class DownloadActivity : AppCompatActivity() {
                 }
             })
         }
-
         if (viewModel.files.value!!.size == 0) {
             startGameActivity()
         }
-
 
     }
 
@@ -103,24 +99,15 @@ class DownloadActivity : AppCompatActivity() {
     }
 
     private fun setUpView() {
-        // CR:: change to data binding setter instead of this
-        // Than you can discard the use of findviewbyid functions and use binding.downloadingTv instead
+        val binding: ActivityDownloadBinding = ActivityDownloadBinding.inflate(layoutInflater)
+
+        setContentView(binding.rootLayout)
         setContentView(R.layout.activity_download)
-        backgroundIv = findViewById(R.id.background_iv)
-
-
-        // CR:: try to find how I use the progress layout with viewmodel on the hp/mp progress
-        // CR:: after using the viewmodel you dont going to use that but for knowing,
-        // you dont need to call for settext / setprogress functions
-        // In kotlin you can use the '=' operator to values and kotlin call its own setters.
-        // in that case downloadingTv.text = "..." will do the job
-        // same with the progress
 
         // background animation
-        backgroundAnimation(backgroundIv)
-        val recyclerView = findViewById<RecyclerView>(R.id.downloader_recycler)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapter
+        backgroundAnimation(binding.backgroundIv)
+        binding.downloaderRecycler.layoutManager = LinearLayoutManager(this)
+        binding.downloaderRecycler.adapter = adapter
 
 
     }
@@ -132,8 +119,10 @@ class DownloadActivity : AppCompatActivity() {
 
         val backgroundsDrawableResources = listOf(R.drawable.wallpaper1,
                 R.drawable.wallpaper2,
+                R.drawable.wallpaper3,
                 R.drawable.wallpaper4,
-                R.drawable.wallpaper5)
+                R.drawable.wallpaper5,
+                R.drawable.wallpaper6)
         val randomWallpaper = { current: Int ->
             var drawable: Int
             do {
