@@ -21,5 +21,4 @@ public class Configuration {
     public static String WZ_DIRECTORY = "";
     public static String CACHE_DIRECTORY = "";
     public static int INVENTORY_MAX_SLOTS = 72;
-    public static final int UPDATE_DIFF_TIME = 1000;
 }
