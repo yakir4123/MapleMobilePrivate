@@ -168,7 +168,6 @@ public class Texture {
         GLState._textureBuffer.position(0);
         glEnableVertexAttribArray(GLState.textureCoordinateHandle);
         glVertexAttribPointer(GLState.textureCoordinateHandle, 2, GL_FLOAT, false, 0, GLState._textureBuffer);
-
     }
 
     public Object getZ()
