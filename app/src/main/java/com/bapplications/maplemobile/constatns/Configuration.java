@@ -4,6 +4,7 @@ public class Configuration {
 
     public static final boolean SHOW_FH = false;
     public static final boolean SHOW_MOBS_RECT = false;
+    public static final boolean SHOW_DROPS_RECT = false;
     public static final boolean SHOW_PLAYER_RECT = false;
 
     public static final String HOST = "10.147.20.164"; //"192.168.193.164";
@@ -20,5 +21,4 @@ public class Configuration {
     public static String WZ_DIRECTORY = "";
     public static String CACHE_DIRECTORY = "";
     public static int INVENTORY_MAX_SLOTS = 72;
-    public static final int UPDATE_DIFF_TIME = 1000;
 }
