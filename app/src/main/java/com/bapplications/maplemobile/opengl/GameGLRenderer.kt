@@ -64,7 +64,7 @@ class GameGLRenderer private constructor() : GLSurfaceView.Renderer {
 
     override fun onDrawFrame(gl10: GL10) {
         // Draw background color
-//        glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
+        glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
         val now = System.currentTimeMillis()
         val elapsed = now - before.toDouble()
         before = now

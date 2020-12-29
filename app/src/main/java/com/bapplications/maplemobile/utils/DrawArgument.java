@@ -83,4 +83,5 @@ public class DrawArgument {
     public float getXScale() {
         return xscale;
     }
+
 }
