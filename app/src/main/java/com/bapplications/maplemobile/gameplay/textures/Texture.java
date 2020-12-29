@@ -114,6 +114,8 @@ public class Texture {
     }
 
     public void draw (DrawArgument args) {
+        // flip must be b4 drawingPos because <pos> is changed in flip function
+        flip(args.getDirection());
         drawingPos.copy(pos).offset(args.getPos()).toGLRatio();
         if(!(drawingPos.x + half_dimensions_glratio.x > -1
                 || drawingPos.x - half_dimensions_glratio.x < 1
@@ -121,7 +123,6 @@ public class Texture {
                 || drawingPos.y - half_dimensions_glratio.y < 1)) {
             return;
         }
-        flip(args.getDirection());
 
         System.arraycopy(GLState._MVPMatrix, 0, scratchMatrix, 0, 16);
 

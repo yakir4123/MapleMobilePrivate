@@ -44,6 +44,7 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
             Loaded.loadFile(Loaded.WzFileName.MAP, Configuration.WZ_DIRECTORY + "/Map.nx");
             Loaded.loadFile(Loaded.WzFileName.NPC, Configuration.WZ_DIRECTORY + "/Npc.nx");
             Loaded.loadFile(Loaded.WzFileName.MOB, Configuration.WZ_DIRECTORY + "/Mob.nx");
+            Loaded.loadFile(Loaded.WzFileName.NPC, Configuration.WZ_DIRECTORY + "/Npc.nx");
             Loaded.loadFile(Loaded.WzFileName.ITEM, Configuration.WZ_DIRECTORY + "/Item.nx");
             Loaded.loadFile(Loaded.WzFileName.SOUND, Configuration.WZ_DIRECTORY + "/Sound.nx");
             Loaded.loadFile(Loaded.WzFileName.STRING, Configuration.WZ_DIRECTORY + "/String.nx");

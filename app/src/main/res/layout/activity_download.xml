@@ -5,6 +5,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.bapplications.maplemobile.ui.DownloadActivity">
+
+    <data>
+        <import type="com.bapplications.maplemobile.utils.BindingUtils"/>
+        <variable
+            name="viewModel"
+            type="com.bapplications.maplemobile.ui.view_models.DownloadActivityViewModel"/>
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/root_layout"
         android:layout_width="match_parent"
@@ -28,10 +35,38 @@
             android:layout_marginHorizontal="150dp"
             android:layout_marginTop="100dp"
             android:layout_marginBottom="50dp"
+            android:alpha="0.4"
             android:background="@drawable/sub_window_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="@{viewModel.wifiConnection}"/>
+
+        <ImageView
+            android:id="@+id/connect_wifi_background"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="150dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="50dp"
+            android:src="@drawable/wifi_offline_24"
+            android:alpha="0.7"
+            android:background="@drawable/sub_window_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="@{!viewModel.wifiConnection}"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/connect_to_wifi_message"
+            app:layout_constraintTop_toTopOf="@id/connect_wifi_background"
+            app:layout_constraintEnd_toEndOf="@id/connect_wifi_background"
+            app:layout_constraintStart_toStartOf="@id/connect_wifi_background"
+            android:textColor="@color/tc_window"
+            android:visibility="@{!viewModel.wifiConnection}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
