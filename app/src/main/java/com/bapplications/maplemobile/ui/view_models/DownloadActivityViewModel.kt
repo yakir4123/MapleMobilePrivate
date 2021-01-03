@@ -6,5 +6,5 @@ import com.bapplications.maplemobile.ui.etc.FileDownloader
 
 class DownloadActivityViewModel : ViewModel() {
     val files = MutableLiveData<MutableList<FileDownloader>>()
-    val wifiConnection = MutableLiveData<Boolean>()
+    val wifiConnection = MutableLiveData<Boolean>(false)
 }
