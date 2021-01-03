@@ -47,9 +47,7 @@ class FileDownloader(val fileName: String, val downloadingState: DownloadingStat
 
     fun ungzip(srcPath: File, dstPath: File) {
         Log.d(TAG, "unzip $srcPath to $dstPath")
-        val sourceBuffer = GZIPInputStream(srcPath.inputStream()).source()
-        val dstSinkBuffer : BufferedSink = dstPath.sink().buffer()
-        dstSinkBuffer.writeAll(sourceBuffer)
+        dstPath.outputStream().use { GZIPInputStream(srcPath.inputStream()).copyTo(it) }
     }
 
     private fun saveFile(response: Response, path: File) {
