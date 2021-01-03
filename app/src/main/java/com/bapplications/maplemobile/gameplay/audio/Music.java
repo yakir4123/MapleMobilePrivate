@@ -57,6 +57,10 @@ public class Music {
     }
 
     public static void pauseBgm() {
+        mediaPlayer.pause();
+    }
+
+    public static void stopBgm() {
         mediaPlayer.stop();
     }
 
