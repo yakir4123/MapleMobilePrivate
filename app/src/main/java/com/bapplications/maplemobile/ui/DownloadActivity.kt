@@ -1,5 +1,8 @@
 package com.bapplications.maplemobile.ui
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
@@ -13,6 +16,8 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -60,6 +65,7 @@ class DownloadActivity : AppCompatActivity() {
         viewModel.wifiConnection.value = isWifiAvailable()
 
         bgm = MediaPlayer.create(this, R.raw.download_bgm).apply { isLooping = true }
+        createNotificationChannel()
         setUpView()
 
         viewModel.files.observe(this, Observer {
@@ -67,12 +73,12 @@ class DownloadActivity : AppCompatActivity() {
                 adapter.data = it
             }
         })
+        downloadFiles()
     }
 
     override fun onResume() {
         super.onResume()
         bgm.start()
-        downloadFiles()
     }
 
     private fun downloadFiles() {
@@ -82,12 +88,13 @@ class DownloadActivity : AppCompatActivity() {
             return
         }
         val files = arrayOf(
-                "String.nx",
                 "Map.nx",
-                "Sound.nx",
-                "Character.nx",
                 "Mob.nx",
+                "Npc.nx",
                 "Item.nx",
+                "Sound.nx",
+                "String.nx",
+                "Character.nx",
         )
         files.forEach {
             viewModel.files.postValue(viewModel.files.value?.apply {
@@ -105,6 +112,7 @@ class DownloadActivity : AppCompatActivity() {
 
     override fun onPause() {
         bgm.stop()
+        createNotification()
         super.onPause()
     }
 
@@ -159,6 +167,42 @@ class DownloadActivity : AppCompatActivity() {
 
             override fun onAnimationRepeat(animation: Animation?) {}
         })
+    }
+
+
+    private fun createNotification() {
+        val intent = Intent(this, DownloadActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val builder = NotificationCompat.Builder(this, getString(R.string.channel_id))
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("MapleMobile")
+                .setContentText("Downloading files..")
+                .setContentIntent(pendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true)
+        with(NotificationManagerCompat.from(this)) {
+            // notificationId is a unique int for each notification that you must define
+            notify(1, builder.build())
+        }
+    }
+
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.channel_name)
+            val descriptionText = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(getString(R.string.channel_id), name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                    getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 
     private fun isWifiAvailable(): Boolean {
