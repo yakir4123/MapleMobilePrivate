@@ -44,4 +44,7 @@
     <string name="equip_action">Equip</string>
     <string name="popup_equipped_title">Equipped</string>
     <string name="connect_to_wifi_message">Make sure you are connected to wifi to download the files</string>
+    <string name="channel_name">Maple Mobile Notification</string>
+    <string name="channel_description">desc</string>
+    <string name="channel_id">MAPLEMOBILENOTIFICATION</string>
 </resources>
