@@ -15,6 +15,7 @@ import com.bapplications.maplemobile.constatns.Loaded;
 import com.bapplications.maplemobile.databinding.ActivityGameBinding;
 import com.bapplications.maplemobile.gameplay.GameEngine;
 import com.bapplications.maplemobile.gameplay.audio.Music;
+import com.bapplications.maplemobile.gameplay.audio.Sound;
 import com.bapplications.maplemobile.utils.DownloadAssetsKt;
 import com.bapplications.maplemobile.utils.DrawableCircle;
 
@@ -88,8 +89,10 @@ public class GameActivity extends AppCompatActivity implements GameFragment.runO
     protected void onResume ()
     {
         super.onResume();
+        Music.resumeBgm();
         uiManager.setGameActivity(this);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         toggleFullscreen(true);
 
     }

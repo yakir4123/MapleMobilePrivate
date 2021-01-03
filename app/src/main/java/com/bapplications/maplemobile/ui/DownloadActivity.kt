@@ -65,6 +65,7 @@ class DownloadActivity : AppCompatActivity() {
         viewModel.wifiConnection.value = isWifiAvailable()
 
         bgm = MediaPlayer.create(this, R.raw.download_bgm).apply { isLooping = true }
+        bgm.setOnPreparedListener({ mp -> mp.start() })
         createNotificationChannel()
         setUpView()
 
@@ -79,6 +80,11 @@ class DownloadActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         bgm.start()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        bgm.pause()
     }
 
     private fun downloadFiles() {
@@ -111,8 +117,9 @@ class DownloadActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        bgm.stop()
-        createNotification()
+        bgm.pause()
+        if (viewModel.files.value!!.size != 0)
+            createNotification()
         super.onPause()
     }
 
