@@ -28,7 +28,6 @@ import com.bapplications.maplemobile.ui.adapters.DownloaderAdapter
 import com.bapplications.maplemobile.ui.etc.FileDownloader
 import com.bapplications.maplemobile.ui.view_models.DownloadActivityViewModel
 import java.io.File
-import java.util.*
 
 val TAG = "DownloadManager"
 
@@ -120,6 +119,7 @@ class DownloadActivity : AppCompatActivity() {
         val binding: ActivityDownloadBinding = ActivityDownloadBinding.inflate(layoutInflater)
 
         setContentView(binding.rootLayout)
+        binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
         // background animation
