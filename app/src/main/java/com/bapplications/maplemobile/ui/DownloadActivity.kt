@@ -86,12 +86,28 @@ class DownloadActivity : AppCompatActivity() {
         bgm.pause()
     }
 
-    private fun downloadFiles() {
+    private fun continueDownload() {
         viewModel.wifiConnection.value = isWifiAvailable()
-        if(!viewModel.wifiConnection.value!!) {
-            Toast.makeText(this, "Not connected to wifi.", Toast.LENGTH_SHORT).show()
+
+         if (!viewModel.wifiConnection.value!!) {
+             Toast.makeText(this, "Not connected to wifi.", Toast.LENGTH_SHORT).show()
             return
         }
+
+        viewModel.files.value!!.forEach {
+            if (!it.downloading) {
+                it.startDownload()
+            }
+        }
+    }
+
+    private fun downloadFiles() {
+        viewModel.wifiConnection.value = isWifiAvailable()
+
+        if (!viewModel.wifiConnection.value!!) {
+            Toast.makeText(this, "Not connected to wifi.", Toast.LENGTH_SHORT).show()
+        }
+
         val files = arrayOf(
                 "Map.nx",
                 "Mob.nx",
@@ -101,12 +117,16 @@ class DownloadActivity : AppCompatActivity() {
                 "String.nx",
                 "Character.nx",
         )
+
         files.forEach {
             viewModel.files.postValue(viewModel.files.value?.apply {
                 if (!File(Configuration.WZ_DIRECTORY, it).exists()) {
                     val fileDownloader = FileDownloader(it, downloadingState)
                     this.add(fileDownloader)
-                    fileDownloader.startDownload()
+
+                    if (viewModel.wifiConnection.value!!) {
+                        fileDownloader.startDownload()
+                    }
                 }
             })
         }
@@ -133,8 +153,9 @@ class DownloadActivity : AppCompatActivity() {
         backgroundAnimation(binding.backgroundIv)
         binding.downloaderRecycler.layoutManager = LinearLayoutManager(this)
         binding.downloaderRecycler.adapter = adapter
-        binding.connectWifiBackground.setOnClickListener{downloadFiles()}
+        binding.connectWifiBackground.setOnClickListener { continueDownload() }
     }
+
 
     private fun backgroundAnimation(backgroundIv: ImageView) {
         val fadeOut: Animation = AnimationUtils.loadAnimation(this, R.anim.fade_out).apply { startOffset = 10000 }
@@ -223,6 +244,7 @@ class DownloadActivity : AppCompatActivity() {
             result = when {
                 actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
                 else -> false
+
             }
         } else {
             connectivityManager.run {
