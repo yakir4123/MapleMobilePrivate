@@ -10,6 +10,11 @@ Maple Story is childhood game MMORPG with a lot of good memories, plus Maple Sto
  community of developers for Private Servers with a lot of tools and knowledge.
 
 
+# additional repositories
+
+Repository for **server**, which support only few operations: https://github.com/nilnil47/MapleMobileServer
+
+Repository for the game assets which also function as http file server found in: https://gitlab.com/nilnil47/MapleMobileAssets
 
 
 An android game project for fun :)
