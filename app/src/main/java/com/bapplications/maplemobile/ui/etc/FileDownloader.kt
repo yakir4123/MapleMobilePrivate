@@ -19,9 +19,11 @@ class FileDownloader(val fileName: String, val downloadingState: DownloadingStat
 
     var progress: Long = 0
     var fileSize: Int = 0
+    var downloading : Boolean = false
 
 
     fun startDownload() {
+        downloading = true
         val compressFilePath = File(Configuration.WZ_DIRECTORY, "$fileName.gz")
         downloadFile("${Configuration.FILES_HOST}/$fileName.gz", compressFilePath)
     }
@@ -72,6 +74,7 @@ class FileDownloader(val fileName: String, val downloadingState: DownloadingStat
         val nxFile = File(Configuration.WZ_DIRECTORY, fileName)
         ungzip(path, nxFile)
         path.delete()
+        downloading = false
         downloadingState.onDownloadFinished(this)
     }
 }
