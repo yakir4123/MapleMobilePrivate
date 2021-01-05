@@ -26,7 +26,7 @@ If you want to change it you need to run the server (read how on MapleMobileServ
 
 
 # Features
-![](screenshots/moves.gif)
+![](screenshots/moves.gif)  
 For more features
 [Features with gifs](FEATURES.md)
 
