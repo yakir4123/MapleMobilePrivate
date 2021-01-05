@@ -9,8 +9,10 @@ I believe almost every developer start develop because he wanted to create his o
 Maple Story is childhood game MMORPG with a lot of good memories, plus Maple Story has a large
  community of developers for Private Servers with a lot of tools and knowledge.
 
+# Build
+Clone to Android Studio should be enough
 
+# Features
+[Features with gifs](FEATURES.md)
 
-
-An android game project for fun :)
-Read MapleStory files to create a game.
+# Apache License 2.0 (Apache-2.0)
