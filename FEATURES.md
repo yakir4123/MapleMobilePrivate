@@ -18,5 +18,5 @@
 ![](screenshots/monsters.gif)
 
 ### Multiplayer
-*This is old gif we were too lazy for better one*
+*This is old gif we were too lazy for better one*  
 ![](screenshots/multiplayer.gif)
