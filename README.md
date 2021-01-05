@@ -12,6 +12,19 @@ Maple Story is childhood game MMORPG with a lot of good memories, plus Maple Sto
 # Build
 Clone to Android Studio should be enough
 
+# additional repositories
+
+Repository for **server**, which support only few operations: https://github.com/nilnil47/MapleMobileServer
+
+Repository for the game assets which also function as http file server found in: https://gitlab.com/nilnil47/MapleMobileAssets
+
+# Networking
+So this app can connect to a server implemented with golang and grpc but its very shallow, so on master I'm using NetworkHandlerDemo class instead the NetworkHandler
+If you want to change it you need to run the server (read how on MapleMobileServer repo) and change:
+* Configuration.kt class the serverip
+* GameEngine.kt to use networkHandler and not networkHandlerDemo
+
+
 # Features
 [Features with gifs](FEATURES.md)
 
