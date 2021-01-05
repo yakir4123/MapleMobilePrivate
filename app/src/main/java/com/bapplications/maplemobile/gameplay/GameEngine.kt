@@ -98,7 +98,7 @@ class GameEngine private constructor() : EventListener {
         currMap = GameMap(camera)
         networkHandler = NetworkHandler(Configuration.HOST, Configuration.PORT)
         networkHandlerDemo = NetworkHandlerDemo()
-//        networkHandler = NetworkHandlerDemo()
+//        networkHandler = NetworkHandler()
         EventsQueue.instance.registerListener(EventType.PlayerConnected, this)
     }
 }
