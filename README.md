@@ -26,6 +26,8 @@ If you want to change it you need to run the server (read how on MapleMobileServ
 
 
 # Features
+![](screenshots/moves.gif)
+For more features
 [Features with gifs](FEATURES.md)
 
 # Apache License 2.0 (Apache-2.0)
