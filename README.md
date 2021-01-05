@@ -19,7 +19,7 @@ Repository for **server**, which support only few operations: https://github.com
 Repository for the game assets which also function as http file server found in: https://gitlab.com/nilnil47/MapleMobileAssets
 
 # Networking
-So this app can connect to a server implemented with golang and grpc but its very shallow, so on master I'm using NetworkHandlerDemo class instead the NetworkHandler
+This app can connect to a server implemented with golang and grpc but its very shallow, so on the master and the release apk I'm using NetworkHandlerDemo class instead the NetworkHandler to work offline.
 If you want to change it you need to run the server (read how on MapleMobileServer repo) and change:
 * Configuration.kt class the serverip
 * GameEngine.kt to use networkHandler and not networkHandlerDemo
