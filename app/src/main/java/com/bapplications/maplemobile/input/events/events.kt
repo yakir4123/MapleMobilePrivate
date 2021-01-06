@@ -24,10 +24,6 @@ enum class EventType {
 
 open class Event(val type: EventType)
 
-abstract class EventMessage(type: EventType) : Event(type) {
-    abstract fun sender(): Any
-}
-
 interface EventListener {
     fun onEventReceive(event: Event)
 }

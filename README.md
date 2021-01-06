@@ -30,4 +30,42 @@ If you want to change it you need to run the server (read how on MapleMobileServ
 For more features
 [Features with gifs](FEATURES.md)
 
+# Events Queue
+I am using event queue to notify different entities on the game engine, every entity can register to type of event and every entity can send any type of event (Similar to intents and broadcast receiver in android).
+For example clicking on face button ui to notify the character to change the face Ill do it this way
+```kotlin
+events.kt:
+
+
+enum class EventType {
+    ...
+    ExpressionButton,
+    ...
+}
+
+data class ExpressionButtonEvent (val charid: Int, val expression: Expression): Event(EventType.ExpressionButton)
+```
+
+```kotlin
+    Player.kt:
+    init {
+        ...
+        EventsQueue.instance.registerListener(EventType.ExpressionButton, this)
+        ...
+    }
+
+    override fun onEventReceive(event: Event) {
+        when(event.type){
+            ...
+            EventType.ExpressionButton -> {
+                val (charid, expression) = event as ExpressionButtonEvent
+                if (charid == 0) {
+                    setExpression(expression)
+                }
+            }
+            ...
+        }
+```
+NetworkHandler.kt needs it too, So keep using this pattern makes it really easy to communicate between entities.
+
 # Apache License 2.0 (Apache-2.0)
